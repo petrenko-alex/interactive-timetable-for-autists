@@ -1,4 +1,8 @@
 ﻿using System;
+using SQLite;
+using InteractiveTimetable.BusinessLayer.Managers;
+using InteractiveTimetable.BusinessLayer;
+using System.Diagnostics;
 
 namespace InteractiveTimetable
 {
@@ -6,7 +10,9 @@ namespace InteractiveTimetable
     {
         public MyClass()
         {
+            
         }
+
     }
 }
 

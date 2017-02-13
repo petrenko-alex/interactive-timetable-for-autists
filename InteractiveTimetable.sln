@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveTimetable.WinPho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveTimetable", "InteractiveTimetable\InteractiveTimetable\InteractiveTimetable.csproj", "{A6548A84-596B-4F18-A559-2DE78C21B11E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,26 @@ Global
 		{A6548A84-596B-4F18-A559-2DE78C21B11E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A6548A84-596B-4F18-A559-2DE78C21B11E}.Release|x86.ActiveCfg = Release|Any CPU
 		{A6548A84-596B-4F18-A559-2DE78C21B11E}.Release|x86.Build.0 = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Debug|x86.Build.0 = Debug|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|ARM.Build.0 = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|iPhone.Build.0 = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|x86.ActiveCfg = Release|Any CPU
+		{272A3003-D7E4-4F3F-BA31-57F0CD431A4F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
