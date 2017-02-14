@@ -10,13 +10,10 @@ using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    class UserRepository
+    class UserRepository : BaseRepository
     {
-        private Database _database = null;
-
-        public UserRepository(SQLiteConnection connection)
+        public UserRepository(SQLiteConnection connection) : base(connection)
         {
-            _database = new Database(connection);
         }
 
         public User GetUser(int id)
