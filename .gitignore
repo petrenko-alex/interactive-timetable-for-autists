@@ -487,6 +487,9 @@ obj/
 # tools/**
 # !tools/packages.config
 
+# Alex Petrenko's ignore files
+*.db3
+
 # End of https://www.gitignore.io/api/csharp,visualstudio,xamarinstudio,android,windows
 
 https://www.gitignore.io/api/csharp%2Cvisualstudio%2Cxamarinstudio%2Candroid%2Cwindows
