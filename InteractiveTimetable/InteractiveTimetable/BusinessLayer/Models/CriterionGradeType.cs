@@ -5,7 +5,7 @@ using SQLiteNetExtensions.Attributes;
 
 namespace InteractiveTimetable.BusinessLayer.Models
 {
-    public class CriterionType : BusinessEntityBase
+    public class CriterionGradeType : BusinessEntityBase
     {
         [MaxLength(255), NotNull]
         public string TypeName { get; set; }

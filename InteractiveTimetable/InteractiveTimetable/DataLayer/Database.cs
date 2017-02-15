@@ -25,7 +25,7 @@ namespace InteractiveTimetable.DataLayer
             _database.CreateTable<Diagnostic>();
             _database.CreateTable<CriterionGrade>();
             _database.CreateTable<CriterionDefinition>();
-            _database.CreateTable<CriterionType>();
+            _database.CreateTable<CriterionGradeType>();
             _database.CreateTable<Schedule>();
             _database.CreateTable<ScheduleItem>();
             _database.CreateTable<Card>();

@@ -16,7 +16,7 @@ namespace InteractiveTimetable.DataAccessLayer
 
         public CardType GetCardType(int id)
         {
-            return _database.GetItem<CardType>(id); _
+            return _database.GetItem<CardType>(id);
         }
 
         public IEnumerable<CardType> GetCardTypes()
