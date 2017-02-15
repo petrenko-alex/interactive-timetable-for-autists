@@ -38,5 +38,18 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         {
             return _repository.DeleteUser(id);
         }
+
+        public int GetAge(User user)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - user.BirthDate.Year;
+
+            if (user.BirthDate > today.AddYears(-age))
+            {
+                age--;
+            }
+
+            return age;
+        }
     }
 }
