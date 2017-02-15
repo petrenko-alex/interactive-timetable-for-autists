@@ -10,8 +10,22 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     class CriterionGradeTypeRepository : BaseRepository
     {
-        public CriterionGradeTypeRepository(SQLiteConnection connection) : base(connection)
+        public CriterionGradeTypeRepository(SQLiteConnection connection) 
+            : base(connection)
         {
+            /* Adding default criterion grade types */
+            CriterionGradeType pointCriterionGradeType = new CriterionGradeType()
+            {
+                TypeName = "POINT_GRADE"
+            };
+
+            CriterionGradeType tickCriterionGradeType = new CriterionGradeType()
+            {
+                TypeName = "TICK_GRADE"
+            };
+
+            SaveCriterionGradeType(pointCriterionGradeType);
+            SaveCriterionGradeType(tickCriterionGradeType);
         }
 
         public CriterionGradeType GetCriterionGradeType(int id)
