@@ -8,9 +8,9 @@ using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    class CardTypeResitory : BaseRepository
+    class CardTypeRepository : BaseRepository
     {
-        public CardTypeResitory(SQLiteConnection connection) : base(connection)
+        public CardTypeRepository(SQLiteConnection connection) : base(connection)
         {
         }
 
