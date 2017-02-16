@@ -13,17 +13,20 @@ namespace Test
 {
     class Program
     {
+        private static SQLiteConnection _connection;
+
         static void Main(string[] args)
         {
             string dbPath = "database.db3";
-            var connection = new SQLiteConnection(dbPath);
+            _connection = new SQLiteConnection(dbPath);
 
-            TestUserTable(connection);
+            //TestUserTable();
+            TestHospitalTripTable();
         }
 
-        private static void TestUserTable(SQLiteConnection connection)
+        private static void TestUserTable()
         {
-            UserManager userManager = new UserManager(connection);
+            UserManager userManager = new UserManager(_connection);
 
             if (userManager.GetUsers().Count == 0)
             {
@@ -94,6 +97,69 @@ namespace Test
             }
         }
 
-        private static void TestHospitalTripTable(SQLiteConnection connection) {}
+        private static void TestHospitalTripTable()
+        {
+            HospitalTripManager hospitalTripManager = 
+                new HospitalTripManager(_connection);
+            UserManager userManager = 
+                new UserManager(_connection);
+
+            /* Preparing data */
+            User user1 = new User()
+            {
+                FirstName = "Alexander",
+                LastName = "Petrenko",
+                PatronymicName = "Andreevich",
+                BirthDate = System.DateTime.Parse("25.07.1995").Date,
+                PhotoPath = "avatar1.jpg",
+                IsDeleted = false
+            };
+            var userId = userManager.SaveUser(user1);
+
+            /* Adding correct trips */
+            HospitalTrip hospitalTrip1 = new HospitalTrip()
+            {
+                StartDate = DateTime.Parse("20.02.2017"),
+                FinishDate = DateTime.Parse("25.02.2017"),
+                UserId = userId
+            };
+            hospitalTripManager.SaveHospitalTrip(hospitalTrip1);
+            Console.WriteLine("Trip in the future was added");
+
+            HospitalTrip hospitalTrip2 = new HospitalTrip()
+            {
+                StartDate = DateTime.Parse("18.01.2017"),
+                FinishDate = DateTime.Parse("19.02.2017"),
+                UserId = userId
+            };
+            hospitalTripManager.SaveHospitalTrip(hospitalTrip2);
+            Console.WriteLine("Current trip was added");
+
+            /* Reading trips */
+            var trips = hospitalTripManager.GetHospitalTrips(userId);
+            foreach (var i in trips)
+            {
+                Console.WriteLine(i.ToString());
+            }
+
+
+            /* Adding incorrect trips 
+             Start date later than finish date 
+            hospitalTrip1 = new HospitalTrip()
+            {
+                StartDate = DateTime.Parse("25.02.2017"),
+                FinishDate = DateTime.Parse("18.02.2017"),
+                UserId = userId
+            };
+            hospitalTripManager.SaveHospitalTrip(hospitalTrip1);
+
+             User is not set 
+            hospitalTrip1 = new HospitalTrip()
+            {
+                StartDate = DateTime.Parse("25.02.2017"),
+                FinishDate = DateTime.Parse("18.02.2017"),
+            };
+            hospitalTripManager.SaveHospitalTrip(hospitalTrip1);*/
+        }
     }
 }

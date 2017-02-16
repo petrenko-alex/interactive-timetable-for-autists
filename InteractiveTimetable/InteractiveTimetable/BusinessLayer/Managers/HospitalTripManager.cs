@@ -33,26 +33,28 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
             /* Adjust trip numbers */
             int hospitalTripsCounter = 1;
-            int numberForTheNewTrip = 0;
+            int numberForTheNewTrip = 1;
+            bool isNumberForTheNewTripSet = false;
             var userTrips = GetHospitalTrips(hospitalTrip.UserId);
 
             foreach (var userTrip in userTrips)
             {
                 if (hospitalTrip.StartDate < userTrip.StartDate &&
-                    numberForTheNewTrip == 0)
+                    !isNumberForTheNewTripSet)
                 {
                     numberForTheNewTrip = hospitalTripsCounter;
                     hospitalTripsCounter++;
+                    isNumberForTheNewTripSet = true;
                 }
 
                 userTrip.Number = hospitalTripsCounter;
-                SaveHospitalTrip(userTrip);
+                _repository.SaveHospitalTrip(userTrip);
                 hospitalTripsCounter++;
             }
 
             /* Save new hospital trip */
             hospitalTrip.Number = numberForTheNewTrip;
-            return SaveHospitalTrip(hospitalTrip);
+            return _repository.SaveHospitalTrip(hospitalTrip);
         }
 
         public void DeleteHospitalTrip(int hospitalTripId)
@@ -68,7 +70,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             foreach (var userTrip in userTrips)
             {
                 userTrip.Number = hospitalTripsCounter;
-                SaveHospitalTrip(userTrip);
+                _repository.SaveHospitalTrip(userTrip);
                 hospitalTripsCounter++;
             }
         }
@@ -91,11 +93,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             }
 
             /* Start date is later than finish date */
-            if (hospitalTrip.FinishDate > hospitalTrip.StartDate)
+            if (hospitalTrip.StartDate > hospitalTrip.FinishDate)
             {
                 throw new ArgumentException("The start date of a " +
                                             "hospital trip can't be later " +
-                                            "than the finish date.");
+                                            "or equal than the finish date.");
             }
 
             /* TODO Dianostic out of trip range */
