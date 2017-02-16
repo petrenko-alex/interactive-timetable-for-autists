@@ -7,6 +7,8 @@ using InteractiveTimetable.BusinessLayer;
 using InteractiveTimetable.BusinessLayer.Contracts;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
+using SQLite.Extensions;
+using SQLiteNetExtensions.Extensions;
 
 namespace InteractiveTimetable.DataLayer
 {
@@ -14,29 +16,29 @@ namespace InteractiveTimetable.DataLayer
     {
         private static object _locker = new object();
 
-        private SQLiteConnection _database;
+        private SQLiteConnection _connection;
 
         public Database(SQLiteConnection connection)
         {
-            _database = connection;
-            
-            _database.CreateTable<User>();
-            _database.CreateTable<HospitalTrip>();
-            _database.CreateTable<Diagnostic>();
-            _database.CreateTable<CriterionGrade>();
-            _database.CreateTable<CriterionDefinition>();
-            _database.CreateTable<CriterionGradeType>();
-            _database.CreateTable<Schedule>();
-            _database.CreateTable<ScheduleItem>();
-            _database.CreateTable<Card>();
-            _database.CreateTable<CardType>();
+            _connection = connection;
+
+            _connection.CreateTable<User>();
+            _connection.CreateTable<HospitalTrip>();
+            _connection.CreateTable<Diagnostic>();
+            _connection.CreateTable<CriterionGrade>();
+            _connection.CreateTable<CriterionDefinition>();
+            _connection.CreateTable<CriterionGradeType>();
+            _connection.CreateTable<Schedule>();
+            _connection.CreateTable<ScheduleItem>();
+            _connection.CreateTable<Card>();
+            _connection.CreateTable<CardType>();
         }
 
         public IEnumerable<T> GetItems<T>() where T : IBusinessEntity, new()
         {
             lock (_locker)
             {
-                return (from i in _database.Table<T>() select i).ToList();
+                return (from i in _connection.Table<T>() select i).ToList();
             }
         }
 
@@ -44,7 +46,7 @@ namespace InteractiveTimetable.DataLayer
         {
             lock (_locker)
             {
-                return _database.Table<T>().FirstOrDefault(x => x.Id == id);
+                return _connection.Table<T>().FirstOrDefault(x => x.Id == id);
             }
         }
 
@@ -54,12 +56,12 @@ namespace InteractiveTimetable.DataLayer
             {
                 if (item.Id != 0)
                 {
-                    _database.Update(item);
+                    _connection.Update(item);
                     return item.Id;
                 }
                 else
                 {
-                    return _database.Insert(item);
+                    return _connection.Insert(item);
                 }
             }
         }
@@ -68,9 +70,16 @@ namespace InteractiveTimetable.DataLayer
         {
             lock (_locker)
             {
-                return _database.Delete<T>(id);
+                return _connection.Delete<T>(id);
             }
         }
 
+        public void CascadeDelete<T>(T objectToDelete) where T : IBusinessEntity
+        {
+            lock (_locker)
+            {
+                _connection.Delete(objectToDelete, true);
+            }
+        }
     }
 }
