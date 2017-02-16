@@ -17,7 +17,6 @@ namespace InteractiveTimetable.BusinessLayer.Models
         [MaxLength(255), NotNull]
         public string PatronymicName { get; set; }
 
-        // TODO: Change to String?
         [NotNull]
         public DateTime BirthDate { get; set; }
 
@@ -32,5 +31,30 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Schedule> Schedules { get; set; }
+
+        [Ignore]
+        public int Age
+        {
+            get
+            {
+                if (_age >= 0)
+                {
+                    return _age;
+                }
+
+                /* If age is not set yet */
+                var today = DateTime.Today;
+                _age = today.Year - BirthDate.Year;
+
+                if (BirthDate > today.AddYears(-_age))
+                {
+                    _age--;
+                }
+
+                return _age;
+            }
+        }
+
+        private int _age = -1;
     }
 }
