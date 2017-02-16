@@ -25,5 +25,26 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Diagnostic> Diagnostics { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            /* If obj is null return false */
+            if (obj == null)
+            {
+                return false;
+            }
+
+            /* If obj can not be cast to class type return false*/
+            HospitalTrip hospitalTrip = obj as HospitalTrip;
+            if ((System.Object) hospitalTrip == null)
+            {
+                return false;
+            }
+
+            return Number.Equals(hospitalTrip.Number) &&
+                   StartDate.Equals(hospitalTrip.StartDate) &&
+                   FinishDate.Equals(hospitalTrip.FinishDate) &&
+                   UserId.Equals(hospitalTrip.UserId);
+        }
     }
 }
