@@ -9,14 +9,13 @@ using InteractiveTimetable.BusinessLayer;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
-
 namespace Test
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string dbPath = "../../Development/database.db3";
+            string dbPath = "database.db3";
             var connection = new SQLiteConnection(dbPath);
 
             TestUserTable(connection);
@@ -65,7 +64,8 @@ namespace Test
                     Console.WriteLine(i.ToString());
                 }
 
-                Console.WriteLine("Modifying second user name from Ivan to IVAN...");
+                Console.WriteLine("Modifying second user name " +
+                                  "from Ivan to IVAN...");
                 var user = userManager.GetUser(2);
                 user.FirstName = "IVAN";
                 userManager.SaveUser(user);
@@ -84,7 +84,7 @@ namespace Test
             {
                 Console.WriteLine("User Table is NOT empty");
                 Console.WriteLine("Getting users...\n");
-                
+
                 /* Reading users */
                 var users = userManager.GetUsers();
                 foreach (var i in users)
@@ -94,9 +94,6 @@ namespace Test
             }
         }
 
-        private static void TestHospitalTripTable(SQLiteConnection connection)
-        {
-            
-        }
+        private static void TestHospitalTripTable(SQLiteConnection connection) {}
     }
 }
