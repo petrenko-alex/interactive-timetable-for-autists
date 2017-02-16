@@ -61,7 +61,8 @@ namespace InteractiveTimetable.DataLayer
                 }
                 else
                 {
-                    return _connection.Insert(item);
+                    _connection.Insert(item);
+                    return item.Id;
                 }
             }
         }
