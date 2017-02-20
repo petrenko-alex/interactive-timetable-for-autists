@@ -31,30 +31,12 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* Data validation */
             Validate(hospitalTrip);
 
-            /* Adjust trip numbers */
-            int hospitalTripsCounter = 1;
-            int numberForTheNewTrip = 1;
-            bool isNumberForTheNewTripSet = false;
-            var userTrips = GetHospitalTrips(hospitalTrip.UserId);
-
-            foreach (var userTrip in userTrips)
-            {
-                if (hospitalTrip.StartDate < userTrip.StartDate &&
-                    !isNumberForTheNewTripSet)
-                {
-                    numberForTheNewTrip = hospitalTripsCounter;
-                    hospitalTripsCounter++;
-                    isNumberForTheNewTripSet = true;
-                }
-
-                userTrip.Number = hospitalTripsCounter;
-                _repository.SaveHospitalTrip(userTrip);
-                hospitalTripsCounter++;
-            }
-
             /* Save new hospital trip */
-            hospitalTrip.Number = numberForTheNewTrip;
-            return _repository.SaveHospitalTrip(hospitalTrip);
+            var newHospitalTripId = _repository.SaveHospitalTrip(hospitalTrip);
+
+            AdjustTripNumbers(hospitalTrip.UserId);
+
+            return newHospitalTripId;
         }
 
         public void DeleteHospitalTrip(int hospitalTripId)
@@ -63,16 +45,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             var hospitalTrip = GetHospitalTrip(hospitalTripId);
             _repository.CascadeDelete(hospitalTrip);
 
-            /* Adjust trip numbers */
-            int hospitalTripsCounter = 1;
-            var userTrips = GetHospitalTrips(hospitalTrip.UserId);
-
-            foreach (var userTrip in userTrips)
-            {
-                userTrip.Number = hospitalTripsCounter;
-                _repository.SaveHospitalTrip(userTrip);
-                hospitalTripsCounter++;
-            }
+            AdjustTripNumbers(hospitalTripId);
         }
 
         public bool IsHospitalTripPresent(int hospitalTripId)
@@ -137,6 +110,19 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                     throw new ArgumentException("Date period is already " +
                                                 "occupied by another trip");
                 }
+            }
+        }
+
+        private void AdjustTripNumbers(int userId)
+        {
+            int hospitalTripsCounter = 1;
+            var userTrips = GetHospitalTrips(userId);
+
+            foreach (var userTrip in userTrips)
+            {
+                userTrip.Number = hospitalTripsCounter;
+                _repository.SaveHospitalTrip(userTrip);
+                hospitalTripsCounter++;
             }
         }
     }
