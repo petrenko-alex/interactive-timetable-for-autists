@@ -42,11 +42,30 @@ namespace InteractiveTimetable.DataLayer
             }
         }
 
+        public IEnumerable<T> GetItemsCascade<T>()
+            where T : IBusinessEntity, new()
+        {
+            lock (_locker)
+            {
+                return (from i in _connection.Table<T>()
+                        select _connection.GetWithChildren<T>(i.Id, true)).
+                        ToList();
+            }
+        }
+
         public T GetItem<T>(int id) where T : IBusinessEntity, new()
         {
             lock (_locker)
             {
                 return _connection.Table<T>().FirstOrDefault(x => x.Id == id);
+            }
+        }
+
+        public T GetItemCascade<T>(int id) where T : IBusinessEntity, new()
+        {
+            lock (_locker)
+            {
+                return _connection.GetWithChildren<T>(id, true);
             }
         }
 
@@ -59,11 +78,24 @@ namespace InteractiveTimetable.DataLayer
                     _connection.Update(item);
                     return item.Id;
                 }
-                else
+
+                _connection.Insert(item);
+                return item.Id;
+            }
+        }
+
+        public int SaveItemCascade<T>(T item) where T : IBusinessEntity
+        {
+            lock (_locker)
+            {
+                if (item.Id != 0)
                 {
-                    _connection.Insert(item);
+                    _connection.UpdateWithChildren(item);
                     return item.Id;
                 }
+
+                _connection.InsertWithChildren(item, true);
+                return item.Id;
             }
         }
 
@@ -75,7 +107,8 @@ namespace InteractiveTimetable.DataLayer
             }
         }
 
-        public void CascadeDelete<T>(T objectToDelete) where T : IBusinessEntity
+        public void DeleteItemCascade<T>(T objectToDelete)
+            where T : IBusinessEntity
         {
             lock (_locker)
             {

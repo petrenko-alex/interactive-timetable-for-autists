@@ -44,7 +44,7 @@ namespace InteractiveTimetable.DataAccessLayer
 
         public void CascadeDelete(HospitalTrip hospitalTrip)
         {
-            _database.CascadeDelete(hospitalTrip);
+            _database.DeleteItemCascade(hospitalTrip);
         }
     }
 }
