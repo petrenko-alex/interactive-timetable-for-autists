@@ -18,6 +18,6 @@ namespace InteractiveTimetable.BusinessLayer.Models
             = new List<CriterionGrade>();
 
         [ForeignKey(typeof(CriterionGradeType))]
-        public int CriterionTypeId { get; set; }
+        public int CriterionGradeTypeId { get; set; }
     }
 }
