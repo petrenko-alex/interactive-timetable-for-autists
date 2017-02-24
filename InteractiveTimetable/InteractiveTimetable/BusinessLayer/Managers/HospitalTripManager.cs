@@ -43,7 +43,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         {
             /* Delete hospital trip */
             var hospitalTrip = GetHospitalTrip(hospitalTripId);
-            _repository.CascadeDelete(hospitalTrip);
+            _repository.DeleteHospitalTripCascade(hospitalTrip);
 
             AdjustTripNumbers(hospitalTripId);
         }
