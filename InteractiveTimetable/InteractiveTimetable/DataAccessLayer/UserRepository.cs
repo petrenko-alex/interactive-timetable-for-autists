@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InteractiveTimetable.DataLayer;
-using InteractiveTimetable.BusinessLayer;
+﻿using System.Collections.Generic;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
