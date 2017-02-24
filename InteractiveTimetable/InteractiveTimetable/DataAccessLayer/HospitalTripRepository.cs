@@ -12,12 +12,12 @@ namespace InteractiveTimetable.DataAccessLayer
 
         public HospitalTrip GetHospitalTrip(int id)
         {
-            return _database.GetItem<HospitalTrip>(id);
+            return _database.GetItemCascade<HospitalTrip>(id);
         }
 
         public IEnumerable<HospitalTrip> GetHospitalTrips()
         {
-            return _database.GetItems<HospitalTrip>();
+            return _database.GetItemsCascade<HospitalTrip>();
         }
 
         public IEnumerable<HospitalTrip> GetUserHospitalTrips(int userId)
@@ -34,7 +34,7 @@ namespace InteractiveTimetable.DataAccessLayer
 
         public int SaveHospitalTrip(HospitalTrip hospitalTrip)
         {
-            return _database.SaveItem(hospitalTrip);
+            return _database.SaveItemCascade(hospitalTrip);
         }
 
         public int DeleteHospitalTrip(int id)
