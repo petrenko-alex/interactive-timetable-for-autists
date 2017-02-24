@@ -12,7 +12,7 @@ using SQLiteNetExtensions.Extensions;
 
 namespace InteractiveTimetable.DataLayer
 {
-    class Database
+    public class Database
     {
         private static object _locker = new object();
 
