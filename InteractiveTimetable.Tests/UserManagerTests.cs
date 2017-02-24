@@ -551,6 +551,7 @@ namespace InteractiveTimetable.Tests
             Assert.AreEqual(null, deletedTrip2);
         }
 
+        [Test]
         public void DeleteUserWithSchedules()
         {
             // TODO: Implement when schedule manager is done

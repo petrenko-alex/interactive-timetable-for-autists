@@ -90,6 +90,12 @@ namespace InteractiveTimetable.Tests
         }
 
         [Test]
+        public void CreateTripWithDiagnostics()
+        {
+            // TODO: Implement when Diagnostic manager is done
+        }
+
+        [Test]
         public void CreateTripBetweenAnotherTrips()
         {
             // arrange
@@ -452,6 +458,53 @@ namespace InteractiveTimetable.Tests
             Assert.AreEqual(1, addedTrip2.Number);
             Assert.AreEqual(2, addedTrip3.Number);
             Assert.AreEqual(null, deletedTrip);
+        }
+
+        [Test]
+        public void PresentHospitalTrip()
+        {
+            // arrange
+            HospitalTrip trip1 = new HospitalTrip()
+            {
+                StartDate = DateTime.Today.AddDays(-2),
+                FinishDate = DateTime.Today.AddDays(4),
+                UserId = _user1.Id
+            };
+            var tripId = _hospitalTripManager.SaveHospitalTrip(trip1);
+
+            // act
+            var IsTripPresent =
+                    _hospitalTripManager.IsHospitalTripPresent(tripId);
+
+            // assert
+            Assert.AreEqual(true, IsTripPresent);
+        }
+
+        [Test]
+        public void NotPresentHospitalTrip()
+        {
+            // arrange
+            HospitalTrip trip1 = new HospitalTrip()
+            {
+                StartDate = DateTime.Today.AddDays(2),
+                FinishDate = DateTime.Today.AddDays(4),
+                UserId = _user1.Id
+            };
+            var tripId = _hospitalTripManager.SaveHospitalTrip(trip1);
+
+            // act
+            var IsTripPresent =
+                    _hospitalTripManager.IsHospitalTripPresent(tripId);
+
+            // assert
+            Assert.AreEqual(false, IsTripPresent);
+
+        }
+
+        [Test]
+        public void DeleteWithDiagnostics()
+        {
+            // TODO: Implement when diagnostic manager is done
         }
     }
 }
