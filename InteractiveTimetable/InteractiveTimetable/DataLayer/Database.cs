@@ -47,9 +47,19 @@ namespace InteractiveTimetable.DataLayer
         {
             lock (_locker)
             {
-                return (from i in _connection.Table<T>()
-                        select _connection.GetWithChildren<T>(i.Id, true)).
-                        ToList();
+                /* Getting items without children */
+                var items = (from i in _connection.Table<T>()
+                             select i).ToList();
+
+                /* Populating items with children */
+                var amountOfItems = items.Count;
+                for (int i = 0; i < amountOfItems; ++i)
+                {
+                    items[i] = _connection.
+                            GetWithChildren<T>(items[i].Id, true);
+                }
+
+                return items;
             }
         }
 
@@ -65,7 +75,12 @@ namespace InteractiveTimetable.DataLayer
         {
             lock (_locker)
             {
-                return _connection.GetWithChildren<T>(id, true);
+                if (_connection.Table<T>().FirstOrDefault(x => x.Id == id) != null)
+                {
+                    return _connection.GetWithChildren<T>(id, true);
+                }
+
+                return default(T);
             }
         }
 
