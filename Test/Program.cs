@@ -28,7 +28,7 @@ namespace Test
         {
             UserManager userManager = new UserManager(_connection);
 
-            if (userManager.GetUsers().Count == 0)
+            if (!userManager.GetUsers().Any())
             {
                 Console.WriteLine("User table is empty");
                 Console.WriteLine("Adding users...");
