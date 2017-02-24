@@ -27,10 +27,12 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public bool IsDeleted { get; set; } = false;
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<HospitalTrip> HospitalTrips { get; set; }
+        public List<HospitalTrip> HospitalTrips { get; set; } 
+            = new List<HospitalTrip>();
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Schedule> Schedules { get; set; }
+        public List<Schedule> Schedules { get; set; } 
+            = new List<Schedule>();
 
         [Ignore]
         public int Age

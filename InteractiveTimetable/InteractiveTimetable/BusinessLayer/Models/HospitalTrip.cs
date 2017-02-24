@@ -24,7 +24,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public int UserId { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Diagnostic> Diagnostics { get; set; }
+        public List<Diagnostic> Diagnostics { get; set; } 
+            = new List<Diagnostic>();
 
         public override bool Equals(object obj)
         {
