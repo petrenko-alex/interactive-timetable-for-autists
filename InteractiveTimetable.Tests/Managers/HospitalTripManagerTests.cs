@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.IO;
 using InteractiveTimetable.BusinessLayer.Managers;
 using InteractiveTimetable.BusinessLayer.Models;
+using NUnit.Framework;
 using SQLite;
 
-namespace InteractiveTimetable.Tests
+namespace InteractiveTimetable.Tests.Managers
 {
     [TestFixture]
     public class HospitalTripManagerTests

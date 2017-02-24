@@ -7,7 +7,7 @@ using InteractiveTimetable.BusinessLayer.Models;
 using NUnit.Framework;
 using SQLite;
 
-namespace InteractiveTimetable.Tests
+namespace InteractiveTimetable.Tests.Managers
 {
     [TestFixture]
     class UserManagerTests
