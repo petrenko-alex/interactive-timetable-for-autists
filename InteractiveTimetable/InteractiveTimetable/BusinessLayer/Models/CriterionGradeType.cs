@@ -11,6 +11,7 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public string TypeName { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<CriterionDefinition> CriterionDefinitions { get; set; }
+        public List<CriterionDefinition> CriterionDefinitions { get; set; } 
+            = new List<CriterionDefinition>();
     }
 }

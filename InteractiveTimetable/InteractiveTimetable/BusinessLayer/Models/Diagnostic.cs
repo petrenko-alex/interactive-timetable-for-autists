@@ -18,6 +18,7 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public int HospitalTripId { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<CriterionGrade> CriterionGrades { get; set; }
+        public List<CriterionGrade> CriterionGrades { get; set; } 
+            = new List<CriterionGrade>();
     }
 }

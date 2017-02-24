@@ -20,6 +20,7 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public int UserId { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<ScheduleItem> ScheduleItems { get; set; }
+        public List<ScheduleItem> ScheduleItems { get; set; } 
+            = new List<ScheduleItem>();
     }
 }

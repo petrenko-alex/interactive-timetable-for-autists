@@ -14,7 +14,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public string Definition { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<CriterionGrade> CriterionGrades { get; set; }
+        public List<CriterionGrade> CriterionGrades { get; set; } 
+            = new List<CriterionGrade>();
 
         [ForeignKey(typeof(CriterionGradeType))]
         public int CriterionTypeId { get; set; }

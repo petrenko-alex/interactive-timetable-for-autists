@@ -14,7 +14,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public bool IsDeleted { get; set; } = false;
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<ScheduleItem> ScheduleItems { get; set; }
+        public List<ScheduleItem> ScheduleItems { get; set; } 
+            = new List<ScheduleItem>();
 
         [ForeignKey(typeof(CardType))]
         public int CardTypeId { get; set; }

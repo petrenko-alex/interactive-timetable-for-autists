@@ -11,6 +11,7 @@ namespace InteractiveTimetable.BusinessLayer.Models
         public string TypeName { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Card> Cards { get; set; }
+        public List<Card> Cards { get; set; } 
+            = new List<Card>();
     }
 }
