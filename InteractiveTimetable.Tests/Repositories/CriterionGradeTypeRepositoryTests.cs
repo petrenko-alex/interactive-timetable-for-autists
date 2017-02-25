@@ -25,8 +25,8 @@ namespace InteractiveTimetable.Tests.Repositories
             _connection = new SQLiteConnection(dbPath);
 
             /* Initialize repository */
-            _gradeTypeRepository 
-                = new CriterionGradeTypeRepository(_connection);
+            _gradeTypeRepository
+                    = new CriterionGradeTypeRepository(_connection);
         }
 
         [TearDown]
@@ -131,8 +131,8 @@ namespace InteractiveTimetable.Tests.Repositories
         public void DeleteWithDefinitions()
         {
             // arrange
-            var _definitionRepository 
-                = new CriterionDefinitionRepository(_connection);
+            var _definitionRepository
+                    = new CriterionDefinitionRepository(_connection);
 
             var type = _gradeTypeRepository.GetTickCriterionGradeType();
             var definition = type.CriterionDefinitions.First();
@@ -147,6 +147,46 @@ namespace InteractiveTimetable.Tests.Repositories
             // assert
             Assert.AreEqual(null, deletedType);
             Assert.AreEqual(null, deletedDefinition);
+        }
+
+        [Test]
+        public void IsPointGradeType()
+        {
+            // arrange
+            var pointGradeType
+                    = _gradeTypeRepository.GetPointCriterionGradeType();
+            var tickGradeType
+                    = _gradeTypeRepository.GetTickCriterionGradeType();
+
+            // act 
+            bool isPoint
+                    = _gradeTypeRepository.IsPointGradeType(pointGradeType);
+            bool isNotPoint
+                    = _gradeTypeRepository.IsPointGradeType(tickGradeType);
+
+            // assert
+            Assert.AreEqual(true, isPoint);
+            Assert.AreEqual(false, isNotPoint);
+        }
+
+        [Test]
+        public void IsTickGradeType()
+        {
+            // arrange
+            var pointGradeType
+                    = _gradeTypeRepository.GetPointCriterionGradeType();
+            var tickGradeType
+                    = _gradeTypeRepository.GetTickCriterionGradeType();
+
+            // act 
+            bool isTick
+                    = _gradeTypeRepository.IsTickGradeType(tickGradeType);
+            bool isNotTick
+                    = _gradeTypeRepository.IsTickGradeType(pointGradeType);
+
+            // assert
+            Assert.AreEqual(true, isTick);
+            Assert.AreEqual(false, isNotTick);
         }
     }
 }

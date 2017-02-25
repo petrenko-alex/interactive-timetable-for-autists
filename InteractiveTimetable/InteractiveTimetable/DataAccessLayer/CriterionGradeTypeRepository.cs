@@ -91,5 +91,15 @@ namespace InteractiveTimetable.DataAccessLayer
             return GetCriterionGradeTypes().
                     FirstOrDefault(type => type.TypeName == TickTypeName);
         }
+
+        public bool IsPointGradeType(CriterionGradeType gradeType)
+        {
+            return gradeType.TypeName.Equals(PointTypeName);
+        }
+
+        public bool IsTickGradeType(CriterionGradeType gradeType)
+        {
+            return gradeType.TypeName.Equals(TickTypeName);
+        }
     }
 }
