@@ -6,7 +6,7 @@ using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    public class CriterionDefinitionRepository : BaseRepository
+    internal class CriterionDefinitionRepository : BaseRepository
     {
         private const int NumberOfCriterions = 18;
 

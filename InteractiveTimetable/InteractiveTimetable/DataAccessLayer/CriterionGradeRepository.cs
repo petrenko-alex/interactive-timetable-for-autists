@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    class CriterionGradeRepository : BaseRepository
+    internal class CriterionGradeRepository : BaseRepository
     {
         public CriterionGradeRepository(SQLiteConnection connection) : base(connection)
         {

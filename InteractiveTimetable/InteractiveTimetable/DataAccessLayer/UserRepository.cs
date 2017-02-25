@@ -4,7 +4,7 @@ using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    class UserRepository : BaseRepository
+    internal class UserRepository : BaseRepository
     {
         public UserRepository(SQLiteConnection connection) : base(connection)
         {

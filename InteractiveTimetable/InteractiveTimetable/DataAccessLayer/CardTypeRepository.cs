@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    class CardTypeRepository : BaseRepository
+    internal class CardTypeRepository : BaseRepository
     {
         public CardTypeRepository(SQLiteConnection connection) : base(connection)
         {

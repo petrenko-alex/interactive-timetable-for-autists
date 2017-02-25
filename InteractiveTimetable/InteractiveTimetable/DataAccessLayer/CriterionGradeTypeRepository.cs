@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    public class CriterionGradeTypeRepository : BaseRepository
+    internal class CriterionGradeTypeRepository : BaseRepository
     {
         private const string PointTypeName = "POINT_GRADE";
         private const string TickTypeName = "TICK_GRADE";
@@ -51,17 +49,17 @@ namespace InteractiveTimetable.DataAccessLayer
             return _database.GetItemsCascade<CriterionGradeType>();
         }
 
-        private int SaveCriterionGradeType(CriterionGradeType criterionGradeType)
+        internal int SaveCriterionGradeType(CriterionGradeType criterionGradeType)
         {
             return _database.SaveItemCascade(criterionGradeType);
         }
 
-        public int DeleteCriterionGradeType(int id)
+        internal int DeleteCriterionGradeType(int id)
         {
             return _database.DeleteItem<CriterionGradeType>(id);
         }
 
-        public void DeleteCriterionGradeTypeCascade(CriterionGradeType type)
+        internal void DeleteCriterionGradeTypeCascade(CriterionGradeType type)
         {
             _database.DeleteItemCascade(type);
         }
