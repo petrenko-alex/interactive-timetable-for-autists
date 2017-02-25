@@ -38,9 +38,9 @@ namespace InteractiveTimetable.DataAccessLayer
             }
         }
 
-        public CriterionDefinition GetCriterionDefinition(int id)
+        public CriterionDefinition GetCriterionDefinition(int criterionId)
         {
-            return _database.GetItemCascade<CriterionDefinition>(id);
+            return _database.GetItemCascade<CriterionDefinition>(criterionId);
         }
 
         public IEnumerable<CriterionDefinition> GerCriterionDefinitions()
@@ -51,6 +51,15 @@ namespace InteractiveTimetable.DataAccessLayer
         public int GetNumberOfCriterions()
         {
             return NumberOfCriterions;
+        }
+
+        public CriterionGradeType GetCriterionGradeType(
+            CriterionDefinition criterion)
+        {
+            var gradeTypeId = criterion.CriterionGradeTypeId;
+
+            return 
+                _criterionGradeTypeRepository.GetCriterionGradeType(gradeTypeId);
         }
 
         public CriterionDefinition GetCriterionDefinitionByNumber(int number)
@@ -66,21 +75,33 @@ namespace InteractiveTimetable.DataAccessLayer
 
         }
 
+        public bool IsPointGradeTypeCriterion(CriterionDefinition criterion)
+        {
+            var gradeType = GetCriterionGradeType(criterion);
+            return _criterionGradeTypeRepository.IsPointGradeType(gradeType);
+        }
+
+        public bool IsTickGradeTypeCriterion(CriterionDefinition criterion)
+        {
+            var gradeType = GetCriterionGradeType(criterion);
+            return _criterionGradeTypeRepository.IsTickGradeType(gradeType);
+        }
+
         internal int SaveCriterionDefinition(
             CriterionDefinition criterionDefinition)
         {
             return _database.SaveItemCascade(criterionDefinition);
         }
 
-        internal int DeleteCriterionDefinition(int id)
+        internal int DeleteCriterionDefinition(int criterionId)
         {
-            return _database.DeleteItem<CriterionDefinition>(id);
+            return _database.DeleteItem<CriterionDefinition>(criterionId);
         }
 
         internal void DeleteCriterionDefinitionCascade(
-            CriterionDefinition criterionDefinition)
+            CriterionDefinition criterion)
         {
-            _database.DeleteItemCascade(criterionDefinition);
+            _database.DeleteItemCascade(criterion);
         }
     }
 }

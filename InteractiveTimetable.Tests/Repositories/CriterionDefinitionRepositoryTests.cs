@@ -38,7 +38,6 @@ namespace InteractiveTimetable.Tests.Repositories
 
             // act
             var criterions = _repository.GerCriterionDefinitions();
-            
 
             // assert
             Assert.AreEqual(_repository.GetNumberOfCriterions(),
@@ -99,10 +98,63 @@ namespace InteractiveTimetable.Tests.Repositories
                 _repository.GetCriterionDefinitionByNumber(number);
             });
 
-
             // assert
             Assert.AreEqual(exceptionMessage, exception1.Message);
             Assert.AreEqual(exceptionMessage, exception2.Message);
+        }
+
+        [Test]
+        public void IsPointGradeTypeCriterion()
+        {
+            // arrange
+            var pointCriterion = _repository.GetCriterionDefinitionByNumber(3);
+            var tickCriterion = _repository.GetCriterionDefinitionByNumber(18);
+
+            // act
+            bool isPoint
+                    = _repository.IsPointGradeTypeCriterion(pointCriterion);
+            bool isNotPoint
+                    = _repository.IsPointGradeTypeCriterion(tickCriterion);
+
+            // assert
+            Assert.AreEqual(true, isPoint);
+            Assert.AreEqual(false, isNotPoint);
+        }
+
+        [Test]
+        public void isTickGradeTypeCriterion()
+        {
+            // arrange
+            var pointCriterion = _repository.GetCriterionDefinitionByNumber(3);
+            var tickCriterion = _repository.GetCriterionDefinitionByNumber(18);
+
+            // act
+            bool isTick
+                    = _repository.IsTickGradeTypeCriterion(tickCriterion);
+            bool isNotTick
+                    = _repository.IsTickGradeTypeCriterion(pointCriterion);
+
+            // assert
+            Assert.AreEqual(true, isTick);
+            Assert.AreEqual(false, isNotTick);
+        }
+
+        [Test]
+        public void GetCriterionGradeType()
+        {
+            // arrange
+            var pointCriterion = _repository.GetCriterionDefinitionByNumber(3);
+            var tickCriterion = _repository.GetCriterionDefinitionByNumber(18);
+
+            // act
+            var pointGradeType
+                    = _repository.GetCriterionGradeType(pointCriterion);
+            var tickGradeType
+                    = _repository.GetCriterionGradeType(tickCriterion);
+
+            // assert
+            Assert.AreEqual("POINT_GRADE", pointGradeType.TypeName);
+            Assert.AreEqual("TICK_GRADE", tickGradeType.TypeName);
         }
     }
 }
