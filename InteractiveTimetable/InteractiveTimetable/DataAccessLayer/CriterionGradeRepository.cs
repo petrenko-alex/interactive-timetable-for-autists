@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
@@ -11,19 +12,35 @@ namespace InteractiveTimetable.DataAccessLayer
 
         private const int MinimumPointGrade = 1;
         private const int MaximumPointGrade = 4;
-        private const int MaximumLengthOfTickGradeString = 4;
+        private const int LengthOfTickGradeString = 4;
 
         public CriterionGradeRepository(SQLiteConnection connection)
-            : base(connection) {}
-
-        public CriterionGrade GetCriterionGrade(int id)
+            : base(connection)
         {
-            return _database.GetItem<CriterionGrade>(id);
+            _criterionDefinitionRepository 
+                = new CriterionDefinitionRepository(connection);
+        }
+
+        public CriterionGrade GetCriterionGrade(int gradeId)
+        {
+            return _database.GetItem<CriterionGrade>(gradeId);
         }
 
         public IEnumerable<CriterionGrade> GetCriterionGrades()
         {
             return _database.GetItems<CriterionGrade>();
+        }
+
+        public IEnumerable<CriterionGrade> GetDiagnosticCriterionGrades(
+            int diagnosticId)
+        {
+            var allGrades = GetCriterionGrades();
+
+            var diagnosticGrades = allGrades.
+                    Where(d => d.DiagnosticId == diagnosticId).
+                    OrderBy(d => d.CriterionDefinitionId);
+
+            return diagnosticGrades;
         }
 
         public int SaveCriterionGrade(CriterionGrade grade)
@@ -34,9 +51,9 @@ namespace InteractiveTimetable.DataAccessLayer
             return _database.SaveItem(grade);
         }
 
-        public int DeleteCriterion(int id)
+        public int DeleteCriterionGrade(int gradeId)
         {
-            return _database.DeleteItem<CriterionGrade>(id);
+            return _database.DeleteItem<CriterionGrade>(gradeId);
         }
 
         public CriterionGradeType GetCriterionGradeType(CriterionGrade grade)
@@ -80,8 +97,7 @@ namespace InteractiveTimetable.DataAccessLayer
             }
             else if (isTickGradeType)
             {
-                if (grade.Grade.Length < 1 ||
-                    grade.Grade.Length > MaximumLengthOfTickGradeString)
+                if (grade.Grade.Length != LengthOfTickGradeString)
                 {
                     throw new ArgumentException("Not valid grade.");
                 }

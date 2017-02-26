@@ -17,5 +17,25 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
         [ForeignKey(typeof(CriterionDefinition))]
         public int CriterionDefinitionId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            /* If obj is null return false */
+            if (obj == null)
+            {
+                return false;
+            }
+
+            /* If obj can not be cast to class type return false*/
+            CriterionGrade criterionGrade = obj as CriterionGrade;
+            if ((System.Object) criterionGrade == null)
+            {
+                return false;
+            }
+
+            return Grade.Equals(criterionGrade.Grade) &&
+                   CriterionDefinitionId.Equals(
+                       criterionGrade.CriterionDefinitionId);
+        }
     }
 }
