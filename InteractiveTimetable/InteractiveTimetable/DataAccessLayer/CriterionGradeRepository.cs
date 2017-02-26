@@ -8,7 +8,7 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class CriterionGradeRepository : BaseRepository
     {
-        private CriterionDefinitionRepository _criterionDefinitionRepository;
+        public CriterionDefinitionRepository CriterionDefinitions { get; }
 
         private const int MinimumPointGrade = 1;
         private const int MaximumPointGrade = 4;
@@ -17,8 +17,7 @@ namespace InteractiveTimetable.DataAccessLayer
         public CriterionGradeRepository(SQLiteConnection connection)
             : base(connection)
         {
-            _criterionDefinitionRepository 
-                = new CriterionDefinitionRepository(connection);
+            CriterionDefinitions = new CriterionDefinitionRepository(connection);
         }
 
         public CriterionGrade GetCriterionGrade(int gradeId)
@@ -36,6 +35,10 @@ namespace InteractiveTimetable.DataAccessLayer
         {
             var allGrades = GetCriterionGrades();
 
+            /*
+             * Getting grades belonging to diagnostic 
+             * and ordered by criterion definition id 
+             */
             var diagnosticGrades = allGrades.
                     Where(d => d.DiagnosticId == diagnosticId).
                     OrderBy(d => d.CriterionDefinitionId);
@@ -59,24 +62,25 @@ namespace InteractiveTimetable.DataAccessLayer
         public CriterionGradeType GetCriterionGradeType(CriterionGrade grade)
         {
             var criterionId = grade.CriterionDefinitionId;
-            var criterion = _criterionDefinitionRepository.
-                    GetCriterionDefinition(criterionId);
-
-            return _criterionDefinitionRepository.
-                    GetCriterionGradeType(criterion);
+            return CriterionDefinitions.GetCriterionGradeType(criterionId);
         }
 
         private void Validate(CriterionGrade grade)
         {
             var criterionId = grade.CriterionDefinitionId;
-            var criterion = _criterionDefinitionRepository.
+            var criterion = CriterionDefinitions.
                     GetCriterionDefinition(criterionId);
 
-            bool isPointGradeType = _criterionDefinitionRepository.
-                    IsPointGradeTypeCriterion(criterion);
+            if (criterion == null)
+            {
+                throw new ArgumentException("Not valid CriterionDefinitionId.");
+            }
 
-            bool isTickGradeType = _criterionDefinitionRepository.
-                    IsTickGradeTypeCriterion(criterion);
+            bool isPointGradeType = CriterionDefinitions.
+                    IsPointGradeTypeCriterion(criterion.Id);
+
+            bool isTickGradeType = CriterionDefinitions.
+                    IsTickGradeTypeCriterion(criterion.Id);
 
             if (isPointGradeType)
             {
@@ -101,10 +105,6 @@ namespace InteractiveTimetable.DataAccessLayer
                 {
                     throw new ArgumentException("Not valid grade.");
                 }
-            }
-            else
-            {
-                throw new ArgumentException("Not valid grade type.");
             }
         }
     }

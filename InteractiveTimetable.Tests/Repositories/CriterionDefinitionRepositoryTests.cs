@@ -112,9 +112,9 @@ namespace InteractiveTimetable.Tests.Repositories
 
             // act
             bool isPoint
-                    = _repository.IsPointGradeTypeCriterion(pointCriterion);
+                    = _repository.IsPointGradeTypeCriterion(pointCriterion.Id);
             bool isNotPoint
-                    = _repository.IsPointGradeTypeCriterion(tickCriterion);
+                    = _repository.IsPointGradeTypeCriterion(tickCriterion.Id);
 
             // assert
             Assert.AreEqual(true, isPoint);
@@ -122,7 +122,7 @@ namespace InteractiveTimetable.Tests.Repositories
         }
 
         [Test]
-        public void isTickGradeTypeCriterion()
+        public void IsTickGradeTypeCriterion()
         {
             // arrange
             var pointCriterion = _repository.GetCriterionDefinitionByNumber(3);
@@ -130,9 +130,9 @@ namespace InteractiveTimetable.Tests.Repositories
 
             // act
             bool isTick
-                    = _repository.IsTickGradeTypeCriterion(tickCriterion);
+                    = _repository.IsTickGradeTypeCriterion(tickCriterion.Id);
             bool isNotTick
-                    = _repository.IsTickGradeTypeCriterion(pointCriterion);
+                    = _repository.IsTickGradeTypeCriterion(pointCriterion.Id);
 
             // assert
             Assert.AreEqual(true, isTick);
@@ -148,9 +148,9 @@ namespace InteractiveTimetable.Tests.Repositories
 
             // act
             var pointGradeType
-                    = _repository.GetCriterionGradeType(pointCriterion);
+                    = _repository.GetCriterionGradeType(pointCriterion.Id);
             var tickGradeType
-                    = _repository.GetCriterionGradeType(tickCriterion);
+                    = _repository.GetCriterionGradeType(tickCriterion.Id);
 
             // assert
             Assert.AreEqual("POINT_GRADE", pointGradeType.TypeName);

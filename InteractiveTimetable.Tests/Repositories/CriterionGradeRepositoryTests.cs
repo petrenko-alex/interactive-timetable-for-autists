@@ -132,7 +132,7 @@ namespace InteractiveTimetable.Tests.Repositories
                 CriterionDefinitionId = 23,
                 Grade = "2"
             };
-            string exceptionMessage = "Not valid grade type.";
+            string exceptionMessage = "Not valid CriterionDefinitionId.";
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate

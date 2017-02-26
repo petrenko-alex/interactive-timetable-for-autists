@@ -10,13 +10,12 @@ namespace InteractiveTimetable.DataAccessLayer
     {
         private const int NumberOfCriterions = 18;
 
-        private CriterionGradeTypeRepository _criterionGradeTypeRepository;
+        private CriterionGradeTypeRepository _gradeTypes;
 
         public CriterionDefinitionRepository(SQLiteConnection connection)
             : base(connection)
         {
-            _criterionGradeTypeRepository
-                    = new CriterionGradeTypeRepository(connection);
+            _gradeTypes = new CriterionGradeTypeRepository(connection);
 
             /* Adding default criterion definitions */
             for (int i = 1; i <= NumberOfCriterions; ++i)
@@ -31,7 +30,7 @@ namespace InteractiveTimetable.DataAccessLayer
                             CriterionDefinitionStrings.
                             ResourceManager.
                             GetString(resourceString),
-                    CriterionGradeTypeId = _criterionGradeTypeRepository.
+                    CriterionGradeTypeId = _gradeTypes.
                             GetCriterionGradeTypeByNumber(i).Id
                 };
                 SaveCriterionDefinition(criterionDefinition);
@@ -53,15 +52,14 @@ namespace InteractiveTimetable.DataAccessLayer
             return NumberOfCriterions;
         }
 
-        public CriterionGradeType GetCriterionGradeType(
-            CriterionDefinition criterion)
+        public CriterionGradeType GetCriterionGradeType(int criterionId)
         {
+            var criterion = GetCriterionDefinition(criterionId);
             if (criterion != null)
             {
                 int gradeTypeId = criterion.CriterionGradeTypeId;
 
-                return
-                _criterionGradeTypeRepository.GetCriterionGradeType(gradeTypeId);
+                return _gradeTypes.GetCriterionGradeType(gradeTypeId);
             }
 
             return null;
@@ -76,20 +74,19 @@ namespace InteractiveTimetable.DataAccessLayer
             }
 
             return GerCriterionDefinitions().
-                FirstOrDefault(x => x.Number == number);
-
+                    FirstOrDefault(x => x.Number == number);
         }
 
-        public bool IsPointGradeTypeCriterion(CriterionDefinition criterion)
+        public bool IsPointGradeTypeCriterion(int criterionId)
         {
-            var gradeType = GetCriterionGradeType(criterion);
-            return _criterionGradeTypeRepository.IsPointGradeType(gradeType);
+            var gradeType = GetCriterionGradeType(criterionId);
+            return _gradeTypes.IsPointGradeType(gradeType);
         }
 
-        public bool IsTickGradeTypeCriterion(CriterionDefinition criterion)
+        public bool IsTickGradeTypeCriterion(int criterionId)
         {
-            var gradeType = GetCriterionGradeType(criterion);
-            return _criterionGradeTypeRepository.IsTickGradeType(gradeType);
+            var gradeType = GetCriterionGradeType(criterionId);
+            return _gradeTypes.IsTickGradeType(gradeType);
         }
 
         internal int SaveCriterionDefinition(
