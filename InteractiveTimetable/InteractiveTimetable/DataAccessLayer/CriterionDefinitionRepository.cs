@@ -44,7 +44,8 @@ namespace InteractiveTimetable.DataAccessLayer
 
         public IEnumerable<CriterionDefinition> GerCriterionDefinitions()
         {
-            return _database.GetItemsCascade<CriterionDefinition>();
+            return _database.GetItemsCascade<CriterionDefinition>().
+                             OrderBy(x => x.Number);
         }
 
         public int GetNumberOfCriterions()
