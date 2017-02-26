@@ -56,10 +56,15 @@ namespace InteractiveTimetable.DataAccessLayer
         public CriterionGradeType GetCriterionGradeType(
             CriterionDefinition criterion)
         {
-            var gradeTypeId = criterion.CriterionGradeTypeId;
+            if (criterion != null)
+            {
+                int gradeTypeId = criterion.CriterionGradeTypeId;
 
-            return 
+                return
                 _criterionGradeTypeRepository.GetCriterionGradeType(gradeTypeId);
+            }
+
+            return null;
         }
 
         public CriterionDefinition GetCriterionDefinitionByNumber(int number)

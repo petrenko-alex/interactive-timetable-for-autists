@@ -94,12 +94,22 @@ namespace InteractiveTimetable.DataAccessLayer
 
         public bool IsPointGradeType(CriterionGradeType gradeType)
         {
-            return gradeType.TypeName.Equals(PointTypeName);
+            if (gradeType != null)
+            {
+                return gradeType.TypeName.Equals(PointTypeName);
+            }
+
+            return false;
         }
 
         public bool IsTickGradeType(CriterionGradeType gradeType)
         {
-            return gradeType.TypeName.Equals(TickTypeName);
+            if (gradeType != null)
+            {
+                return gradeType.TypeName.Equals(TickTypeName);
+            }
+
+            return false;
         }
     }
 }
