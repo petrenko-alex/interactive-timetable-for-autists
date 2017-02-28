@@ -83,9 +83,9 @@ namespace InteractiveTimetable.Tests.Repositories
         {
             // arrange
             int number = -2;
-            var exceptionMessage = "Not a valid number.";
+            var exceptionMessage = "Not valid number.";
 
-            // act
+            // act/assert
             var exception1 = Assert.Throws<ArgumentException>(delegate
             {
                 _repository.GetCriterionDefinitionByNumber(number);
@@ -98,9 +98,41 @@ namespace InteractiveTimetable.Tests.Repositories
                 _repository.GetCriterionDefinitionByNumber(number);
             });
 
-            // assert
             Assert.AreEqual(exceptionMessage, exception1.Message);
             Assert.AreEqual(exceptionMessage, exception2.Message);
+        }
+
+        [Test]
+        public void GetCriterionDefinitionByDefinition()
+        {
+            // arrange
+            var definition = Resources.Repositories.CriterionDefinitionStrings.
+                    Criterion13;
+            var expectedCriterion =
+                    _repository.GetCriterionDefinitionByNumber(13);
+
+            // act
+            var criterion =
+                    _repository.GetCriterionDefinitionByDefinition(definition);
+
+            // assert
+            Assert.AreEqual(expectedCriterion, criterion);
+        }
+
+        [Test]
+        public void GetCriterionDefinitionByNotValidDefinition()
+        {
+            // arrange
+            var definition = "not valid";
+            var exceptionString = "Not valid definition.";
+
+            // act/assert
+            var exception = Assert.Throws<ArgumentException>(delegate
+            {
+                _repository.GetCriterionDefinitionByDefinition(definition);
+            });
+
+            Assert.AreEqual(exceptionString, exception.Message);
         }
 
         [Test]

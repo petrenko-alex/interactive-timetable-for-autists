@@ -71,11 +71,25 @@ namespace InteractiveTimetable.DataAccessLayer
             if (number <= 0 ||
                 number > NumberOfCriterions)
             {
-                throw new ArgumentException("Not a valid number.");
+                throw new ArgumentException("Not valid number.");
             }
 
             return GerCriterionDefinitions().
                     FirstOrDefault(x => x.Number == number);
+        }
+
+        public CriterionDefinition GetCriterionDefinitionByDefinition(
+            string definition)
+        {
+            var criterionDefinition = GerCriterionDefinitions().
+                FirstOrDefault(x => x.Definition == definition);
+
+            if (criterionDefinition == null)
+            {
+                throw new ArgumentException("Not valid definition.");
+            }
+
+            return criterionDefinition;
         }
 
         public bool IsPointGradeTypeCriterion(int criterionId)
