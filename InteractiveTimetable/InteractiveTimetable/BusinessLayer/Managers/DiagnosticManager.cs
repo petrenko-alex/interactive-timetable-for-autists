@@ -28,7 +28,36 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return _repository.GetTripDiagnostics(hospitalTripId);
         }
 
-        //public int SaveDiagnostic() {}
+        public int SaveDiagnostic(int hospitalTripId, DateTime dateTime, 
+            IDictionary<string,string> criterionsAndGrades)
+        {
+            List<CriterionGrade> grades = new List<CriterionGrade>();
+
+            /* Creating grade objects */
+            foreach (KeyValuePair<string, string> pair in criterionsAndGrades)
+            {
+                var criterion = _repository.Grades.CriterionDefinitions.
+                            GetCriterionDefinitionByDefinition(pair.Key);
+
+                CriterionGrade grade = new CriterionGrade()
+                {
+                    Grade = pair.Value,
+                    CriterionDefinitionId = criterion.Id
+                };
+
+                grades.Add(grade);
+            }
+
+            /* Creating a diagnostic object */
+            Diagnostic diagnostic = new Diagnostic()
+            {
+                Date = dateTime,
+                HospitalTripId = hospitalTripId,
+                CriterionGrades = grades
+            };
+
+            return _repository.SaveDiagnostic(diagnostic);
+        }
 
         public void DeleteDiagnostic(int diagnosticId)
         {
