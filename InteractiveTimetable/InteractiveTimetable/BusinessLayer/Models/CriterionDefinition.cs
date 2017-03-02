@@ -39,5 +39,10 @@ namespace InteractiveTimetable.BusinessLayer.Models
                    Definition.Equals(definition.Definition) &&
                    CriterionGradeTypeId.Equals(definition.CriterionGradeTypeId);
         }
+
+        public override string ToString()
+        {
+            return Definition;
+        }
     }
 }
