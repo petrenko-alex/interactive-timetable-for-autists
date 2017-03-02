@@ -65,7 +65,7 @@ namespace InteractiveTimetable.DataAccessLayer
             return CriterionDefinitions.GetCriterionGradeType(criterionId);
         }
 
-        private void Validate(CriterionGrade grade)
+        internal void Validate(CriterionGrade grade)
         {
             var criterionId = grade.CriterionDefinitionId;
             var criterion = CriterionDefinitions.
