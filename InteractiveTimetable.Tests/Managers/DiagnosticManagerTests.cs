@@ -321,7 +321,7 @@ namespace InteractiveTimetable.Tests.Managers
         }
 
         [Test]
-        public void UpdateDiagnostic()
+        public void UpdateOneDiagnosticGrade()
         {
             // arrange
             DateTime dateTime = DateTime.Now;
@@ -353,6 +353,109 @@ namespace InteractiveTimetable.Tests.Managers
             // assert
             Assert.AreEqual(newDate, diagnostic.Date);
             Assert.AreEqual(criterionsAndGrades, newCriterionsAndGrades);
+        }
+
+        [Test]
+        public void UpdateAllDiagnosticGrades()
+        {
+            // arrange
+            DateTime dateTime = DateTime.Now;
+            var criterionsAndGrades = GetFullSetOfCriterionsAndGrades();
+            var diagnosticId = _diagnosticManager.SaveDiagnostic(_trip.Id,
+                                                                 dateTime,
+                                                                 criterionsAndGrades);
+
+            var newDate = dateTime.AddDays(1);
+            criterionsAndGrades = GetFullSetOfCriterionsAndGrades();
+
+            // act
+            _diagnosticManager.UpdateDiagnostic(diagnosticId,
+                                                newDate,
+                                                criterionsAndGrades);
+            var diagnostic = _diagnosticManager.GetDiagnostic(diagnosticId);
+            var newCriterionsAndGrades =
+                    _diagnosticManager.GetCriterionsAndGrades(diagnosticId);
+
+            // assert
+            Assert.AreEqual(newDate, diagnostic.Date);
+            Assert.AreEqual(criterionsAndGrades, newCriterionsAndGrades);
+        }
+
+        [Test]
+        public void GetTotalSum()
+        {
+            // arrange
+            DateTime dateTime = DateTime.Now;
+            var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
+            var diagnosticId = _diagnosticManager.
+                    SaveDiagnostic(_trip.Id, dateTime, criterionAndGrades);
+
+            var tickCriterion = Resources.
+                    Repositories.
+                    CriterionDefinitionStrings.
+                    Criterion18;
+            criterionAndGrades.Remove(tickCriterion);
+            var expectedSum = criterionAndGrades.
+                    Select(x => Convert.ToInt32(x.Value)).
+                    Sum();
+
+            // act
+            var actualSum = _diagnosticManager.GetTotalSum(diagnosticId);
+
+            // assert
+            Assert.AreEqual(expectedSum, actualSum);
+        }
+
+        [Test]
+        public void GetPartialSumForCorrectGrade()
+        {
+            // arrange
+            DateTime dateTime = DateTime.Now;
+            var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
+            var diagnosticId = _diagnosticManager.
+                    SaveDiagnostic(_trip.Id, dateTime, criterionAndGrades);
+
+            var tickCriterion = Resources.
+                    Repositories.
+                    CriterionDefinitionStrings.
+                    Criterion18;
+            criterionAndGrades.Remove(tickCriterion);
+            var expectedSum = criterionAndGrades.
+                    Where(x => x.Value.Equals("2")).
+                    Select(x => Convert.ToInt32(x.Value)).
+                    Sum();
+
+            // act
+            var actualSum = _diagnosticManager.GetPartialSum(diagnosticId, 2);
+
+            // assert
+            Assert.AreEqual(expectedSum, actualSum);
+        }
+
+        [Test]
+        public void GetPartialSumForIncorrectGrade()
+        {
+            // arrange
+            DateTime dateTime = DateTime.Now;
+            var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
+            var diagnosticId = _diagnosticManager.
+                    SaveDiagnostic(_trip.Id, dateTime, criterionAndGrades);
+
+            var tickCriterion = Resources.
+                    Repositories.
+                    CriterionDefinitionStrings.
+                    Criterion18;
+            criterionAndGrades.Remove(tickCriterion);
+            var expectedSum = criterionAndGrades.
+                    Where(x => x.Value.Equals("5")).
+                    Select(x => Convert.ToInt32(x.Value)).
+                    Sum();
+
+            // act
+            var actualSum = _diagnosticManager.GetPartialSum(diagnosticId, 5);
+
+            // assert
+            Assert.AreEqual(expectedSum, actualSum);
         }
     }
 }
