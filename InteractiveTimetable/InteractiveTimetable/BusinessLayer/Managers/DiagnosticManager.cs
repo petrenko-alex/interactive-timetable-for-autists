@@ -179,13 +179,6 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return criterionsAndGrades;
         }
 
-        private IDictionary<string, string> GetCriterionsAndGrades(
-            Diagnostic diagnostic)
-        {
-            var grades = GetGrades(diagnostic).ToList();
-            return GetCriterionsAndGrades(diagnostic.Id, grades);
-        }
-
         private IEnumerable<CriterionGrade> CreateGrades(
             IDictionary<string, string> criterionsAndGrades)
         {
