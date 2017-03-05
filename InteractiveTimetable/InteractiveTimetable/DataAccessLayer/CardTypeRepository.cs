@@ -64,8 +64,10 @@ namespace InteractiveTimetable.DataAccessLayer
                     FirstOrDefault(x => x.TypeName == MotivationGoalTypeName);
         }
 
-        public bool IsActivityCardType(CardType cardType)
+        public bool IsActivityCardType(int cardTypeId)
         {
+            var cardType = GetCardType(cardTypeId);
+
             if (cardType != null)
             {
                 return cardType.TypeName.Equals(ActivityTypeName);
@@ -74,8 +76,10 @@ namespace InteractiveTimetable.DataAccessLayer
             return false;
         }
 
-        public bool IsMotivationGoalCardType(CardType cardType)
+        public bool IsMotivationGoalCardType(int cardTypeId)
         {
+            var cardType = GetCardType(cardTypeId);
+                
             if (cardType != null)
             {
                 return cardType.TypeName.Equals(MotivationGoalTypeName);

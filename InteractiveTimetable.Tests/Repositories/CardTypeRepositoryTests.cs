@@ -87,9 +87,9 @@ namespace InteractiveTimetable.Tests.Repositories
 
             // act
             var isActivity
-                    = _repository.IsActivityCardType(activityType);
+                    = _repository.IsActivityCardType(activityType.Id);
             var isNotActivity
-                    = _repository.IsActivityCardType(motivationGoalType);
+                    = _repository.IsActivityCardType(motivationGoalType.Id);
 
             // assert
             Assert.AreEqual(true, isActivity);
@@ -105,9 +105,9 @@ namespace InteractiveTimetable.Tests.Repositories
 
             // act
             var isMotivationGoal
-                    = _repository.IsMotivationGoalCardType(motivationGoalType);
+                    = _repository.IsMotivationGoalCardType(motivationGoalType.Id);
             var isNotMotivationGoal
-                    = _repository.IsMotivationGoalCardType(activityType);
+                    = _repository.IsMotivationGoalCardType(activityType.Id);
 
             // assert
             Assert.AreEqual(true, isMotivationGoal);
