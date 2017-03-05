@@ -31,6 +31,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BusinessLayer\Managers\CardManager.cs" />
     <Compile Include="BusinessLayer\Managers\DiagnosticManager.cs" />
     <Compile Include="BusinessLayer\Managers\HospitalTripManager.cs" />
     <Compile Include="BusinessLayer\Models\Card.cs" />
