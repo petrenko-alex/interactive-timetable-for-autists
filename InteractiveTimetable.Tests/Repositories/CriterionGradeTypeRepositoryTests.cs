@@ -44,11 +44,13 @@ namespace InteractiveTimetable.Tests.Repositories
             // act
             var gradeTypes =
                     _gradeTypeRepository.GetCriterionGradeTypes().ToList();
-            var tickGrade = gradeTypes.Where(x => x.TypeName == "TICK_GRADE");
-            var pointGrade = gradeTypes.Where(x => x.TypeName == "POINT_GRADE");
+            var tickGrade = gradeTypes.
+                    FirstOrDefault(x => x.TypeName == "TICK_GRADE");
+            var pointGrade = gradeTypes.
+                    FirstOrDefault(x => x.TypeName == "POINT_GRADE");
 
             // assert
-            Assert.AreEqual(2, gradeTypes.Count());
+            Assert.AreEqual(2, gradeTypes.Count);
             Assert.NotNull(tickGrade);
             Assert.NotNull(pointGrade);
         }
@@ -59,14 +61,15 @@ namespace InteractiveTimetable.Tests.Repositories
             // arrange
             var gradeTypes =
                     _gradeTypeRepository.GetCriterionGradeTypes().ToList();
-            var pointGrade = gradeTypes.First(x => x.TypeName == "POINT_GRADE");
+            var expectedGradeType = gradeTypes.
+                    FirstOrDefault(x => x.TypeName == "POINT_GRADE");
 
             // act
-            var gradeType =
+            var actualGradeType =
                     _gradeTypeRepository.GetCriterionGradeTypeByNumber(10);
 
             // assert
-            Assert.AreEqual(pointGrade, gradeType);
+            Assert.AreEqual(expectedGradeType, actualGradeType);
         }
 
         [Test]
@@ -75,14 +78,15 @@ namespace InteractiveTimetable.Tests.Repositories
             // arrange
             var gradeTypes =
                     _gradeTypeRepository.GetCriterionGradeTypes().ToList();
-            var pointGrade = gradeTypes.First(x => x.TypeName == "TICK_GRADE");
+            var expectedGradeType = gradeTypes.
+                FirstOrDefault(x => x.TypeName == "TICK_GRADE");
 
             // act
-            var gradeType =
+            var actualGradeType =
                     _gradeTypeRepository.GetCriterionGradeTypeByNumber(18);
 
             // assert
-            Assert.AreEqual(pointGrade, gradeType);
+            Assert.AreEqual(expectedGradeType, actualGradeType);
         }
 
         [Test]
