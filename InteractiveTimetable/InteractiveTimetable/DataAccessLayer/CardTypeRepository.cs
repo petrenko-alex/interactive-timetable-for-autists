@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
@@ -6,41 +7,81 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class CardTypeRepository : BaseRepository
     {
+        private const string ActivityTypeName = "ACTIVITY_CARD";
+        private const string MotivationGoalTypeName = "MOTIVATION_GOAL_CARD";
+
         public CardTypeRepository(SQLiteConnection connection) : base(connection)
         {
             /* Adding default card types */
             CardType activivtyCardType = new CardType()
             {
-                TypeName = "ACTIVITY_CARD"
+                TypeName = ActivityTypeName
             };
 
             CardType motivationGoalCardType = new CardType()
             {
-                TypeName = "MOTIVATION_GOAL_CARD"
+                TypeName = MotivationGoalTypeName
             };
 
             SaveCardType(activivtyCardType);
             SaveCardType(motivationGoalCardType);
         }
 
-        public CardType GetCardType(int id)
+        public CardType GetCardType(int cardTypeId)
         {
-            return _database.GetItem<CardType>(id);
+            return _database.GetItemCascade<CardType>(cardTypeId);
         }
 
         public IEnumerable<CardType> GetCardTypes()
         {
-            return _database.GetItems<CardType>();
+            return _database.GetItemsCascade<CardType>();
         }
 
-        public int SaveCardType(CardType cardType)
+        internal int SaveCardType(CardType cardType)
         {
-            return _database.SaveItem(cardType);
+            return _database.SaveItemCascade(cardType);
         }
 
-        public int DeleteCardType(int id)
+        internal int DeleteCardType(int cardTypeId)
         {
-            return _database.DeleteItem<CardType>(id);
+            return _database.DeleteItem<CardType>(cardTypeId);
+        }
+
+        internal void DeleteCardTypeCascade(CardType cardType)
+        {
+            _database.DeleteItemCascade(cardType);
+        }
+
+        public CardType GetActivityCardType()
+        {
+            return GetCardTypes().
+                FirstOrDefault(x => x.TypeName == ActivityTypeName);
+        }
+
+        public CardType GetMotivationGoalCardType()
+        {
+            return GetCardTypes().
+                    FirstOrDefault(x => x.TypeName == MotivationGoalTypeName);
+        }
+
+        public bool IsActivityCardType(CardType cardType)
+        {
+            if (cardType != null)
+            {
+                return cardType.TypeName.Equals(ActivityTypeName);
+            }
+
+            return false;
+        }
+
+        public bool IsMotivationGoalCardType(CardType cardType)
+        {
+            if (cardType != null)
+            {
+                return cardType.TypeName.Equals(MotivationGoalTypeName);
+            }
+
+            return false;
         }
     }
 
