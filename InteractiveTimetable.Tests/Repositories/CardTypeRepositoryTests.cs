@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.DataAccessLayer;
 using NUnit.Framework;
 using SQLite;
@@ -28,6 +30,57 @@ namespace InteractiveTimetable.Tests.Repositories
         {
             _connection.Dispose();
             File.Delete("TestsDatabase.db3");
+        }
+
+        [Test]
+        public void CreateSimpleCardType()
+        {
+            // arrange
+            CardType cardType = new CardType()
+            {
+                TypeName = "RANDOM_CARD"
+            };
+
+            // act
+            int cardTypeId = _repository.SaveCardType(cardType);
+            var addedCardType = _repository.GetCardType(cardTypeId);
+
+            // assert
+            Assert.AreEqual(cardType, addedCardType);
+        }
+
+        [Test]
+        public void CreateCardTypeWithCards()
+        {
+            // arrange
+            var _cardRepository = new CardRepository(_connection);
+            Card card1 = new Card()
+            {
+                PhotoPath = "path/to/photo.jpg"
+            };
+
+            Card card2 = new Card()
+            {
+                PhotoPath = "path/to/photo2.jpg"
+            };
+
+            CardType cardType = new CardType()
+            {
+                TypeName = "RANDOM_CARD",
+                Cards = new List<Card>
+                {
+                    card1,
+                    card2
+                }
+            };
+
+            // act
+            int cardTypeId = _repository.SaveCardType(cardType);
+            var addedCardType = _repository.GetCardType(cardTypeId);
+
+            // assert
+            Assert.AreEqual(cardType, addedCardType);
+            Assert.AreEqual(2, addedCardType.Cards.Count);
         }
 
         [Test]
@@ -145,8 +198,43 @@ namespace InteractiveTimetable.Tests.Repositories
         [Test]
         public void DeleteWithCards()
         {
-            // TODO: Implement when CardRepository is ready
-            // Use method GetCardType()!!!
+            // arrange
+            var _cardRepository = new CardRepository(_connection);
+            Card card1 = new Card()
+            {
+                PhotoPath = "path/to/photo.jpg"
+            };
+
+            Card card2 = new Card()
+            {
+                PhotoPath = "path/to/photo2.jpg"
+            };
+
+            CardType cardType = new CardType()
+            {
+                TypeName = "RANDOM_CARD",
+                Cards = new List<Card>
+                {
+                    card1,
+                    card2
+                }
+            };
+
+            var cardTypeId = _repository.SaveCardType(cardType);
+            cardType = _repository.GetCardType(cardTypeId);
+            var card1Id = cardType.Cards[0].Id;
+            var card2Id = cardType.Cards[1].Id;
+
+            // act
+            _repository.DeleteCardTypeCascade(cardType);
+            cardType = _repository.GetCardType(cardTypeId);
+            card1 = _cardRepository.GetCard(card1Id);
+            card2 = _cardRepository.GetCard(card2Id);
+
+            // assert
+            Assert.AreEqual(null, cardType);
+            Assert.AreEqual(null, card1);
+            Assert.AreEqual(null, card2);
         }
     }
 }
