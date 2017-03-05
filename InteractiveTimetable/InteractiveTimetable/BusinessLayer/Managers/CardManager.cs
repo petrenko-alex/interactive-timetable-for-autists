@@ -38,20 +38,39 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
         public void DeleteCard(int cardId)
         {
-            var card = _repository.GetCard(cardId);
+            var card = GetCard(cardId);
             _repository.DeleteCardCascade(card);
+        }
+
+        public bool IsActivityCard(int cardId)
+        {
+            var card = GetCard(cardId);
+            return _repository.CardTypes.IsActivityCardType(card.CardTypeId);
+        }
+
+        public bool IsMotivationGoalCard(int cardId)
+        {
+            var card = GetCard(cardId);
+            return _repository.CardTypes.
+                               IsMotivationGoalCardType(card.CardTypeId);
         }
 
         public IEnumerable<Card> GetActivityCards()
         {
-            return _repository.GetCards().Where(
+            return GetCards().Where(
                 x => _repository.CardTypes.IsActivityCardType(x.CardTypeId));
         }
 
         public IEnumerable<Card> GetMotivationGoalCards()
         {
-            return _repository.GetCards().Where(
+            return GetCards().Where(
                 x => _repository.CardTypes.IsMotivationGoalCardType(x.CardTypeId));
+        }
+
+        public bool IsCardInPresentTimetable(int cardId)
+        {
+            var card = GetCard(cardId);
+            return card.ScheduleItems.Count != 0;
         }
 
         private void Validate(Card card)
