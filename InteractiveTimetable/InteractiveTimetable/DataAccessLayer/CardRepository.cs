@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using InteractiveTimetable.BusinessLayer.Models;
@@ -8,7 +9,7 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class CardRepository : BaseRepository
     {
-        private readonly CardTypeRepository CardTypes;
+        internal readonly CardTypeRepository CardTypes;
 
         public CardRepository(SQLiteConnection connection) : base(connection)
         {
@@ -38,18 +39,6 @@ namespace InteractiveTimetable.DataAccessLayer
         public void DeleteCardCascade(Card card)
         {
             _database.DeleteItemCascade(card);
-        }
-
-        public IEnumerable<Card> GetActivityCards()
-        {
-            return GetCards().
-                    Where(x => CardTypes.IsActivityCardType(x.CardTypeId));
-        }
-
-        public IEnumerable<Card> GetMotivationGoalCards()
-        {
-            return GetCards().
-                    Where(x => CardTypes.IsMotivationGoalCardType(x.CardTypeId));
         }
     }
 }
