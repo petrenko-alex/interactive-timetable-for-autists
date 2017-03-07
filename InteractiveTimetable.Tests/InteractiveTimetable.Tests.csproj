@@ -72,6 +72,7 @@
     <Compile Include="Repositories\CriterionDefinitionRepositoryTests.cs" />
     <Compile Include="Repositories\CriterionGradeRepositoryTests.cs" />
     <Compile Include="Repositories\CriterionGradeTypeRepositoryTests.cs" />
+    <Compile Include="Repositories\ScheduleItemRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

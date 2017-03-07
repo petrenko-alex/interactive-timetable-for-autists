@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
@@ -6,29 +8,63 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class ScheduleItemRepository : BaseRepository
     {
-        public ScheduleItemRepository(SQLiteConnection connection) : base(connection)
+        internal ScheduleItemRepository(SQLiteConnection connection) : base(connection)
         {
         }
 
-        public ScheduleItem GetScheduleItem(int id)
+        internal ScheduleItem GetScheduleItem(int itemId)
         {
-            return _database.GetItem<ScheduleItem>(id);
+            return _database.GetItem<ScheduleItem>(itemId);
         }
 
-        public IEnumerable<ScheduleItem> GetScheduleItems()
+        internal IEnumerable<ScheduleItem> GetScheduleItems()
         {
             return _database.GetItems<ScheduleItem>();
         }
 
-        public int SaveScheduleItem(ScheduleItem scheduleItem)
+        internal IEnumerable<ScheduleItem> GetScheduleItemsOfSchedule(
+            int scheduleId)
         {
-            return _database.SaveItem(scheduleItem);
+            var allScheduleItems = GetScheduleItems();
+
+            /*
+             * Getting schedule items belonging to schedule 
+             * and ordered by order number
+             */ 
+            var scheduleItemsOfSchedule = allScheduleItems.
+                    Where(x => x.ScheduleId == scheduleId).
+                    OrderBy(x => x.OrderNumber);
+
+            return scheduleItemsOfSchedule;
         }
 
-        public int DeleteScheduleItem(int id)
+        internal int SaveScheduleItem(ScheduleItem item)
         {
-            return _database.DeleteItem<ScheduleItem>(id);
+            /* Data validation */
+            Validate(item);
+
+            return _database.SaveItem(item);
         }
 
+        internal int DeleteScheduleItem(int itemId)
+        {
+            return _database.DeleteItem<ScheduleItem>(itemId);
+        }
+
+        internal void Validate(ScheduleItem item)
+        {
+            /* Argument is not set */
+            if (item == null)
+            {
+                throw new ArgumentException("Schedule item is not set");
+            }
+
+            /* Not valid order number */
+            if (item.OrderNumber <= 0)
+            {
+                throw new ArgumentException("Order number can't be less " +
+                                            "or equal to 0");
+            }
+        }
     }
 }
