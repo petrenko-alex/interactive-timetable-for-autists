@@ -418,5 +418,27 @@ namespace InteractiveTimetable.Tests.Managers
             Assert.AreEqual(true, isPresent);
             Assert.AreEqual(false, notPresent);
         }
+
+        [Test]
+        public void IsCardExist()
+        {
+            // arrange
+            int notExistCardId = 22;
+            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            Card card = new Card()
+            {
+                PhotoPath = "path/to/photo.jpg",
+                CardTypeId = activityType.Id
+            };
+            var cardId = _manager.SaveCard(card);
+
+            // act
+            var isExist = _manager.IsCardExist(cardId);
+            var notExist = _manager.IsCardExist(notExistCardId);
+
+            // assert
+            Assert.AreEqual(true, isExist);
+            Assert.AreEqual(false, notExist);
+        }
     }
 }

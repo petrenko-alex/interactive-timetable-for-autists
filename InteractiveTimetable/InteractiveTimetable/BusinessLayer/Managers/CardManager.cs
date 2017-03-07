@@ -9,7 +9,7 @@ using SQLite;
 
 namespace InteractiveTimetable.BusinessLayer.Managers
 {
-    class CardManager
+    internal class CardManager
     {
         private CardRepository _repository;
 
@@ -57,6 +57,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return CardTypes.IsMotivationGoalCardType(card.CardTypeId);
         }
 
+        public bool IsCardExist(int cardId)
+        {
+            return GetCard(cardId) != null;
+        }
+
         public IEnumerable<Card> GetActivityCards()
         {
             return GetCards().Where(
@@ -67,7 +72,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         {
             return GetCards().Where(
                 x => CardTypes.IsMotivationGoalCardType(x.CardTypeId));
-        }
+        } 
 
         public bool IsCardInPresentTimetable(int cardId)
         {
