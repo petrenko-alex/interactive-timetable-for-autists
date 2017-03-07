@@ -7,8 +7,11 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class ScheduleRepository : BaseRepository
     {
+        internal ScheduleItemRepository ScheduleItems;
+
         internal ScheduleRepository(SQLiteConnection connection) : base(connection)
         {
+            ScheduleItems = new ScheduleItemRepository(connection);
         }
 
         internal Schedule GetSchedule(int scheduleId)
