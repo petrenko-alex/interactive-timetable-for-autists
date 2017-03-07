@@ -13,9 +13,12 @@ namespace InteractiveTimetable.BusinessLayer.Managers
     {
         private CardRepository _repository;
 
+        public readonly CardTypeRepository CardTypes;
+
         public CardManager(SQLiteConnection connection)
         {
             _repository = new CardRepository(connection);
+            CardTypes = new CardTypeRepository(connection);
         }
 
         public Card GetCard(int cardId)
@@ -45,26 +48,25 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         public bool IsActivityCard(int cardId)
         {
             var card = GetCard(cardId);
-            return _repository.CardTypes.IsActivityCardType(card.CardTypeId);
+            return CardTypes.IsActivityCardType(card.CardTypeId);
         }
 
         public bool IsMotivationGoalCard(int cardId)
         {
             var card = GetCard(cardId);
-            return _repository.CardTypes.
-                               IsMotivationGoalCardType(card.CardTypeId);
+            return CardTypes.IsMotivationGoalCardType(card.CardTypeId);
         }
 
         public IEnumerable<Card> GetActivityCards()
         {
             return GetCards().Where(
-                x => _repository.CardTypes.IsActivityCardType(x.CardTypeId));
+                x => CardTypes.IsActivityCardType(x.CardTypeId));
         }
 
         public IEnumerable<Card> GetMotivationGoalCards()
         {
             return GetCards().Where(
-                x => _repository.CardTypes.IsMotivationGoalCardType(x.CardTypeId));
+                x => CardTypes.IsMotivationGoalCardType(x.CardTypeId));
         }
 
         public bool IsCardInPresentTimetable(int cardId)

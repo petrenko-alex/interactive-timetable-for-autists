@@ -9,11 +9,8 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class CardRepository : BaseRepository
     {
-        internal readonly CardTypeRepository CardTypes;
-
         public CardRepository(SQLiteConnection connection) : base(connection)
         {
-            CardTypes = new CardTypeRepository(connection);
         }
 
         public Card GetCard(int cardId)
