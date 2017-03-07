@@ -9,7 +9,7 @@ namespace InteractiveTimetable.BusinessLayer.Models
     public class Schedule : BusinessEntityBase
     {
         [NotNull]
-        public DateTime CreateTime { get; set; } = DateTime.Now.Date;
+        public DateTime CreateTime { get; set; } = DateTime.Now;
 
         public DateTime FinishTime { get; set; }
 
