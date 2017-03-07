@@ -226,10 +226,11 @@ namespace InteractiveTimetable.Tests.Repositories
         public void DeleteNotExistingGrade()
         {
             // arrange
+            int notExistingId = 21;
 
             // act
-            _repository.DeleteCriterionGrade(21);
-            var deletedGrade = _repository.GetCriterionGrade(21);
+            _repository.DeleteCriterionGrade(notExistingId);
+            var deletedGrade = _repository.GetCriterionGrade(notExistingId);
 
             // assert
             Assert.AreEqual(null, deletedGrade);
