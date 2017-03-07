@@ -34,6 +34,7 @@
     <Compile Include="BusinessLayer\Managers\CardManager.cs" />
     <Compile Include="BusinessLayer\Managers\DiagnosticManager.cs" />
     <Compile Include="BusinessLayer\Managers\HospitalTripManager.cs" />
+    <Compile Include="BusinessLayer\Managers\ScheduleManager.cs" />
     <Compile Include="BusinessLayer\Models\Card.cs" />
     <Compile Include="BusinessLayer\Models\CardType.cs" />
     <Compile Include="BusinessLayer\Contracts\BusinessEntityBase.cs" />
