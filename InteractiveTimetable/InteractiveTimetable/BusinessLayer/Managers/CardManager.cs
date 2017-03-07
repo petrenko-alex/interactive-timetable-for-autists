@@ -11,7 +11,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 {
     internal class CardManager
     {
-        private CardRepository _repository;
+        private readonly CardRepository _repository;
 
         public readonly CardTypeRepository CardTypes;
 
