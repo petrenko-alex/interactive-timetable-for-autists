@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using InteractiveTimetable.BusinessLayer.Models;
 using SQLite;
 
@@ -6,28 +7,48 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class ScheduleRepository : BaseRepository
     {
-        public ScheduleRepository(SQLiteConnection connection) : base(connection)
+        internal ScheduleRepository(SQLiteConnection connection) : base(connection)
         {
         }
 
-        public Schedule GetSchedule(int id)
+        internal Schedule GetSchedule(int scheduleId)
         {
-            return _database.GetItem<Schedule>(id);
+            return _database.GetItemCascade<Schedule>(scheduleId);
         }
 
-        public IEnumerable<Schedule> GetSchedules()
+        internal IEnumerable<Schedule> GetSchedules()
         {
-            return _database.GetItems<Schedule>();
+            return _database.GetItemsCascade<Schedule>();
         }
 
-        public int SaveSchedule(Schedule schedule)
+        internal IEnumerable<Schedule> GetUserSchedules(int userId)
         {
-            return _database.SaveItem(schedule);
+            var allSchedules = GetSchedules();
+
+            /*
+             * Getting all schedules belonging to user and 
+             * ordered by creation time
+             */ 
+            var userSchedules = allSchedules.
+                    Where(x => x.UserId == userId).
+                    OrderBy(x => x.CreateTime);
+
+            return userSchedules;
         }
 
-        public int DeleteSchedule(int id)
+        internal int SaveSchedule(Schedule schedule)
         {
-            return _database.DeleteItem<Schedule>(id);
+            return _database.SaveItemCascade(schedule);
+        }
+
+        internal int DeleteSchedule(int scheduleId)
+        {
+            return _database.DeleteItem<Schedule>(scheduleId);
+        }
+
+        internal void DeleteScheduleCascade(Schedule schedule)
+        {
+            _database.DeleteItemCascade(schedule);
         }
     }
 }
