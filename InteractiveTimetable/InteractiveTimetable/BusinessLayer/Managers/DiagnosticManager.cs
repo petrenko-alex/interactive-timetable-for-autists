@@ -68,7 +68,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                      criterionsAndGrades);
 
             /* Updating diagnostic data */
-            UpgradeGrades(diagnostic, criterionsAndGrades);
+            UpdateGrades(diagnostic, criterionsAndGrades);
             diagnostic.Date = dateTime;
 
             return _repository.SaveDiagnostic(diagnostic);
@@ -188,7 +188,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 var criterion = _repository.Grades.CriterionDefinitions.
                             GetCriterionDefinitionByDefinition(pair.Key);
 
-                CriterionGrade grade = new CriterionGrade()
+                var grade = new CriterionGrade()
                 {
                     Grade = pair.Value,
                     CriterionDefinitionId = criterion.Id
@@ -203,7 +203,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return grades;
         }
 
-        private void UpgradeGrades(Diagnostic diagnostic, 
+        private void UpdateGrades(Diagnostic diagnostic, 
             IDictionary<string, string> criterionsAndGrades)
         {
             // TODO: Add this to method comment
