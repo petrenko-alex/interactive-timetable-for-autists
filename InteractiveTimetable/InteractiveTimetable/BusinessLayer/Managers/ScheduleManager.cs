@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.DataAccessLayer;
 using SQLite;
@@ -9,11 +10,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
     class ScheduleManager
     {
         private readonly ScheduleRepository _repository;
-        public readonly CardManager Cards;
+        public readonly CardRepository Cards;
 
         public ScheduleManager(SQLiteConnection connection)
         {
-            Cards = new CardManager(connection);
+            Cards = new CardRepository(connection);
             _repository = new ScheduleRepository(connection);
         }
 

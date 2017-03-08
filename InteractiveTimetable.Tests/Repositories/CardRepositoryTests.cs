@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using InteractiveTimetable.BusinessLayer.Managers;
 using InteractiveTimetable.BusinessLayer.Models;
+using InteractiveTimetable.DataAccessLayer;
 using NUnit.Framework;
 using SQLite;
 
-namespace InteractiveTimetable.Tests.Managers
+namespace InteractiveTimetable.Tests.Repositories
 {
     [TestFixture]
-    class CardManagerTests
+    class CardRepositoryTests
     {
         private SQLiteConnection _connection;
-        private CardManager _manager;
+        private CardRepository _repository;
 
         public string GenerateRandomString(int stringLength)
         {
@@ -33,7 +33,7 @@ namespace InteractiveTimetable.Tests.Managers
             _connection = new SQLiteConnection(dbPath);
 
             /* Initialize repository */
-            _manager = new CardManager(_connection);
+            _repository = new CardRepository(_connection);
         }
 
         [TearDown]
@@ -47,7 +47,7 @@ namespace InteractiveTimetable.Tests.Managers
         public void CreateSimpleCard()
         {
             // arrange
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             Card card = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
@@ -55,8 +55,8 @@ namespace InteractiveTimetable.Tests.Managers
             };
 
             // act
-            var cardId = _manager.SaveCard(card);
-            var addedCard = _manager.GetCard(cardId);
+            var cardId = _repository.SaveCard(card);
+            var addedCard = _repository.GetCard(cardId);
 
             // assert
             Assert.AreEqual(card, addedCard);
@@ -66,7 +66,7 @@ namespace InteractiveTimetable.Tests.Managers
         public void CreateCardWithIncorrectPath()
         {
             // arrange
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             Card card = new Card()
             {
                 PhotoPath = GenerateRandomString(1025),
@@ -79,7 +79,7 @@ namespace InteractiveTimetable.Tests.Managers
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
             {
-                _manager.SaveCard(card);
+                _repository.SaveCard(card);
             });
             Assert.AreEqual(exceptionString, exception.Message);
         }
@@ -88,7 +88,7 @@ namespace InteractiveTimetable.Tests.Managers
         public void CreateCardWithScheduleItems()
         {
             // arrange
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             ScheduleItem item1 = new ScheduleItem()
             {
                 OrderNumber = 1
@@ -109,8 +109,8 @@ namespace InteractiveTimetable.Tests.Managers
             };
 
             // act
-            var cardId = _manager.SaveCard(card);
-            var addedCard = _manager.GetCard(cardId);
+            var cardId = _repository.SaveCard(card);
+            var addedCard = _repository.GetCard(cardId);
 
             // assert
             Assert.AreEqual(2, addedCard.ScheduleItems.Count);
@@ -122,20 +122,20 @@ namespace InteractiveTimetable.Tests.Managers
         public void UpdateSimpleCard()
         {
             // arrange
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             Card card = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
                 CardTypeId = activityType.Id
             };
-            var cardId = _manager.SaveCard(card);
-            var addedCard = _manager.GetCard(cardId);
+            var cardId = _repository.SaveCard(card);
+            var addedCard = _repository.GetCard(cardId);
             var newPath = "path/to/song.wav";
 
             // act
             addedCard.PhotoPath = newPath;
-            _manager.SaveCard(addedCard);
-            addedCard = _manager.GetCard(cardId);
+            _repository.SaveCard(addedCard);
+            addedCard = _repository.GetCard(cardId);
 
             // assert
             Assert.AreEqual(newPath, addedCard.PhotoPath);
@@ -192,17 +192,17 @@ namespace InteractiveTimetable.Tests.Managers
         public void DeleteSimpleCard()
         {
             // arrange
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             Card card = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
                 CardTypeId = activityType.Id
             };
-            var cardId = _manager.SaveCard(card);
+            var cardId = _repository.SaveCard(card);
 
             // act
-            _manager.DeleteCard(cardId);
-            var deletedCard = _manager.GetCard(cardId);
+            _repository.DeleteCard(cardId);
+            var deletedCard = _repository.GetCard(cardId);
 
             // assert
             Assert.AreEqual(null, deletedCard);
@@ -212,7 +212,7 @@ namespace InteractiveTimetable.Tests.Managers
         public void DeleteWithScheduleItems()
         {
             // arrange
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             ScheduleItem item1 = new ScheduleItem()
             {
                 OrderNumber = 1
@@ -231,14 +231,14 @@ namespace InteractiveTimetable.Tests.Managers
                     item2
                 }
             };
-            var cardId = _manager.SaveCard(card);
-            card = _manager.GetCard(cardId);
+            var cardId = _repository.SaveCard(card);
+            card = _repository.GetCard(cardId);
             var item1Id = card.ScheduleItems[0].Id;
             var item2Id = card.ScheduleItems[1].Id;
 
             // act
-            _manager.DeleteCard(cardId);
-            var deletedCard = _manager.GetCard(cardId);
+            _repository.DeleteCard(cardId);
+            var deletedCard = _repository.GetCard(cardId);
             // TODO: remove comment sign when ScheduleItemRepository is ready
             //var deletedItem1 = _scheduleItemRepository.GetScheduleItem(item1Id);
             //var deletedItem2 = _scheduleItemRepository.GetScheduleItem(item2Id);
@@ -254,9 +254,9 @@ namespace InteractiveTimetable.Tests.Managers
         {
             // arrange
             CardType activityType = 
-                _manager.CardTypes.GetActivityCardType();
+                _repository.CardTypes.GetActivityCardType();
             CardType motivationGoalType =
-                    _manager.CardTypes.GetMotivationGoalCardType();
+                    _repository.CardTypes.GetMotivationGoalCardType();
             Card card1 = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
@@ -272,12 +272,12 @@ namespace InteractiveTimetable.Tests.Managers
                 PhotoPath = "path/to/photo.jpg",
                 CardTypeId = motivationGoalType.Id
             };
-            _manager.SaveCard(card1);
-            _manager.SaveCard(card2);
-            _manager.SaveCard(card3);
+            _repository.SaveCard(card1);
+            _repository.SaveCard(card2);
+            _repository.SaveCard(card3);
 
             // act
-            var cards = _manager.GetActivityCards().ToList();
+            var cards = _repository.GetActivityCards().ToList();
 
             // assert
             Assert.AreEqual(2, cards.Count);
@@ -288,9 +288,9 @@ namespace InteractiveTimetable.Tests.Managers
         {
             // arrange
             CardType activityType =
-                _manager.CardTypes.GetActivityCardType();
+                _repository.CardTypes.GetActivityCardType();
             CardType motivationGoalType =
-                    _manager.CardTypes.GetMotivationGoalCardType();
+                    _repository.CardTypes.GetMotivationGoalCardType();
             Card card1 = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
@@ -306,12 +306,12 @@ namespace InteractiveTimetable.Tests.Managers
                 PhotoPath = "path/to/photo.jpg",
                 CardTypeId = motivationGoalType.Id
             };
-            _manager.SaveCard(card1);
-            _manager.SaveCard(card2);
-            _manager.SaveCard(card3);
+            _repository.SaveCard(card1);
+            _repository.SaveCard(card2);
+            _repository.SaveCard(card3);
 
             // act
-            var cards = _manager.GetMotivationGoalCards().ToList();
+            var cards = _repository.GetMotivationGoalCards().ToList();
 
             // assert
             Assert.AreEqual(1, cards.Count);
@@ -322,9 +322,9 @@ namespace InteractiveTimetable.Tests.Managers
         {
             // arrange
             CardType activityType =
-                _manager.CardTypes.GetActivityCardType();
+                _repository.CardTypes.GetActivityCardType();
             CardType motivationGoalType =
-                    _manager.CardTypes.GetMotivationGoalCardType();
+                    _repository.CardTypes.GetMotivationGoalCardType();
             Card card1 = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
@@ -335,12 +335,12 @@ namespace InteractiveTimetable.Tests.Managers
                 PhotoPath = "path/to/photo.jpg",
                 CardTypeId = motivationGoalType.Id
             };
-            var card1Id = _manager.SaveCard(card1);
-            var card2Id = _manager.SaveCard(card2);
+            var card1Id = _repository.SaveCard(card1);
+            var card2Id = _repository.SaveCard(card2);
 
             // act
-            var isActivity = _manager.IsActivityCard(card1Id);
-            var isNotActivity = _manager.IsActivityCard(card2Id);
+            var isActivity = _repository.IsActivityCard(card1Id);
+            var isNotActivity = _repository.IsActivityCard(card2Id);
 
             // assert
             Assert.AreEqual(true, isActivity);
@@ -352,9 +352,9 @@ namespace InteractiveTimetable.Tests.Managers
         {
             // arrange
             CardType activityType =
-                _manager.CardTypes.GetActivityCardType();
+                _repository.CardTypes.GetActivityCardType();
             CardType motivationGoalType =
-                    _manager.CardTypes.GetMotivationGoalCardType();
+                    _repository.CardTypes.GetMotivationGoalCardType();
             Card card1 = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
@@ -365,12 +365,12 @@ namespace InteractiveTimetable.Tests.Managers
                 PhotoPath = "path/to/photo.jpg",
                 CardTypeId = motivationGoalType.Id
             };
-            var card1Id = _manager.SaveCard(card1);
-            var card2Id = _manager.SaveCard(card2);
+            var card1Id = _repository.SaveCard(card1);
+            var card2Id = _repository.SaveCard(card2);
 
             // act
-            var isMotivationGoalCard = _manager.IsMotivationGoalCard(card2Id);
-            var isNotMotivationGoalCard = _manager.IsMotivationGoalCard(card1Id);
+            var isMotivationGoalCard = _repository.IsMotivationGoalCard(card2Id);
+            var isNotMotivationGoalCard = _repository.IsMotivationGoalCard(card1Id);
 
             // assert
             Assert.AreEqual(true, isMotivationGoalCard);
@@ -382,7 +382,7 @@ namespace InteractiveTimetable.Tests.Managers
         public void IsCardInPresentTimetable()
         {
             // arrange
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             ScheduleItem item1 = new ScheduleItem()
             {
                 OrderNumber = 1
@@ -407,12 +407,12 @@ namespace InteractiveTimetable.Tests.Managers
                 PhotoPath = "path/to/photo1.jpg",
                 CardTypeId = activityType.Id,
             };
-            var card1Id = _manager.SaveCard(card1);
-            var card2Id = _manager.SaveCard(card2);
+            var card1Id = _repository.SaveCard(card1);
+            var card2Id = _repository.SaveCard(card2);
 
             // act
-            var isPresent = _manager.IsCardInPresentTimetable(card1Id);
-            var notPresent = _manager.IsCardInPresentTimetable(card2Id);
+            var isPresent = _repository.IsCardInPresentTimetable(card1Id);
+            var notPresent = _repository.IsCardInPresentTimetable(card2Id);
 
             // assert
             Assert.AreEqual(true, isPresent);
@@ -424,17 +424,17 @@ namespace InteractiveTimetable.Tests.Managers
         {
             // arrange
             int notExistCardId = 22;
-            CardType activityType = _manager.CardTypes.GetActivityCardType();
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
             Card card = new Card()
             {
                 PhotoPath = "path/to/photo.jpg",
                 CardTypeId = activityType.Id
             };
-            var cardId = _manager.SaveCard(card);
+            var cardId = _repository.SaveCard(card);
 
             // act
-            var isExist = _manager.IsCardExist(cardId);
-            var notExist = _manager.IsCardExist(notExistCardId);
+            var isExist = _repository.IsCardExist(cardId);
+            var notExist = _repository.IsCardExist(notExistCardId);
 
             // assert
             Assert.AreEqual(true, isExist);
