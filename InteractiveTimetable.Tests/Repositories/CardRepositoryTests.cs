@@ -14,6 +14,7 @@ namespace InteractiveTimetable.Tests.Repositories
     {
         private SQLiteConnection _connection;
         private CardRepository _repository;
+        private ScheduleItemRepository _scheduleItemRepository;
 
         public string GenerateRandomString(int stringLength)
         {
@@ -34,6 +35,7 @@ namespace InteractiveTimetable.Tests.Repositories
 
             /* Initialize repository */
             _repository = new CardRepository(_connection);
+            _scheduleItemRepository = new ScheduleItemRepository(_connection);
         }
 
         [TearDown]
@@ -145,47 +147,55 @@ namespace InteractiveTimetable.Tests.Repositories
         [Test]
         public void UpdateCardWithScheduleItems()
         {
-            // TODO: Implement this when scheduleItem repository is ready
-            // use UserManagerTests->EditUserWithTripEditing method as hint
-//            // arrange
-//            CardType activityType = _manager.CardTypes.GetActivityCardType();
-//            ScheduleItem item1 = new ScheduleItem()
-//            {
-//                OrderNumber = 1
-//            };
-//            ScheduleItem item2 = new ScheduleItem()
-//            {
-//                OrderNumber = 2
-//            };
-//            ScheduleItem item3 = new ScheduleItem()
-//            {
-//                OrderNumber = 3
-//            };
-//            Card card = new Card()
-//            {
-//                PhotoPath = "path/to/photo.jpg",
-//                CardTypeId = activityType.Id,
-//                ScheduleItems = new List<ScheduleItem>()
-//                {
-//                    item1,
-//                    item2
-//                }
-//            };
-//            var cardId = _manager.SaveCard(card);
-//            var addedCard = _manager.GetCard(cardId);
-//
-//            // act
-//            addedCard.ScheduleItems[1].OrderNumber = 5;
-//            addedCard.ScheduleItems.Add(item3);
-//            addedCard.ScheduleItems.RemoveAt(0);
-//            _manager.SaveCard(addedCard);
-//            addedCard = _manager.GetCard(cardId);
-//
-//            // assert
-//            Assert.AreEqual(2, addedCard.ScheduleItems.Count);
-//            Assert.AreEqual(5, addedCard.ScheduleItems[0].OrderNumber);
-//            Assert.AreEqual(3, addedCard.ScheduleItems[1].OrderNumber);
-            Assert.Pass("Need to implement");
+            // arrange
+            CardType activityType = _repository.CardTypes.GetActivityCardType();
+            ScheduleItem item1 = new ScheduleItem()
+            {
+                OrderNumber = 1
+            };
+            ScheduleItem item2 = new ScheduleItem()
+            {
+                OrderNumber = 2
+            };
+            ScheduleItem item3 = new ScheduleItem()
+            {
+                OrderNumber = 3
+            };
+            Card card = new Card()
+            {
+                PhotoPath = "path/to/photo.jpg",
+                CardTypeId = activityType.Id,
+                ScheduleItems = new List<ScheduleItem>()
+                {
+                    item1,
+                    item2
+                }
+            };
+            var cardId = _repository.SaveCard(card);
+            var addedCard = _repository.GetCard(cardId);
+
+            // act
+
+            /* Change first card */
+            item2 = addedCard.ScheduleItems[1];
+            item2.OrderNumber = 5;
+            _scheduleItemRepository.SaveScheduleItem(item2);
+
+            /* Add new card */
+            item3.CardId = addedCard.Id;
+            _scheduleItemRepository.SaveScheduleItem(item3);
+
+            /* Delete card */
+            var itemToDelete = addedCard.ScheduleItems[0];
+            _scheduleItemRepository.DeleteScheduleItem(itemToDelete.Id);
+
+            //_repository.SaveCard(addedCard);
+            addedCard = _repository.GetCard(cardId);
+
+            // assert
+            Assert.AreEqual(2, addedCard.ScheduleItems.Count);
+            Assert.AreEqual(5, addedCard.ScheduleItems[0].OrderNumber);
+            Assert.AreEqual(3, addedCard.ScheduleItems[1].OrderNumber);
         }
 
         [Test]
@@ -237,16 +247,15 @@ namespace InteractiveTimetable.Tests.Repositories
             var item2Id = card.ScheduleItems[1].Id;
 
             // act
-            _repository.DeleteCard(cardId);
+            _repository.DeleteCardCascade(card);
             var deletedCard = _repository.GetCard(cardId);
-            // TODO: remove comment sign when ScheduleItemRepository is ready
-            //var deletedItem1 = _scheduleItemRepository.GetScheduleItem(item1Id);
-            //var deletedItem2 = _scheduleItemRepository.GetScheduleItem(item2Id);
+            var deletedItem1 = _scheduleItemRepository.GetScheduleItem(item1Id);
+            var deletedItem2 = _scheduleItemRepository.GetScheduleItem(item2Id);
 
             // assert
             Assert.AreEqual(null, deletedCard);
-            //Assert.AreEqual(null, deletedItem1);
-            //Assert.AreEqual(null, deletedItem2);
+            Assert.AreEqual(null, deletedItem1);
+            Assert.AreEqual(null, deletedItem2);
         }
 
         [Test]
@@ -375,7 +384,6 @@ namespace InteractiveTimetable.Tests.Repositories
             // assert
             Assert.AreEqual(true, isMotivationGoalCard);
             Assert.AreEqual(false, isNotMotivationGoalCard);
-
         }
 
         [Test]

@@ -67,7 +67,7 @@
     <Compile Include="Managers\HospitalTripManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Managers\UserManagerTests.cs" />
-    <Compile Include="Managers\CardManagerTests.cs" />
+    <Compile Include="Repositories\CardRepositoryTests.cs" />
     <Compile Include="Repositories\CardTypeRepositoryTests.cs" />
     <Compile Include="Repositories\CriterionDefinitionRepositoryTests.cs" />
     <Compile Include="Repositories\CriterionGradeRepositoryTests.cs" />
