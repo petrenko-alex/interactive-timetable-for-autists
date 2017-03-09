@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using InteractiveTimetable.BusinessLayer.Managers;
 using InteractiveTimetable.BusinessLayer.Models;
+using InteractiveTimetable.DataAccessLayer;
 using NUnit.Framework;
 using SQLite;
 
@@ -15,7 +16,20 @@ namespace InteractiveTimetable.Tests.Managers
         private SQLiteConnection _connection;
         private ScheduleManager _manager;
         private UserManager _userManager;
+        private ScheduleItemRepository _scheduleItemRepository;
         private User _user;
+
+        public static DateTime TrimMilliseconds(DateTime dt)
+        {
+            return new DateTime(
+                dt.Year, 
+                dt.Month, 
+                dt.Day, 
+                dt.Hour, 
+                dt.Minute, 
+                dt.Second, 
+                0);
+        }
 
         [SetUp]
         public void InitializationBeforeTests()
@@ -27,6 +41,7 @@ namespace InteractiveTimetable.Tests.Managers
             /* Initializing managers */
             _manager = new ScheduleManager(_connection);
             _userManager = new UserManager(_connection);
+            _scheduleItemRepository = new ScheduleItemRepository(_connection);
 
             /* Creating user */
             _user = new User()
@@ -364,22 +379,90 @@ namespace InteractiveTimetable.Tests.Managers
         public void DeleteSchedule()
         {
             // arrange
+            var activityCards = _manager.Cards.GetActivityCards().
+                                         Select(x => x.Id).
+                                         ToList();
+
+            var goalCards = _manager.Cards.GetMotivationGoalCards().
+                                     Select(x => x.Id).
+                                     ToList();
+
+            var ids = activityCards.Concat(goalCards).ToList();
+            var scheduleId = _manager.SaveSchedule(_user.Id, ids);
+            var addedSchedule = _manager.GetSchedule(scheduleId);
+            var item1Id = addedSchedule.ScheduleItems[0].Id;
+            var item2Id = addedSchedule.ScheduleItems[1].Id;
+            var item3Id = addedSchedule.ScheduleItems[2].Id;
+            var item4Id = addedSchedule.ScheduleItems[3].Id;
 
             // act
+            _manager.DeleteSchedule(scheduleId);
+            var deletedSchedule = _manager.GetSchedule(scheduleId);
+            var deletedItem1 =
+                    _scheduleItemRepository.GetScheduleItem(item1Id);
+            var deletedItem2 =
+                    _scheduleItemRepository.GetScheduleItem(item2Id);
+            var deletedItem3 =
+                    _scheduleItemRepository.GetScheduleItem(item3Id);
+            var deletedItem4 =
+                    _scheduleItemRepository.GetScheduleItem(item4Id);
 
             // assert
+            Assert.AreEqual(null, deletedSchedule);
+            Assert.AreEqual(null, deletedItem1);
+            Assert.AreEqual(null, deletedItem2);
+            Assert.AreEqual(null, deletedItem3);
+            Assert.AreEqual(null, deletedItem4);
         }
 
         [Test]
         public void FinishSchedule()
         {
-            
+            // arrange
+            var activityCards = _manager.Cards.GetActivityCards().
+                                         Select(x => x.Id).
+                                         ToList();
+
+            var goalCards = _manager.Cards.GetMotivationGoalCards().
+                                     Select(x => x.Id).
+                                     ToList();
+
+            var ids = activityCards.Concat(goalCards).ToList();
+
+            var scheduleId = _manager.SaveSchedule(_user.Id, ids);
+
+            // act
+            _manager.FinishSchedule(scheduleId);
+            var finishedSchedule = _manager.GetSchedule(scheduleId);
+
+            // assert
+            Assert.AreEqual(TrimMilliseconds(DateTime.Now),
+                            TrimMilliseconds(finishedSchedule.FinishTime));
         }
 
         [Test]
         public void CompleteSchedule()
         {
-            
+            // arrange
+            var activityCards = _manager.Cards.GetActivityCards().
+                                         Select(x => x.Id).
+                                         ToList();
+
+            var goalCards = _manager.Cards.GetMotivationGoalCards().
+                                     Select(x => x.Id).
+                                     ToList();
+
+            var ids = activityCards.Concat(goalCards).ToList();
+            var scheduleId = _manager.SaveSchedule(_user.Id, ids);
+
+            // act
+            _manager.CompleteSchedule(scheduleId);
+            var finishedSchedule = _manager.GetSchedule(scheduleId);
+
+            // assert
+            Assert.AreEqual(TrimMilliseconds(DateTime.Now),
+                            TrimMilliseconds(finishedSchedule.FinishTime));
+            Assert.AreEqual(true, finishedSchedule.IsCompleted);
         }
     }
 }
