@@ -28,6 +28,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return _repository.GetUserSchedules(userId);
         }
 
+        public IEnumerable<int> GetCardIds(int scheduleId)
+        {
+            return GetCardIds(GetSchedule(scheduleId));
+        }
+
         public int SaveSchedule(int userId, List<int> cardIds)
         {
             /* Data validation */
@@ -190,6 +195,13 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 _repository.ScheduleItems.SaveScheduleItem(item);
             }
 
+        }
+
+        private IEnumerable<int> GetCardIds(Schedule schedule)
+        {
+            return schedule.ScheduleItems.
+                            OrderBy(x => x.OrderNumber).
+                            Select(x => x.CardId);
         }
     }
 }
