@@ -7,7 +7,7 @@ using SQLite;
 
 namespace InteractiveTimetable.BusinessLayer.Managers
 {
-    class ScheduleManager
+    public class ScheduleManager
     {
         private readonly ScheduleRepository _repository;
         public readonly CardRepository Cards;

@@ -6,7 +6,7 @@ using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    internal class CardRepository : BaseRepository
+    public class CardRepository : BaseRepository
     {
         public readonly CardTypeRepository CardTypes;
 

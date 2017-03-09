@@ -5,7 +5,7 @@ using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    internal class CardTypeRepository : BaseRepository
+    public class CardTypeRepository : BaseRepository
     {
         private const string ActivityTypeName = "ACTIVITY_CARD";
         private const string MotivationGoalTypeName = "MOTIVATION_GOAL_CARD";

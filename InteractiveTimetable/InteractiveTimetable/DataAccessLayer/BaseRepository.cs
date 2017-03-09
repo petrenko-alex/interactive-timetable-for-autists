@@ -3,7 +3,7 @@ using SQLite;
 
 namespace InteractiveTimetable.DataAccessLayer
 {
-    internal abstract class BaseRepository
+    public abstract class BaseRepository
     {
         internal Database _database = null;
 
