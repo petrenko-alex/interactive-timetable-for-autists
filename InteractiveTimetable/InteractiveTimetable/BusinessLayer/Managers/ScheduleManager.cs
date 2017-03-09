@@ -185,7 +185,8 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 var item = new ScheduleItem()
                 {
                     OrderNumber = i + 1,
-                    CardId = cardIds.ElementAt(i)
+                    CardId = cardIds.ElementAt(i),
+                    ScheduleId = schedule.Id
                 };
 
                 /* Validate schedule item before saving */
