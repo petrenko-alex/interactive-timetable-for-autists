@@ -91,9 +91,9 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* Checking that ... */
 
             /* ... cardIds is set */
-            if (cardIds == null)
+            if (cardIds == null || cardIds.Count == 0)
             {
-                throw new ArgumentException("Card ids are not set");
+                throw new ArgumentException("Card ids are not set.");
             }
 
             bool hasActivityCard = false;
@@ -105,7 +105,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 if (!Cards.IsCardExist(cardId))
                 {
                     throw new ArgumentException($"Card with id: \"{cardId}\"" +
-                                                " doesn't exist" );
+                                                " doesn't exist." );
                 }
 
                 /* ... only one motivation goal card is set */
