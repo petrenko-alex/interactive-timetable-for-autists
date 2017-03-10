@@ -22,15 +22,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
         public override bool Equals(object obj)
         {
-            /* If obj is null return false */
-            if (obj == null)
-            {
-                return false;
-            }
-
-            /* If obj can not be cast to class type return false*/
             CriterionDefinition definition = obj as CriterionDefinition;
-            if ((System.Object)definition == null)
+            if (definition == null)
             {
                 return false;
             }
@@ -38,6 +31,18 @@ namespace InteractiveTimetable.BusinessLayer.Models
             return Number.Equals(definition.Number) &&
                    Definition.Equals(definition.Definition) &&
                    CriterionGradeTypeId.Equals(definition.CriterionGradeTypeId);
+        }
+
+        public bool Equals(CriterionDefinition obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return Number.Equals(obj.Number) &&
+                   Definition.Equals(obj.Definition) &&
+                   CriterionGradeTypeId.Equals(obj.CriterionGradeTypeId);
         }
 
         public override string ToString()

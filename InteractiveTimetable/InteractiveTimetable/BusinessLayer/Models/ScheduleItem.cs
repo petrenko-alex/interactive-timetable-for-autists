@@ -17,15 +17,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
         public override bool Equals(object obj)
         {
-            /* If obj is null return false */
-            if (obj == null)
-            {
-                return false;
-            }
-
-            /* If obj can not be cast to class type return false*/
             ScheduleItem item = obj as ScheduleItem;
-            if ((System.Object)item == null)
+            if (item == null)
             {
                 return false;
             }
@@ -33,6 +26,18 @@ namespace InteractiveTimetable.BusinessLayer.Models
             return OrderNumber.Equals(item.OrderNumber) &&
                    ScheduleId.Equals(item.ScheduleId) &&
                    CardId.Equals(item.CardId);
+        }
+
+        public bool Equals(ScheduleItem obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return OrderNumber.Equals(obj.OrderNumber) &&
+                   ScheduleId.Equals(obj.ScheduleId) &&
+                   CardId.Equals(obj.CardId);
         }
     }
 }

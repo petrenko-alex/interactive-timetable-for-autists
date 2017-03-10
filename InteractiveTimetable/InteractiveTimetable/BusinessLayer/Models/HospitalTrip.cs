@@ -29,15 +29,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
         public override bool Equals(object obj)
         {
-            /* If obj is null return false */
-            if (obj == null)
-            {
-                return false;
-            }
-
-            /* If obj can not be cast to class type return false*/
             HospitalTrip hospitalTrip = obj as HospitalTrip;
-            if ((System.Object) hospitalTrip == null)
+            if (hospitalTrip == null)
             {
                 return false;
             }
@@ -46,6 +39,19 @@ namespace InteractiveTimetable.BusinessLayer.Models
                    StartDate.Equals(hospitalTrip.StartDate) &&
                    FinishDate.Equals(hospitalTrip.FinishDate) &&
                    UserId.Equals(hospitalTrip.UserId);
+        }
+
+        public bool Equals(HospitalTrip obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return Number.Equals(obj.Number) &&
+                   StartDate.Equals(obj.StartDate) &&
+                   FinishDate.Equals(obj.FinishDate) &&
+                   UserId.Equals(obj.UserId);
         }
     }
 }

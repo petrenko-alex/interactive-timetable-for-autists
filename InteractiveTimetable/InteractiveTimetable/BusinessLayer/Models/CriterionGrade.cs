@@ -20,22 +20,28 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
         public override bool Equals(object obj)
         {
-            /* If obj is null return false */
-            if (obj == null)
-            {
-                return false;
-            }
-
-            /* If obj can not be cast to class type return false*/
             CriterionGrade criterionGrade = obj as CriterionGrade;
-            if ((System.Object) criterionGrade == null)
+            if (criterionGrade == null)
             {
                 return false;
             }
 
             return Grade.Equals(criterionGrade.Grade) &&
-                   CriterionDefinitionId.Equals(
-                       criterionGrade.CriterionDefinitionId);
+                   CriterionDefinitionId.
+                           Equals(criterionGrade.CriterionDefinitionId) &&
+                   DiagnosticId.Equals(criterionGrade.DiagnosticId);
+        }
+
+        public bool Equals(CriterionGrade obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return Grade.Equals(obj.Grade) &&
+                   CriterionDefinitionId.Equals(obj.CriterionDefinitionId) &&
+                   DiagnosticId.Equals(obj.DiagnosticId);
         }
     }
 }
