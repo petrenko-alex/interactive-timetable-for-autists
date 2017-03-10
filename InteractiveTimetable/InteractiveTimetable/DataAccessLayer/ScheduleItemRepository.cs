@@ -53,13 +53,15 @@ namespace InteractiveTimetable.DataAccessLayer
 
         internal void Validate(ScheduleItem item)
         {
-            /* Argument is not set */
+            /* Checking that ... */
+
+            /* ... item is set */
             if (item == null)
             {
                 throw new ArgumentException("Schedule item is not set");
             }
 
-            /* Not valid order number */
+            /* ... valid order number is set */
             if (item.OrderNumber <= 0)
             {
                 throw new ArgumentException("Order number can't be less " +

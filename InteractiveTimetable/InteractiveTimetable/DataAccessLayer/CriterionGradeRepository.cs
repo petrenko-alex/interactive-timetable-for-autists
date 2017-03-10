@@ -67,6 +67,15 @@ namespace InteractiveTimetable.DataAccessLayer
 
         internal void Validate(CriterionGrade grade)
         {
+            /* Checking that ... */
+
+            /* ... grade is set */
+            if (grade == null)
+            {
+                throw new ArgumentException("Grade is not set.");
+            }
+
+            /* ... valid criterion definition id is set */
             var criterionId = grade.CriterionDefinitionId;
             var criterion = CriterionDefinitions.
                     GetCriterionDefinition(criterionId);
@@ -76,6 +85,7 @@ namespace InteractiveTimetable.DataAccessLayer
                 throw new ArgumentException("Not valid CriterionDefinitionId.");
             }
 
+            /* ... valid grade format is set */
             bool isPointGradeType = CriterionDefinitions.
                     IsPointGradeTypeCriterion(criterion.Id);
 

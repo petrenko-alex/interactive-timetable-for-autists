@@ -80,7 +80,15 @@ namespace InteractiveTimetable.DataAccessLayer
 
         private void Validate(Card card)
         {
-            /* Path to photo is longer than 1024 symbols */
+            /* Checking that ... */
+
+            /* ... card is set */
+            if (card == null)
+            {
+                throw new ArgumentException("Card is not set.");
+            }
+
+            /* ... path to photo is not longer than 1024 symbols */
             if (card.PhotoPath.Length > 1024)
             {
                 throw new ArgumentException("The length of the path " +

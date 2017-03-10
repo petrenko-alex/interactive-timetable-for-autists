@@ -128,21 +128,24 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         private void Validate(int hospitalTripId, DateTime dateTime,
             IDictionary<string, string> criterionsAndGrades)
         {
-            /* Not valid amount of criterions and grades */
+            /* Checking that ... */
+
+            /* ... criterions and grades are set */
             int amountOfCriterionsAndGrades = criterionsAndGrades.Count;
-            if (amountOfCriterionsAndGrades == 0)
+            if (criterionsAndGrades == null || amountOfCriterionsAndGrades == 0)
             {
                 throw new ArgumentException("Criterions and grades " +
                                             "are not present.");
             }
 
+            /* ... proper amount of criterions and grade is set */
             if (amountOfCriterionsAndGrades != GetNumberOfCriterions())
             {
                 throw new ArgumentException("Not all criterions and grades " +
                                             "are present");
             }
 
-            /* Diagnostic date outside of hospital trip */
+            /* ... diagnostic date is not outside of hospital trip */
             var trip = _hospitalTripManager.
                 GetHospitalTrip(hospitalTripId);
 

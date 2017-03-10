@@ -57,7 +57,16 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         {
             // TODO: Check that only symbols?
             // TODO: Check SQL injections?
-            /* Strings are longer than 255 symbols */
+
+            /* Checking that ... */
+
+            /* ... user is set */
+            if (user == null)
+            {
+                throw new ArgumentException("User is not set.");
+            }
+
+            /* ... strings are not longer than 255 symbols */
             if (user.FirstName.Length > 255)
             {
                 throw new ArgumentException("The length of a user first name " +
@@ -76,7 +85,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                             "name must be less than 255 symbols.");
             }
 
-            /* Path to photo is longer than 1024 symbols */
+            /* ... path to photo is not longer than 1024 symbols */
             if (user.PhotoPath.Length > 1024)
             {
                 throw new ArgumentException("The length of the path " +
@@ -84,7 +93,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                             "than 1024 symbols");
             }
 
-            /* Birth date is later than current date or earlier than 1990 */
+            /* ... birth date is not later than current date or earlier than 1990 */
             if (user.BirthDate.Date < DateTime.Parse("01.01.1900").Date ||
                 user.BirthDate.Date > DateTime.Today.Date)
             {
@@ -92,7 +101,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                             "set not correctly");
             }
 
-            /* Birth date is later than trip start date (when edit user) */
+            /* ... birth date is not later than trip start date (when edit user) */
             if (user.Id > 0 && user.HospitalTrips.Any())
             {
                 var firstTrip = user.

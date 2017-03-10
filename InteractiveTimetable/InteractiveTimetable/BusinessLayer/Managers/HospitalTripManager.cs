@@ -59,13 +59,21 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
         private void Validate(HospitalTrip hospitalTrip)
         {
-            /* User is not set */
+            /* Checking that ... */
+
+            /* ... hospitalTrip is set */
+            if (hospitalTrip == null)
+            {
+                throw new ArgumentException("Hospital Trip is not set.");
+            }
+
+            /* ... user is set */
             if (hospitalTrip.UserId <= 0)
             {
                 throw new ArgumentException("User id is not set.");
             }
 
-            /* Start date is later than finish date */
+            /* ... start date is not later than finish date */
             if (hospitalTrip.StartDate > hospitalTrip.FinishDate)
             {
                 throw new ArgumentException("The start date of a " +
@@ -75,7 +83,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
             /* TODO Dianostic out of trip range */
 
-            /* Trip in the past */
+            /* ... trip is not in the past */
             var nowDateTime = DateTime.Now;
             if (hospitalTrip.StartDate < nowDateTime &&
                 hospitalTrip.FinishDate < nowDateTime)
@@ -83,7 +91,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 throw new ArgumentException("Trip in the past is not allowed");
             }
 
-            /* Trip inside another trip */
+            /* ... trip is not inside another trip */
             var userTrips = GetHospitalTrips(hospitalTrip.UserId);
             foreach (var userTrip in userTrips)
             {
