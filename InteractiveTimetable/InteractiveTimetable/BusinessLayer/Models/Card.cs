@@ -42,5 +42,21 @@ namespace InteractiveTimetable.BusinessLayer.Models
             return PhotoPath.Equals(obj.PhotoPath) &&
                    CardTypeId.Equals(obj.CardTypeId);
         }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                _hashCode = InitialHashValue;
+
+                _hashCode = PhotoPath != null
+                            ? _hashCode * HashNumber + PhotoPath.GetHashCode()
+                            : _hashCode * HashNumber + 0;
+
+                _hashCode = _hashCode * HashNumber + CardTypeId.GetHashCode();
+
+                return _hashCode;
+            }
+        }
     }
 }

@@ -24,5 +24,25 @@ namespace InteractiveTimetable.BusinessLayer.Contracts
 
             return businessEntityInfo;
         }
+
+        #region HashCode
+
+        protected static readonly int InitialHashValue = 17;
+        protected static readonly int HashNumber = 23;
+
+        [Ignore]
+        protected int HashCode
+        {
+            get
+            {
+                return _isHashSet ? _hashCode : GetHashCode();
+            }
+        }
+
+        protected int _hashCode;
+
+        private bool _isHashSet = false;
+
+        #endregion
     }
 }

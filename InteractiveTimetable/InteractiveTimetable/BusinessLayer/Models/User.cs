@@ -87,5 +87,34 @@ namespace InteractiveTimetable.BusinessLayer.Models
                    BirthDate.Equals(obj.BirthDate) &&
                    PhotoPath.Equals(obj.PhotoPath);
         }
+
+        public override int GetHashCode()
+        {
+            unchecked 
+            {
+                _hashCode = InitialHashValue;
+
+                _hashCode = FirstName != null
+                            ? _hashCode * HashNumber + FirstName.GetHashCode()
+                            : _hashCode * HashNumber + 0;
+
+                _hashCode = LastName != null
+                            ? _hashCode * HashNumber + LastName.GetHashCode()
+                            : _hashCode * HashNumber + 0;
+
+
+                _hashCode = PatronymicName != null
+                            ? _hashCode * HashNumber + PatronymicName.GetHashCode()
+                            : _hashCode * HashNumber + 0;
+
+                _hashCode = _hashCode * HashNumber + BirthDate.GetHashCode();
+
+                _hashCode = PhotoPath != null
+                            ? _hashCode * HashNumber + PhotoPath.GetHashCode()
+                            : _hashCode * HashNumber + 0;
+
+                return _hashCode;
+            }
+        }
     }
 }

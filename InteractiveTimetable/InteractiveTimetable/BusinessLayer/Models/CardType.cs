@@ -34,5 +34,19 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
             return TypeName.Equals(obj.TypeName);
         }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                _hashCode = InitialHashValue;
+
+                _hashCode = TypeName != null
+                            ? _hashCode * HashNumber + TypeName.GetHashCode()
+                            : _hashCode * HashNumber + 0;
+
+                return _hashCode;
+            }
+        }
     }
 }

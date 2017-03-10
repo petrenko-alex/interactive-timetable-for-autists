@@ -39,5 +39,19 @@ namespace InteractiveTimetable.BusinessLayer.Models
                    ScheduleId.Equals(obj.ScheduleId) &&
                    CardId.Equals(obj.CardId);
         }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                _hashCode = InitialHashValue;
+
+                _hashCode = _hashCode * HashNumber + OrderNumber.GetHashCode();
+                _hashCode = _hashCode * HashNumber + ScheduleId.GetHashCode();
+                _hashCode = _hashCode * HashNumber + CardId.GetHashCode();
+
+                return _hashCode;
+            }
+        }
     }
 }

@@ -53,5 +53,20 @@ namespace InteractiveTimetable.BusinessLayer.Models
                    FinishDate.Equals(obj.FinishDate) &&
                    UserId.Equals(obj.UserId);
         }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                _hashCode = InitialHashValue;
+
+                _hashCode = _hashCode * HashNumber + Number.GetHashCode();
+                _hashCode = _hashCode * HashNumber + StartDate.GetHashCode();
+                _hashCode = _hashCode * HashNumber + FinishDate.GetHashCode();
+                _hashCode = _hashCode * HashNumber + UserId.GetHashCode();
+
+                return _hashCode;
+            }
+        }
     }
 }

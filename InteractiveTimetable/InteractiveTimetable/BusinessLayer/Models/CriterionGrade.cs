@@ -43,5 +43,27 @@ namespace InteractiveTimetable.BusinessLayer.Models
                    CriterionDefinitionId.Equals(obj.CriterionDefinitionId) &&
                    DiagnosticId.Equals(obj.DiagnosticId);
         }
+
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                _hashCode = InitialHashValue;
+
+                _hashCode = Grade != null
+                                ? _hashCode * HashNumber + Grade.GetHashCode()
+                                : _hashCode * HashNumber + 0;
+
+                _hashCode =
+                        _hashCode * HashNumber +
+                        CriterionDefinitionId.GetHashCode();
+
+
+                _hashCode = _hashCode * HashNumber + DiagnosticId.GetHashCode();
+
+                return _hashCode;
+            }
+        }
     }
 }

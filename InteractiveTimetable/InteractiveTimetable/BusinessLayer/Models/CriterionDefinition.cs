@@ -49,5 +49,25 @@ namespace InteractiveTimetable.BusinessLayer.Models
         {
             return Definition;
         }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                _hashCode = InitialHashValue;
+
+                _hashCode = _hashCode * HashNumber + Number.GetHashCode();
+
+                _hashCode = Definition != null
+                            ? _hashCode * HashNumber + Definition.GetHashCode()
+                            : _hashCode * HashNumber + 0;
+
+
+                _hashCode = 
+                    _hashCode * HashNumber + CriterionGradeTypeId.GetHashCode();
+
+                return _hashCode;
+            }
+        }
     }
 }
