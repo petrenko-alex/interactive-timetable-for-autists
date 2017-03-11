@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.DataAccessLayer;
 using NUnit.Framework;
 using SQLite;
@@ -62,7 +63,50 @@ namespace InteractiveTimetable.Tests.Repositories
         [Test]
         public void DeleteCriterionDefinitionWithGrades()
         {
-            // TODO: Implement when grades repositroy is done
+            /* Create new database with another repository for this test */
+            ShutDown();
+            string dbPath = "TestsDatabase.db3";
+            _connection = new SQLiteConnection(dbPath);
+            var _repository = new CriterionGradeRepository(_connection);
+
+            // arrange
+            int criterionId = 3;
+            CriterionGrade grade1 = new CriterionGrade()
+            {
+                CriterionDefinitionId = criterionId,
+                Grade = "2"
+            };
+
+            CriterionGrade grade2 = new CriterionGrade()
+            {
+                CriterionDefinitionId = criterionId,
+                Grade = "3"
+            };
+            var grade1Id = _repository.SaveCriterionGrade(grade1);
+            var grade2Id = _repository.SaveCriterionGrade(grade2);
+
+            // act 1
+            var criterion = _repository.
+                    CriterionDefinitions.
+                    GetCriterionDefinition(criterionId);
+
+            // assert 1
+            Assert.AreEqual(2, criterion.CriterionGrades.Count);
+
+            // act 2
+            _repository.CriterionDefinitions.
+                DeleteCriterionDefinitionCascade(criterion);
+
+            var deletedCriterion = _repository.
+                    CriterionDefinitions.
+                    GetCriterionDefinition(criterionId);
+            var deletedGrade1 = _repository.GetCriterionGrade(grade1Id);
+            var deletedGrade2 = _repository.GetCriterionGrade(grade2Id);
+
+            // assert 2
+            Assert.AreEqual(null, deletedCriterion);
+            Assert.AreEqual(null, deletedGrade1);
+            Assert.AreEqual(null, deletedGrade2);
         }
 
         [Test]
