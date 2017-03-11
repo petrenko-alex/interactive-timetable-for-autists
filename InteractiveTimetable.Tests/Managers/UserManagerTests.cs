@@ -15,6 +15,8 @@ namespace InteractiveTimetable.Tests.Managers
         private SQLiteConnection _connection;
         private UserManager _userManager;
         private HospitalTripManager _hospitalTripManager;
+        private ScheduleManager _scheduleManager;
+
 
         public string GenerateRandomString(int stringLength)
         {
@@ -36,6 +38,36 @@ namespace InteractiveTimetable.Tests.Managers
             /* Initializing managers */
             _userManager = new UserManager(_connection);
             _hospitalTripManager = new HospitalTripManager(_connection);
+            _scheduleManager = new ScheduleManager(_connection);
+
+            /* Creating cards */
+            var activityType = _scheduleManager.Cards.CardTypes.GetActivityCardType();
+            var goalType = _scheduleManager.Cards.CardTypes.GetMotivationGoalCardType();
+
+            Card card1 = new Card()
+            {
+                PhotoPath = "path/to/photo1.jpg",
+                CardTypeId = activityType.Id
+            };
+            Card card2 = new Card()
+            {
+                PhotoPath = "path/to/photo2.jpg",
+                CardTypeId = activityType.Id
+            };
+            Card card3 = new Card()
+            {
+                PhotoPath = "path/to/photo3.jpg",
+                CardTypeId = activityType.Id
+            };
+            Card card4 = new Card()
+            {
+                PhotoPath = "path/to/photo4.jpg",
+                CardTypeId = goalType.Id
+            };
+            _scheduleManager.Cards.SaveCard(card1);
+            _scheduleManager.Cards.SaveCard(card2);
+            _scheduleManager.Cards.SaveCard(card3);
+            _scheduleManager.Cards.SaveCard(card4);
         }
 
         [TearDown]
@@ -165,7 +197,38 @@ namespace InteractiveTimetable.Tests.Managers
         [Test]
         public void CreateUserWithSchedules()
         {
-            // TODO: Implement when schedule manager is done
+            // arrange
+            /* Creating and saving user */
+            User user = new User()
+            {
+                FirstName = "Alexander",
+                LastName = "Petrenko",
+                PatronymicName = "Andreevich",
+                BirthDate = DateTime.Today,
+                PhotoPath = "avatar1.jpg"
+            };
+            var userId = _userManager.SaveUser(user);
+
+            /* Creating and saving schedule */
+            var activityCards = _scheduleManager.Cards.GetActivityCards().
+                                         Select(x => x.Id).
+                                         ToList();
+
+            var goalCards = _scheduleManager.Cards.GetMotivationGoalCards().
+                                     Select(x => x.Id).
+                                     ToList();
+
+            var ids = activityCards.Concat(goalCards).ToList();
+            var scheduleId1 = _scheduleManager.SaveSchedule(userId, ids);
+            var scheduleId2 = _scheduleManager.SaveSchedule(userId, ids);
+
+            // act
+            var addedUser = _userManager.GetUser(userId);
+
+            // assert
+            Assert.AreEqual(2, addedUser.Schedules.Count);
+            Assert.AreEqual(scheduleId1, addedUser.Schedules[0].Id);
+            Assert.AreEqual(scheduleId2, addedUser.Schedules[1].Id);
         }
 
         [Test]
@@ -368,6 +431,47 @@ namespace InteractiveTimetable.Tests.Managers
         }
 
         [Test]
+        public void EditUserWithScheduleEditing()
+        {
+            // arrange
+            /* Creating and saving user */
+            User user = new User()
+            {
+                FirstName = "Alexander",
+                LastName = "Petrenko",
+                PatronymicName = "Andreevich",
+                BirthDate = DateTime.Today,
+                PhotoPath = "avatar1.jpg"
+            };
+            var userId = _userManager.SaveUser(user);
+
+            /* Creating and saving schedule */
+            var activityCards = _scheduleManager.Cards.GetActivityCards().
+                                         Select(x => x.Id).
+                                         ToList();
+
+            var goalCards = _scheduleManager.Cards.GetMotivationGoalCards().
+                                     Select(x => x.Id).
+                                     ToList();
+
+            var ids = activityCards.Concat(goalCards).ToList();
+            var scheduleId1 = _scheduleManager.SaveSchedule(userId, ids);
+            var scheduleId2 = _scheduleManager.SaveSchedule(userId, ids);
+
+            // act
+            _scheduleManager.DeleteSchedule(scheduleId1);
+            var scheduleId3 = _scheduleManager.SaveSchedule(userId, ids);
+            var scheduleId4 = _scheduleManager.SaveSchedule(userId, ids);
+            user = _userManager.GetUser(userId);
+
+            // assert
+            Assert.AreEqual(3, user.Schedules.Count);
+            Assert.AreEqual(scheduleId2, user.Schedules[0].Id);
+            Assert.AreEqual(scheduleId3, user.Schedules[1].Id);
+            Assert.AreEqual(scheduleId4, user.Schedules[2].Id);
+        }
+
+        [Test]
         public void EditUserWithTripAdding()
         {
             // arrange
@@ -554,7 +658,41 @@ namespace InteractiveTimetable.Tests.Managers
         [Test]
         public void DeleteUserWithSchedules()
         {
-            // TODO: Implement when schedule manager is done
+            // arrange
+            /* Creating and saving user */
+            User user = new User()
+            {
+                FirstName = "Alexander",
+                LastName = "Petrenko",
+                PatronymicName = "Andreevich",
+                BirthDate = DateTime.Today,
+                PhotoPath = "avatar1.jpg"
+            };
+            var userId = _userManager.SaveUser(user);
+
+            /* Creating and saving schedule */
+            var activityCards = _scheduleManager.Cards.GetActivityCards().
+                                         Select(x => x.Id).
+                                         ToList();
+
+            var goalCards = _scheduleManager.Cards.GetMotivationGoalCards().
+                                     Select(x => x.Id).
+                                     ToList();
+
+            var ids = activityCards.Concat(goalCards).ToList();
+            var scheduleId1 = _scheduleManager.SaveSchedule(userId, ids);
+            var scheduleId2 = _scheduleManager.SaveSchedule(userId, ids);
+            
+            // act
+            _userManager.DeleteUser(userId);
+            var deletedUser = _userManager.GetUser(userId);
+            var deletedSchedule1 = _scheduleManager.GetSchedule(scheduleId1);
+            var deletedSchedule2 = _scheduleManager.GetSchedule(scheduleId2);
+
+            // assert
+            Assert.AreEqual(null, deletedUser);
+            Assert.AreEqual(null, deletedSchedule1);
+            Assert.AreEqual(null, deletedSchedule2);
         }
 
         [Test]
