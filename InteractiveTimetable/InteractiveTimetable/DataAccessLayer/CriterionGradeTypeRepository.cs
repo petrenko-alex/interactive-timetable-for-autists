@@ -76,7 +76,11 @@ namespace InteractiveTimetable.DataAccessLayer
             }
             else
             {
-                throw new ArgumentException("Not a valid number.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    CriterionGradeTypeValidationStrings.
+                    NotValidNumber);
             }
         }
 

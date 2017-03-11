@@ -127,7 +127,9 @@ namespace InteractiveTimetable.Tests.Repositories
         {
             // arrange
             int number = -2;
-            var exceptionMessage = "Not valid number.";
+            var exceptionMessage = Resources.Validation.
+                                             CriterionDefinitionValidationStrings.
+                                             NotValidNumber;
 
             // act/assert
             var exception1 = Assert.Throws<ArgumentException>(delegate
@@ -168,7 +170,9 @@ namespace InteractiveTimetable.Tests.Repositories
         {
             // arrange
             var definition = "not valid";
-            var exceptionString = "Not valid definition.";
+            var exceptionString = Resources.Validation.
+                                            CriterionDefinitionValidationStrings.
+                                            NotValidDefinition;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate

@@ -63,42 +63,48 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* ... user is set */
             if (user == null)
             {
-                throw new ArgumentException("User is not set.");
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      ArgumentIsNull);
             }
 
             /* ... strings are not longer than 255 symbols */
             if (user.FirstName.Length > 255)
             {
-                throw new ArgumentException("The length of a user first name " +
-                                            "must be less than 255 symbols.");
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      FirstNameLength);
             }
 
             if (user.LastName.Length > 255)
             {
-                throw new ArgumentException("The length of a user last name " +
-                                            "must be less than 255 symbols.");
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      LastNameLength);
             }
 
             if (user.PatronymicName.Length > 255)
             {
-                throw new ArgumentException("The length of a user patronymic " +
-                                            "name must be less than 255 symbols.");
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      PatronymicNameLength);
             }
 
             /* ... path to photo is not longer than 1024 symbols */
             if (user.PhotoPath.Length > 1024)
             {
-                throw new ArgumentException("The length of the path " +
-                                            "to the user photo must be less " +
-                                            "than 1024 symbols");
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      PhotoPathLength);
             }
 
             /* ... birth date is not later than current date or earlier than 1990 */
             if (user.BirthDate.Date < DateTime.Parse("01.01.1900").Date ||
                 user.BirthDate.Date > DateTime.Today.Date)
             {
-                throw new ArgumentException("The birth date is " +
-                                            "set not correctly");
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      NotCorrectBirthDate);
             }
 
             /* ... birth date is not later than trip start date (when edit user) */
@@ -111,9 +117,9 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
                 if (user.BirthDate.Date > firstTrip.StartDate)
                 {
-                    throw new ArgumentException("The user birth date can not " +
-                                                "be later than his hospital " +
-                                                "trips");
+                    throw new ArgumentException(Resources.Validation.
+                                                          UserValidationStrings.
+                                                          BirthDateLaterThanTrip);
                 }
             }
         }

@@ -85,15 +85,17 @@ namespace InteractiveTimetable.DataAccessLayer
             /* ... card is set */
             if (card == null)
             {
-                throw new ArgumentException("Card is not set.");
+                throw new ArgumentException(Resources.Validation.
+                                                      CardValidationStrings.
+                                                      ArgumentIsNull);
             }
 
             /* ... path to photo is not longer than 1024 symbols */
             if (card.PhotoPath.Length > 1024)
             {
-                throw new ArgumentException("The length of the path " +
-                                            "to the card's photo must be less " +
-                                            "than 1024 symbols");
+                throw new ArgumentException(Resources.Validation.
+                                                      CardValidationStrings.
+                                                      PhotoPathLength);
             }
         }
     }

@@ -71,7 +71,11 @@ namespace InteractiveTimetable.DataAccessLayer
             if (number <= 0 ||
                 number > NumberOfCriterions)
             {
-                throw new ArgumentException("Not valid number.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    CriterionDefinitionValidationStrings.
+                    NotValidNumber);
             }
 
             return GerCriterionDefinitions().
@@ -86,7 +90,11 @@ namespace InteractiveTimetable.DataAccessLayer
 
             if (criterionDefinition == null)
             {
-                throw new ArgumentException("Not valid definition.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    CriterionDefinitionValidationStrings.
+                    NotValidDefinition);
             }
 
             return criterionDefinition;

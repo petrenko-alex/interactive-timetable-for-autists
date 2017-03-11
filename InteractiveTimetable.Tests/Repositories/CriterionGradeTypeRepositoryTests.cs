@@ -93,7 +93,9 @@ namespace InteractiveTimetable.Tests.Repositories
         public void GetNotExistingGradeType()
         {
             // arrange
-            string exceptionMessage = "Not a valid number.";
+            string exceptionMessage = Resources.Validation.
+                                                CriterionGradeTypeValidationStrings.
+                                                NotValidNumber;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate

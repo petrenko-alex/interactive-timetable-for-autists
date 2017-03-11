@@ -134,15 +134,21 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             int amountOfCriterionsAndGrades = criterionsAndGrades.Count;
             if (criterionsAndGrades == null || amountOfCriterionsAndGrades == 0)
             {
-                throw new ArgumentException("Criterions and grades " +
-                                            "are not present.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    DiagnosticManagerValidationStrings.
+                    CriterionsAreNotPresent);
             }
 
             /* ... proper amount of criterions and grade is set */
             if (amountOfCriterionsAndGrades != GetNumberOfCriterions())
             {
-                throw new ArgumentException("Not all criterions and grades " +
-                                            "are present");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    DiagnosticManagerValidationStrings.
+                    NotAllCriterionsPresent);
             }
 
             /* ... diagnostic date is not outside of hospital trip */
@@ -152,9 +158,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             if (dateTime < trip.StartDate ||
                 dateTime > trip.FinishDate)
             {
-                throw new ArgumentException("Diagnostic date can not be " +
-                                            "outside of the current " +
-                                            "hospital trip time bounds.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    DiagnosticManagerValidationStrings.
+                    DiagnosticDateOutOfTrip);
             }
         }
 

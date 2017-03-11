@@ -122,7 +122,9 @@ namespace InteractiveTimetable.Tests.Managers
         public void CreateScheduleWithNullListOfIds()
         {
             // arrange
-            var exceptionString = "Card ids are not set.";
+            var exceptionString = Resources.Validation.
+                                            ScheduleValidationStrings.
+                                            CardsAreNotSet;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -146,7 +148,10 @@ namespace InteractiveTimetable.Tests.Managers
 
             var ids = activityCards.Concat(goalCards).ToList();
             ids.Add(33);
-            var exceptionString = "Card with id: \"33\" doesn't exist.";
+            var exceptionString = Resources.Validation.
+                                            ScheduleValidationStrings.
+                                            CardNotExist;
+            exceptionString = string.Format(exceptionString, 33);
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -163,9 +168,9 @@ namespace InteractiveTimetable.Tests.Managers
             var goalCards = _manager.Cards.GetMotivationGoalCards().
                                      Select(x => x.Id).
                                      ToList();
-            var exceptionString = "Activity card is not set " +
-                                  "in timetable. At least one " +
-                                  "activity card must be set.";
+            var exceptionString = Resources.Validation.
+                                            ScheduleValidationStrings.
+                                            NoActivityCard;
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
             {
@@ -181,9 +186,9 @@ namespace InteractiveTimetable.Tests.Managers
             var activityCards = _manager.Cards.GetActivityCards().
                                          Select(x => x.Id).
                                          ToList();
-            var exceptionString = "Motivation goal card is not set" +
-                                  "in timetable. You need to set " +
-                                  "one motivation goal card.";
+            var exceptionString = Resources.Validation.
+                                            ScheduleValidationStrings.
+                                            NoGoalCard;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -197,7 +202,9 @@ namespace InteractiveTimetable.Tests.Managers
         public void CreateScheduleWithEmptyListOfIds()
         {
             // arrange
-            var exceptionString = "Card ids are not set.";
+            var exceptionString = Resources.Validation.
+                                            ScheduleValidationStrings.
+                                            CardsAreNotSet;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -229,8 +236,9 @@ namespace InteractiveTimetable.Tests.Managers
 
             var ids = activityCards.Concat(goalCards).ToList();
 
-            var exceptionString = "Multiple motivation goal " +
-                                  "cards are not allowed.";
+            var exceptionString = Resources.Validation.
+                                            ScheduleValidationStrings.
+                                            MultipleGoalCards;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate

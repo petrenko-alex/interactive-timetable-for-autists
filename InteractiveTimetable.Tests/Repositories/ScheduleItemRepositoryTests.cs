@@ -57,7 +57,9 @@ namespace InteractiveTimetable.Tests.Repositories
         {
             // arrange
             ScheduleItem item = null;
-            string exceptionString = "Schedule item is not set";
+            string exceptionString = Resources.Validation.
+                                               ScheduleItemValidationStrings.
+                                               ArgumentIsNull;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -77,8 +79,9 @@ namespace InteractiveTimetable.Tests.Repositories
                 OrderNumber = 0,
                 ScheduleId = 1
             };
-            string exceptionString = "Order number can't be less " +
-                                     "or equal to 0";
+            string exceptionString = Resources.Validation.
+                                               ScheduleItemValidationStrings.
+                                               NotCorrectOrderNumber;
 
             // act
             var exception = Assert.Throws<ArgumentException>(delegate

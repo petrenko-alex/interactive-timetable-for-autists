@@ -74,9 +74,9 @@ namespace InteractiveTimetable.Tests.Repositories
                 PhotoPath = GenerateRandomString(1025),
                 CardTypeId = activityType.Id
             };
-            string exceptionString = "The length of the path " +
-                                     "to the card's photo must be less " +
-                                     "than 1024 symbols";
+            string exceptionString = Resources.Validation.
+                                               CardValidationStrings.
+                                               PhotoPathLength;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate

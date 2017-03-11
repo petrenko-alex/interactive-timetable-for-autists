@@ -58,14 +58,17 @@ namespace InteractiveTimetable.DataAccessLayer
             /* ... item is set */
             if (item == null)
             {
-                throw new ArgumentException("Schedule item is not set");
+                throw new ArgumentException(Resources.Validation.
+                                                      ScheduleItemValidationStrings.
+                                                      ArgumentIsNull);
             }
 
             /* ... valid order number is set */
             if (item.OrderNumber <= 0)
             {
-                throw new ArgumentException("Order number can't be less " +
-                                            "or equal to 0");
+                throw new ArgumentException(Resources.Validation.
+                                                      ScheduleItemValidationStrings.
+                                                      NotCorrectOrderNumber);
             }
         }
     }

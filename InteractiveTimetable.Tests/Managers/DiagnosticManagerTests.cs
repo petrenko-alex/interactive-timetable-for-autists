@@ -169,8 +169,10 @@ namespace InteractiveTimetable.Tests.Managers
             // arrange
             DateTime dateTime = DateTime.Now;
             var criterionAndGrades = GetNotFullSetOfCriterionsAndGrades();
-            var exceptionString = "Not all criterions and grades " +
-                                  "are present";
+            var exceptionString = Resources.
+                    Validation.
+                    DiagnosticManagerValidationStrings.
+                    NotAllCriterionsPresent;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -188,8 +190,10 @@ namespace InteractiveTimetable.Tests.Managers
             DateTime dateTime = DateTime.Now;
             IDictionary<string, string> criterionAndGrades
                 = new Dictionary<string, string>();
-            string exceptionMessage = "Criterions and grades " +
-                                      "are not present.";
+            string exceptionMessage = Resources.
+                    Validation.
+                    DiagnosticManagerValidationStrings.
+                    CriterionsAreNotPresent;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -206,9 +210,10 @@ namespace InteractiveTimetable.Tests.Managers
             // arrange
             DateTime dateTime = DateTime.Now.AddDays(100);
             var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
-            var exceptrionString = "Diagnostic date can not be " +
-                                   "outside of the current " +
-                                   "hospital trip time bounds.";
+            var exceptrionString = Resources.
+                    Validation.
+                    DiagnosticManagerValidationStrings.
+                    DiagnosticDateOutOfTrip;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -228,7 +233,9 @@ namespace InteractiveTimetable.Tests.Managers
             var keys = _diagnosticManager.GetCriterions().ToList();
             IDictionary<string, string> criterionAndGrades
                 = new Dictionary<string, string>();
-            var exceptrionString = "Not valid grade.";
+            var exceptrionString = Resources.Validation.
+                                             CriterionGradeValidationStrings.
+                                             NotValidGrade;
 
             foreach (var key in keys)
             {
@@ -256,7 +263,9 @@ namespace InteractiveTimetable.Tests.Managers
             keys[0] = "Неизвестный критерий.";
             IDictionary<string, string> criterionAndGrades
                 = new Dictionary<string, string>();
-            var exceptrionString = "Not valid definition.";
+            var exceptrionString = Resources.Validation.
+                                             CriterionDefinitionValidationStrings.
+                                             NotValidDefinition;
 
             foreach (var key in keys)
             {

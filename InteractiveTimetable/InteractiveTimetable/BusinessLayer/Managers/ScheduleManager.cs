@@ -93,7 +93,8 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* ... cardIds is set */
             if (cardIds == null || cardIds.Count == 0)
             {
-                throw new ArgumentException("Card ids are not set.");
+                throw new ArgumentException(
+                    Resources.Validation.ScheduleValidationStrings.CardsAreNotSet);
             }
 
             bool hasActivityCard = false;
@@ -104,15 +105,20 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 /* ... all cards are exist */
                 if (!Cards.IsCardExist(cardId))
                 {
-                    throw new ArgumentException($"Card with id: \"{cardId}\"" +
-                                                " doesn't exist." );
+                    var exceptionString =
+                            Resources.Validation.ScheduleValidationStrings.
+                                      CardNotExist;
+                    exceptionString = string.Format(exceptionString, cardId);
+
+                    throw new ArgumentException(exceptionString);
                 }
 
                 /* ... only one motivation goal card is set */
                 if (Cards.IsMotivationGoalCard(cardId) && hasMotivationGoalCard)
                 {
-                    throw new ArgumentException("Multiple motivation goal " +
-                                                "cards are not allowed.");
+                    throw new ArgumentException(Resources.Validation.
+                                                          ScheduleValidationStrings.
+                                                          MultipleGoalCards);
                 }
 
                 /* Finding motivation goal card */
@@ -131,17 +137,17 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* ... at least one activity card is set */
             if (!hasActivityCard)
             {
-                throw new ArgumentException("Activity card is not set " +
-                                            "in timetable. At least one " +
-                                            "activity card must be set.");
+                throw new ArgumentException(Resources.Validation.
+                                                      ScheduleValidationStrings.
+                                                      NoActivityCard);
             }
 
             /* ... motivation goal card is set */
             if (!hasMotivationGoalCard)
             {
-                throw new ArgumentException("Motivation goal card is not set" +
-                                            "in timetable. You need to set " +
-                                            "one motivation goal card.");
+                throw new ArgumentException(Resources.Validation.
+                                                      ScheduleValidationStrings.
+                                                      NoGoalCard);
             }
         }
 

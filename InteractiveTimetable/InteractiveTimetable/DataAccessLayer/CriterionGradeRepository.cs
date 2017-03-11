@@ -72,7 +72,11 @@ namespace InteractiveTimetable.DataAccessLayer
             /* ... grade is set */
             if (grade == null)
             {
-                throw new ArgumentException("Grade is not set.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    CriterionGradeValidationStrings.
+                    ArgumentIsNull);
             }
 
             /* ... valid criterion definition id is set */
@@ -82,7 +86,11 @@ namespace InteractiveTimetable.DataAccessLayer
 
             if (criterion == null)
             {
-                throw new ArgumentException("Not valid CriterionDefinitionId.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    CriterionGradeValidationStrings.
+                    NotValidCriterion);
             }
 
             /* ... valid grade format is set */
@@ -101,19 +109,31 @@ namespace InteractiveTimetable.DataAccessLayer
                     if (numberGrade < MinimumPointGrade ||
                         numberGrade > MaximumPointGrade)
                     {
-                        throw new ArgumentException("Not valid grade.");
+                        throw new ArgumentException(
+                            Resources.
+                            Validation.
+                            CriterionGradeValidationStrings.
+                            NotValidGrade);
                     }
                 }
                 else
                 {
-                    throw new ArgumentException("Not valid grade.");
+                    throw new ArgumentException(
+                        Resources.
+                        Validation.
+                        CriterionGradeValidationStrings.
+                        NotValidGrade);
                 }
             }
             else if (isTickGradeType)
             {
                 if (grade.Grade.Length != LengthOfTickGradeString)
                 {
-                    throw new ArgumentException("Not valid grade.");
+                    throw new ArgumentException(
+                        Resources.
+                        Validation.
+                        CriterionGradeValidationStrings.
+                        NotValidGrade);
                 }
             }
         }

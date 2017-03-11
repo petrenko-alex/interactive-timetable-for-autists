@@ -86,7 +86,9 @@ namespace InteractiveTimetable.Tests.Repositories
                 CriterionDefinitionId = 2,
                 Grade = "5"
             };
-            string exceptionMessage = "Not valid grade.";
+            string exceptionMessage = Resources.Validation.
+                                                CriterionGradeValidationStrings.
+                                                NotValidGrade;
 
             // act/assert
             var exception1 = Assert.Throws<ArgumentException>(delegate
@@ -112,7 +114,9 @@ namespace InteractiveTimetable.Tests.Repositories
                 CriterionDefinitionId = 18,
                 Grade = "0"
             };
-            string exceptionMessage = "Not valid grade.";
+            string exceptionMessage = Resources.Validation.
+                                                CriterionGradeValidationStrings.
+                                                NotValidGrade;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate
@@ -132,7 +136,9 @@ namespace InteractiveTimetable.Tests.Repositories
                 CriterionDefinitionId = 23,
                 Grade = "2"
             };
-            string exceptionMessage = "Not valid CriterionDefinitionId.";
+            string exceptionMessage = Resources.Validation.
+                                                CriterionGradeValidationStrings.
+                                                NotValidCriterion;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(delegate

@@ -243,8 +243,9 @@ namespace InteractiveTimetable.Tests.Managers
                 BirthDate = DateTime.Today,
                 PhotoPath = "avatar1.jpg"
             };
-            string exceptionMessage = "The length of a user first name " +
-                                      "must be less than 255 symbols.";
+            string exceptionMessage = Resources.Validation.
+                                                UserValidationStrings.
+                                                FirstNameLength;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(
@@ -268,8 +269,9 @@ namespace InteractiveTimetable.Tests.Managers
                 BirthDate = DateTime.Today,
                 PhotoPath = "avatar1.jpg"
             };
-            string exceptionMessage = "The length of a user last name " +
-                                      "must be less than 255 symbols.";
+            string exceptionMessage = Resources.Validation.
+                                                UserValidationStrings.
+                                                LastNameLength;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(
@@ -294,8 +296,9 @@ namespace InteractiveTimetable.Tests.Managers
                 BirthDate = DateTime.Today,
                 PhotoPath = "avatar1.jpg"
             };
-            string exceptionMessage = "The length of a user patronymic name " +
-                                      "must be less than 255 symbols.";
+            string exceptionMessage = Resources.Validation.
+                                                UserValidationStrings.
+                                                PatronymicNameLength;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(
@@ -319,9 +322,9 @@ namespace InteractiveTimetable.Tests.Managers
                 BirthDate = DateTime.Today,
                 PhotoPath = GenerateRandomString(1025)
             };
-            string exceptionMessage = "The length of the path " +
-                                      "to the user photo must be less " +
-                                      "than 1024 symbols";
+            string exceptionMessage = Resources.Validation.
+                                                UserValidationStrings.
+                                                PhotoPathLength;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(
@@ -345,8 +348,9 @@ namespace InteractiveTimetable.Tests.Managers
                 BirthDate = DateTime.Parse("01.01.1880"),
                 PhotoPath = "avatar1.jpg"
             };
-            string exceptionMessage = "The birth date is " +
-                                      "set not correctly";
+            string exceptionMessage = Resources.Validation.
+                                                UserValidationStrings.
+                                                NotCorrectBirthDate;
 
             // act/assert
             var exception = Assert.Throws<ArgumentException>(
@@ -568,9 +572,9 @@ namespace InteractiveTimetable.Tests.Managers
                     hospitalTrip
                 }
             };
-            string exceptionMessage = "The user birth date can not " +
-                                       "be later than his hospital " +
-                                       "trips";
+            string exceptionMessage = Resources.Validation.
+                                                UserValidationStrings.
+                                                BirthDateLaterThanTrip;
 
             var userId = _userManager.SaveUser(user);
             var addedUser = _userManager.GetUser(userId);

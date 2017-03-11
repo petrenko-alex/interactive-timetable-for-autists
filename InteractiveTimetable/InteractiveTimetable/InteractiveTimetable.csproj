@@ -66,10 +66,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CriterionDefinitionStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Validation\CriterionDefinitionValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CriterionDefinitionValidationStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Validation\CriterionGradeValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CriterionGradeValidationStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Validation\DiagnosticManagerValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DiagnosticManagerValidationStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Validation\HospitalTripManagerValidationStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HospitalTripManagerValidationStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Validation\ScheduleValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleValidationStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -103,9 +123,25 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CriterionDefinitionStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\CriterionDefinitionValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CriterionDefinitionValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\CriterionGradeValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CriterionGradeValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\DiagnosticManagerValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DiagnosticManagerValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Validation\HospitalTripManagerValidationStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>HospitalTripManagerValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\ScheduleValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleValidationStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
