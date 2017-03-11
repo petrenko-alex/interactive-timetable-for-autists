@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using InteractiveTimetable.BusinessLayer.Managers;
 using InteractiveTimetable.BusinessLayer.Models;
 using NUnit.Framework;
@@ -13,7 +15,32 @@ namespace InteractiveTimetable.Tests.Managers
         private SQLiteConnection _connection;
         private UserManager _userManager;
         private HospitalTripManager _hospitalTripManager;
+        private DiagnosticManager _diagnosticManager;
         private User _user1;
+
+        public IDictionary<string, string> GetFullSetOfCriterionsAndGrades()
+        {
+            var criterion18 = Resources.Repositories.CriterionDefinitionStrings.
+                              Criterion18;
+            Random randomizer = new Random();
+            var keys = _diagnosticManager.GetCriterions().ToList();
+            IDictionary<string, string> criterionAndGrades
+                = new Dictionary<string, string>();
+
+            foreach (var key in keys)
+            {
+                var grade = randomizer.Next(1, 5).ToString();
+                if (key.Equals(criterion18))
+                {
+                    grade = "1010";
+                }
+
+                var pair = new KeyValuePair<string, string>(key, grade);
+                criterionAndGrades.Add(pair);
+            }
+
+            return criterionAndGrades;
+        }
 
         [SetUp]
         public void InitializationBeforeTests()
@@ -25,6 +52,7 @@ namespace InteractiveTimetable.Tests.Managers
             /* Initializing managers */
             _userManager = new UserManager(_connection);
             _hospitalTripManager = new HospitalTripManager(_connection);
+            _diagnosticManager = new DiagnosticManager(_connection);
 
             /* Creating users to hold hospital trips */
             _user1 = new User()
@@ -92,7 +120,32 @@ namespace InteractiveTimetable.Tests.Managers
         [Test]
         public void CreateTripWithDiagnostics()
         {
-            // TODO: Implement when Diagnostic manager is done
+            // arrange
+            /* Creating and saving hospital trip */
+            HospitalTrip newTrip = new HospitalTrip()
+            {
+                StartDate = DateTime.Today.AddDays(-5),
+                FinishDate = DateTime.Today.AddDays(15),
+                UserId = _user1.Id
+            };
+            var tripId = _hospitalTripManager.SaveHospitalTrip(newTrip);
+
+            /* Creating and saving diagnostic */
+            DateTime dateTime = DateTime.Now;
+            var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
+
+            // act
+            var diagnosticId1 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+            var diagnosticId2 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+
+            newTrip = _hospitalTripManager.GetHospitalTrip(tripId);
+
+            // assert
+            Assert.AreEqual(2, newTrip.Diagnostics.Count);
+            Assert.AreEqual(diagnosticId1, newTrip.Diagnostics[0].Id);
+            Assert.AreEqual(diagnosticId2, newTrip.Diagnostics[1].Id);
         }
 
         [Test]
@@ -372,9 +425,42 @@ namespace InteractiveTimetable.Tests.Managers
         }
 
         [Test]
-        public void EditWhenDiagnosticWasDoneDuringTrip()
+        public void EditTripWithDiagnostics()
         {
-            // TODO: Implement when DiagnosticManager is done
+            // arrange
+            /* Creating and saving hospital trip */
+            HospitalTrip newTrip = new HospitalTrip()
+            {
+                StartDate = DateTime.Today.AddDays(-5),
+                FinishDate = DateTime.Today.AddDays(15),
+                UserId = _user1.Id
+            };
+            var tripId = _hospitalTripManager.SaveHospitalTrip(newTrip);
+
+            /* Creating and saving diagnostic */
+            DateTime dateTime = DateTime.Now;
+            var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
+
+            var diagnosticId1 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+            var diagnosticId2 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+
+
+            // act
+            _diagnosticManager.DeleteDiagnostic(diagnosticId1);
+            var diagnosticId3 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+            var diagnosticId4 = _diagnosticManager.
+                            SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+
+            newTrip = _hospitalTripManager.GetHospitalTrip(tripId);
+
+            // assert
+            Assert.AreEqual(3, newTrip.Diagnostics.Count);
+            Assert.AreEqual(diagnosticId2, newTrip.Diagnostics[0].Id);
+            Assert.AreEqual(diagnosticId3, newTrip.Diagnostics[1].Id);
+            Assert.AreEqual(diagnosticId4, newTrip.Diagnostics[2].Id);
         }
 
         [Test]
@@ -502,9 +588,40 @@ namespace InteractiveTimetable.Tests.Managers
         }
 
         [Test]
-        public void DeleteWithDiagnostics()
+        public void DeleteTripWithDiagnostics()
         {
-            // TODO: Implement when diagnostic manager is done
+            // arrange
+            /* Creating and saving hospital trip */
+            HospitalTrip newTrip = new HospitalTrip()
+            {
+                StartDate = DateTime.Today.AddDays(-5),
+                FinishDate = DateTime.Today.AddDays(15),
+                UserId = _user1.Id
+            };
+            var tripId = _hospitalTripManager.SaveHospitalTrip(newTrip);
+
+            /* Creating and saving diagnostic */
+            DateTime dateTime = DateTime.Now;
+            var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
+
+            // act
+            var diagnosticId1 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+            var diagnosticId2 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+
+            // act
+            _hospitalTripManager.DeleteHospitalTrip(tripId);
+            var deletedTrip = _hospitalTripManager.GetHospitalTrip(tripId);
+            var deletedDiagnostic1 =
+                    _diagnosticManager.GetDiagnostic(diagnosticId1);
+            var deletedDiagnostic2 =
+                    _diagnosticManager.GetDiagnostic(diagnosticId2);
+
+            // assert
+            Assert.AreEqual(null, deletedTrip);
+            Assert.AreEqual(null, deletedDiagnostic1);
+            Assert.AreEqual(null, deletedDiagnostic2);
         }
     }
 }
