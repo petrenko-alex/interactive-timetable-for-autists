@@ -14,23 +14,23 @@ namespace InteractiveTimetable.DataAccessLayer
         private const int MaximumPointGrade = 4;
         private const int LengthOfTickGradeString = 4;
 
-        public CriterionGradeRepository(SQLiteConnection connection)
+        internal CriterionGradeRepository(SQLiteConnection connection)
             : base(connection)
         {
             CriterionDefinitions = new CriterionDefinitionRepository(connection);
         }
 
-        public CriterionGrade GetCriterionGrade(int gradeId)
+        internal CriterionGrade GetCriterionGrade(int gradeId)
         {
             return _database.GetItem<CriterionGrade>(gradeId);
         }
 
-        public IEnumerable<CriterionGrade> GetCriterionGrades()
+        internal IEnumerable<CriterionGrade> GetCriterionGrades()
         {
             return _database.GetItems<CriterionGrade>();
         }
 
-        public IEnumerable<CriterionGrade> GetDiagnosticCriterionGrades(
+        internal IEnumerable<CriterionGrade> GetDiagnosticCriterionGrades(
             int diagnosticId)
         {
             var allGrades = GetCriterionGrades();
@@ -46,7 +46,7 @@ namespace InteractiveTimetable.DataAccessLayer
             return diagnosticGrades;
         }
 
-        public int SaveCriterionGrade(CriterionGrade grade)
+        internal int SaveCriterionGrade(CriterionGrade grade)
         {
             /* Data validation */
             Validate(grade);
@@ -54,12 +54,12 @@ namespace InteractiveTimetable.DataAccessLayer
             return _database.SaveItem(grade);
         }
 
-        public int DeleteCriterionGrade(int gradeId)
+        internal int DeleteCriterionGrade(int gradeId)
         {
             return _database.DeleteItem<CriterionGrade>(gradeId);
         }
 
-        public CriterionGradeType GetCriterionGradeType(CriterionGrade grade)
+        internal CriterionGradeType GetCriterionGradeType(CriterionGrade grade)
         {
             var criterionId = grade.CriterionDefinitionId;
             return CriterionDefinitions.GetCriterionGradeType(criterionId);

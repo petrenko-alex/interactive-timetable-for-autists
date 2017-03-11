@@ -66,10 +66,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CriterionDefinitionStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Validation\CardValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CardValidationStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Validation\CriterionDefinitionValidationStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CriterionDefinitionValidationStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Validation\CriterionGradeTypeValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CriterionGradeTypeValidationStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\Validation\CriterionGradeValidationStrings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -86,10 +96,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HospitalTripManagerValidationStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Validation\ScheduleItemValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleItemValidationStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Validation\ScheduleValidationStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ScheduleValidationStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Validation\UserValidationStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserValidationStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +143,17 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CriterionDefinitionStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\CardValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CardValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Validation\CriterionDefinitionValidationStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CriterionDefinitionValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\CriterionGradeTypeValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CriterionGradeTypeValidationStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Validation\CriterionGradeValidationStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -139,9 +167,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>HospitalTripManagerValidationStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\ScheduleItemValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScheduleItemValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Validation\ScheduleValidationStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScheduleValidationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Validation\UserValidationStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserValidationStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

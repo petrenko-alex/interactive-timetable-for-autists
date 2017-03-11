@@ -7,25 +7,25 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class DiagnosticRepository : BaseRepository
     {
-        public CriterionGradeRepository Grades { get; }
+        internal CriterionGradeRepository Grades { get; }
 
-        public DiagnosticRepository(SQLiteConnection connection)
+        internal DiagnosticRepository(SQLiteConnection connection)
             : base(connection)
         {
             Grades = new CriterionGradeRepository(connection);
         }
 
-        public Diagnostic GetDiagnostic(int diagnosticId)
+        internal Diagnostic GetDiagnostic(int diagnosticId)
         {
             return _database.GetItemCascade<Diagnostic>(diagnosticId);
         }
 
-        public IEnumerable<Diagnostic> GetDiagnostics()
+        internal IEnumerable<Diagnostic> GetDiagnostics()
         {
             return _database.GetItemsCascade<Diagnostic>();
         }
 
-        public IEnumerable<Diagnostic> GetTripDiagnostics(int hospitalTripId)
+        internal IEnumerable<Diagnostic> GetTripDiagnostics(int hospitalTripId)
         {
             var allDiagnostics = GetDiagnostics();
 
@@ -40,17 +40,17 @@ namespace InteractiveTimetable.DataAccessLayer
             return tripDiagnostics;
         }
 
-        public int SaveDiagnostic(Diagnostic diagnostic)
+        internal int SaveDiagnostic(Diagnostic diagnostic)
         {
             return _database.SaveItemCascade(diagnostic);
         }
 
-        public int DeleteDiagnostic(int diagnosticId)
+        internal int DeleteDiagnostic(int diagnosticId)
         {
             return _database.DeleteItem<Diagnostic>(diagnosticId);
         }
 
-        public void DeleteDiagnosticCascade(Diagnostic diagnostic)
+        internal void DeleteDiagnosticCascade(Diagnostic diagnostic)
         {
             _database.DeleteItemCascade(diagnostic);
         }

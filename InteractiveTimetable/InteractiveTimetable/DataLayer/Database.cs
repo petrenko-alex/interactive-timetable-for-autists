@@ -15,7 +15,6 @@ namespace InteractiveTimetable.DataLayer
     internal class Database
     {
         private static object _locker = new object();
-
         private SQLiteConnection _connection;
 
         public Database(SQLiteConnection connection)

@@ -4,7 +4,7 @@ using SQLite;
 
 namespace InteractiveTimetable.BusinessLayer.Contracts
 {
-    public class BusinessEntityBase : IBusinessEntity
+    public abstract class BusinessEntityBase : IBusinessEntity
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

@@ -10,7 +10,7 @@ namespace InteractiveTimetable.DataAccessLayer
         private const string ActivityTypeName = "ACTIVITY_CARD";
         private const string MotivationGoalTypeName = "MOTIVATION_GOAL_CARD";
 
-        public CardTypeRepository(SQLiteConnection connection) : base(connection)
+        internal CardTypeRepository(SQLiteConnection connection) : base(connection)
         {
             /* Adding default card types */
             CardType activivtyCardType = new CardType()

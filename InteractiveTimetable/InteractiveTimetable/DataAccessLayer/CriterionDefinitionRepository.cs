@@ -12,7 +12,7 @@ namespace InteractiveTimetable.DataAccessLayer
 
         private CriterionGradeTypeRepository _gradeTypes;
 
-        public CriterionDefinitionRepository(SQLiteConnection connection)
+        internal CriterionDefinitionRepository(SQLiteConnection connection)
             : base(connection)
         {
             _gradeTypes = new CriterionGradeTypeRepository(connection);
@@ -37,23 +37,23 @@ namespace InteractiveTimetable.DataAccessLayer
             }
         }
 
-        public CriterionDefinition GetCriterionDefinition(int criterionId)
+        internal CriterionDefinition GetCriterionDefinition(int criterionId)
         {
             return _database.GetItemCascade<CriterionDefinition>(criterionId);
         }
 
-        public IEnumerable<CriterionDefinition> GerCriterionDefinitions()
+        internal IEnumerable<CriterionDefinition> GerCriterionDefinitions()
         {
             return _database.GetItemsCascade<CriterionDefinition>().
                              OrderBy(x => x.Number);
         }
 
-        public int GetNumberOfCriterions()
+        internal int GetNumberOfCriterions()
         {
             return NumberOfCriterions;
         }
 
-        public CriterionGradeType GetCriterionGradeType(int criterionId)
+        internal CriterionGradeType GetCriterionGradeType(int criterionId)
         {
             var criterion = GetCriterionDefinition(criterionId);
             if (criterion != null)
@@ -66,7 +66,7 @@ namespace InteractiveTimetable.DataAccessLayer
             return null;
         }
 
-        public CriterionDefinition GetCriterionDefinitionByNumber(int number)
+        internal CriterionDefinition GetCriterionDefinitionByNumber(int number)
         {
             if (number <= 0 ||
                 number > NumberOfCriterions)
@@ -82,7 +82,7 @@ namespace InteractiveTimetable.DataAccessLayer
                     FirstOrDefault(x => x.Number == number);
         }
 
-        public CriterionDefinition GetCriterionDefinitionByDefinition(
+        internal CriterionDefinition GetCriterionDefinitionByDefinition(
             string definition)
         {
             var criterionDefinition = GerCriterionDefinitions().
@@ -100,13 +100,13 @@ namespace InteractiveTimetable.DataAccessLayer
             return criterionDefinition;
         }
 
-        public bool IsPointGradeTypeCriterion(int criterionId)
+        internal bool IsPointGradeTypeCriterion(int criterionId)
         {
             var gradeType = GetCriterionGradeType(criterionId);
             return _gradeTypes.IsPointGradeType(gradeType);
         }
 
-        public bool IsTickGradeTypeCriterion(int criterionId)
+        internal bool IsTickGradeTypeCriterion(int criterionId)
         {
             var gradeType = GetCriterionGradeType(criterionId);
             return _gradeTypes.IsTickGradeType(gradeType);

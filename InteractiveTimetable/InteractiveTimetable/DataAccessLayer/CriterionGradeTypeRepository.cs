@@ -21,7 +21,7 @@ namespace InteractiveTimetable.DataAccessLayer
             18
         };
 
-        public CriterionGradeTypeRepository(SQLiteConnection connection)
+        internal CriterionGradeTypeRepository(SQLiteConnection connection)
             : base(connection)
         {
             /* Adding default criterion grade types */
@@ -39,12 +39,12 @@ namespace InteractiveTimetable.DataAccessLayer
             SaveCriterionGradeType(tickCriterionGradeType);
         }
 
-        public CriterionGradeType GetCriterionGradeType(int id)
+        internal CriterionGradeType GetCriterionGradeType(int id)
         {
             return _database.GetItemCascade<CriterionGradeType>(id);
         }
 
-        public IEnumerable<CriterionGradeType> GetCriterionGradeTypes()
+        internal IEnumerable<CriterionGradeType> GetCriterionGradeTypes()
         {
             return _database.GetItemsCascade<CriterionGradeType>();
         }
@@ -64,7 +64,7 @@ namespace InteractiveTimetable.DataAccessLayer
             _database.DeleteItemCascade(type);
         }
 
-        public CriterionGradeType GetCriterionGradeTypeByNumber(int number)
+        internal CriterionGradeType GetCriterionGradeTypeByNumber(int number)
         {
             if (PointTypeNumbers.Contains(number))
             {
@@ -84,19 +84,19 @@ namespace InteractiveTimetable.DataAccessLayer
             }
         }
 
-        public CriterionGradeType GetPointCriterionGradeType()
+        internal CriterionGradeType GetPointCriterionGradeType()
         {
             return GetCriterionGradeTypes().
                     FirstOrDefault(type => type.TypeName == PointTypeName);
         }
 
-        public CriterionGradeType GetTickCriterionGradeType()
+        internal CriterionGradeType GetTickCriterionGradeType()
         {
             return GetCriterionGradeTypes().
                     FirstOrDefault(type => type.TypeName == TickTypeName);
         }
 
-        public bool IsPointGradeType(CriterionGradeType gradeType)
+        internal bool IsPointGradeType(CriterionGradeType gradeType)
         {
             if (gradeType != null)
             {
@@ -106,7 +106,7 @@ namespace InteractiveTimetable.DataAccessLayer
             return false;
         }
 
-        public bool IsTickGradeType(CriterionGradeType gradeType)
+        internal bool IsTickGradeType(CriterionGradeType gradeType)
         {
             if (gradeType != null)
             {

@@ -7,20 +7,20 @@ namespace InteractiveTimetable.DataAccessLayer
 {
     internal class HospitalTripRepository : BaseRepository
     {
-        public HospitalTripRepository(SQLiteConnection connection)
+        internal HospitalTripRepository(SQLiteConnection connection)
             : base(connection) {}
 
-        public HospitalTrip GetHospitalTrip(int id)
+        internal HospitalTrip GetHospitalTrip(int id)
         {
             return _database.GetItemCascade<HospitalTrip>(id);
         }
 
-        public IEnumerable<HospitalTrip> GetHospitalTrips()
+        internal IEnumerable<HospitalTrip> GetHospitalTrips()
         {
             return _database.GetItemsCascade<HospitalTrip>();
         }
 
-        public IEnumerable<HospitalTrip> GetUserHospitalTrips(int userId)
+        internal IEnumerable<HospitalTrip> GetUserHospitalTrips(int userId)
         {
             var allTrips = GetHospitalTrips();
 
@@ -32,17 +32,17 @@ namespace InteractiveTimetable.DataAccessLayer
             return userTrips;
         }
 
-        public int SaveHospitalTrip(HospitalTrip hospitalTrip)
+        internal int SaveHospitalTrip(HospitalTrip hospitalTrip)
         {
             return _database.SaveItemCascade(hospitalTrip);
         }
 
-        public int DeleteHospitalTrip(int id)
+        internal int DeleteHospitalTrip(int id)
         {
             return _database.DeleteItem<HospitalTrip>(id);
         }
 
-        public void DeleteHospitalTripCascade(HospitalTrip hospitalTrip)
+        internal void DeleteHospitalTripCascade(HospitalTrip hospitalTrip)
         {
             _database.DeleteItemCascade(hospitalTrip);
         }
