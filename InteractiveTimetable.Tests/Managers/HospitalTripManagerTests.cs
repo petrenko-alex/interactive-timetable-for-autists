@@ -202,7 +202,10 @@ namespace InteractiveTimetable.Tests.Managers
                 StartDate = DateTime.Today.AddDays(10),
                 FinishDate = DateTime.Today.AddDays(15),
             };
-            string exceptionMessage = "User id is not set.";
+            string exceptionMessage = Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    UserIsNotSet;
 
             // act/assert
             var exc = Assert.Throws<ArgumentException>(
@@ -224,9 +227,10 @@ namespace InteractiveTimetable.Tests.Managers
                 FinishDate = DateTime.Today.AddDays(10),
                 UserId = _user1.Id
             };
-            string exceptionMessage = "The start date of a " +
-                                      "hospital trip can't be later " +
-                                      "or equal than the finish date.";
+            string exceptionMessage = Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    StartDateLaterThanFinishDate;
 
             // act/assert
             var exc = Assert.Throws<ArgumentException>(
@@ -248,7 +252,10 @@ namespace InteractiveTimetable.Tests.Managers
                 FinishDate = DateTime.Today.AddDays(-10),
                 UserId = _user1.Id
             };
-            string exceptionMessage = "Trip in the past is not allowed";
+            string exceptionMessage = Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    TripInThePast;
 
             // act/assert
             var exc = Assert.Throws<ArgumentException>(
@@ -277,8 +284,10 @@ namespace InteractiveTimetable.Tests.Managers
                 FinishDate = DateTime.Today.AddDays(20),
                 UserId = _user1.Id
             };
-            string exceptionMessage = "Date period is already " +
-                                      "occupied by another trip";
+            string exceptionMessage = Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    TripInsideAnotherTrip;
 
             // act/assert
             _hospitalTripManager.SaveHospitalTrip(trip1);
@@ -307,8 +316,10 @@ namespace InteractiveTimetable.Tests.Managers
                 FinishDate = DateTime.Today.AddDays(20),
                 UserId = _user1.Id
             };
-            string exceptionMessage = "Date period is already " +
-                                      "occupied by another trip";
+            string exceptionMessage = Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    TripInsideAnotherTrip;
 
             // act/assert
             _hospitalTripManager.SaveHospitalTrip(trip1);
@@ -347,7 +358,6 @@ namespace InteractiveTimetable.Tests.Managers
             addedTrip2.FinishDate = DateTime.Today.AddDays(19);
             _hospitalTripManager.SaveHospitalTrip(addedTrip2);
             addedTrip2 = _hospitalTripManager.GetHospitalTrip(addedTrip2.Id);
-
 
             // assert
             Assert.AreEqual(DateTime.Today.AddDays(19), addedTrip2.FinishDate);
@@ -407,7 +417,10 @@ namespace InteractiveTimetable.Tests.Managers
                 UserId = _user1.Id
             };
             var trip1Id = _hospitalTripManager.SaveHospitalTrip(trip1);
-            string exceptionMessage = "Trip in the past is not allowed";
+            string exceptionMessage = Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    TripInThePast;
 
             // act/assert
             HospitalTrip addedTrip1 =
@@ -461,6 +474,48 @@ namespace InteractiveTimetable.Tests.Managers
             Assert.AreEqual(diagnosticId2, newTrip.Diagnostics[0].Id);
             Assert.AreEqual(diagnosticId3, newTrip.Diagnostics[1].Id);
             Assert.AreEqual(diagnosticId4, newTrip.Diagnostics[2].Id);
+        }
+
+        [Test]
+        public void EditToMakeDiagnosticOutOfTripRange()
+        {
+            // arrange
+            DateTime dateTime = DateTime.Now;
+            var exceptionString = Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    DiagnosticOutOfTrip;
+            exceptionString = string.Format(
+                exceptionString, 
+                dateTime.Date.ToString("dd.MM.yyyy"));
+
+            /* Creating and saving hospital trip */
+            HospitalTrip newTrip = new HospitalTrip()
+            {
+                StartDate = DateTime.Today.AddDays(-5),
+                FinishDate = DateTime.Today.AddDays(15),
+                UserId = _user1.Id
+            };
+            var tripId = _hospitalTripManager.SaveHospitalTrip(newTrip);
+
+            /* Creating and saving diagnostic */
+            var criterionAndGrades = GetFullSetOfCriterionsAndGrades();
+
+            var diagnosticId1 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+            var diagnosticId2 = _diagnosticManager.
+                SaveDiagnostic(tripId, dateTime, criterionAndGrades);
+
+            // act/assert
+            var trip = _hospitalTripManager.GetHospitalTrip(tripId);
+            trip.StartDate = DateTime.Today.AddDays(5);
+
+            var exception = Assert.Throws<ArgumentException>(delegate
+            {
+                _hospitalTripManager.SaveHospitalTrip(trip);
+            });
+            Assert.AreEqual(exceptionString, exception.Message);
+
         }
 
         [Test]

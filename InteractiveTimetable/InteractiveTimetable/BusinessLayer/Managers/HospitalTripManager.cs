@@ -64,31 +64,67 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* ... hospitalTrip is set */
             if (hospitalTrip == null)
             {
-                throw new ArgumentException("Hospital Trip is not set.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    ArgumentIsNull);
             }
 
             /* ... user is set */
             if (hospitalTrip.UserId <= 0)
             {
-                throw new ArgumentException("User id is not set.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    UserIsNotSet);
             }
 
             /* ... start date is not later than finish date */
             if (hospitalTrip.StartDate > hospitalTrip.FinishDate)
             {
-                throw new ArgumentException("The start date of a " +
-                                            "hospital trip can't be later " +
-                                            "or equal than the finish date.");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    StartDateLaterThanFinishDate);
             }
 
-            /* TODO Dianostic out of trip range */
+            /* ... diagnostic is not out of trip range when editing */
+            if (hospitalTrip.Id > 0)
+            {
+                foreach (var diagnostic in hospitalTrip.Diagnostics)
+                {
+                    if (diagnostic.Date < hospitalTrip.StartDate ||
+                        diagnostic.Date > hospitalTrip.FinishDate)
+                    {
+                        var diagnosticDate =
+                                diagnostic.Date.Date.ToString("dd.MM.yyyy");
+
+                        string exceptionString = Resources.
+                                Validation.
+                                HospitalTripManagerValidationStrings.
+                                DiagnosticOutOfTrip;
+
+                        exceptionString = string.Format
+                            (exceptionString, diagnosticDate);
+
+                        throw new ArgumentException(exceptionString);
+                    }
+                }
+            }
 
             /* ... trip is not in the past */
             var nowDateTime = DateTime.Now;
             if (hospitalTrip.StartDate < nowDateTime &&
                 hospitalTrip.FinishDate < nowDateTime)
             {
-                throw new ArgumentException("Trip in the past is not allowed");
+                throw new ArgumentException(
+                    Resources.
+                    Validation.
+                    HospitalTripManagerValidationStrings.
+                    TripInThePast);
             }
 
             /* ... trip is not inside another trip */
@@ -115,8 +151,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
                 if (newTripOveraysAnotherTrip || newTripIntersectsAnotherTrip)
                 {
-                    throw new ArgumentException("Date period is already " +
-                                                "occupied by another trip");
+                    throw new ArgumentException(
+                        Resources.
+                        Validation.
+                        HospitalTripManagerValidationStrings.
+                        TripInsideAnotherTrip);
                 }
             }
         }
