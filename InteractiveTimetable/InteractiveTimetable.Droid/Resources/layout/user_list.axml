@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/user_list">
+  <TextView
+      android:text="Список детей"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/textView1"
+      android:gravity="center"
+      android:layout_marginTop="10dp" />
+  <AutoCompleteTextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/find_user"
+      android:layout_margin="10dp"
+      android:hint="Введите имя ребенка..." />
+  <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/recyclerView1" />
+</LinearLayout>

@@ -10,7 +10,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             base.OnCreate(savedInstanceState);
 
-			SetContentView (Resource.Layout.Management);
+			SetContentView (Resource.Layout.management);
+
+            var userListFragment = UserListFragment.NewInstance();
+
+            var fragmentManager = FragmentManager.BeginTransaction();
+            fragmentManager.Add(Resource.Id.user_list, userListFragment);
+            fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+            fragmentManager.Commit();
         }
     }
 }
