@@ -9,11 +9,14 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 {
     public class UserManager
     {
+        public int UserCount { get; private set; }
+
         private UserRepository _repository;
 
         public UserManager(SQLiteConnection connection)
         {
             _repository = new UserRepository(connection);
+            UserCount = _repository.GetUsers().Count();
         }
 
         public User GetUser(int userId)
@@ -31,13 +34,25 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* Data validation */
             Validate(user);
 
-            return _repository.SaveUser(user);
+            /* Saving user */
+            var savedId = _repository.SaveUser(user);
+
+            if (savedId > 0)
+            {
+                UserCount++;
+            }
+
+            return savedId;
         }
 
         public void DeleteUser(int userId)
         {
             var user = GetUser(userId);
-            _repository.DeleteUserCascade(user);
+            if (user != null)
+            {
+                _repository.DeleteUserCascade(user);
+                UserCount--;
+            }
         }
 
         public bool IsUserInPresentTimetable(int userId)

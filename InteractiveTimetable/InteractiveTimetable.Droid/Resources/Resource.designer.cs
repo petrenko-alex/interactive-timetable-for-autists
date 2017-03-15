@@ -100,6 +100,12 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050000
 			public const int item_touch_helper_previous_elevation = 2131034112;
 			
+			// aapt resource value: 0x7f050009
+			public const int linearLayout1 = 2131034121;
+			
+			// aapt resource value: 0x7f05000b
+			public const int linearLayout2 = 2131034123;
+			
 			// aapt resource value: 0x7f050003
 			public const int main_landscape = 2131034115;
 			
@@ -115,8 +121,20 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050004
 			public const int user_details = 2131034116;
 			
+			// aapt resource value: 0x7f05000d
+			public const int user_fpname = 2131034125;
+			
+			// aapt resource value: 0x7f05000c
+			public const int user_lastname = 2131034124;
+			
 			// aapt resource value: 0x7f050002
 			public const int user_list = 2131034114;
+			
+			// aapt resource value: 0x7f05000a
+			public const int user_photo = 2131034122;
+			
+			// aapt resource value: 0x7f050008
+			public const int user_recycler_view = 2131034120;
 			
 			static Id()
 			{
@@ -136,6 +154,9 @@ namespace InteractiveTimetable.Droid
 			
 			// aapt resource value: 0x7f030001
 			public const int user_list = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int user_list_item = 2130903042;
 			
 			static Layout()
 			{
