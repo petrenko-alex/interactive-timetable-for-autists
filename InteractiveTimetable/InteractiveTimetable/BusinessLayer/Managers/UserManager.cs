@@ -181,7 +181,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
             User user5 = new User()
             {
-                LastName = "Серегин",
+                LastName = "Краснов",
                 FirstName = "Иван",
                 PatronymicName = "Викторович",
                 BirthDate = DateTime.ParseExact("01.01.1990", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
@@ -190,11 +190,47 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
             User user6 = new User()
             {
-                LastName = "Мелихов",
+                LastName = "Тополев",
                 FirstName = "Александр",
                 PatronymicName = "Владимирович",
                 BirthDate = DateTime.ParseExact("05.05.1992", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
                 PhotoPath = appFolderPath + "/user6.jpg"
+            };
+
+            User user7 = new User()
+            {
+                LastName = "Бивченко",
+                FirstName = "Александр",
+                PatronymicName = "Александрович",
+                BirthDate = DateTime.ParseExact("22.12.1990", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user7.jpg"
+            };
+
+            User user8 = new User()
+            {
+                LastName = "Прокопенко",
+                FirstName = "Юрий",
+                PatronymicName = "Викторович",
+                BirthDate = DateTime.ParseExact("01.01.2001", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user8.jpg"
+            };
+
+            User user9 = new User()
+            {
+                LastName = "Агаров",
+                FirstName = "Михаил",
+                PatronymicName = "Константинович",
+                BirthDate = DateTime.ParseExact("03.06.1988", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user9.jpg"
+            };
+
+            User user10 = new User()
+            {
+                LastName = "Русов",
+                FirstName = "Андрей",
+                PatronymicName = "Борисович",
+                BirthDate = DateTime.ParseExact("30.11.2005", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user10.jpg"
             };
 
             SaveUser(user1);
@@ -203,6 +239,10 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             SaveUser(user4);
             SaveUser(user5);
             SaveUser(user6);
+            SaveUser(user7);
+            SaveUser(user8);
+            SaveUser(user9);
+            SaveUser(user10);
         }
     }
 }

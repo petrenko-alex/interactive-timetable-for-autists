@@ -180,5 +180,17 @@
       <LastGenOutput>UserValidationStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\UserPhotos\user1.jpg" />
+    <Content Include="Resources\UserPhotos\user10.jpg" />
+    <Content Include="Resources\UserPhotos\user2.jpg" />
+    <Content Include="Resources\UserPhotos\user3.jpg" />
+    <Content Include="Resources\UserPhotos\user4.jpg" />
+    <Content Include="Resources\UserPhotos\user5.jpg" />
+    <Content Include="Resources\UserPhotos\user6.jpg" />
+    <Content Include="Resources\UserPhotos\user7.jpg" />
+    <Content Include="Resources\UserPhotos\user8.jpg" />
+    <Content Include="Resources\UserPhotos\user9.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
