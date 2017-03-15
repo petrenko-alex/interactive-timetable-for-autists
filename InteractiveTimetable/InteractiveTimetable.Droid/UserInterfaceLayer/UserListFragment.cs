@@ -1,12 +1,9 @@
+using System.Linq;
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
-using Android.Views;
+using InteractiveTimetable.Droid.ApplicationLayer;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -14,6 +11,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     {
         private RecyclerView _recyclerView;
         private RecyclerView.LayoutManager _layoutManager;
+        private UserListAdapter _userListAdapter;
 
         public int UserId
         {
@@ -30,23 +28,24 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return userListFragment;
         }
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
+            base.OnActivityCreated(savedInstanceState);
 
-            _recyclerView = Activity.
-                FindViewById<RecyclerView>(Resource.Id.user_recycler_view);
+            /* Getting views */
+            _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.user_recycler_view);
 
+            /* Setting up the layout manager */
             _layoutManager = new LinearLayoutManager(Activity);
             _recyclerView.SetLayoutManager(_layoutManager);
 
-
+            /* Setting up the adapter */
+            var users = InteractiveTimetable.Current.UserManager.GetUsers().OrderBy(x => x.LastName).ToList();
+            _userListAdapter = new UserListAdapter(Activity, users);
+            _recyclerView.SetAdapter(_userListAdapter);
         }
 
-        public override View OnCreateView(
-            LayoutInflater inflater, 
-            ViewGroup container, 
-            Bundle savedInstanceState)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.user_list, container, false);
         }

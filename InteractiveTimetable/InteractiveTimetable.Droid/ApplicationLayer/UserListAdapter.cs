@@ -1,52 +1,50 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
-using Android.Widget;
+using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     public class UserListAdapter : RecyclerView.Adapter
     {
+        private Activity _context;
+        private IList<User> _users;
         public event EventHandler<int> ItemClick;
 
-        public UserManager UserManager;
-
-        public UserListAdapter(UserManager userManager)
+        public UserListAdapter(Activity context, IList<User> users)
         {
-            UserManager = userManager;
+            _context = context;
+            _users = users;
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            UserViewHolder viewHolder = holder as UserViewHolder;
+            var userAtPosition = _users[position];
+            var viewHolder = holder as UserViewHolder;
 
-
-            //viewHolder.LastName.Text = UserManager
+            if (viewHolder != null)
+            {
+                viewHolder.LastName.Text = userAtPosition.LastName;
+                viewHolder.FirstAndPatronymicName.Text = userAtPosition.FirstName +
+                                                         " " +
+                                                         userAtPosition.PatronymicName;
+                viewHolder.UserPhoto.SetImageURI(Android.Net.Uri.Parse(userAtPosition.PhotoPath));
+            }
         }
 
         public override RecyclerView.ViewHolder 
             OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var inflater = LayoutInflater.From(parent.Context);
+            var inflater = LayoutInflater.From(_context);
             View view = inflater.Inflate(Resource.Layout.user_list_item, parent, false);
 
-            View itemView = LayoutInflater.From(parent.Context).
-                Inflate(Resource.Layout.user_list_item, parent, false);
-            
-
-            UserViewHolder holder = new UserViewHolder(itemView, OnClick);
+            UserViewHolder holder = new UserViewHolder(view, OnClick);
             return holder;
         }
 
-        public override int ItemCount => UserManager.UserCount;
+        public override int ItemCount => _users.Count;
 
         void OnClick(int position)
         {
