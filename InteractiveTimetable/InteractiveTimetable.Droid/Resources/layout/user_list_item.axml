@@ -4,13 +4,22 @@
     p1:layout_width="wrap_content"
     p1:layout_height="wrap_content"
     p1:id="@+id/linearLayout1">
-    <ImageView
-        p1:src="@android:drawable/ic_menu_gallery"
-        p1:id="@+id/user_photo"
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
         p1:layout_width="200dp"
         p1:layout_height="200dp"
+        p1:id="@+id/user_list_photo_frame"
         p1:layout_marginLeft="10dp"
-        p1:scaleType="centerCrop" />
+        p1:padding="1dp"
+        p1:background="#84DE02">
+        <ImageView
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:id="@+id/user_photo"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:scaleType="centerCrop" />
+    </FrameLayout>
     <LinearLayout
         p1:orientation="vertical"
         p1:layout_width="match_parent"
