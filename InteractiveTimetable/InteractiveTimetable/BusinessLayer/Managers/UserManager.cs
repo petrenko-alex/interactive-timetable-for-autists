@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.DataAccessLayer;
@@ -137,6 +138,73 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                                           BirthDateLaterThanTrip);
                 }
             }
+        }
+
+        public void InitializeForDebugging(string appFolderPath)
+        {
+            // TODO: Delete method calls when debugging is not needed
+            int userAmount = 6;
+
+            User user1 = new User()
+            {
+                LastName = "Петренко",
+                FirstName = "Александр",
+                PatronymicName = "Андреевич",
+                BirthDate = DateTime.ParseExact("25.07.1995", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user1.jpg"
+            };
+
+            User user2 = new User()
+            {
+                LastName = "Шкулипа",
+                FirstName = "Дмитрий",
+                PatronymicName = "Алексеевич",
+                BirthDate = DateTime.ParseExact("16.03.1994", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user2.jpg"
+            };
+
+            User user3 = new User()
+            {
+                LastName = "Иванов",
+                FirstName = "Алексей",
+                PatronymicName = "Борисович",
+                BirthDate = DateTime.ParseExact("11.02.1999", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user3.jpg"
+            };
+
+            User user4 = new User()
+            {
+                LastName = "Апарин",
+                FirstName = "Дмитрий",
+                PatronymicName = "Сергеевич",
+                BirthDate = DateTime.ParseExact("20.01.1995", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user4.jpg"
+            };
+
+            User user5 = new User()
+            {
+                LastName = "Серегин",
+                FirstName = "Иван",
+                PatronymicName = "Викторович",
+                BirthDate = DateTime.ParseExact("01.01.1990", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user5.jpg"
+            };
+
+            User user6 = new User()
+            {
+                LastName = "Мелихов",
+                FirstName = "Александр",
+                PatronymicName = "Владимирович",
+                BirthDate = DateTime.ParseExact("05.05.1992", "dd.MM.yyyy", CultureInfo.CurrentCulture).Date,
+                PhotoPath = appFolderPath + "/user6.jpg"
+            };
+
+            SaveUser(user1);
+            SaveUser(user2);
+            SaveUser(user3);
+            SaveUser(user4);
+            SaveUser(user5);
+            SaveUser(user6);
         }
     }
 }
