@@ -143,8 +143,6 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         public void InitializeForDebugging(string appFolderPath)
         {
             // TODO: Delete method calls when debugging is not needed
-            int userAmount = 6;
-
             User user1 = new User()
             {
                 LastName = "Петренко",
