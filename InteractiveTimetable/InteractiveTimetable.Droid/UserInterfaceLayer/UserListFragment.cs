@@ -40,13 +40,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                                              ToList();
 
             /* Initializing current user id */
+            int userId;
             if (savedInstanceState != null)
             {
-                _currentUserId = savedInstanceState.GetInt(UserIdKey, 0);
+                userId = savedInstanceState.GetInt(UserIdKey, 0);
             }
             else
             {
-                _currentUserId = users[0].Id;
+                userId = users[0].Id;
             }
 
             /* Getting views */
@@ -68,7 +69,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             if (_isWideScreenDevice)
             {
-                ShowUserDetails(_currentUserId);
+                ShowUserDetails(userId);
             }
         }
 
@@ -86,7 +87,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             Toast.MakeText(Activity, $"This is user with id: {userId}", ToastLength.Short).Show();
 
             ShowUserDetails(userId);
-            _currentUserId = userId;
         }
 
         public override void OnSaveInstanceState(Bundle outState)
@@ -122,6 +122,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 // TODO: launch new activivty
             }
+
+            _currentUserId = userId;
         }
     }
 }
