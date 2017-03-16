@@ -14,6 +14,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private RecyclerView.LayoutManager _layoutManager;
         private UserListAdapter _userListAdapter;
 
+        private bool _isWideScreenDevice;
+
         public int UserId
         {
             get { return Arguments.GetInt("user_id", 0); }
@@ -47,6 +49,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListAdapter = new UserListAdapter(Activity, users);
             _userListAdapter.ItemClick += OnItemClick;
             _recyclerView.SetAdapter(_userListAdapter);
+
+            /* Determining wide screen device */
+            var layout = Activity.FindViewById<LinearLayout>(Resource.Id.main_landscape);
+            var _isWideScreenDevice = layout != null && layout.Visibility == ViewStates.Visible;
+
+            if (_isWideScreenDevice)
+            {
+                ShowUserDetails(users[0].Id);
+            }
         }
 
         public override View OnCreateView(
@@ -60,6 +71,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         void OnItemClick(object sender, int userId)
         {   
             Toast.MakeText(Activity, $"This is user with id: {userId}", ToastLength.Short).Show();
+        }
+
+        private void ShowUserDetails(int userId)
+        {
+            var userDetailsFragment = UserDetailsFragment.NewInstance(userId);
+
+            var fragmentManager = FragmentManager.BeginTransaction();
+            fragmentManager.Add(Resource.Id.user_details, userDetailsFragment);
+            fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+            fragmentManager.Commit();
         }
     }
 }

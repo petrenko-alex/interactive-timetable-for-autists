@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="horizontal"
+    p1:minWidth="25px"
+    p1:minHeight="25px"
+    p1:layout_width="wrap_content"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/linearLayout1"
+    p1:paddingLeft="400dp"
+    p1:paddingRight="400dp"
+    p1:paddingTop="50dp">
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/frameLayout1"
+        p1:padding="1dp"
+        p1:background="#00BFFF">
+        <ImageView
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_width="300dp"
+            p1:layout_height="300dp"
+            p1:id="@+id/user_details_photo"
+            p1:scaleType="centerCrop" />
+    </FrameLayout>
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="match_parent"
+        p1:id="@+id/frameLayout2"
+        p1:padding="1dp"
+        p1:background="#00BFFF"
+        p1:layout_marginLeft="50dp"
+        p1:layout_marginTop="20dp"
+        p1:layout_marginBottom="20dp">
+        <LinearLayout
+            p1:orientation="horizontal"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/linearLayout2"
+            p1:background="#000000">
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout4">
+                <LinearLayout
+                    p1:orientation="vertical"
+                    p1:minWidth="25px"
+                    p1:minHeight="25px"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/linearLayout5"
+                    p1:paddingTop="65dp"
+                    p1:layout_marginLeft="20dp">
+                    <TextView
+                        p1:text="@string/user_details_last_name"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:layout_width="match_parent"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/user_details_last_name" />
+                    <TextView
+                        p1:text="@string/user_details_first_name"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:layout_width="match_parent"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/user_details_first_name" />
+                    <TextView
+                        p1:text="@string/user_details_patronymic_name"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:layout_width="match_parent"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/user_details_patronymic_name" />
+                    <TextView
+                        p1:text="@string/user_details_age"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:layout_width="match_parent"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/user_details_age" />
+                    <TextView
+                        p1:text="@string/user_details_birth"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:layout_width="match_parent"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/user_details_birth" />
+                </LinearLayout>
+                <ImageButton
+                    p1:src="@android:drawable/ic_menu_edit"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/edit_user"
+                    p1:layout_marginTop="30dp"
+                    p1:background="@null" />
+            </LinearLayout>
+            <Button
+                p1:text="@string/general_monitoring_button"
+                p1:layout_width="wrap_content"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/general_monitoring"
+                p1:layout_marginTop="100dp"
+                p1:layout_marginLeft="200dp"
+                p1:layout_marginRight="20dp" />
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout6" />
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout7" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

@@ -2,4 +2,10 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">InteractiveTimetable.Droid</string>
+  <string name="general_monitoring_button">Показать\nОбщий мониторинг уровня развития ребенка</string>
+  <string name="user_details_last_name">Фамилия: </string>
+  <string name="user_details_first_name">Имя: </string>
+  <string name="user_details_patronymic_name">Отчество: </string>
+  <string name="user_details_age">Возраст: </string>
+  <string name="user_details_birth">Дата рождения: </string>
 </resources>
