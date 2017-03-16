@@ -3,6 +3,7 @@ using Android.App;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
@@ -40,14 +41,25 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.SetLayoutManager(_layoutManager);
 
             /* Setting up the adapter */
-            var users = InteractiveTimetable.Current.UserManager.GetUsers().OrderBy(x => x.LastName).ToList();
+            var users = InteractiveTimetable.Current.UserManager.GetUsers().
+                                             OrderBy(x => x.LastName).
+                                             ToList();
             _userListAdapter = new UserListAdapter(Activity, users);
+            _userListAdapter.ItemClick += OnItemClick;
             _recyclerView.SetAdapter(_userListAdapter);
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View OnCreateView(
+            LayoutInflater inflater, 
+            ViewGroup container, 
+            Bundle savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.user_list, container, false);
+        }
+
+        void OnItemClick(object sender, int userId)
+        {   
+            Toast.MakeText(Activity, $"This is user with id: {userId}", ToastLength.Short).Show();
         }
     }
 }

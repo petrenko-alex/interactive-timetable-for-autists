@@ -12,7 +12,7 @@
         p1:id="@+id/user_list_photo_frame"
         p1:layout_marginLeft="10dp"
         p1:padding="1dp"
-        p1:background="#84DE02">
+        p1:background="#00BFFF">
         <ImageView
             p1:src="@android:drawable/ic_menu_gallery"
             p1:id="@+id/user_photo"

@@ -10,6 +10,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         public ImageView UserPhoto { get; private set; }
         public TextView LastName { get; private set; }
         public TextView FirstAndPatronymicName { get; private set; }
+        public int UserId { get; set; }
 
         public UserViewHolder(View itemView, Action<int> listener) : base(itemView)
         {
@@ -17,6 +18,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             LastName = itemView.FindViewById<TextView>(Resource.Id.user_lastname);
             FirstAndPatronymicName 
                 = itemView.FindViewById<TextView>(Resource.Id.user_fpname);
+
+            itemView.Click += (sender, e) => listener(UserId);
         }
     }
 }
