@@ -22,8 +22,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             get { return Arguments.GetInt(UserIdKey, 0); }
         }
 
-        private UserDetailsFragment() { }
-
         public static UserDetailsFragment NewInstance(int userId)
         {
             var userDetailsFragment = new UserDetailsFragment()
