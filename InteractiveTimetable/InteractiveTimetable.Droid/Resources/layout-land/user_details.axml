@@ -49,77 +49,63 @@
                 p1:minHeight="25px"
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
-                p1:id="@+id/linearLayout4">
-                <LinearLayout
-                    p1:orientation="vertical"
-                    p1:minWidth="25px"
-                    p1:minHeight="25px"
-                    p1:layout_width="wrap_content"
+                p1:id="@+id/linearLayout4"
+                p1:paddingTop="65dp"
+                p1:layout_marginLeft="20dp">
+                <TextView
+                    p1:text="@string/user_details_last_name"
+                    p1:textAppearance="?android:attr/textAppearanceMedium"
+                    p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
-                    p1:id="@+id/linearLayout5"
-                    p1:paddingTop="65dp"
-                    p1:layout_marginLeft="20dp">
-                    <TextView
-                        p1:text="@string/user_details_last_name"
-                        p1:textAppearance="?android:attr/textAppearanceMedium"
-                        p1:layout_width="match_parent"
-                        p1:layout_height="wrap_content"
-                        p1:id="@+id/user_details_last_name" />
-                    <TextView
-                        p1:text="@string/user_details_first_name"
-                        p1:textAppearance="?android:attr/textAppearanceMedium"
-                        p1:layout_width="match_parent"
-                        p1:layout_height="wrap_content"
-                        p1:id="@+id/user_details_first_name" />
-                    <TextView
-                        p1:text="@string/user_details_patronymic_name"
-                        p1:textAppearance="?android:attr/textAppearanceMedium"
-                        p1:layout_width="match_parent"
-                        p1:layout_height="wrap_content"
-                        p1:id="@+id/user_details_patronymic_name" />
-                    <TextView
-                        p1:text="@string/user_details_age"
-                        p1:textAppearance="?android:attr/textAppearanceMedium"
-                        p1:layout_width="match_parent"
-                        p1:layout_height="wrap_content"
-                        p1:id="@+id/user_details_age" />
-                    <TextView
-                        p1:text="@string/user_details_birth"
-                        p1:textAppearance="?android:attr/textAppearanceMedium"
-                        p1:layout_width="match_parent"
-                        p1:layout_height="wrap_content"
-                        p1:id="@+id/user_details_birth" />
-                </LinearLayout>
+                    p1:id="@+id/user_details_last_name" />
+                <TextView
+                    p1:text="@string/user_details_first_name"
+                    p1:textAppearance="?android:attr/textAppearanceMedium"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/user_details_first_name" />
+                <TextView
+                    p1:text="@string/user_details_patronymic_name"
+                    p1:textAppearance="?android:attr/textAppearanceMedium"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/user_details_patronymic_name" />
+                <TextView
+                    p1:text="@string/user_details_age"
+                    p1:textAppearance="?android:attr/textAppearanceMedium"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/user_details_age" />
+                <TextView
+                    p1:text="@string/user_details_birth"
+                    p1:textAppearance="?android:attr/textAppearanceMedium"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/user_details_birth" />
+            </LinearLayout>
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/linearLayout6"
+                p1:layout_marginLeft="200dp"
+                p1:layout_marginTop="100dp">
+                <Button
+                    p1:text="@string/general_monitoring_button"
+                    p1:id="@+id/general_monitoring"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="wrap_content" />
                 <ImageButton
                     p1:src="@android:drawable/ic_menu_edit"
                     p1:layout_width="wrap_content"
                     p1:layout_height="wrap_content"
                     p1:id="@+id/edit_user"
-                    p1:layout_marginTop="30dp"
+                    p1:layout_marginTop="50dp"
+                    p1:layout_marginLeft="400dp"
                     p1:background="@null" />
             </LinearLayout>
-            <Button
-                p1:text="@string/general_monitoring_button"
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:id="@+id/general_monitoring"
-                p1:layout_marginTop="100dp"
-                p1:layout_marginLeft="200dp"
-                p1:layout_marginRight="20dp" />
-            <LinearLayout
-                p1:orientation="vertical"
-                p1:minWidth="25px"
-                p1:minHeight="25px"
-                p1:layout_width="wrap_content"
-                p1:layout_height="match_parent"
-                p1:id="@+id/linearLayout6" />
-            <LinearLayout
-                p1:orientation="vertical"
-                p1:minWidth="25px"
-                p1:minHeight="25px"
-                p1:layout_width="wrap_content"
-                p1:layout_height="match_parent"
-                p1:id="@+id/linearLayout7" />
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>
