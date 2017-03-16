@@ -85,8 +85,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             // TODO: Delete the line below when dubugging is done
             Toast.MakeText(Activity, $"This is user with id: {userId}", ToastLength.Short).Show();
 
-            _currentUserId = userId;
             ShowUserDetails(userId);
+            _currentUserId = userId;
         }
 
         public override void OnSaveInstanceState(Bundle outState)
@@ -99,16 +99,28 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             if (_isWideScreenDevice)
             {
-                var userDetailsFragment = UserDetailsFragment.NewInstance(userId);
+                /* Checking what fragment is shown and replacing if needed */
+                var userDetails = FragmentManager.FindFragmentByTag(UserDetailsFragment.FragmentTag)
+                        as UserDetailsFragment;
 
-                var fragmentManager = FragmentManager.BeginTransaction();
-                fragmentManager.Replace(Resource.Id.user_details, userDetailsFragment);
-                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                fragmentManager.Commit();
+                if (userDetails == null || _currentUserId != userId)
+                {
+                    var userDetailsFragment = UserDetailsFragment.NewInstance(userId);
+
+                    var fragmentManager = FragmentManager.BeginTransaction();
+                    fragmentManager.Replace(
+                            Resource.Id.user_details, 
+                            userDetailsFragment, 
+                            UserDetailsFragment.FragmentTag
+                        );
+
+                    fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+                    fragmentManager.Commit();
+                }
             }
             else
             {
-                // TODO: intent new activivty
+                // TODO: launch new activivty
             }
         }
     }

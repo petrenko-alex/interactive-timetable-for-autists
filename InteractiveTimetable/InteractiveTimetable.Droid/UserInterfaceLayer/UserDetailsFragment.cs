@@ -15,6 +15,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     public class UserDetailsFragment : Fragment
     {
+        public static readonly string FragmentTag = "user_details_fragment";
+
         private static readonly string UserIdKey = "current_user_id";
 
         public int UserId
