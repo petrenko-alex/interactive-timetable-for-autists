@@ -10,16 +10,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     public class UserListFragment : Fragment
     {
+        private static readonly string UserIdKey = "current_user_id";
         private RecyclerView _recyclerView;
         private RecyclerView.LayoutManager _layoutManager;
         private UserListAdapter _userListAdapter;
 
         private bool _isWideScreenDevice;
-
-        public int UserId
-        {
-            get { return Arguments.GetInt("user_id", 0); }
-        }
+        private int _currentUserId;
         
         public static UserListFragment NewInstance()
         {
@@ -34,6 +31,21 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
+            
+            /* Getting users ordered by last name */
+            var users = InteractiveTimetable.Current.UserManager.GetUsers().
+                                             OrderBy(x => x.LastName).
+                                             ToList();
+
+            /* Initializing current user id */
+            if (savedInstanceState != null)
+            {
+                _currentUserId = savedInstanceState.GetInt(UserIdKey, 0);
+            }
+            else
+            {
+                _currentUserId = users[0].Id;
+            }
 
             /* Getting views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.user_recycler_view);
@@ -43,20 +55,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.SetLayoutManager(_layoutManager);
 
             /* Setting up the adapter */
-            var users = InteractiveTimetable.Current.UserManager.GetUsers().
-                                             OrderBy(x => x.LastName).
-                                             ToList();
+            
             _userListAdapter = new UserListAdapter(Activity, users);
             _userListAdapter.ItemClick += OnItemClick;
             _recyclerView.SetAdapter(_userListAdapter);
 
             /* Determining wide screen device */
             var layout = Activity.FindViewById<LinearLayout>(Resource.Id.main_landscape);
-            var _isWideScreenDevice = layout != null && layout.Visibility == ViewStates.Visible;
+            _isWideScreenDevice = layout != null && layout.Visibility == ViewStates.Visible;
 
             if (_isWideScreenDevice)
             {
-                ShowUserDetails(users[0].Id);
+                ShowUserDetails(_currentUserId);
             }
         }
 
@@ -68,19 +78,36 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return inflater.Inflate(Resource.Layout.user_list, container, false);
         }
 
-        void OnItemClick(object sender, int userId)
+        public void OnItemClick(object sender, int userId)
         {   
+            // TODO: Delete the line below when dubugging is done
             Toast.MakeText(Activity, $"This is user with id: {userId}", ToastLength.Short).Show();
+
+            _currentUserId = userId;
+            ShowUserDetails(userId);
+        }
+
+        public override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutInt(UserIdKey, _currentUserId);
+            base.OnSaveInstanceState(outState);
         }
 
         private void ShowUserDetails(int userId)
         {
-            var userDetailsFragment = UserDetailsFragment.NewInstance(userId);
+            if (_isWideScreenDevice)
+            {
+                var userDetailsFragment = UserDetailsFragment.NewInstance(userId);
 
-            var fragmentManager = FragmentManager.BeginTransaction();
-            fragmentManager.Add(Resource.Id.user_details, userDetailsFragment);
-            fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-            fragmentManager.Commit();
+                var fragmentManager = FragmentManager.BeginTransaction();
+                fragmentManager.Replace(Resource.Id.user_details, userDetailsFragment);
+                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+                fragmentManager.Commit();
+            }
+            else
+            {
+                // TODO: intent new activivty
+            }
         }
     }
 }
