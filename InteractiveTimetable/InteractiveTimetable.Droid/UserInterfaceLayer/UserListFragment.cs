@@ -82,6 +82,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return inflater.Inflate(Resource.Layout.user_list, container, false);
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            GC.Collect();
+        }
+
         public void OnItemClick(object sender, int userId)
         {   
             // TODO: Delete the line below when dubugging is done
