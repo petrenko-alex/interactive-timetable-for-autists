@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Android.App;
 using Android.OS;
@@ -58,7 +59,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.SetLayoutManager(_layoutManager);
 
             /* Setting up the adapter */
-            
             _userListAdapter = new UserListAdapter(Activity, users);
             _userListAdapter.ItemClick += OnItemClick;
             _recyclerView.SetAdapter(_userListAdapter);
@@ -71,6 +71,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 ShowUserDetails(userId);
             }
+            _currentUserId = userId;
         }
 
         public override View OnCreateView(
@@ -87,6 +88,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             Toast.MakeText(Activity, $"This is user with id: {userId}", ToastLength.Short).Show();
 
             ShowUserDetails(userId);
+            _currentUserId = userId;
         }
 
         public override void OnSaveInstanceState(Bundle outState)
@@ -123,7 +125,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 // TODO: launch new activivty
             }
 
-            _currentUserId = userId;
         }
     }
 }
