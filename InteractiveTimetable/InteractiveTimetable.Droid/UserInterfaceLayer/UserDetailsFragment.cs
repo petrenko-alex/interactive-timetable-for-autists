@@ -64,7 +64,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Setting age */
             var ageView = userView.FindViewById<TextView>(Resource.Id.user_details_age);
-            ageView.Text += user.Age;
+            ageView.Text += " " + user.Age;
 
             /* Setting birth date */
             var birthView = userView.FindViewById<TextView>(Resource.Id.user_details_birth);

@@ -14,7 +14,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidApplication>True</AndroidApplication>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <AssemblyName>InteractiveTimetable.Droid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
@@ -102,6 +102,7 @@
     <Compile Include="ApplicationLayer\UserListAdapter.cs" />
     <Compile Include="ApplicationLayer\UserViewHolder.cs" />
     <Compile Include="InteractiveTimetable.cs" />
+    <Compile Include="UserDetailsActivivty.cs" />
     <Compile Include="UserInterfaceLayer\ManagementActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,6 +130,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout-land\user_details.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\user_details.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

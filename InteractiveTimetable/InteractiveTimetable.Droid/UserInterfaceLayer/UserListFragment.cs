@@ -6,6 +6,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
+using Android.Content;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -128,7 +129,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             else
             {
-                // TODO: launch new activivty
+                var intent = new Intent();
+
+                intent.SetClass(Activity, typeof(UserDetailsActivivty));
+                intent.PutExtra(UserIdKey, userId);
+                StartActivity(intent);
             }
 
         }
