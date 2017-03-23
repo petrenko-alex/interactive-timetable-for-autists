@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using Android.Graphics;
+using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -17,6 +18,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private Button _cancelButton;
         private Button _editPhotoButton;
         private ImageButton _datePickButton;
+        private EditText _showDateField;
+
+        private User _user;
+        private DateTime _currentDate;
 
         public int UserId
         {
@@ -56,31 +61,33 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _editPhotoButton = userView.FindViewById<Button>(Resource.Id.edit_photo_btn);
             _editPhotoButton.Click += OnEditPhotoButtonClicked;
 
+            _showDateField = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
+
             /* If user is set, retrieve his data */
             if (UserId > 0)
             {
                 /* Getting data */
-                var user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
+                _user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
 
                 /* Setting last name */
                 var lastNameView = userView.FindViewById<EditText>(Resource.Id.last_name_edit);
-                lastNameView.Text = user.LastName;
+                lastNameView.Text = _user.LastName;
 
                 /* Setting first name */
                 var firstNameView = userView.FindViewById<EditText>(Resource.Id.first_name_edit);
-                firstNameView.Text = user.FirstName;
+                firstNameView.Text = _user.FirstName;
 
                 /* Setting patronymic name */
                 var patronymicNameView = userView.FindViewById<EditText>(Resource.Id.patronymic_name_edit);
-                patronymicNameView.Text = user.PatronymicName;
+                patronymicNameView.Text = _user.PatronymicName;
 
                 /* Setting birth date */
                 var birthDateView = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
-                birthDateView.Text = user.BirthDate.ToString("dd.MM.yyyy");
+                birthDateView.Text = _user.BirthDate.ToString("dd.MM.yyyy");
 
                 /* Setting photo */
                 var photoView = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
-                photoView.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
+                photoView.SetImageURI(Android.Net.Uri.Parse(_user.PhotoPath));
                 photoView.SetScaleType(ImageView.ScaleType.CenterCrop);
                 photoView.SetPadding(0, 0, 0, 0);
 
@@ -103,6 +110,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* Adjust photo button */
                 _editPhotoButton.Text = GetString(Resource.String.change_photo);
+
+                /* Setting current date */
+                _currentDate = _user.BirthDate;
             }
 
             return userView;
@@ -133,7 +143,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnDatePickButtonClicked(object sender, EventArgs args)
         {
-            Console.WriteLine("Date");
+            var fragment = DatePickerFragment.NewInstance(
+                _currentDate,
+                delegate (DateTime date)
+                {
+                    _currentDate = date;
+                    _showDateField.Text = date.ToString("dd.MM.yyyy");
+                });
+
+            fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }
 
         private void OnEditPhotoButtonClicked(object sender, EventArgs args)

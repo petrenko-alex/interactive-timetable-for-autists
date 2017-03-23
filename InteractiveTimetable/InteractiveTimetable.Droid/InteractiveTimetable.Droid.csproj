@@ -104,6 +104,7 @@
     <Compile Include="ApplicationLayer\UserViewHolder.cs" />
     <Compile Include="InteractiveTimetable.cs" />
     <Compile Include="UserDetailsActivivty.cs" />
+    <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
     <Compile Include="UserInterfaceLayer\ManagementActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
