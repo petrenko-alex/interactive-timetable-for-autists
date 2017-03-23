@@ -9,4 +9,11 @@
   <string name="user_details_age">Возраст: </string>
   <string name="user_details_birth">Дата рождения: </string>
   <string name="user_card">Карточка ребенка</string>
+  <string name="add_button">Добавить</string>
+  <string name="edit_button">Изменить</string>
+  <string name="cancel_button">Отмена</string>
+  <string name="enter_first_name">Введите имя...</string>
+  <string name="enter_last_name">Введите фамилию...</string>
+  <string name="enter_patronymic_name">Введите отчество...</string>
+  <string name="enter_kid_date">Введите данные ребенка:</string>
 </resources>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="horizontal"
+    p1:minWidth="25px"
+    p1:minHeight="25px"
+    p1:layout_width="wrap_content"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/linearLayout1"
+    p1:paddingTop="50dp">
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/frameLayout1"
+        p1:padding="1dp">
+        <ImageView
+            p1:src="@drawable/add_photo_button"
+            p1:layout_width="300dp"
+            p1:layout_height="300dp"
+            p1:id="@+id/user_details_photo"
+            p1:scaleType="centerInside"
+            p1:paddingLeft="10dp"
+            p1:paddingRight="10dp" />
+    </FrameLayout>
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="match_parent"
+        p1:id="@+id/frameLayout2"
+        p1:padding="1dp"
+        p1:background="#00BFFF"
+        p1:layout_marginLeft="50dp"
+        p1:layout_marginTop="20dp"
+        p1:layout_marginBottom="20dp">
+        <LinearLayout
+            p1:orientation="horizontal"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/linearLayout2"
+            p1:background="#000000">
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout3">
+                <TextView
+                    p1:textAppearance="?android:attr/textAppearanceMedium"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/textView1"
+                    p1:layout_marginBottom="10dp"
+                    p1:layout_marginTop="10dp"
+                    p1:layout_marginLeft="10dp"
+                    p1:text="@string/enter_kid_date" />
+                <GridLayout
+                    p1:minWidth="25px"
+                    p1:minHeight="25px"
+                    p1:id="@+id/gridLayout1"
+                    p1:columnCount="2"
+                    p1:rowCount="4"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:layout_marginLeft="10dp">
+                    <TextView
+                        p1:text="@string/user_details_last_name"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:id="@+id/user_details_last_name" />
+                    <EditText
+                        p1:id="@+id/last_name_edit"
+                        p1:allowUndo="true"
+                        p1:layout_marginLeft="5dp"
+                        p1:hint="@string/enter_last_name" />
+                    <TextView
+                        p1:text="@string/user_details_first_name"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:id="@+id/user_details_first_name" />
+                    <EditText
+                        p1:id="@+id/first_name_edit"
+                        p1:layout_marginLeft="5dp"
+                        p1:hint="@string/enter_first_name" />
+                    <TextView
+                        p1:text="@string/user_details_patronymic_name"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:id="@+id/user_details_patronymic_name" />
+                    <EditText
+                        p1:id="@+id/editText6"
+                        p1:layout_marginLeft="5dp"
+                        p1:hint="@string/enter_patronymic_name" />
+                    <TextView
+                        p1:text="@string/user_details_birth"
+                        p1:textAppearance="?android:attr/textAppearanceMedium"
+                        p1:id="@+id/user_details_birth"
+                        p1:layout_gravity="center" />
+                    <LinearLayout
+                        p1:orientation="horizontal"
+                        p1:minWidth="25px"
+                        p1:minHeight="25px"
+                        p1:id="@+id/linearLayout4">
+                        <EditText
+                            p1:inputType="date"
+                            p1:layout_width="wrap_content"
+                            p1:layout_height="match_parent"
+                            p1:id="@+id/birth_date_show"
+                            p1:text="01.01.2017"
+                            p1:layout_marginLeft="5dp" />
+                        <ImageButton
+                            p1:src="@android:drawable/ic_menu_today"
+                            p1:layout_width="wrap_content"
+                            p1:layout_height="match_parent"
+                            p1:id="@+id/birth_date_edit"
+                            p1:background="@null"
+                            p1:layout_marginLeft="10dp" />
+                    </LinearLayout>
+                </GridLayout>
+            </LinearLayout>
+            <Button
+                p1:text="@string/add_button"
+                p1:layout_width="wrap_content"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/apply_changes_btn"
+                p1:layout_gravity="bottom"
+                p1:layout_marginLeft="200dp"
+                p1:layout_marginBottom="10dp" />
+            <Button
+                p1:text="@string/cancel_button"
+                p1:layout_width="wrap_content"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/cancel_btn"
+                p1:layout_gravity="bottom"
+                p1:layout_marginLeft="50dp"
+                p1:layout_marginBottom="10dp"
+                p1:layout_marginRight="10dp" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

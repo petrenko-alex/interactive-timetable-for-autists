@@ -19,6 +19,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private static readonly string UserIdKey = "current_user_id";
 
+        private ImageButton _editButton;
+
         public int UserId
         {
             get { return Arguments.GetInt(UserIdKey, 0); }
@@ -34,6 +36,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             return userDetailsFragment;
         }
+
+        public override void OnDestroy()
+        {
+            _editButton.Click -= OnEditUserButtonClicked;
+            base.OnDestroy();
+        }
+
 
         public override View OnCreateView(
             LayoutInflater inflater, 
@@ -74,7 +83,33 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var photoView = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
             photoView.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
 
+            /* Setting button click handlers */
+            _editButton = userView.FindViewById<ImageButton>(Resource.Id.edit_user);
+            _editButton.Click += OnEditUserButtonClicked;
+
             return userView;
+        }
+
+
+        void OnEditUserButtonClicked(object sender, EventArgs args)
+        {
+            var editUserDetails = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
+                        as UserDetailsEditFragment;
+
+            if (editUserDetails == null)
+            {
+                var editUserDetailsFragment = UserDetailsEditFragment.NewInstance(UserId);
+
+                var fragmentManager = FragmentManager.BeginTransaction();
+                fragmentManager.Replace(
+                        Resource.Id.user_details,
+                        editUserDetailsFragment,
+                        UserDetailsEditFragment.FragmentTag
+                    );
+
+                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+                fragmentManager.Commit();
+            }
         }
     }
 }
