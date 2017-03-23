@@ -15,6 +15,7 @@ namespace InteractiveTimetable.Droid
         public static InteractiveTimetable Current { get; private set; }
         public UserManager UserManager { get; set; }
         public string AppFolder => Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        public float ScreenDensity => Resources.DisplayMetrics.Density;
 
 
         private SQLiteConnection _connection;
