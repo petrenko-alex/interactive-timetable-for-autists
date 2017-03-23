@@ -16,4 +16,6 @@
   <string name="enter_last_name">Введите фамилию...</string>
   <string name="enter_patronymic_name">Введите отчество...</string>
   <string name="enter_kid_date">Введите данные ребенка:</string>
+  <string name="change_photo">Изменить фото</string>
+  <string name="add_photo">Добавить фото</string>
 </resources>

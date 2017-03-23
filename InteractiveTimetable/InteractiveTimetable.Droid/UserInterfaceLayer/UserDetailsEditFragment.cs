@@ -15,6 +15,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private Button _applyButton;
         private Button _cancelButton;
+        private Button _editPhotoButton;
         private ImageButton _datePickButton;
 
         public int UserId
@@ -51,6 +52,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             _datePickButton = userView.FindViewById<ImageButton>(Resource.Id.birth_date_edit);
             _datePickButton.Click += OnDatePickButtonClicked;
+
+            _editPhotoButton = userView.FindViewById<Button>(Resource.Id.edit_photo_btn);
+            _editPhotoButton.Click += OnEditPhotoButtonClicked;
 
             /* If user is set, retrieve his data */
             if (UserId > 0)
@@ -96,6 +100,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* Adjust apply button */
                 _applyButton.Text = GetString(Resource.String.edit_button);
+
+                /* Adjust photo button */
+                _editPhotoButton.Text = GetString(Resource.String.change_photo);
             }
 
             return userView;
@@ -106,6 +113,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _applyButton.Click -= OnApplyButtonClicked;
             _cancelButton.Click -= OnCancelButtonClicked;
             _datePickButton.Click -= OnDatePickButtonClicked;
+            _editPhotoButton.Click -= OnEditPhotoButtonClicked;
 
             base.OnDestroy();
         }
@@ -126,6 +134,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void OnDatePickButtonClicked(object sender, EventArgs args)
         {
             Console.WriteLine("Date");
+        }
+
+        private void OnEditPhotoButtonClicked(object sender, EventArgs args)
+        {
+            Console.WriteLine("Edit photo");
         }
     }
 }
