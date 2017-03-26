@@ -127,7 +127,8 @@
                             p1:layout_height="match_parent"
                             p1:id="@+id/birth_date_show"
                             p1:text="01.01.2017"
-                            p1:layout_marginLeft="5dp" />
+                            p1:layout_marginLeft="5dp"
+                            p1:editable="false" />
                         <ImageButton
                             p1:src="@android:drawable/ic_menu_today"
                             p1:layout_width="wrap_content"
