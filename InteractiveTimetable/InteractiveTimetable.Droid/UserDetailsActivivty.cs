@@ -17,8 +17,6 @@ namespace InteractiveTimetable.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            //SetContentView(Resource.Layout.user_details);
-
             var userId = Intent.Extras.GetInt(UserIdKey, 0);
             
             /* Trying to find fragment */
