@@ -1,11 +1,15 @@
 using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using Android.Graphics;
+using Android.Provider;
 using InteractiveTimetable.BusinessLayer.Models;
+using Java.IO;
+using Console = System.Console;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -13,15 +17,21 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     {
         public static readonly string FragmentTag = "user_details_edit_fragment";
         private static readonly string UserIdKey = "current_user_id";
+        private static readonly int RequestCamera = 0;
+        private static readonly int SelectFile = 1;
 
         private Button _applyButton;
         private Button _cancelButton;
         private Button _editPhotoButton;
         private ImageButton _datePickButton;
         private EditText _showDateField;
+        private ImageView _userPhoto;
 
         private User _user;
         private DateTime _currentDate;
+        private File _photo;
+        private Bitmap _bitmap;
+
 
         public int UserId
         {
@@ -39,7 +49,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return userDetailsEditFragment;
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View OnCreateView(
+            LayoutInflater inflater, 
+            ViewGroup container, 
+            Bundle savedInstanceState)
         {
             if(container == null)
             {
@@ -62,6 +75,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _editPhotoButton.Click += OnEditPhotoButtonClicked;
 
             _showDateField = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
+            _userPhoto = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
 
             /* If user is set, retrieve his data */
             if (UserId > 0)
@@ -128,7 +142,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnDestroy();
         }
 
-
         private void OnApplyButtonClicked(object sender, EventArgs args)
         {
             Console.WriteLine("Apply");
@@ -152,9 +165,108 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }
 
-        private void OnEditPhotoButtonClicked(object sender, EventArgs args)
+        private void OnEditPhotoButtonClicked(object sender, EventArgs eventArgs)
         {
-            Console.WriteLine("Edit photo");
+            if (InteractiveTimetable.Current.HasCamera)
+            {
+                ChoosePhotoIfHasCamera();
+            }
+            else
+            {
+                ChoosePhotoIfNoCamera();
+            }
+        }
+
+        public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            /* If user chose photo */
+            if (resultCode == Result.Ok)
+            {
+                if (requestCode == RequestCamera)
+                {
+                    /* Making photo available in the gallery */
+                    Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+                    var contentUri = Android.Net.Uri.FromFile(_photo);
+                    mediaScanIntent.SetData(contentUri);
+                    Activity.SendBroadcast(mediaScanIntent);
+
+                    /* Displaying image with resizing */
+                    _bitmap = _photo.Path.LoadAndResizeBitmap(_userPhoto.Width, _userPhoto.Height);
+                    if (_bitmap != null)
+                    {
+                        _userPhoto.SetImageBitmap(_bitmap);
+                        _bitmap = null;
+                    }
+
+                    /* Dispose of the Java side bitmap. */
+                    GC.Collect();
+
+                }
+                else if (requestCode == SelectFile && data != null)
+                {
+                    var uri = data.Data;
+                    _userPhoto.SetImageURI(uri);
+                }
+            }
+        }
+
+        public void ChoosePhotoIfHasCamera()
+        {
+            /* Preparing dialog items */
+            string[] items =
+            {
+                GetString(Resource.String.take_a_photo),
+                GetString(Resource.String.choose_from_gallery),
+                GetString(Resource.String.cancel_button)
+            };
+
+            /* Constructing dialog */
+            using (var dialogBuilder = new AlertDialog.Builder(Activity))
+            {
+                dialogBuilder.SetTitle(GetString(Resource.String.add_photo));
+
+                dialogBuilder.SetItems(items, (d, args) => {
+
+                    /* Taking a photo */
+                    if (args.Which == 0)
+                    {
+                        var intent = new Intent(MediaStore.ActionImageCapture);
+
+                        _photo = new File(InteractiveTimetable.Current.PhotoDirectory,
+                                            $"user_{Guid.NewGuid()}.jpg");
+
+                        intent.PutExtra(
+                            MediaStore.ExtraOutput,
+                            Android.Net.Uri.FromFile(_photo));
+
+                        StartActivityForResult(intent, RequestCamera);
+                    }
+                    /* Choosing from gallery */
+                    else if (args.Which == 1)
+                    {
+                        ChoosePhotoIfNoCamera();
+                    }
+                });
+
+                dialogBuilder.Show();
+            }
+        }
+
+        public void ChoosePhotoIfNoCamera()
+        {
+            var intent = new Intent(
+                            Intent.ActionPick,
+                            MediaStore.Images.Media.ExternalContentUri);
+
+            intent.SetType("image/*");
+
+            StartActivityForResult(
+                Intent.CreateChooser(
+                    intent,
+                    GetString(Resource.String.choose_photo)),
+                SelectFile);
         }
     }
 }
