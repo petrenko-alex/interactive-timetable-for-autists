@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.OS;
@@ -7,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using Android.Content;
+using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -37,9 +39,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnActivityCreated(savedInstanceState);
             
             /* Getting users ordered by last name */
-            var users = InteractiveTimetable.Current.UserManager.GetUsers().
-                                             OrderBy(x => x.LastName).
-                                             ToList();
+            var users = GetUsers();
 
             /* Initializing current user id */
             int userId;
@@ -136,6 +136,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 StartActivity(intent);
             }
 
+        }
+
+        private IList<User> GetUsers()
+        {
+            return InteractiveTimetable.Current.UserManager.GetUsers().
+                                        OrderBy(x => x.LastName).
+                                        ToList();
+        }
+
+        public void DataSetChanged()
+        {
+            _userListAdapter.Users = GetUsers();
+            _userListAdapter.NotifyDataSetChanged();
         }
     }
 }

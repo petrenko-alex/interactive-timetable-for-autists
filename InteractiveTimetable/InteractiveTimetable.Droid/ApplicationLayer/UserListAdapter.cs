@@ -11,17 +11,17 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     {
         public event EventHandler<int> ItemClick;
         private Activity _context;
-        private IList<User> _users;
+        public IList<User> Users { get; set; }
 
         public UserListAdapter(Activity context, IList<User> users)
         {
             _context = context;
-            _users = users;
+            Users = users;
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var userAtPosition = _users[position];
+            var userAtPosition = Users[position];
             var viewHolder = holder as UserViewHolder;
 
             if (viewHolder != null)
@@ -45,7 +45,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             return holder;
         }
 
-        public override int ItemCount => _users.Count;
+        public override int ItemCount => Users.Count;
 
         void OnClick(int userId)
         {
