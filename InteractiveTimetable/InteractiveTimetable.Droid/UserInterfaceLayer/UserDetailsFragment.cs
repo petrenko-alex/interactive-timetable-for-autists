@@ -43,7 +43,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnDestroy();
         }
 
-
         public override View OnCreateView(
             LayoutInflater inflater, 
             ViewGroup container, 
@@ -90,7 +89,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return userView;
         }
 
-
         void OnEditUserButtonClicked(object sender, EventArgs args)
         {
             var editUserDetails = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
@@ -108,7 +106,20 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     );
 
                 fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+                fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
                 fragmentManager.Commit();
+            }
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            /* Refreshing list of users */
+            var userListFragment = FragmentManager.FindFragmentByTag(UserListFragment.FragmentTag) as UserListFragment;
+            if (userListFragment != null)
+            {
+                userListFragment.DataSetChanged();    
             }
         }
     }
