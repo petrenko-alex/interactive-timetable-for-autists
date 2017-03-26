@@ -1,6 +1,7 @@
 using System;
 using Android.App;
 using Android.Content;
+using Android.Database;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -9,7 +10,6 @@ using Android.Graphics;
 using Android.Provider;
 using InteractiveTimetable.BusinessLayer.Models;
 using Java.IO;
-using Console = System.Console;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -20,18 +20,26 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly int RequestCamera = 0;
         private static readonly int SelectFile = 1;
 
+        #region Widgets
+
         private Button _applyButton;
         private Button _cancelButton;
         private Button _editPhotoButton;
         private ImageButton _datePickButton;
         private EditText _showDateField;
         private ImageView _userPhoto;
+        private EditText _lastName;
+        private EditText _firstName;
+        private EditText _patronymicName;
+        private EditText _birthDate;
+
+        #endregion
+
 
         private User _user;
         private DateTime _currentDate;
         private File _photo;
         private Bitmap _bitmap;
-
 
         public int UserId
         {
@@ -84,26 +92,26 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
 
                 /* Setting last name */
-                var lastNameView = userView.FindViewById<EditText>(Resource.Id.last_name_edit);
-                lastNameView.Text = _user.LastName;
+                _lastName = userView.FindViewById<EditText>(Resource.Id.last_name_edit);
+                _lastName.Text = _user.LastName;
 
                 /* Setting first name */
-                var firstNameView = userView.FindViewById<EditText>(Resource.Id.first_name_edit);
-                firstNameView.Text = _user.FirstName;
+                _firstName = userView.FindViewById<EditText>(Resource.Id.first_name_edit);
+                _firstName.Text = _user.FirstName;
 
                 /* Setting patronymic name */
-                var patronymicNameView = userView.FindViewById<EditText>(Resource.Id.patronymic_name_edit);
-                patronymicNameView.Text = _user.PatronymicName;
+                _patronymicName = userView.FindViewById<EditText>(Resource.Id.patronymic_name_edit);
+                _patronymicName.Text = _user.PatronymicName;
 
                 /* Setting birth date */
-                var birthDateView = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
-                birthDateView.Text = _user.BirthDate.ToString("dd.MM.yyyy");
+                _birthDate = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
+                _birthDate.Text = _user.BirthDate.ToString("dd.MM.yyyy");
 
                 /* Setting photo */
-                var photoView = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
-                photoView.SetImageURI(Android.Net.Uri.Parse(_user.PhotoPath));
-                photoView.SetScaleType(ImageView.ScaleType.CenterCrop);
-                photoView.SetPadding(0, 0, 0, 0);
+                _userPhoto = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
+                _userPhoto.SetImageURI(Android.Net.Uri.Parse(_user.PhotoPath));
+                _userPhoto.SetScaleType(ImageView.ScaleType.CenterCrop);
+                _userPhoto.SetPadding(0, 0, 0, 0);
 
                 /* Setting frame */
                 var frame = userView.FindViewById<FrameLayout>(Resource.Id.user_details_photo_frame);
@@ -138,18 +146,52 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _cancelButton.Click -= OnCancelButtonClicked;
             _datePickButton.Click -= OnDatePickButtonClicked;
             _editPhotoButton.Click -= OnEditPhotoButtonClicked;
+            GC.Collect();
 
             base.OnDestroy();
         }
 
         private void OnApplyButtonClicked(object sender, EventArgs args)
         {
-            Console.WriteLine("Apply");
+            /* Editing existing user */
+            if (_user != null)
+            {
+                /* Getting data from fields */
+                _user.FirstName = _firstName.Text;
+                _user.LastName = _lastName.Text;
+                _user.PatronymicName = _patronymicName.Text;
+                _user.BirthDate = DateTime.ParseExact(
+                    _birthDate.Text,
+                    "dd.MM.yyyy",
+                    System.Globalization.CultureInfo.CurrentCulture);
+
+                //TODO: Save photo
+
+                /* Trying to save user */
+                try
+                {
+                    InteractiveTimetable.Current.UserManager.SaveUser(_user);
+                    CloseFragment();
+                }
+                catch (ArgumentException exception)
+                {
+                    /* Showing validation errors */
+                    var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
+                    toast.SetGravity(GravityFlags.ClipVertical, 350, -300);
+                    toast.Show();
+                    return;
+                }
+            }
+            /* Saving new user */
+            else
+            {
+                
+            }
         }
 
         private void OnCancelButtonClicked(object sender, EventArgs args)
         {
-            Console.WriteLine("Cancel");
+            CloseFragment();
         }
 
         private void OnDatePickButtonClicked(object sender, EventArgs args)
@@ -212,7 +254,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        public void ChoosePhotoIfHasCamera()
+        private void ChoosePhotoIfHasCamera()
         {
             /* Preparing dialog items */
             string[] items =
@@ -254,7 +296,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        public void ChoosePhotoIfNoCamera()
+        private void ChoosePhotoIfNoCamera()
         {
             var intent = new Intent(
                             Intent.ActionPick,
@@ -267,6 +309,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     intent,
                     GetString(Resource.String.choose_photo)),
                 SelectFile);
+        }
+
+        private void CloseFragment()
+        {
+            Activity.FragmentManager.PopBackStackImmediate();
+            InteractiveTimetable.Current.HideKeyboard(Activity.CurrentFocus.WindowToken);
         }
     }
 }
