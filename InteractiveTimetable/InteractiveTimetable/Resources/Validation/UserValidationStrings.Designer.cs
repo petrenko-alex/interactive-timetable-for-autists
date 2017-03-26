@@ -80,11 +80,29 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на First name is not set..
+        /// </summary>
+        internal static string FirstNameIsNotSet {
+            get {
+                return ResourceManager.GetString("FirstNameIsNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на The length of a user first name must be less than 255 symbols..
         /// </summary>
         internal static string FirstNameLength {
             get {
                 return ResourceManager.GetString("FirstNameLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Last name is not set..
+        /// </summary>
+        internal static string LastNameIsNotSet {
+            get {
+                return ResourceManager.GetString("LastNameIsNotSet", resourceCulture);
             }
         }
         
@@ -103,6 +121,15 @@ namespace InteractiveTimetable.Resources.Validation {
         internal static string NotCorrectBirthDate {
             get {
                 return ResourceManager.GetString("NotCorrectBirthDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Patronymic name is not set..
+        /// </summary>
+        internal static string PatronymicNameIsNotSet {
+            get {
+                return ResourceManager.GetString("PatronymicNameIsNotSet", resourceCulture);
             }
         }
         

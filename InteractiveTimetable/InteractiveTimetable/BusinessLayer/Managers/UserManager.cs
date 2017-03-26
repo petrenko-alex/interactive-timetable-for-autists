@@ -92,6 +92,13 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                                       FirstNameLength);
             }
 
+            if (user.FirstName.Length == 0)
+            {
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      FirstNameIsNotSet);
+            }
+
             if (user.LastName.Length > 255)
             {
                 throw new ArgumentException(Resources.Validation.
@@ -99,11 +106,25 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                                       LastNameLength);
             }
 
+            if (user.LastName.Length == 0)
+            {
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      LastNameIsNotSet);
+            }
+
             if (user.PatronymicName.Length > 255)
             {
                 throw new ArgumentException(Resources.Validation.
                                                       UserValidationStrings.
                                                       PatronymicNameLength);
+            }
+
+            if (user.PatronymicName.Length == 0)
+            {
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      PatronymicNameIsNotSet);
             }
 
             /* ... path to photo is not longer than 1024 symbols */
