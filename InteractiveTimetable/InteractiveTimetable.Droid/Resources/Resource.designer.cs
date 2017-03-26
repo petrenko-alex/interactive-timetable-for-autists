@@ -267,59 +267,65 @@ namespace InteractiveTimetable.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f060009
-			public const int add_button = 2131099657;
-			
-			// aapt resource value: 0x7f060011
-			public const int add_photo = 2131099665;
-			
-			// aapt resource value: 0x7f060001
-			public const int app_name = 2131099649;
-			
-			// aapt resource value: 0x7f06000b
-			public const int cancel_button = 2131099659;
+			// aapt resource value: 0x7f060008
+			public const int add_button = 2131099656;
 			
 			// aapt resource value: 0x7f060010
-			public const int change_photo = 2131099664;
-			
-			// aapt resource value: 0x7f06000a
-			public const int edit_button = 2131099658;
-			
-			// aapt resource value: 0x7f06000c
-			public const int enter_first_name = 2131099660;
-			
-			// aapt resource value: 0x7f06000f
-			public const int enter_kid_date = 2131099663;
-			
-			// aapt resource value: 0x7f06000d
-			public const int enter_last_name = 2131099661;
-			
-			// aapt resource value: 0x7f06000e
-			public const int enter_patronymic_name = 2131099662;
-			
-			// aapt resource value: 0x7f060002
-			public const int general_monitoring_button = 2131099650;
+			public const int add_photo = 2131099664;
 			
 			// aapt resource value: 0x7f060000
-			public const int hello = 2131099648;
+			public const int app_name = 2131099648;
 			
-			// aapt resource value: 0x7f060008
-			public const int user_card = 2131099656;
+			// aapt resource value: 0x7f06000a
+			public const int cancel_button = 2131099658;
 			
-			// aapt resource value: 0x7f060006
-			public const int user_details_age = 2131099654;
+			// aapt resource value: 0x7f06000f
+			public const int change_photo = 2131099663;
+			
+			// aapt resource value: 0x7f060013
+			public const int choose_from_gallery = 2131099667;
+			
+			// aapt resource value: 0x7f060011
+			public const int choose_photo = 2131099665;
+			
+			// aapt resource value: 0x7f060009
+			public const int edit_button = 2131099657;
+			
+			// aapt resource value: 0x7f06000b
+			public const int enter_first_name = 2131099659;
+			
+			// aapt resource value: 0x7f06000e
+			public const int enter_kid_date = 2131099662;
+			
+			// aapt resource value: 0x7f06000c
+			public const int enter_last_name = 2131099660;
+			
+			// aapt resource value: 0x7f06000d
+			public const int enter_patronymic_name = 2131099661;
+			
+			// aapt resource value: 0x7f060001
+			public const int general_monitoring_button = 2131099649;
+			
+			// aapt resource value: 0x7f060012
+			public const int take_a_photo = 2131099666;
 			
 			// aapt resource value: 0x7f060007
-			public const int user_details_birth = 2131099655;
-			
-			// aapt resource value: 0x7f060004
-			public const int user_details_first_name = 2131099652;
-			
-			// aapt resource value: 0x7f060003
-			public const int user_details_last_name = 2131099651;
+			public const int user_card = 2131099655;
 			
 			// aapt resource value: 0x7f060005
-			public const int user_details_patronymic_name = 2131099653;
+			public const int user_details_age = 2131099653;
+			
+			// aapt resource value: 0x7f060006
+			public const int user_details_birth = 2131099654;
+			
+			// aapt resource value: 0x7f060003
+			public const int user_details_first_name = 2131099651;
+			
+			// aapt resource value: 0x7f060002
+			public const int user_details_last_name = 2131099650;
+			
+			// aapt resource value: 0x7f060004
+			public const int user_details_patronymic_name = 2131099652;
 			
 			static String()
 			{

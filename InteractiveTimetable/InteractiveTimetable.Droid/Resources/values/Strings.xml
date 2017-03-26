@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">InteractiveTimetable.Droid</string>
+	<string name="app_name">InteractiveTimetable</string>
   <string name="general_monitoring_button">Общий мониторинг уровня развития ребенка</string>
   <string name="user_details_last_name">Фамилия: </string>
   <string name="user_details_first_name">Имя: </string>
@@ -18,4 +17,7 @@
   <string name="enter_kid_date">Введите данные ребенка:</string>
   <string name="change_photo">Изменить фото</string>
   <string name="add_photo">Добавить фото</string>
+  <string name="choose_photo">Выберите фото</string>
+  <string name="take_a_photo">Сделать фото</string>
+  <string name="choose_from_gallery">Выбрать фото</string>
 </resources>
