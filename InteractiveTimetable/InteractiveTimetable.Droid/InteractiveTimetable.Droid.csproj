@@ -101,6 +101,7 @@
   <ItemGroup>
     <Compile Include="ApplicationLayer\BtimapHelper.cs" />
     <Compile Include="ApplicationLayer\ImageHelper.cs" />
+    <Compile Include="ApplicationLayer\ToastHelper.cs" />
     <Compile Include="ApplicationLayer\UserListAdapter.cs" />
     <Compile Include="ApplicationLayer\UserViewHolder.cs" />
     <Compile Include="InteractiveTimetable.cs" />
@@ -142,6 +143,9 @@
     <AndroidResource Include="Resources\layout-land\user_details_edit.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\error_message.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />
@@ -152,9 +156,17 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\exclamation_mark.png" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\add_photo_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\redcustom_toast.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\exclamation_triangle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
