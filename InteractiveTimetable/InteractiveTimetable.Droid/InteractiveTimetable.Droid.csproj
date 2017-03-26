@@ -99,6 +99,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationLayer\BtimapHelper.cs" />
     <Compile Include="ApplicationLayer\ImageHelper.cs" />
     <Compile Include="ApplicationLayer\UserListAdapter.cs" />
     <Compile Include="ApplicationLayer\UserViewHolder.cs" />
