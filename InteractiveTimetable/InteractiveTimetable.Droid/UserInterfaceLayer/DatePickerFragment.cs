@@ -38,7 +38,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             DatePickerDialog dialog = new DatePickerDialog(Activity,
                                                            this,
                                                            _currentDate.Year,
-                                                           _currentDate.Month,
+                                                           _currentDate.Month - 1,
                                                            _currentDate.Day);
             dialog.SetCanceledOnTouchOutside(true);
 

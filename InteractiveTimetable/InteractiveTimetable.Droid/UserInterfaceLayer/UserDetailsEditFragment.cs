@@ -132,13 +132,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void OnApplyButtonClicked(object sender, EventArgs args)
         {
             Console.WriteLine("Apply");
-
         }
 
         private void OnCancelButtonClicked(object sender, EventArgs args)
         {
             Console.WriteLine("Cancel");
-
         }
 
         private void OnDatePickButtonClicked(object sender, EventArgs args)
