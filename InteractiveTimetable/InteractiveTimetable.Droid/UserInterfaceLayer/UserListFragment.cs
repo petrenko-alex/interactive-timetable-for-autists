@@ -75,6 +75,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListAdapter.ItemClick += OnItemClick;
             _recyclerView.SetAdapter(_userListAdapter);
 
+            /* Setting event handlers */
+            _addUserBtn = Activity.FindViewById<Button>(Resource.Id.add_user_btn);
+            _addUserBtn.Click += OnAddBtnClicked;
+
+            _deleteUserBtn = Activity.FindViewById<Button>(Resource.Id.delete_user_btn);
+            _deleteUserBtn.Click += OnDeleteBtnClicked;
+
             /* Determining wide screen device */
             var layout = Activity.FindViewById<LinearLayout>(Resource.Id.main_landscape);
             _isWideScreenDevice = layout != null && layout.Visibility == ViewStates.Visible;
@@ -96,8 +103,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public override void OnDestroy()
         {
-            base.OnDestroy();
+            _addUserBtn.Click -= OnAddBtnClicked;
+            _deleteUserBtn.Click -= OnDeleteBtnClicked;
             GC.Collect();
+
+            base.OnDestroy();
         }
 
         public void OnItemClick(object sender, UserListEventArgs args)
@@ -107,6 +117,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             ShowUserDetails(args.UserId);
             _currentUserId = args.UserId;
+        }
+
+        public void OnAddBtnClicked(object sender, EventArgs args)
+        {
+            
+        }
+
+        public void OnDeleteBtnClicked(object sender, EventArgs args)
+        {
+            
         }
 
         public override void OnSaveInstanceState(Bundle outState)
