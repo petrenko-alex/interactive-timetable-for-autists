@@ -141,9 +141,28 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        public void OnDeleteBtnClicked(object sender, EventArgs args)
+        public void OnDeleteBtnClicked(object sender, EventArgs eventArgs)
         {
+            /* Show alert if user in current timetable */
+            /* Show general alert */
+            using (var alert = new AlertDialog.Builder(Activity))
+            {
+                alert.SetTitle(GetString(Resource.String.sure_to_delete_user));
+                alert.SetMessage(GetString(Resource.String.sure_to_delete_user));
+                alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) => {});
+
+
+                alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) => {});
+
+                alert.Show();
+            }
             
+            Resource.String.delete_button
+
+            /* Delete */
+            /* Refresh */
+            /* Adjust selection */
+            /* What if last user was deleted */
         }
 
         public override void OnSaveInstanceState(Bundle outState)
