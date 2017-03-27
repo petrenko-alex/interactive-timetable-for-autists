@@ -41,7 +41,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private Bitmap _bitmap;
         private Android.Net.Uri _currentUri;
 
+        #region Flags
+
         private bool _fromGallery;
+        private bool _dataWasChanged;
+        private bool _photoWasChanged;
+
+        #endregion
+
 
         public int UserId
         {
@@ -139,15 +146,31 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _currentDate = _user.BirthDate;
             }
 
+            /* Setting listeners for fields to track data changing */
+            _firstName.TextChanged += OnUserDataChanged;
+            _lastName.TextChanged += OnUserDataChanged;
+            _patronymicName.TextChanged += OnUserDataChanged;
+            _birthDate.TextChanged += OnUserDataChanged;
+
+            /* Setting flags */
+            _dataWasChanged = false;
+            _photoWasChanged = false;
+
             return userView;
         }
 
         public override void OnDestroy()
         {
+            /* Reseting listeners */
             _applyButton.Click -= OnApplyButtonClicked;
             _cancelButton.Click -= OnCancelButtonClicked;
             _datePickButton.Click -= OnDatePickButtonClicked;
             _editPhotoButton.Click -= OnEditPhotoButtonClicked;
+            _firstName.TextChanged -= OnUserDataChanged;
+            _lastName.TextChanged -= OnUserDataChanged;
+            _patronymicName.TextChanged -= OnUserDataChanged;
+            _birthDate.TextChanged -= OnUserDataChanged;
+
             GC.Collect();
 
             base.OnDestroy();
@@ -158,6 +181,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Editing existing user */
             if (_user != null)
             {
+                /* If data was not changed just close fragment */
+                if (!_dataWasChanged)
+                {
+                    CloseFragment();
+                    return;
+                }
+
                 /* Getting data from fields */
                 _user.FirstName = _firstName.Text;
                 _user.LastName = _lastName.Text;
@@ -168,13 +198,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     System.Globalization.CultureInfo.CurrentCulture);
 
                 /* Saving photo path */
-                if (_fromGallery)
+                if (_photoWasChanged)
                 {
-                    _user.PhotoPath = InteractiveTimetable.Current.GetPathToImage(Activity, _currentUri);
-                }
-                else
-                {
-                    _user.PhotoPath = _photo.Path;
+                    if (_fromGallery)
+                    {
+                        _user.PhotoPath = InteractiveTimetable.Current.GetPathToImage(Activity, _currentUri);
+                    }
+                    else
+                    {
+                        _user.PhotoPath = _photo.Path;
+                    }
                 }
 
                 /* Trying to save user */
@@ -193,7 +226,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 }
             }
             /* Saving new user */
-            else
+            else if(_user == null)
             {
                 // TODO: Implement
             }
@@ -271,6 +304,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _fromGallery = true;
                 }
             }
+
+            _dataWasChanged = true;
+            _photoWasChanged = true;
         }
 
         private void ChoosePhotoIfHasCamera()
@@ -335,6 +371,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             Activity.FragmentManager.PopBackStackImmediate();
             InteractiveTimetable.Current.HideKeyboard(Activity.CurrentFocus.WindowToken);
+        }
+
+        private void OnUserDataChanged(object sender, EventArgs eventArgs)
+        {
+            _dataWasChanged = true;
         }
     }
 }
