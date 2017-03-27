@@ -89,13 +89,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             GC.Collect();
         }
 
-        public void OnItemClick(object sender, int userId)
+        public void OnItemClick(object sender, UserListEventArgs args)
         {   
             // TODO: Delete the line below when dubugging is done
-            Toast.MakeText(Activity, $"This is user with id: {userId}", ToastLength.Short).Show();
+            Toast.MakeText(Activity, $"This is user with id: {args.UserId}", ToastLength.Short).Show();
 
-            ShowUserDetails(userId);
-            _currentUserId = userId;
+            ShowUserDetails(args.UserId);
+            _currentUserId = args.UserId;
         }
 
         public override void OnSaveInstanceState(Bundle outState)

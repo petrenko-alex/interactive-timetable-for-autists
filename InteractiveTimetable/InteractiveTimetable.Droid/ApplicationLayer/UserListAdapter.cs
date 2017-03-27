@@ -9,7 +9,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     public class UserListAdapter : RecyclerView.Adapter
     {
-        public event EventHandler<int> ItemClick;
+        public event EventHandler<UserListEventArgs> ItemClick;
         private Activity _context;
         public IList<User> Users { get; set; }
 
@@ -32,6 +32,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                                                          userAtPosition.PatronymicName;
                 viewHolder.UserPhoto.SetImageURI(Android.Net.Uri.Parse(userAtPosition.PhotoPath));
                 viewHolder.UserId = userAtPosition.Id;
+                viewHolder.PositionInList = position;
+
             }
         }
 
@@ -47,9 +49,14 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         public override int ItemCount => Users.Count;
 
-        void OnClick(int userId)
+        void OnClick(int userId, int positionInList)
         {
-            ItemClick?.Invoke(this, userId);
+            var args = new UserListEventArgs()
+            {
+                UserId = userId,
+                PositionInList = positionInList
+            };
+            ItemClick?.Invoke(this, args);
         }
     }
 }
