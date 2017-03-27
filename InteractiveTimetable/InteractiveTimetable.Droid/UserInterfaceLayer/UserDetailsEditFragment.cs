@@ -35,11 +35,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #endregion
 
-
         private User _user;
         private DateTime _currentDate;
         private File _photo;
         private Bitmap _bitmap;
+        private Android.Net.Uri _currentUri;
+
+        private bool _fromGallery;
 
         public int UserId
         {
@@ -165,7 +167,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     "dd.MM.yyyy",
                     System.Globalization.CultureInfo.CurrentCulture);
 
-                //TODO: Save photo
+                /* Saving photo path */
+                if (_fromGallery)
+                {
+                    _user.PhotoPath = InteractiveTimetable.Current.GetPathToImage(Activity, _currentUri);
+                }
+                else
+                {
+                    _user.PhotoPath = _photo.Path;
+                }
 
                 /* Trying to save user */
                 try
@@ -185,7 +195,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Saving new user */
             else
             {
-                
+                // TODO: Implement
             }
         }
 
@@ -234,6 +244,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     mediaScanIntent.SetData(contentUri);
                     Activity.SendBroadcast(mediaScanIntent);
 
+                    _currentUri = Android.Net.Uri.FromFile(_photo);
+
                     /* Displaying image with resizing */
                     _bitmap = _photo.Path.LoadAndResizeBitmap(_userPhoto.Width, _userPhoto.Height);
                     if (_bitmap != null)
@@ -242,6 +254,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                         _bitmap = null;
                     }
 
+                    /* Setting a flag to choose method to get image path */
+                    _fromGallery = false;
+
                     /* Dispose of the Java side bitmap. */
                     GC.Collect();
 
@@ -249,7 +264,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 else if (requestCode == SelectFile && data != null)
                 {
                     var uri = data.Data;
+                    _currentUri = uri;
                     _userPhoto.SetImageURI(uri);
+
+                    /* Setting a flag to choose method to get image path */
+                    _fromGallery = true;
                 }
             }
         }
@@ -303,6 +322,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                             MediaStore.Images.Media.ExternalContentUri);
 
             intent.SetType("image/*");
+            intent.SetAction(Intent.ActionGetContent);
 
             StartActivityForResult(
                 Intent.CreateChooser(

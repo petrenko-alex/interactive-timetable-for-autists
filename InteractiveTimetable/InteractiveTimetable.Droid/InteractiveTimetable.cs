@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Database;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
@@ -85,6 +86,20 @@ namespace InteractiveTimetable.Droid
         {
             var inputManager = (InputMethodManager) GetSystemService(Context.InputMethodService);
             inputManager.HideSoftInputFromWindow(windowToken, 0);
+        }
+
+        public string GetPathToImage(Activity activity, Android.Net.Uri uri)
+        {
+            string path = null;
+            string[] proj = { MediaStore.Video.Media.InterfaceConsts.Data };
+            ICursor mycursor = activity.ContentResolver.Query(uri, proj, null, null, null);
+            if (mycursor.MoveToFirst())
+            {
+                var columnIndex = mycursor.GetColumnIndexOrThrow(MediaStore.Video.Media.InterfaceConsts.Data);
+                path = mycursor.GetString(columnIndex);
+            }
+            mycursor.Close();
+            return path;
         }
     }
 }
