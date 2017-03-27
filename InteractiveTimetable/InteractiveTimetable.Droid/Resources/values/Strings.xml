@@ -9,6 +9,7 @@
   <string name="user_details_birth">Дата рождения: </string>
   <string name="user_card">Карточка ребенка</string>
   <string name="add_button">Добавить</string>
+  <string name="delete_button">Удалить</string>
   <string name="edit_button">Изменить</string>
   <string name="cancel_button">Отмена</string>
   <string name="enter_first_name">Введите имя...</string>
@@ -22,4 +23,6 @@
   <string name="choose_from_gallery">Выбрать фото</string>
   <string name="user_data_not_set">Данные пользователя не введены.</string>
   <string name="user_photo_not_set">Фотография пользователя не выбрана.</string>
+  <string name="delete_user">Удаление пользователя</string>
+  <string name="sure_to_delete_user">Вы действительно хотите удалить пользователя?</string>
 </resources>
