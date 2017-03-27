@@ -31,7 +31,7 @@
         android:id="@+id/relativeLayout1">
         <ImageButton
             android:src="@android:drawable/ic_input_add"
-            android:id="@+id/add_user"
+            android:id="@+id/add_user_btn"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignParentLeft="true"
@@ -40,7 +40,7 @@
             android:layout_marginLeft="10dp" />
         <ImageButton
             android:src="@android:drawable/ic_delete"
-            android:id="@+id/delete_user"
+            android:id="@+id/delete_user_btn"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignParentRight="true"

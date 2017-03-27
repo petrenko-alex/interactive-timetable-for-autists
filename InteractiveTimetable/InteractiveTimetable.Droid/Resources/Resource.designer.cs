@@ -104,7 +104,7 @@ namespace InteractiveTimetable.Droid
 		{
 			
 			// aapt resource value: 0x7f05002b
-			public const int add_user = 2131034155;
+			public const int add_user_btn = 2131034155;
 			
 			// aapt resource value: 0x7f050026
 			public const int apply_changes_btn = 2131034150;
@@ -119,7 +119,7 @@ namespace InteractiveTimetable.Droid
 			public const int cancel_btn = 2131034151;
 			
 			// aapt resource value: 0x7f05002c
-			public const int delete_user = 2131034156;
+			public const int delete_user_btn = 2131034156;
 			
 			// aapt resource value: 0x7f05001e
 			public const int edit_photo_btn = 2131034142;
