@@ -40,6 +40,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnDestroy()
         {
             _editButton.Click -= OnEditUserButtonClicked;
+            GC.Collect();
             base.OnDestroy();
         }
 
