@@ -143,6 +143,15 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Photo is not set..
+        /// </summary>
+        internal static string PhotoPathIsNotSet {
+            get {
+                return ResourceManager.GetString("PhotoPathIsNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на The length of the path to the user photo must be less than 1024 symbols..
         /// </summary>
         internal static string PhotoPathLength {

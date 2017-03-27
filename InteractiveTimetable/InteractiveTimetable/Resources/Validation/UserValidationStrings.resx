@@ -144,6 +144,9 @@
   <data name="PatronymicNameLength" xml:space="preserve">
     <value>The length of a user patronymic name must be less than 255 symbols.</value>
   </data>
+  <data name="PhotoPathIsNotSet" xml:space="preserve">
+    <value>Photo is not set.</value>
+  </data>
   <data name="PhotoPathLength" xml:space="preserve">
     <value>The length of the path to the user photo must be less than 1024 symbols.</value>
   </data>

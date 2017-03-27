@@ -127,7 +127,14 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                                       PatronymicNameIsNotSet);
             }
 
-            /* ... path to photo is not longer than 1024 symbols */
+            /* ... path to photo is set and not longer than 1024 symbols */
+            if (user.PhotoPath.Length == 0)
+            {
+                throw new ArgumentException(Resources.Validation.
+                                                      UserValidationStrings.
+                                                      PhotoPathIsNotSet);
+            }
+
             if (user.PhotoPath.Length > 1024)
             {
                 throw new ArgumentException(Resources.Validation.
