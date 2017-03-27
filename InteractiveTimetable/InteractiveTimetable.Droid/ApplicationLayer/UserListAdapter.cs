@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Graphics;
 using Android.Support.V7.Widget;
 using Android.Views;
 using InteractiveTimetable.BusinessLayer.Models;
@@ -12,11 +13,15 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         public event EventHandler<UserListEventArgs> ItemClick;
         private Activity _context;
         public IList<User> Users { get; set; }
+        
+        private int _selectedPos = 0;
+        private readonly Color _selectedItemBackground;
 
         public UserListAdapter(Activity context, IList<User> users)
         {
             _context = context;
             Users = users;
+            _selectedItemBackground = Color.ParseColor(ImageHelper.HexFrameColor);
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
@@ -34,6 +39,16 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 viewHolder.UserId = userAtPosition.Id;
                 viewHolder.PositionInList = position;
 
+                /* Highliting current item */
+                if (_selectedPos == position)
+                {
+                    holder.ItemView.SetBackgroundColor(_selectedItemBackground);
+                    holder.ItemView.Background.Alpha = 30;
+                }
+                else
+                {
+                    holder.ItemView.SetBackgroundColor(Color.Transparent);
+                }
             }
         }
 
@@ -51,6 +66,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         void OnClick(int userId, int positionInList)
         {
+            NotifyItemChanged(positionInList);
+            _selectedPos = positionInList;
+            NotifyItemChanged(positionInList);
+
             var args = new UserListEventArgs()
             {
                 UserId = userId,
