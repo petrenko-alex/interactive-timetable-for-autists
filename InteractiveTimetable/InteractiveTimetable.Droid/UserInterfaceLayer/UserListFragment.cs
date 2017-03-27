@@ -121,7 +121,24 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnAddBtnClicked(object sender, EventArgs args)
         {
-            
+            var editUserDetails = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
+                        as UserDetailsEditFragment;
+
+            if (editUserDetails == null)
+            {
+                var editUserDetailsFragment = UserDetailsEditFragment.NewInstance(0);
+
+                var fragmentManager = FragmentManager.BeginTransaction();
+                fragmentManager.Replace(
+                        Resource.Id.user_details,
+                        editUserDetailsFragment,
+                        UserDetailsEditFragment.FragmentTag
+                    );
+
+                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+                fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
+                fragmentManager.Commit();
+            }
         }
 
         public void OnDeleteBtnClicked(object sender, EventArgs args)

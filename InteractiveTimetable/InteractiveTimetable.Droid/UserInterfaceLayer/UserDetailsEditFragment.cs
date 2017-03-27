@@ -27,7 +27,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private Button _cancelButton;
         private Button _editPhotoButton;
         private ImageButton _datePickButton;
-        private EditText _showDateField;
         private ImageView _userPhoto;
         private EditText _lastName;
         private EditText _firstName;
@@ -84,21 +83,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             View userView = inflater.Inflate(Resource.Layout.user_details_edit, container, false);
 
-            /* Setting button click handlers */
+            /* Getting widgets */
             _applyButton = userView.FindViewById<Button>(Resource.Id.apply_changes_btn);
-            _applyButton.Click += OnApplyButtonClicked;
-
             _cancelButton = userView.FindViewById<Button>(Resource.Id.cancel_btn);
-            _cancelButton.Click += OnCancelButtonClicked;
-
             _datePickButton = userView.FindViewById<ImageButton>(Resource.Id.birth_date_edit);
-            _datePickButton.Click += OnDatePickButtonClicked;
-
             _editPhotoButton = userView.FindViewById<Button>(Resource.Id.edit_photo_btn);
-            _editPhotoButton.Click += OnEditPhotoButtonClicked;
-
-            _showDateField = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
             _userPhoto = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
+            _lastName = userView.FindViewById<EditText>(Resource.Id.last_name_edit);
+            _firstName = userView.FindViewById<EditText>(Resource.Id.first_name_edit);
+            _patronymicName = userView.FindViewById<EditText>(Resource.Id.patronymic_name_edit);
+            _birthDate = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
+
+            /* Setting button click handlers */
+            _applyButton.Click += OnApplyButtonClicked;
+            _cancelButton.Click += OnCancelButtonClicked;
+            _datePickButton.Click += OnDatePickButtonClicked;
+            _editPhotoButton.Click += OnEditPhotoButtonClicked;
 
             /* If user is set, retrieve his data */
             if (UserId > 0)
@@ -107,40 +107,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
 
                 /* Setting last name */
-                _lastName = userView.FindViewById<EditText>(Resource.Id.last_name_edit);
                 _lastName.Text = _user.LastName;
 
                 /* Setting first name */
-                _firstName = userView.FindViewById<EditText>(Resource.Id.first_name_edit);
                 _firstName.Text = _user.FirstName;
 
                 /* Setting patronymic name */
-                _patronymicName = userView.FindViewById<EditText>(Resource.Id.patronymic_name_edit);
                 _patronymicName.Text = _user.PatronymicName;
 
                 /* Setting birth date */
-                _birthDate = userView.FindViewById<EditText>(Resource.Id.birth_date_show);
                 _birthDate.Text = _user.BirthDate.ToString("dd.MM.yyyy");
 
                 /* Setting photo */
-                _userPhoto = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
                 _userPhoto.SetImageURI(Android.Net.Uri.Parse(_user.PhotoPath));
-                _userPhoto.SetScaleType(ImageView.ScaleType.CenterCrop);
-                _userPhoto.SetPadding(0, 0, 0, 0);
-
-                /* Setting frame */
-                var frame = userView.FindViewById<FrameLayout>(Resource.Id.user_details_photo_frame);
-
-                int paddingForFrameInDp = 1;
-                int paddingForFrameInPixels = ImageHelper.
-                    ConvertDpToPixels(paddingForFrameInDp, InteractiveTimetable.Current.ScreenDensity);
-
-                frame.SetPadding(
-                    paddingForFrameInPixels,
-                    paddingForFrameInPixels,
-                    paddingForFrameInPixels,
-                    paddingForFrameInPixels);
-                frame.SetBackgroundColor(Color.ParseColor(ImageHelper.HexFrameColor));
 
                 /* Adjust apply button */
                 _applyButton.Text = GetString(Resource.String.edit_button);
@@ -150,6 +129,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* Setting current date */
                 _currentDate = _user.BirthDate;
+            }
+            else
+            {
+                /* Setting current date */
+                _currentDate = DateTime.Today;
+                _birthDate.Text = _currentDate.ToString("dd.MM.yyyy");
+
+                /* Adjust apply button */
+                _applyButton.Text = GetString(Resource.String.add_button);
+
+                /* Adjust photo button */
+                _editPhotoButton.Text = GetString(Resource.String.add_photo);
             }
 
             /* Setting listeners for fields to track data changing */
@@ -193,48 +184,66 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     CloseFragment();
                     return;
                 }
-
-                /* Getting data from fields */
-                _user.FirstName = _firstName.Text;
-                _user.LastName = _lastName.Text;
-                _user.PatronymicName = _patronymicName.Text;
-                _user.BirthDate = DateTime.ParseExact(
-                    _birthDate.Text,
-                    "dd.MM.yyyy",
-                    System.Globalization.CultureInfo.CurrentCulture);
-
-                /* Saving photo path */
-                if (_photoWasChanged)
-                {
-                    if (_fromGallery)
-                    {
-                        _user.PhotoPath = InteractiveTimetable.Current.GetPathToImage(Activity, _currentUri);
-                    }
-                    else
-                    {
-                        _user.PhotoPath = _photo.Path;
-                    }
-                }
-
-                /* Trying to save user */
-                try
-                {
-                    InteractiveTimetable.Current.UserManager.SaveUser(_user);
-                    CloseFragment();
-                }
-                catch (ArgumentException exception)
-                {
-                    /* Showing validation errors */
-                    var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
-                    toast.SetGravity(GravityFlags.ClipVertical, 350, -300);
-                    toast.Show();
-                    return;
-                }
             }
             /* Saving new user */
             else if (_user == null)
             {
-                // TODO: Implement
+                /* Error message if trying to save empty user */
+                if (!_dataWasChanged)
+                {
+                    var toast = ToastHelper.GetErrorToast(Activity, GetString(Resource.String.user_data_not_set));
+                    toast.SetGravity(GravityFlags.ClipVertical, 450, -300);
+                    toast.Show();
+                    return;
+                }
+
+                /* Error message if photo is not chosen */
+                if (!_photoWasChanged)
+                {
+                    var toast = ToastHelper.GetErrorToast(Activity, GetString(Resource.String.user_photo_not_set));
+                    toast.SetGravity(GravityFlags.ClipVertical, 450, -300);
+                    toast.Show();
+                    return;
+                }
+
+                _user = new User();
+            }
+
+            /* Getting data from fields */
+            _user.FirstName = _firstName.Text;
+            _user.LastName = _lastName.Text;
+            _user.PatronymicName = _patronymicName.Text;
+            _user.BirthDate = DateTime.ParseExact(
+                _birthDate.Text,
+                "dd.MM.yyyy",
+                System.Globalization.CultureInfo.CurrentCulture);
+
+            /* Saving photo path */
+            if (_photoWasChanged)
+            {
+                if (_fromGallery)
+                {
+                    _user.PhotoPath = InteractiveTimetable.Current.GetPathToImage(Activity, _currentUri);
+                }
+                else
+                {
+                    _user.PhotoPath = _photo.Path;
+                }
+            }
+
+            /* Trying to save user */
+            try
+            {
+                InteractiveTimetable.Current.UserManager.SaveUser(_user);
+                CloseFragment();
+            }
+            catch (ArgumentException exception)
+            {
+                /* Showing validation errors */
+                var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
+                toast.SetGravity(GravityFlags.ClipVertical, 450, -300);
+                toast.Show();
+                return;
             }
         }
 
@@ -250,7 +259,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 delegate (DateTime date)
                 {
                     _currentDate = date;
-                    _showDateField.Text = date.ToString("dd.MM.yyyy");
+                    _birthDate.Text = date.ToString("dd.MM.yyyy");
                 });
 
             fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
