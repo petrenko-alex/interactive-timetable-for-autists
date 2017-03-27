@@ -26,13 +26,13 @@
             p1:minHeight="25px"
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
-            p1:id="@+id/linearLayout5">
+            p1:id="@+id/linearLayout5"
+            p1:padding="1dp"
+            p1:background="#00BFFF">
             <ImageView
                 p1:src="@drawable/add_photo_button"
                 p1:id="@+id/user_details_photo"
-                p1:scaleType="centerInside"
-                p1:paddingLeft="10dp"
-                p1:paddingRight="10dp"
+                p1:scaleType="centerCrop"
                 p1:layout_width="300dp"
                 p1:layout_height="300dp" />
             <Button
