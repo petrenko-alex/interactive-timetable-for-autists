@@ -339,6 +339,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060007
 			public const int user_card = 2131099655;
 			
+			// aapt resource value: 0x7f060014
+			public const int user_data_not_set = 2131099668;
+			
 			// aapt resource value: 0x7f060005
 			public const int user_details_age = 2131099653;
 			
@@ -353,6 +356,9 @@ namespace InteractiveTimetable.Droid
 			
 			// aapt resource value: 0x7f060004
 			public const int user_details_patronymic_name = 2131099652;
+			
+			// aapt resource value: 0x7f060015
+			public const int user_photo_not_set = 2131099669;
 			
 			static String()
 			{
