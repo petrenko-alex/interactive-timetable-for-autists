@@ -33,12 +33,16 @@
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/user_lastname"
-            p1:layout_marginTop="60dp" />
+            p1:layout_marginTop="60dp"
+            p1:maxLines="1"
+            p1:ellipsize="end" />
         <TextView
             p1:text="Small Text"
             p1:textAppearance="?android:attr/textAppearanceSmall"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/user_fpname" />
+            p1:id="@+id/user_fpname"
+            p1:maxLines="1"
+            p1:ellipsize="end" />
     </LinearLayout>
 </LinearLayout>

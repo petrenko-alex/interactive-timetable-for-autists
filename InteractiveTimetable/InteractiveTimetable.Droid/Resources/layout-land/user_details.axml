@@ -53,33 +53,48 @@
                 <TextView
                     p1:text="@string/user_details_last_name"
                     p1:textAppearance="?android:attr/textAppearanceMedium"
-                    p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
-                    p1:id="@+id/user_details_last_name" />
+                    p1:id="@+id/user_details_last_name"
+                    p1:maxLines="1"
+                    p1:maxWidth="300dp"
+                    p1:layout_width="match_parent"
+                    p1:ellipsize="end" />
                 <TextView
                     p1:text="@string/user_details_first_name"
                     p1:textAppearance="?android:attr/textAppearanceMedium"
                     p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
-                    p1:id="@+id/user_details_first_name" />
+                    p1:id="@+id/user_details_first_name"
+                    p1:maxLines="1"
+                    p1:maxWidth="300dp"
+                    p1:ellipsize="end" />
                 <TextView
                     p1:text="@string/user_details_patronymic_name"
                     p1:textAppearance="?android:attr/textAppearanceMedium"
                     p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
-                    p1:id="@+id/user_details_patronymic_name" />
+                    p1:id="@+id/user_details_patronymic_name"
+                    p1:maxLines="1"
+                    p1:maxWidth="300dp"
+                    p1:ellipsize="end" />
                 <TextView
                     p1:text="@string/user_details_age"
                     p1:textAppearance="?android:attr/textAppearanceMedium"
                     p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
-                    p1:id="@+id/user_details_age" />
+                    p1:id="@+id/user_details_age"
+                    p1:maxLines="1"
+                    p1:maxWidth="300dp"
+                    p1:ellipsize="end" />
                 <TextView
                     p1:text="@string/user_details_birth"
                     p1:textAppearance="?android:attr/textAppearanceMedium"
                     p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
-                    p1:id="@+id/user_details_birth" />
+                    p1:id="@+id/user_details_birth"
+                    p1:maxLines="1"
+                    p1:maxWidth="300dp"
+                    p1:ellipsize="end" />
             </LinearLayout>
             <LinearLayout
                 p1:orientation="vertical"
