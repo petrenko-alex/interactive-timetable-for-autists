@@ -103,6 +103,9 @@ namespace InteractiveTimetable.Droid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f05002b
+			public const int add_user = 2131034155;
+			
 			// aapt resource value: 0x7f050026
 			public const int apply_changes_btn = 2131034150;
 			
@@ -114,6 +117,9 @@ namespace InteractiveTimetable.Droid
 			
 			// aapt resource value: 0x7f050027
 			public const int cancel_btn = 2131034151;
+			
+			// aapt resource value: 0x7f05002c
+			public const int delete_user = 2131034156;
 			
 			// aapt resource value: 0x7f05001e
 			public const int edit_photo_btn = 2131034142;
@@ -187,6 +193,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050015
 			public const int primerdivisor = 2131034133;
 			
+			// aapt resource value: 0x7f05002a
+			public const int relativeLayout1 = 2131034154;
+			
 			// aapt resource value: 0x7f050008
 			public const int textView1 = 2131034120;
 			
@@ -220,20 +229,20 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f05001c
 			public const int user_details_photo_frame = 2131034140;
 			
-			// aapt resource value: 0x7f05002d
-			public const int user_fpname = 2131034157;
+			// aapt resource value: 0x7f050030
+			public const int user_fpname = 2131034160;
 			
-			// aapt resource value: 0x7f05002c
-			public const int user_lastname = 2131034156;
+			// aapt resource value: 0x7f05002f
+			public const int user_lastname = 2131034159;
 			
 			// aapt resource value: 0x7f050005
 			public const int user_list = 2131034117;
 			
-			// aapt resource value: 0x7f05002a
-			public const int user_list_photo_frame = 2131034154;
+			// aapt resource value: 0x7f05002d
+			public const int user_list_photo_frame = 2131034157;
 			
-			// aapt resource value: 0x7f05002b
-			public const int user_photo = 2131034155;
+			// aapt resource value: 0x7f05002e
+			public const int user_photo = 2131034158;
 			
 			// aapt resource value: 0x7f050029
 			public const int user_recycler_view = 2131034153;

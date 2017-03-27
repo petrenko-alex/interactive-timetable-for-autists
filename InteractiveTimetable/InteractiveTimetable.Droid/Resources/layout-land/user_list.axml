@@ -21,5 +21,31 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/user_recycler_view" />
+        android:id="@+id/user_recycler_view"
+        android:layout_weight="1" />
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout1">
+        <ImageButton
+            android:src="@android:drawable/ic_input_add"
+            android:id="@+id/add_user"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:layout_marginLeft="10dp" />
+        <ImageButton
+            android:src="@android:drawable/ic_delete"
+            android:id="@+id/delete_user"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:layout_marginRight="10dp" />
+    </RelativeLayout>
 </LinearLayout>
