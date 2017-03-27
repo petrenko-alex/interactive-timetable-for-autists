@@ -103,6 +103,7 @@
     <Compile Include="ApplicationLayer\ImageHelper.cs" />
     <Compile Include="ApplicationLayer\ToastHelper.cs" />
     <Compile Include="ApplicationLayer\UserListAdapter.cs" />
+    <Compile Include="ApplicationLayer\UserListEventArgs.cs" />
     <Compile Include="ApplicationLayer\UserViewHolder.cs" />
     <Compile Include="InteractiveTimetable.cs" />
     <Compile Include="UserDetailsActivivty.cs" />
