@@ -15,13 +15,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     public class UserDetailsEditFragment : Fragment
     {
+        #region Constants
         public static readonly string FragmentTag = "user_details_edit_fragment";
         private static readonly string UserIdKey = "current_user_id";
         private static readonly int RequestCamera = 0;
         private static readonly int SelectFile = 1;
+        #endregion
 
         #region Widgets
-
         private Button _applyButton;
         private Button _cancelButton;
         private Button _editPhotoButton;
@@ -32,29 +33,32 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private EditText _firstName;
         private EditText _patronymicName;
         private EditText _birthDate;
-
         #endregion
 
+        #region Internal Variables
         private User _user;
         private DateTime _currentDate;
         private File _photo;
         private Bitmap _bitmap;
         private Android.Net.Uri _currentUri;
+        #endregion
 
         #region Flags
-
         private bool _fromGallery;
         private bool _dataWasChanged;
         private bool _photoWasChanged;
-
         #endregion
 
-
+        #region Properties
         public int UserId
         {
             get { return Arguments.GetInt(UserIdKey, 0); }
         }
+        #endregion
 
+        #region Methods
+
+        #region Construct Methods
         public static UserDetailsEditFragment NewInstance(int userId)
         {
             var userDetailsEditFragment = new UserDetailsEditFragment()
@@ -65,13 +69,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             return userDetailsEditFragment;
         }
+        #endregion
 
+        #region Event Handlers
         public override View OnCreateView(
-            LayoutInflater inflater, 
-            ViewGroup container, 
+            LayoutInflater inflater,
+            ViewGroup container,
             Bundle savedInstanceState)
         {
-            if(container == null)
+            if (container == null)
             {
                 return null;
             }
@@ -130,9 +136,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     ConvertDpToPixels(paddingForFrameInDp, InteractiveTimetable.Current.ScreenDensity);
 
                 frame.SetPadding(
-                    paddingForFrameInPixels, 
-                    paddingForFrameInPixels, 
-                    paddingForFrameInPixels, 
+                    paddingForFrameInPixels,
+                    paddingForFrameInPixels,
+                    paddingForFrameInPixels,
                     paddingForFrameInPixels);
                 frame.SetBackgroundColor(Color.ParseColor(ImageHelper.HexFrameColor));
 
@@ -226,7 +232,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 }
             }
             /* Saving new user */
-            else if(_user == null)
+            else if (_user == null)
             {
                 // TODO: Implement
             }
@@ -308,7 +314,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _dataWasChanged = true;
             _photoWasChanged = true;
         }
+        #endregion
 
+        #region Other Methods
         private void ChoosePhotoIfHasCamera()
         {
             /* Preparing dialog items */
@@ -377,5 +385,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _dataWasChanged = true;
         }
+        #endregion
+
+        #endregion
     }
 }
