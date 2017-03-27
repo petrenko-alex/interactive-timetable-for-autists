@@ -94,7 +94,9 @@
                         p1:id="@+id/last_name_edit"
                         p1:allowUndo="true"
                         p1:layout_marginLeft="5dp"
-                        p1:hint="@string/enter_last_name" />
+                        p1:hint="@string/enter_last_name"
+                        p1:layout_width="300dp"
+                        p1:maxLines="1" />
                     <TextView
                         p1:text="@string/user_details_first_name"
                         p1:textAppearance="?android:attr/textAppearanceMedium"
@@ -102,7 +104,9 @@
                     <EditText
                         p1:id="@+id/first_name_edit"
                         p1:layout_marginLeft="5dp"
-                        p1:hint="@string/enter_first_name" />
+                        p1:hint="@string/enter_first_name"
+                        p1:layout_width="300dp"
+                        p1:maxLines="1" />
                     <TextView
                         p1:text="@string/user_details_patronymic_name"
                         p1:textAppearance="?android:attr/textAppearanceMedium"
@@ -110,7 +114,9 @@
                     <EditText
                         p1:id="@+id/patronymic_name_edit"
                         p1:layout_marginLeft="5dp"
-                        p1:hint="@string/enter_patronymic_name" />
+                        p1:hint="@string/enter_patronymic_name"
+                        p1:layout_width="300dp"
+                        p1:maxLines="1" />
                     <TextView
                         p1:text="@string/user_details_birth"
                         p1:textAppearance="?android:attr/textAppearanceMedium"
@@ -123,12 +129,13 @@
                         p1:id="@+id/linearLayout4">
                         <EditText
                             p1:inputType="date"
-                            p1:layout_width="wrap_content"
+                            p1:layout_width="300dp"
                             p1:layout_height="match_parent"
                             p1:id="@+id/birth_date_show"
                             p1:text="01.01.2017"
                             p1:layout_marginLeft="5dp"
-                            p1:editable="false" />
+                            p1:maxLines="1"
+                            p1:focusable="false" />
                         <ImageButton
                             p1:src="@android:drawable/ic_menu_today"
                             p1:layout_width="wrap_content"
