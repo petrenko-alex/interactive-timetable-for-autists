@@ -14,15 +14,26 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     public class UserListFragment : Fragment
     {
+        #region Constants
         public static readonly string FragmentTag = "user_list_fragment";
-
         private static readonly string UserIdKey = "current_user_id";
+        #endregion
+
+        #region Widgets
         private RecyclerView _recyclerView;
+        private Button _addUserBtn;
+        private Button _deleteUserBtn;
+        #endregion
+
+        #region Internal Variables
         private RecyclerView.LayoutManager _layoutManager;
         private UserListAdapter _userListAdapter;
-
-        private bool _isWideScreenDevice;
         private int _currentUserId;
+        #endregion
+
+        #region Flags
+        private bool _isWideScreenDevice;
+        #endregion
         
         public static UserListFragment NewInstance()
         {
