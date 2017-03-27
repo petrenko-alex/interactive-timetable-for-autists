@@ -1,5 +1,6 @@
 using Android.App;
 using Android.OS;
+using Android.Views;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -13,6 +14,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnCreate(savedInstanceState);
 
 			SetContentView (Resource.Layout.management);
+
+            /* Hide keyboard */
+            Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
 
             AddUserListFragment();
         }
