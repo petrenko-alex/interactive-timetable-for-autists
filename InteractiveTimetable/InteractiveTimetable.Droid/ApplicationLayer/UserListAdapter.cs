@@ -4,6 +4,7 @@ using Android.App;
 using Android.Graphics;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
@@ -11,6 +12,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     public class UserListAdapter : RecyclerView.Adapter
     {
         public event EventHandler<UserListEventArgs> ItemClick;
+        public event Action<int, int> RequestToDeleteUser;
+
         private Activity _context;
         public IList<User> Users { get; set; }
         
@@ -39,18 +42,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 viewHolder.UserPhoto.SetImageURI(Android.Net.Uri.Parse(userAtPosition.PhotoPath));
                 viewHolder.UserId = userAtPosition.Id;
                 viewHolder.PositionInList = position;
-
-                /* Highliting current item */
-                if (CurrentPosition == position)
-                {
-                    holder.ItemView.SetBackgroundColor(_selectedItemBackground);
-                    holder.ItemView.Background.Alpha = 30;
-                    holder.ItemView.Selected = true;
-                }
-                else
-                {
-                    holder.ItemView.SetBackgroundColor(Color.Transparent);
-                }
             }
         }
 
@@ -60,18 +51,15 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             var inflater = LayoutInflater.From(_context);
             View view = inflater.Inflate(Resource.Layout.user_list_item, parent, false);
 
-            UserViewHolder holder = new UserViewHolder(view, OnClick);
+            UserViewHolder holder = new UserViewHolder(view, OnClick, OnItemLongClick);
             return holder;
         }
 
         public override int ItemCount => Users.Count;
 
-        void OnClick(int userId, int positionInList)
+        private void OnClick(int userId, int positionInList)
         {
-            /* Redraw old and new selection */
-            NotifyItemChanged(positionInList);
             CurrentPosition = positionInList;
-            NotifyItemChanged(positionInList);
 
             var args = new UserListEventArgs()
             {
@@ -79,6 +67,18 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 PositionInList = positionInList
             };
             ItemClick?.Invoke(this, args);
+        }
+
+        private void OnItemLongClick(View view, int userId, int positionInList)
+        {
+            PopupMenu menu = new PopupMenu(_context, view);
+            menu.Inflate(Resource.Menu.user_popup_menu);
+            menu.MenuItemClick += (sender, args) =>
+            {
+                RequestToDeleteUser?.Invoke(userId, positionInList);
+            };
+
+            menu.Show();
         }
 
         public void RemoveItem(int positionInList)
@@ -91,25 +91,18 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             NotifyItemRangeChanged(positionInList, Users.Count);
 
             /* Adjust list selection */
-            if (ItemCount != 0)
+
+            // TODO: Adjust CurrentPosition when delete items that are placed higher
+            // then current and we stay on current
+            if (ItemCount != 0 && CurrentPosition == positionInList)
             {
-                /* Delete first in list */
-                if (positionInList == 0)
-                {
-                    CurrentPosition = 0;
-                }
                 /* Delete last in list */
-                else if (positionInList == ItemCount)
+                if (positionInList == ItemCount)
                 {
-                    CurrentPosition = positionInList - 1;
-                }
-                /* Delete from the middle of the list */
-                else
-                {
-                    CurrentPosition = positionInList;
+                    positionInList -= 1;
                 }
 
-                OnClick(Users[CurrentPosition].Id, CurrentPosition);
+                OnClick(Users[positionInList].Id, positionInList);
             }
             else
             {

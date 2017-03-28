@@ -13,14 +13,19 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         public int UserId { get; set; }
         public int PositionInList { get; set; }
 
-        public UserViewHolder(View itemView, Action<int, int> listener) : base(itemView)
+        public UserViewHolder(
+            View itemView, 
+            Action<int, int> listenerForClick, 
+            Action<View, int, int> listenerForLongPress) 
+            : base(itemView)
         {
             UserPhoto = itemView.FindViewById<ImageView>(Resource.Id.user_photo);
             LastName = itemView.FindViewById<TextView>(Resource.Id.user_lastname);
             FirstAndPatronymicName 
                 = itemView.FindViewById<TextView>(Resource.Id.user_fpname);
 
-            itemView.Click += (sender, e) => listener(UserId, PositionInList);
+            itemView.Click += (sender, e) => listenerForClick(UserId, PositionInList);
+            itemView.LongClick += (sebder, e) => listenerForLongPress(itemView, UserId, PositionInList);
         }
     }
 }

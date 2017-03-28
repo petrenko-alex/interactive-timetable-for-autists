@@ -22,7 +22,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Widgets
         private RecyclerView _recyclerView;
         private ImageButton _addUserBtn;
-        private ImageButton _deleteUserBtn;
         #endregion
 
         #region Internal Variables
@@ -65,7 +64,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Getting views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.user_recycler_view);
-            _recyclerView.SetItemAnimator(null);
 
             /* Setting up the layout manager */
             _layoutManager = new LinearLayoutManager(Activity);
@@ -74,14 +72,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Setting up the adapter */
             _userListAdapter = new UserListAdapter(Activity, users);
             _userListAdapter.ItemClick += OnItemClick;
+            _userListAdapter.RequestToDeleteUser += OnDeleteButtonClicked;
             _recyclerView.SetAdapter(_userListAdapter);
 
             /* Setting event handlers */
             _addUserBtn = Activity.FindViewById<ImageButton>(Resource.Id.add_user_btn);
             _addUserBtn.Click += OnAddBtnClicked;
-
-            _deleteUserBtn = Activity.FindViewById<ImageButton>(Resource.Id.delete_user_btn);
-            _deleteUserBtn.Click += OnDeleteBtnClicked;
 
             /* Determining wide screen device */
             var layout = Activity.FindViewById<LinearLayout>(Resource.Id.main_landscape);
@@ -105,7 +101,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnDestroy()
         {
             _addUserBtn.Click -= OnAddBtnClicked;
-            _deleteUserBtn.Click -= OnDeleteBtnClicked;
             GC.Collect();
 
             base.OnDestroy();
@@ -142,21 +137,23 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        public void OnDeleteBtnClicked(object sender, EventArgs eventArgs)
+        public void OnDeleteButtonClicked(int userId, int positionInList)
         {
             /* Show alert if user in current timetable */
-            if (InteractiveTimetable.Current.UserManager.IsUserInPresentTimetable(_currentUserId))
+            if (InteractiveTimetable.Current.UserManager.IsUserInPresentTimetable(userId))
             {
                 AskAndDeleteUser(
                     GetString(Resource.String.user_in_present_timetable),
-                    _currentUserId);
+                    userId,
+                    positionInList);
             }
             /* Show general alert */
             else
             {
                 AskAndDeleteUser(
                     GetString(Resource.String.sure_to_delete_user),
-                    _currentUserId);
+                    userId,
+                    positionInList);
             }
         }
 
@@ -213,7 +210,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListAdapter.NotifyDataSetChanged();
         }
 
-        private void AskAndDeleteUser(string questionToAsk, int userId)
+        private void AskAndDeleteUser(string questionToAsk, int userId, int positionInList)
         {
             using (var alert = new AlertDialog.Builder(Activity))
             {
@@ -221,7 +218,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 alert.SetMessage(questionToAsk);
                 alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) =>
                 {
-                    DeleteUser(userId);
+                    DeleteUser(userId, positionInList);
                 });
                 alert.SetNegativeButton(GetString(Resource.String.cancel_button), (sender1, args) => {});
 
@@ -230,14 +227,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void DeleteUser(int userId)
+        private void DeleteUser(int userId, int positionInList)
         {
             /* Delete from database */
             InteractiveTimetable.Current.UserManager.DeleteUser(userId);
 
             /* Delete from adapter */
-            // TODO: Rename to RemoveCurrentItem and get rid of public CurrentPosition
-            _userListAdapter.RemoveItem(_userListAdapter.CurrentPosition);
+            _userListAdapter.RemoveItem(positionInList);
         }
     }
 }
