@@ -21,8 +21,8 @@
   <string name="choose_photo">Выберите фото</string>
   <string name="take_a_photo">Сделать фото</string>
   <string name="choose_from_gallery">Выбрать фото</string>
-  <string name="user_data_not_set">Данные пользователя не введены.</string>
-  <string name="user_photo_not_set">Фотография пользователя не выбрана.</string>
-  <string name="delete_user">Удаление пользователя</string>
-  <string name="sure_to_delete_user">Вы действительно хотите удалить пользователя?</string>
+  <string name="user_data_not_set">Данные ребенка не введены.</string>
+  <string name="user_photo_not_set">Фотография ребенка не выбрана.</string>
+  <string name="delete_user">Удаление профиля ребенка</string>
+  <string name="sure_to_delete_user">Вы действительно хотите удалить профиль ребенка?</string>
 </resources>
