@@ -65,6 +65,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Getting views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.user_recycler_view);
+            _recyclerView.SetItemAnimator(null);
 
             /* Setting up the layout manager */
             _layoutManager = new LinearLayoutManager(Activity);

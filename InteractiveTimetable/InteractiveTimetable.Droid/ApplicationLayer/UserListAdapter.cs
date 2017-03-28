@@ -103,6 +103,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 {
                     CurrentPosition = positionInList - 1;
                 }
+                /* Delete from the middle of the list */
                 else
                 {
                     CurrentPosition = positionInList;
