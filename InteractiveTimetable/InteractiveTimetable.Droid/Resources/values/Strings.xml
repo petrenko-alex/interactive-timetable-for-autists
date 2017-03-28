@@ -25,4 +25,6 @@
   <string name="user_photo_not_set">Фотография ребенка не выбрана.</string>
   <string name="delete_user">Удаление профиля ребенка</string>
   <string name="sure_to_delete_user">Вы действительно хотите удалить профиль ребенка?</string>
+  <string name="user_in_present_timetable">Выбранный профиль ребенка используется в текущем расписании. 
+  Вы действительно хотите удалить его?</string>
 </resources>

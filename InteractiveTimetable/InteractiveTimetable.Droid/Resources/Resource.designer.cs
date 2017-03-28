@@ -366,6 +366,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060004
 			public const int user_details_patronymic_name = 2131099652;
 			
+			// aapt resource value: 0x7f060019
+			public const int user_in_present_timetable = 2131099673;
+			
 			// aapt resource value: 0x7f060016
 			public const int user_photo_not_set = 2131099670;
 			
