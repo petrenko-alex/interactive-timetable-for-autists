@@ -14,13 +14,14 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         private Activity _context;
         public IList<User> Users { get; set; }
         
-        private int _selectedPos = 0;
+        public int CurrentPosition { get; set; }
         private readonly Color _selectedItemBackground;
 
         public UserListAdapter(Activity context, IList<User> users)
         {
             _context = context;
             Users = users;
+            CurrentPosition = 0;
             _selectedItemBackground = Color.ParseColor(ImageHelper.HexFrameColor);
         }
 
@@ -40,10 +41,11 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 viewHolder.PositionInList = position;
 
                 /* Highliting current item */
-                if (_selectedPos == position)
+                if (CurrentPosition == position)
                 {
                     holder.ItemView.SetBackgroundColor(_selectedItemBackground);
                     holder.ItemView.Background.Alpha = 30;
+                    holder.ItemView.Selected = true;
                 }
                 else
                 {
@@ -66,8 +68,9 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         void OnClick(int userId, int positionInList)
         {
+            /* Redraw old and new selection */
             NotifyItemChanged(positionInList);
-            _selectedPos = positionInList;
+            CurrentPosition = positionInList;
             NotifyItemChanged(positionInList);
 
             var args = new UserListEventArgs()
@@ -76,6 +79,41 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 PositionInList = positionInList
             };
             ItemClick?.Invoke(this, args);
+        }
+
+        public void RemoveItem(int positionInList)
+        {
+            /* Remove from adapter data set */
+            Users.RemoveAt(positionInList);
+
+            /* Notify adapter about item removing */
+            NotifyItemRemoved(positionInList);
+            NotifyItemRangeChanged(positionInList, Users.Count);
+
+            /* Adjust list selection */
+            if (ItemCount != 0)
+            {
+                /* Delete first in list */
+                if (positionInList == 0)
+                {
+                    CurrentPosition = 0;
+                }
+                /* Delete last in list */
+                else if (positionInList == ItemCount)
+                {
+                    CurrentPosition = positionInList - 1;
+                }
+                else
+                {
+                    CurrentPosition = positionInList;
+                }
+
+                OnClick(Users[CurrentPosition].Id, CurrentPosition);
+            }
+            else
+            {
+                // TODO: Show another layout when no more users in the list
+            }
         }
     }
 }

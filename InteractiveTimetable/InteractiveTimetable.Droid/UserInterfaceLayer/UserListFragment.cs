@@ -144,25 +144,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public void OnDeleteBtnClicked(object sender, EventArgs eventArgs)
         {
             /* Show alert if user in current timetable */
-            /* Show general alert */
-            using (var alert = new AlertDialog.Builder(Activity))
+            if (InteractiveTimetable.Current.UserManager.IsUserInPresentTimetable(_currentUserId))
             {
-                alert.SetTitle(GetString(Resource.String.sure_to_delete_user));
-                alert.SetMessage(GetString(Resource.String.sure_to_delete_user));
-                alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) => {});
-
-
-                alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) => {});
-
-                alert.Show();
+                AskAndDeleteUser(
+                    GetString(Resource.String.user_in_present_timetable),
+                    _currentUserId);
             }
-            
-            Resource.String.delete_button
-
-            /* Delete */
-            /* Refresh */
-            /* Adjust selection */
-            /* What if last user was deleted */
+            /* Show general alert */
+            else
+            {
+                AskAndDeleteUser(
+                    GetString(Resource.String.sure_to_delete_user),
+                    _currentUserId);
+            }
         }
 
         public override void OnSaveInstanceState(Bundle outState)
@@ -216,6 +210,33 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _userListAdapter.Users = GetUsers();
             _userListAdapter.NotifyDataSetChanged();
+        }
+
+        private void AskAndDeleteUser(string questionToAsk, int userId)
+        {
+            using (var alert = new AlertDialog.Builder(Activity))
+            {
+                alert.SetTitle(GetString(Resource.String.delete_user));
+                alert.SetMessage(questionToAsk);
+                alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) =>
+                {
+                    DeleteUser(userId);
+                });
+                alert.SetNegativeButton(GetString(Resource.String.cancel_button), (sender1, args) => {});
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+            }
+        }
+
+        private void DeleteUser(int userId)
+        {
+            /* Delete from database */
+            InteractiveTimetable.Current.UserManager.DeleteUser(userId);
+
+            /* Delete from adapter */
+            // TODO: Rename to RemoveCurrentItem and get rid of public CurrentPosition
+            _userListAdapter.RemoveItem(_userListAdapter.CurrentPosition);
         }
     }
 }
