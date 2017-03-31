@@ -15,18 +15,29 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     public class UserDetailsFragment : Fragment
     {
+        #region Constants
         public static readonly string FragmentTag = "user_details_fragment";
         private static readonly string UserIdKey = "current_user_id";
+        #endregion
 
+        #region Widgets
         private ImageButton _editButton;
+        #endregion
 
+        #region Events
         public event Action<int> EditButtonClicked;
+        #endregion
 
+        #region Properties
         public int UserId
         {
             get { return Arguments.GetInt(UserIdKey, 0); }
         }
+        #endregion
 
+        #region Methods
+
+        #region Construct Methods
         public static UserDetailsFragment NewInstance(int userId)
         {
             var userDetailsFragment = new UserDetailsFragment()
@@ -37,7 +48,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             return userDetailsFragment;
         }
+        #endregion
 
+        #region Event Handlers
         public override void OnDestroy()
         {
             _editButton.Click -= OnEditUserButtonClicked;
@@ -47,8 +60,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         }
 
         public override View OnCreateView(
-            LayoutInflater inflater, 
-            ViewGroup container, 
+            LayoutInflater inflater,
+            ViewGroup container,
             Bundle savedInstanceState)
         {
             if (container == null)
@@ -104,5 +117,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var userListFragment = FragmentManager.FindFragmentByTag(UserListFragment.FragmentTag) as UserListFragment;
             userListFragment?.DataSetChanged();
         }
+        #endregion
+
+        #endregion
     }
 }
