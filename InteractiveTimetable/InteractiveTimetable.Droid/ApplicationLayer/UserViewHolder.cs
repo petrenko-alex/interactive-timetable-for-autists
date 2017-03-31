@@ -7,11 +7,13 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     class UserViewHolder : RecyclerView.ViewHolder
     {
+        #region Properties
         public ImageView UserPhoto { get; private set; }
         public TextView LastName { get; private set; }
         public TextView FirstAndPatronymicName { get; private set; }
         public int UserId { get; set; }
         public int PositionInList { get; set; }
+        #endregion
 
         public UserViewHolder(
             View itemView, 
