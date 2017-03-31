@@ -22,6 +22,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Widgets
         private RecyclerView _recyclerView;
         private Button _addUserBtn;
+        private AutoCompleteTextView _findUserBtn;
         #endregion
 
         #region Internal Variables
@@ -85,8 +86,36 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _addUserBtn = Activity.FindViewById<Button>(Resource.Id.add_user_btn);
             _addUserBtn.Click += OnAddBtnClicked;
 
+            /* Setting up the adapter for find user field */
+            _findUserBtn = Activity.FindViewById<AutoCompleteTextView>(Resource.Id.find_user);
+            _findUserBtn.Threshold = 1;
+            _findUserBtn.ItemClick += OnFindUserItemClicked;
+            SetAdapterToFindUserField(users);
+            
+
             /* Initializing class variables */
             _currentUserId = userId;
+        }
+
+        private void OnFindUserItemClicked(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            /* Hide keyboard */
+            InteractiveTimetable.Current.HideKeyboard(Activity.CurrentFocus.WindowToken);
+
+            /* Find user by FIO */
+            var selectedUser = e.View.FindViewById<TextView>(Android.Resource.Id.Text1).Text;
+            var FIO = selectedUser.Split(' ');
+
+            var user = GetUsers().First(
+                x => x.LastName == FIO[0] &&
+                     x.FirstName == FIO[1] &&
+                     x.PatronymicName == FIO[2]);
+
+            if (user != null)
+            {
+                ListItemClicked?.Invoke(user.Id);
+                _currentUserId = user.Id;
+            }
         }
 
         public override View OnCreateView(
@@ -156,6 +185,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _userListAdapter.Users = GetUsers();
             _userListAdapter.NotifyDataSetChanged();
+
+            /* Refresh find user field data set */
+            SetAdapterToFindUserField(_userListAdapter.Users);
         }
 
         private void AskAndDeleteUser(string questionToAsk, int userId, int positionInList)
@@ -182,6 +214,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Delete from adapter */
             _userListAdapter.RemoveItem(positionInList);
+
+            /* Refresh find user field data set */
+            SetAdapterToFindUserField(_userListAdapter.Users);
         }
 
         public void AddUser(int userId)
@@ -191,6 +226,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Scroll to inserted position */
             _layoutManager.ScrollToPosition(insertedPosition);
+
+            /* Refresh find user field data set */
+            SetAdapterToFindUserField(_userListAdapter.Users);
         }
 
         private IList<User> GetUsers()
@@ -198,6 +236,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return InteractiveTimetable.Current.UserManager.GetUsers().
                                         OrderBy(x => x.LastName).
                                         ToList();
+        }
+
+        private void SetAdapterToFindUserField(IList<User> users)
+        {
+            var dataForFindField = users.Select(x => x.LastName + " " + x.FirstName + " " + x.PatronymicName).ToList();
+            var adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, dataForFindField);
+            _findUserBtn.Adapter = adapter;
         }
         #endregion
 
