@@ -16,15 +16,15 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         private Activity _context;
         public IList<User> Users { get; set; }
-        
-        public int CurrentPosition { get; set; }
+
+        private int _currentPosition;
         private readonly Color _selectedItemBackground;
 
         public UserListAdapter(Activity context, IList<User> users)
         {
             _context = context;
             Users = users;
-            CurrentPosition = 0;
+            _currentPosition = 0;
             _selectedItemBackground = Color.ParseColor(ImageHelper.HexFrameColor);
         }
 
@@ -59,7 +59,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         private void OnClick(int userId, int positionInList)
         {
-            CurrentPosition = positionInList;
+            _currentPosition = positionInList;
 
             var args = new UserListEventArgs()
             {
@@ -94,7 +94,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             if (ItemCount != 0)
             {
                 /* If deleting user who is in focus now, change the focus */
-                if (CurrentPosition == positionInList)
+                if (_currentPosition == positionInList)
                 {
                     /* Delete last in list */
                     if (positionInList == ItemCount)
@@ -105,12 +105,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     OnClick(Users[positionInList].Id, positionInList);
                 }
                 /* If deleting the user above current user, just adjust current position */
-                else if(CurrentPosition > positionInList)
+                else if(_currentPosition > positionInList)
                 {
-                    CurrentPosition -= 1;
+                    _currentPosition -= 1;
                 }
-
-                Console.WriteLine(CurrentPosition);
             }
             else
             {
