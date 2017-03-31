@@ -21,7 +21,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Widgets
         private RecyclerView _recyclerView;
-        private ImageButton _addUserBtn;
+        private Button _addUserBtn;
         #endregion
 
         #region Internal Variables
@@ -76,7 +76,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.SetAdapter(_userListAdapter);
 
             /* Setting event handlers */
-            _addUserBtn = Activity.FindViewById<ImageButton>(Resource.Id.add_user_btn);
+            _addUserBtn = Activity.FindViewById<Button>(Resource.Id.add_user_btn);
             _addUserBtn.Click += OnAddBtnClicked;
 
             /* Determining wide screen device */
