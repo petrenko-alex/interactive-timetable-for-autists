@@ -50,6 +50,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListFragment.AddUserButtonClicked -= OnAddUserButtonClicked;
             _userListFragment.ListItemClicked -= OnUserListItemClicked;
             _userDetailsFragment.EditButtonClicked -= OnEditUserButtonClicked;
+            _userDetailsEditFragment.NewUserAdded -= OnNewUserAdded;
 
             base.OnDestroy();
         }
@@ -118,6 +119,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             if (_userDetailsEditFragment == null)
             {
                 _userDetailsEditFragment = UserDetailsEditFragment.NewInstance(0);
+                _userDetailsEditFragment.NewUserAdded += OnNewUserAdded;
 
                 var fragmentManager = FragmentManager.BeginTransaction();
                 fragmentManager.Replace(
@@ -130,6 +132,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
                 fragmentManager.Commit();
             }
+        }
+
+        public void OnNewUserAdded(int userId)
+        {
+            _userListFragment.AddUser(userId);
+            OnUserListItemClicked(userId);
         }
         #endregion
 

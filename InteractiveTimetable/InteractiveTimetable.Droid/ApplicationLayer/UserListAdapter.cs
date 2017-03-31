@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
-using Android.Graphics;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -124,6 +124,34 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             {
                 // TODO: Show another layout when no more users in the list
             }
+        }
+
+        public int InsertItem(int userId)
+        {
+            /* Get actual information from database */
+            var users = InteractiveTimetable.Current.UserManager.GetUsers().
+                                             OrderBy(x => x.LastName).
+                                             ToList();
+            var user = InteractiveTimetable.Current.UserManager.GetUser(userId);
+
+            /* Find the place to insert */
+            int positionToInsert = 0;
+            int userCount = users.Count;
+            for (int i = 0; i < userCount; ++i)
+            {
+                if (user.LastName.Equals(users[i].LastName))
+                {
+                    positionToInsert = i;
+                }
+            }
+
+            /* Insert in data set */
+            Users.Insert(positionToInsert, user);
+
+            /* Notify adapter */
+            NotifyItemInserted(positionToInsert);
+
+            return positionToInsert;
         }
         #endregion
 

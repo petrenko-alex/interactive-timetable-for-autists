@@ -34,6 +34,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private EditText _birthDate;
         #endregion
 
+        #region Events
+        public event Action<int> NewUserAdded;
+        #endregion
+
         #region Internal Variables
         private User _user;
         private DateTime _currentDate;
@@ -46,6 +50,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private bool _fromGallery;
         private bool _dataWasChanged;
         private bool _photoWasChanged;
+        private bool _newUser;
         #endregion
 
         #region Properties
@@ -206,6 +211,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     return;
                 }
 
+                _newUser = true;
                 _user = new User();
             }
 
@@ -234,7 +240,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Trying to save user */
             try
             {
-                InteractiveTimetable.Current.UserManager.SaveUser(_user);
+                int userId = InteractiveTimetable.Current.UserManager.SaveUser(_user);
+
+                if (_newUser)
+                {
+                    CloseFragment();
+                    NewUserAdded?.Invoke(userId);
+                    _newUser = false;
+                    return;
+                }
+
                 CloseFragment();
             }
             catch (ArgumentException exception)

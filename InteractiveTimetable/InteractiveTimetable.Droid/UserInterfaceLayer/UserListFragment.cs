@@ -184,6 +184,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListAdapter.RemoveItem(positionInList);
         }
 
+        public void AddUser(int userId)
+        {
+            /* Insert in adapter */
+            int insertedPosition = _userListAdapter.InsertItem(userId);
+
+            /* Scroll to inserted position */
+            _layoutManager.ScrollToPosition(insertedPosition);
+        }
+
         private IList<User> GetUsers()
         {
             return InteractiveTimetable.Current.UserManager.GetUsers().
