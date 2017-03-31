@@ -129,6 +129,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnDestroy()
         {
             _addUserBtn.Click -= OnAddBtnClicked;
+            _findUserField.ItemClick -= OnFindUserItemClicked;
+            _userListAdapter.ItemClick -= OnItemClick;
+            _userListAdapter.RequestToDeleteUser -= OnDeleteButtonClicked;
             GC.Collect();
 
             base.OnDestroy();
