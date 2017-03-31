@@ -11,23 +11,33 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     public class UserListAdapter : RecyclerView.Adapter
     {
+        #region Events
         public event EventHandler<UserListEventArgs> ItemClick;
         public event Action<int, int> RequestToDeleteUser;
+        #endregion
 
-        private Activity _context;
+        #region Properties
         public IList<User> Users { get; set; }
+        public override int ItemCount => Users.Count;
+        #endregion
 
+        #region Internal Variables
+        private Activity _context;
         private int _currentPosition;
-        private readonly Color _selectedItemBackground;
+        #endregion
 
+        #region Methods
+
+        #region Construct Methods
         public UserListAdapter(Activity context, IList<User> users)
         {
             _context = context;
             Users = users;
             _currentPosition = 0;
-            _selectedItemBackground = Color.ParseColor(ImageHelper.HexFrameColor);
         }
+        #endregion
 
+        #region Event Handlers
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             var userAtPosition = Users[position];
@@ -45,7 +55,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             }
         }
 
-        public override RecyclerView.ViewHolder 
+        public override RecyclerView.ViewHolder
             OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             var inflater = LayoutInflater.From(_context);
@@ -54,8 +64,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             UserViewHolder holder = new UserViewHolder(view, OnClick, OnItemLongClick);
             return holder;
         }
-
-        public override int ItemCount => Users.Count;
 
         private void OnClick(int userId, int positionInList)
         {
@@ -80,7 +88,9 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
             menu.Show();
         }
+        #endregion
 
+        #region Other Methods
         public void RemoveItem(int positionInList)
         {
             /* Remove from adapter data set */
@@ -105,7 +115,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     OnClick(Users[positionInList].Id, positionInList);
                 }
                 /* If deleting the user above current user, just adjust current position */
-                else if(_currentPosition > positionInList)
+                else if (_currentPosition > positionInList)
                 {
                     _currentPosition -= 1;
                 }
@@ -115,5 +125,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 // TODO: Show another layout when no more users in the list
             }
         }
+        #endregion
+
+        #endregion
     }
 }
