@@ -16,10 +16,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     public class UserDetailsFragment : Fragment
     {
         public static readonly string FragmentTag = "user_details_fragment";
-
         private static readonly string UserIdKey = "current_user_id";
 
         private ImageButton _editButton;
+
+        public event Action<int> EditButtonClicked;
 
         public int UserId
         {
@@ -41,6 +42,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _editButton.Click -= OnEditUserButtonClicked;
             GC.Collect();
+
             base.OnDestroy();
         }
 
@@ -67,8 +69,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             firstNameView.Text += " " + user.FirstName;
 
             /* Setting patronymic name */
-            var patronymicNameView =
-                    userView.FindViewById<TextView>(Resource.Id.user_details_patronymic_name);
+            var patronymicNameView = userView.FindViewById<TextView>(Resource.Id.user_details_patronymic_name);
             patronymicNameView.Text += " " + user.PatronymicName;
 
             /* Setting age */
@@ -90,26 +91,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return userView;
         }
 
-        void OnEditUserButtonClicked(object sender, EventArgs args)
+        private void OnEditUserButtonClicked(object sender, EventArgs args)
         {
-            var editUserDetails = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
-                        as UserDetailsEditFragment;
-
-            if (editUserDetails == null)
-            {
-                var editUserDetailsFragment = UserDetailsEditFragment.NewInstance(UserId);
-
-                var fragmentManager = FragmentManager.BeginTransaction();
-                fragmentManager.Replace(
-                        Resource.Id.user_details,
-                        editUserDetailsFragment,
-                        UserDetailsEditFragment.FragmentTag
-                    );
-
-                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
-                fragmentManager.Commit();
-            }
+            EditButtonClicked?.Invoke(UserId);
         }
 
         public override void OnResume()
@@ -118,10 +102,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Refreshing list of users */
             var userListFragment = FragmentManager.FindFragmentByTag(UserListFragment.FragmentTag) as UserListFragment;
-            if (userListFragment != null)
-            {
-                userListFragment.DataSetChanged();    
-            }
+            userListFragment?.DataSetChanged();
         }
     }
 }

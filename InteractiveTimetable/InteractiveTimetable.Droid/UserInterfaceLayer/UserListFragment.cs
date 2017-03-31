@@ -30,9 +30,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private int _currentUserId;
         #endregion
 
-        #region Flags
-        private bool _isWideScreenDevice;
-        #endregion
+        public event Action<int> ListItemClicked;
+        public event Action AddUserButtonClicked;
         
         public static UserListFragment NewInstance()
         {
@@ -79,14 +78,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _addUserBtn = Activity.FindViewById<Button>(Resource.Id.add_user_btn);
             _addUserBtn.Click += OnAddBtnClicked;
 
-            /* Determining wide screen device */
-            var layout = Activity.FindViewById<LinearLayout>(Resource.Id.main_landscape);
-            _isWideScreenDevice = layout != null && layout.Visibility == ViewStates.Visible;
-
-            if (_isWideScreenDevice)
-            {
-                ShowUserDetails(userId);
-            }
+            /* Initializing class variables */
             _currentUserId = userId;
         }
 
@@ -117,25 +109,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnAddBtnClicked(object sender, EventArgs args)
         {
-            var editUserDetails = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
-                        as UserDetailsEditFragment;
-
-            if (editUserDetails == null)
-            {
-                var editUserDetailsFragment = UserDetailsEditFragment.NewInstance(0);
-
-                var fragmentManager = FragmentManager.BeginTransaction();
-                fragmentManager.Replace(
-                        Resource.Id.user_details,
-                        editUserDetailsFragment,
-                        UserDetailsEditFragment.FragmentTag
-                    );
-
-                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
-                fragmentManager.Commit();
-            }
+            AddUserButtonClicked?.Invoke();
         }
+        
 
         public void OnDeleteButtonClicked(int userId, int positionInList)
         {
@@ -165,36 +141,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void ShowUserDetails(int userId)
         {
-            if (_isWideScreenDevice)
-            {
-                /* Checking what fragment is shown and replacing if needed */
-                var userDetails = FragmentManager.FindFragmentByTag(UserDetailsFragment.FragmentTag)
-                        as UserDetailsFragment;
-
-                if (userDetails == null || _currentUserId != userId)
-                {
-                    var userDetailsFragment = UserDetailsFragment.NewInstance(userId);
-
-                    var fragmentManager = FragmentManager.BeginTransaction();
-                    fragmentManager.Replace(
-                            Resource.Id.user_details, 
-                            userDetailsFragment, 
-                            UserDetailsFragment.FragmentTag
-                        );
-
-                    fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                    fragmentManager.Commit();
-                }
-            }
-            else
-            {
-                var intent = new Intent();
-
-                intent.SetClass(Activity, typeof(UserDetailsActivivty));
-                intent.PutExtra(UserIdKey, userId);
-                StartActivity(intent);
-            }
-
+            ListItemClicked?.Invoke(userId);
         }
 
         private IList<User> GetUsers()
@@ -234,6 +181,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Delete from adapter */
             _userListAdapter.RemoveItem(positionInList);
+        }
+
+        public int GetFirstUserId()
+        {
+            return GetUsers()[0].Id;
         }
     }
 }
