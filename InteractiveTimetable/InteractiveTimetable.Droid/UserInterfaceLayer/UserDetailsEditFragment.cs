@@ -36,6 +36,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Events
         public event Action<int> NewUserAdded;
+        public event Action<int> UserEdited;
         #endregion
 
         #region Internal Variables
@@ -241,16 +242,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             try
             {
                 int userId = InteractiveTimetable.Current.UserManager.SaveUser(_user);
+                CloseFragment();
 
+                /* If new user was added */
                 if (_newUser)
                 {
-                    CloseFragment();
                     NewUserAdded?.Invoke(userId);
                     _newUser = false;
                     return;
                 }
 
-                CloseFragment();
+                /* If existing user was edited */
+                UserEdited?.Invoke(userId);
             }
             catch (ArgumentException exception)
             {

@@ -108,15 +108,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             EditButtonClicked?.Invoke(UserId);
         }
-
-        public override void OnResume()
-        {
-            base.OnResume();
-
-            /* Refreshing list of users */
-            var userListFragment = FragmentManager.FindFragmentByTag(UserListFragment.FragmentTag) as UserListFragment;
-            userListFragment?.DataSetChanged();
-        }
         #endregion
 
         #endregion
