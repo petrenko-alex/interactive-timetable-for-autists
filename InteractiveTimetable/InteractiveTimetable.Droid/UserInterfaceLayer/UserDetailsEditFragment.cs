@@ -336,10 +336,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     /* Setting a flag to choose method to get image path */
                     _fromGallery = true;
                 }
-            }
 
-            _dataWasChanged = true;
-            _photoWasChanged = true;
+                _dataWasChanged = true;
+                _photoWasChanged = true;
+            }
         }
         #endregion
 
