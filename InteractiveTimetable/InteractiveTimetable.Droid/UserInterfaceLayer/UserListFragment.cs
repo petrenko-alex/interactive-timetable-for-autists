@@ -30,9 +30,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private int _currentUserId;
         #endregion
 
+        #region Events
         public event Action<int> ListItemClicked;
         public event Action AddUserButtonClicked;
-        
+        #endregion
+
+        #region Methods
+
+        #region Construct Methods
         public static UserListFragment NewInstance()
         {
             var userListFragment = new UserListFragment
@@ -42,11 +47,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             return userListFragment;
         }
+        #endregion
 
+        #region Event Handlers
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-            
+
             /* Getting users ordered by last name */
             var users = GetUsers();
 
@@ -83,8 +90,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         }
 
         public override View OnCreateView(
-            LayoutInflater inflater, 
-            ViewGroup container, 
+            LayoutInflater inflater,
+            ViewGroup container,
             Bundle savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.user_list, container, false);
@@ -99,11 +106,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         }
 
         public void OnItemClick(object sender, UserListEventArgs args)
-        {   
+        {
             // TODO: Delete the line below when dubugging is done
             Toast.MakeText(Activity, $"This is user with id: {args.UserId}", ToastLength.Short).Show();
 
-            ShowUserDetails(args.UserId);
+            ListItemClicked?.Invoke(args.UserId);
             _currentUserId = args.UserId;
         }
 
@@ -111,7 +118,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             AddUserButtonClicked?.Invoke();
         }
-        
 
         public void OnDeleteButtonClicked(int userId, int positionInList)
         {
@@ -138,17 +144,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             outState.PutInt(UserIdKey, _currentUserId);
             base.OnSaveInstanceState(outState);
         }
+        #endregion
 
-        private void ShowUserDetails(int userId)
+        #region Other Methods
+        public int GetFirstUserId()
         {
-            ListItemClicked?.Invoke(userId);
-        }
-
-        private IList<User> GetUsers()
-        {
-            return InteractiveTimetable.Current.UserManager.GetUsers().
-                                        OrderBy(x => x.LastName).
-                                        ToList();
+            return GetUsers()[0].Id;
         }
 
         public void DataSetChanged()
@@ -167,7 +168,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 {
                     DeleteUser(userId, positionInList);
                 });
-                alert.SetNegativeButton(GetString(Resource.String.cancel_button), (sender1, args) => {});
+                alert.SetNegativeButton(GetString(Resource.String.cancel_button), (sender1, args) => { });
 
                 Dialog dialog = alert.Create();
                 dialog.Show();
@@ -183,9 +184,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListAdapter.RemoveItem(positionInList);
         }
 
-        public int GetFirstUserId()
+        private IList<User> GetUsers()
         {
-            return GetUsers()[0].Id;
+            return InteractiveTimetable.Current.UserManager.GetUsers().
+                                        OrderBy(x => x.LastName).
+                                        ToList();
         }
+        #endregion
+
+        #endregion
     }
 }
