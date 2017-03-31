@@ -91,18 +91,26 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             NotifyItemRangeChanged(positionInList, Users.Count);
 
             /* Adjust list selection */
-
-            // TODO: Adjust CurrentPosition when delete items that are placed higher
-            // then current and we stay on current
-            if (ItemCount != 0 && CurrentPosition == positionInList)
+            if (ItemCount != 0)
             {
-                /* Delete last in list */
-                if (positionInList == ItemCount)
+                /* If deleting user who is in focus now, change the focus */
+                if (CurrentPosition == positionInList)
                 {
-                    positionInList -= 1;
+                    /* Delete last in list */
+                    if (positionInList == ItemCount)
+                    {
+                        positionInList -= 1;
+                    }
+
+                    OnClick(Users[positionInList].Id, positionInList);
+                }
+                /* If deleting the user above current user, just adjust current position */
+                else if(CurrentPosition > positionInList)
+                {
+                    CurrentPosition -= 1;
                 }
 
-                OnClick(Users[positionInList].Id, positionInList);
+                Console.WriteLine(CurrentPosition);
             }
             else
             {
