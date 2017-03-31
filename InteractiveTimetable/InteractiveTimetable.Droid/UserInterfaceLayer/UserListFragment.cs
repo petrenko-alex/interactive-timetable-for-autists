@@ -22,7 +22,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Widgets
         private RecyclerView _recyclerView;
         private Button _addUserBtn;
-        private AutoCompleteTextView _findUserBtn;
+        private AutoCompleteTextView _findUserField;
         #endregion
 
         #region Internal Variables
@@ -87,9 +87,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _addUserBtn.Click += OnAddBtnClicked;
 
             /* Setting up the adapter for find user field */
-            _findUserBtn = Activity.FindViewById<AutoCompleteTextView>(Resource.Id.find_user);
-            _findUserBtn.Threshold = 1;
-            _findUserBtn.ItemClick += OnFindUserItemClicked;
+            _findUserField = Activity.FindViewById<AutoCompleteTextView>(Resource.Id.find_user);
+            _findUserField.Threshold = 1;
+            _findUserField.ItemClick += OnFindUserItemClicked;
             SetAdapterToFindUserField(users);
             
 
@@ -245,7 +245,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             var dataForFindField = users.Select(x => x.LastName + " " + x.FirstName + " " + x.PatronymicName).ToList();
             var adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, dataForFindField);
-            _findUserBtn.Adapter = adapter;
+            _findUserField.Adapter = adapter;
         }
         #endregion
 
