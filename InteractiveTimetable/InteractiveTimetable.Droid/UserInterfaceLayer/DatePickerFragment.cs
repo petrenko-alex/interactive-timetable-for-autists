@@ -16,14 +16,23 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     public class DatePickerFragment : DialogFragment,
                                       DatePickerDialog.IOnDateSetListener
     {
+        #region Constants
         public static readonly string FragmentTag = "date_picker_fragment";
+        #endregion
 
+        #region Delegates
         private Action<DateTime> _dateSelectedHandler = delegate { };
+        #endregion
 
+        #region Internal Variables
         private DateTime _currentDate;
+        #endregion
 
+        #region Methods
+
+        #region Construct Methods
         public static DatePickerFragment NewInstance(
-            DateTime currentDate, 
+            DateTime currentDate,
             Action<DateTime> onDateSelected)
         {
             DatePickerFragment fragment = new DatePickerFragment();
@@ -32,7 +41,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             return fragment;
         }
-       
+        #endregion
+
+        #region Event Handlers
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             DatePickerDialog dialog = new DatePickerDialog(Activity,
@@ -56,5 +67,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnCancel(dialog);
             _dateSelectedHandler(_currentDate);
         }
+        #endregion
+
+        #endregion
     }
 }
