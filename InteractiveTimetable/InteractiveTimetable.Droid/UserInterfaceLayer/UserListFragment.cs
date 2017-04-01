@@ -216,7 +216,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             InteractiveTimetable.Current.UserManager.DeleteUser(userId);
 
             /* Delete from adapter */
-            _userListAdapter.RemoveItem(positionInList);
+            _userListAdapter.RemoveItem(positionInList, _currentUserId == userId);
 
             /* Refresh find user field data set */
             SetAdapterToFindUserField(_userListAdapter.Users);

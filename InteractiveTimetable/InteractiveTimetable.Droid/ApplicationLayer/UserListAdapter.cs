@@ -23,7 +23,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         #region Internal Variables
         private Activity _context;
-        private int _currentPosition;
         #endregion
 
         #region Methods
@@ -33,7 +32,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         {
             _context = context;
             Users = users;
-            _currentPosition = 0;
         }
         #endregion
 
@@ -67,8 +65,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         private void OnClick(int userId, int positionInList)
         {
-            _currentPosition = positionInList;
-
             var args = new UserListEventArgs()
             {
                 UserId = userId,
@@ -91,7 +87,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #endregion
 
         #region Other Methods
-        public void RemoveItem(int positionInList)
+        public void RemoveItem(int positionInList, bool isCurrentUser)
         {
             /* Remove from adapter data set */
             Users.RemoveAt(positionInList);
@@ -103,8 +99,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             /* Adjust list selection */
             if (ItemCount != 0)
             {
-                /* If deleting user who is in focus now, change the focus */
-                if (_currentPosition == positionInList)
+                /* If current user is deleted */
+                if (isCurrentUser)
                 {
                     /* Delete last in list */
                     if (positionInList == ItemCount)
@@ -113,11 +109,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     }
 
                     OnClick(Users[positionInList].Id, positionInList);
-                }
-                /* If deleting the user above current user, just adjust current position */
-                else if (_currentPosition > positionInList)
-                {
-                    _currentPosition -= 1;
                 }
             }
             else
