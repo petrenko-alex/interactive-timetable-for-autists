@@ -108,6 +108,7 @@
     <Compile Include="InteractiveTimetable.cs" />
     <Compile Include="UserDetailsActivivty.cs" />
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
+    <Compile Include="UserInterfaceLayer\InfoFragment.cs" />
     <Compile Include="UserInterfaceLayer\ManagementActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,6 +149,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\menu\user_popup_menu.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\info.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
