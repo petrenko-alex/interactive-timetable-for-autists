@@ -36,6 +36,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Events
         public event Action<int> ListItemClicked;
         public event Action AddUserButtonClicked;
+        public event Action NoMoreUsersInList;
         #endregion
 
         #region Methods
@@ -268,6 +269,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 _userListMainContent.Visibility = ViewStates.Gone;
                 _emptyListTextView.Visibility = ViewStates.Visible;
+                NoMoreUsersInList?.Invoke();
             }
             else
             {

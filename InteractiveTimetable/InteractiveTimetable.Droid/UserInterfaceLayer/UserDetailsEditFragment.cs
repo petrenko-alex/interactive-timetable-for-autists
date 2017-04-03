@@ -405,7 +405,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void CloseFragment()
         {
             Activity.FragmentManager.PopBackStackImmediate();
-            InteractiveTimetable.Current.HideKeyboard(Activity.CurrentFocus.WindowToken);
+            if (Activity.CurrentFocus != null)
+            {
+                InteractiveTimetable.Current.HideKeyboard(Activity.CurrentFocus.WindowToken);
+            }
         }
 
         private void OnUserDataChanged(object sender, EventArgs eventArgs)

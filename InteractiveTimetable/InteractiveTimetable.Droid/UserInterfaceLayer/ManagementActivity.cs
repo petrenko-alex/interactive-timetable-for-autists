@@ -17,6 +17,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private UserListFragment _userListFragment;
         private UserDetailsFragment _userDetailsFragment;
         private UserDetailsEditFragment _userDetailsEditFragment;
+        private InfoFragment _infoFragment;
         #endregion
 
         #region Internal Variables
@@ -49,6 +50,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _userListFragment.AddUserButtonClicked -= OnAddUserButtonClicked;
             _userListFragment.ListItemClicked -= OnUserListItemClicked;
+            _userListFragment.NoMoreUsersInList -= OnNoMoreUsersInList;
             _userDetailsFragment.EditButtonClicked -= OnEditUserButtonClicked;
             _userDetailsEditFragment.NewUserAdded -= OnNewUserAdded;
             _userDetailsEditFragment.UserEdited -= OnUserEdited;
@@ -123,6 +125,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _userDetailsEditFragment = UserDetailsEditFragment.NewInstance(0);
                 _userDetailsEditFragment.NewUserAdded += OnNewUserAdded;
 
+                /* In info fragment is present, detach it */
+                DetachFragment(_infoFragment);
+
                 var fragmentManager = FragmentManager.BeginTransaction();
                 fragmentManager.Replace(
                         Resource.Id.user_details,
@@ -139,12 +144,41 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public void OnNewUserAdded(int userId)
         {
             _userListFragment.AddUser(userId);
+
+            /* If info fragment is present, detach it */
+            DetachFragment(_infoFragment);
+
             OnUserListItemClicked(userId);
         }
 
         public void OnUserEdited(int userId)
         {
             _userListFragment.DataSetChanged();
+        }
+
+        public void OnNoMoreUsersInList()
+        {
+            _infoFragment = FragmentManager.FindFragmentByTag(InfoFragment.FragmentTag) as InfoFragment;
+
+            if (_infoFragment == null)
+            {
+                _infoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_user_info));
+
+                var fragmentManager = FragmentManager.BeginTransaction();
+
+                /* If fragment with detailed user info is present, detach it */
+                DetachFragment(_userDetailsFragment);
+
+                fragmentManager.Replace(
+                    Resource.Id.user_details_and_trips,
+                    _infoFragment,
+                    InfoFragment.FragmentTag
+                );
+                
+
+                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
+                fragmentManager.Commit();
+            }
         }
         #endregion
 
@@ -161,6 +195,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _userListFragment = UserListFragment.NewInstance();
                 _userListFragment.ListItemClicked += OnUserListItemClicked;
                 _userListFragment.AddUserButtonClicked += OnAddUserButtonClicked;
+                _userListFragment.NoMoreUsersInList += OnNoMoreUsersInList;
 
                 var fragmentManager = FragmentManager.BeginTransaction();
                 fragmentManager.Replace(
@@ -197,6 +232,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     fragmentManager.SetTransition(FragmentTransit.FragmentFade);
                     fragmentManager.Commit();
                 }
+            }
+        }
+
+        private void DetachFragment(Fragment fragmentToDetach)
+        {
+            if (fragmentToDetach != null)
+            {
+                var transaction = FragmentManager.BeginTransaction();
+                transaction.Detach(fragmentToDetach);
+                transaction.Commit();
             }
         }
         #endregion

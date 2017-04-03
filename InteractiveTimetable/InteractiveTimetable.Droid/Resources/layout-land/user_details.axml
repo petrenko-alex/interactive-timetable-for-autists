@@ -5,7 +5,7 @@
     p1:minHeight="25px"
     p1:layout_width="wrap_content"
     p1:layout_height="wrap_content"
-    p1:id="@+id/linearLayout1"
+    p1:id="@+id/user_details_fragment"
     p1:paddingTop="50dp">
     <FrameLayout
         p1:minWidth="25px"
