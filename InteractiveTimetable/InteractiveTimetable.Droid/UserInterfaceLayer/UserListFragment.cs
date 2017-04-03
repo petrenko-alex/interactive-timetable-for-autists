@@ -23,6 +23,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private RecyclerView _recyclerView;
         private Button _addUserBtn;
         private AutoCompleteTextView _findUserField;
+        private TextView _emptyListTextView;
+        private LinearLayout _userListMainContent;
         #endregion
 
         #region Internal Variables
@@ -91,7 +93,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _findUserField.Threshold = 1;
             _findUserField.ItemClick += OnFindUserItemClicked;
             SetAdapterToFindUserField(users);
-            
+
+            /* Initializing other widgets */
+            _userListMainContent = Activity.FindViewById<LinearLayout>(Resource.Id.user_list_main_content);
+            _emptyListTextView = Activity.FindViewById<TextView>(Resource.Id.empty_list);
+
+            /* Adjust widgets visibility in case user list is empty */
+            SwitchEmptyList();
 
             /* Initializing class variables */
             _currentUserId = userId;
@@ -220,6 +228,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Refresh find user field data set */
             SetAdapterToFindUserField(_userListAdapter.Users);
+
+            /* Adjust widgets visibility in case user list is empty */
+            SwitchEmptyList();
         }
 
         public void AddUser(int userId)
@@ -232,6 +243,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Refresh find user field data set */
             SetAdapterToFindUserField(_userListAdapter.Users);
+
+            /* Adjust widgets visibility */
+            SwitchEmptyList();
         }
 
         private IList<User> GetUsers()
@@ -246,6 +260,20 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var dataForFindField = users.Select(x => x.LastName + " " + x.FirstName + " " + x.PatronymicName).ToList();
             var adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, dataForFindField);
             _findUserField.Adapter = adapter;
+        }
+
+        private void SwitchEmptyList()
+        {
+            if (_userListAdapter?.ItemCount == 0)
+            {
+                _userListMainContent.Visibility = ViewStates.Gone;
+                _emptyListTextView.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                _userListMainContent.Visibility = ViewStates.Visible;
+                _emptyListTextView.Visibility = ViewStates.Gone;
+            }
         }
         #endregion
 

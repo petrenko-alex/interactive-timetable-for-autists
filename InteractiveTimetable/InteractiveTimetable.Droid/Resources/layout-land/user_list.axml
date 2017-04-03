@@ -12,18 +12,36 @@
         android:id="@+id/textView1"
         android:gravity="center"
         android:layout_marginTop="10dp" />
-    <AutoCompleteTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/find_user"
-        android:layout_margin="10dp"
-        android:hint="Введите имя ребенка..."
-        android:maxLines="1" />
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/user_recycler_view"
-        android:layout_weight="1" />
+        android:id="@+id/user_list_main_content"
+        android:layout_weight="1">
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/find_user"
+            android:layout_margin="10dp"
+            android:hint="Введите имя ребенка..."
+            android:maxLines="1" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/user_recycler_view"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <TextView
+        android:text="@string/empty_user_list"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/empty_list"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:gravity="center" />
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
