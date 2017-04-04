@@ -47,7 +47,7 @@ namespace InteractiveTimetable.Droid
             }
 
             /* Getting a path to database file */
-                var databaseFileName = "InteractiveTimetableDatabase.db3";
+            var databaseFileName = "InteractiveTimetableDatabase.db3";
             var path = Path.Combine(AppFolder, databaseFileName);
 
             /* Creating connection and managers */

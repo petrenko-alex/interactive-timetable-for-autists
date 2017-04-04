@@ -12,19 +12,22 @@ namespace InteractiveTimetable.DataAccessLayer
 
         internal CardTypeRepository(SQLiteConnection connection) : base(connection)
         {
-            /* Adding default card types */
-            CardType activivtyCardType = new CardType()
+            /* If there are no default card types in DB, create it */
+            if(GetCardTypes().Count() == 0)
             {
-                TypeName = ActivityTypeName
-            };
+                CardType activivtyCardType = new CardType()
+                {
+                    TypeName = ActivityTypeName
+                };
 
-            CardType motivationGoalCardType = new CardType()
-            {
-                TypeName = MotivationGoalTypeName
-            };
+                CardType motivationGoalCardType = new CardType()
+                {
+                    TypeName = MotivationGoalTypeName
+                };
 
-            SaveCardType(activivtyCardType);
-            SaveCardType(motivationGoalCardType);
+                SaveCardType(activivtyCardType);
+                SaveCardType(motivationGoalCardType);
+            }
         }
 
         public CardType GetCardType(int cardTypeId)
