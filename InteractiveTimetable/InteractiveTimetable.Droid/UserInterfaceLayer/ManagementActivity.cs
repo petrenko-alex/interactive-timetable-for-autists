@@ -211,7 +211,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void AddUserDetailsFragment()
         {
-            if (_isWideScreenDevice)
+            /* Determine if list is empty or not */
+            bool isListEmpty = false;
+            if(_userListFragment != null)
+            {
+                isListEmpty = _userListFragment.IsListEmpty();
+            }
+
+            if (_isWideScreenDevice && !isListEmpty)
             {
                 _userDetailsFragment = FragmentManager.FindFragmentByTag(UserDetailsFragment.FragmentTag)
                         as UserDetailsFragment;

@@ -31,6 +31,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private RecyclerView.LayoutManager _layoutManager;
         private UserListAdapter _userListAdapter;
         private int _currentUserId;
+        private IList<User> _users;
         #endregion
 
         #region Events
@@ -44,9 +45,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Construct Methods
         public static UserListFragment NewInstance()
         {
+            /* Getting users ordered by last name */
+            var users = InteractiveTimetable.Current.UserManager.GetUsers().
+                                        OrderBy(x => x.LastName).
+                                        ToList();
+
             var userListFragment = new UserListFragment
             {
-                Arguments = new Bundle()
+                Arguments = new Bundle(),
+                _users = users,
             };
 
             return userListFragment;
@@ -57,19 +64,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
-
-            /* Getting users ordered by last name */
-            var users = GetUsers();
-
+            
             /* Initializing current user id */
-            int userId;
+            int userId = 0;
             if (savedInstanceState != null)
             {
                 userId = savedInstanceState.GetInt(UserIdKey, 0);
             }
-            else
+            else if(_users.Count != 0)
             {
-                userId = users[0].Id;
+                userId = _users[0].Id;
             }
 
             /* Getting views */
@@ -80,7 +84,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.SetLayoutManager(_layoutManager);
 
             /* Setting up the adapter */
-            _userListAdapter = new UserListAdapter(Activity, users);
+            _userListAdapter = new UserListAdapter(Activity, _users);
             _userListAdapter.ItemClick += OnItemClick;
             _userListAdapter.RequestToDeleteUser += OnDeleteButtonClicked;
             _recyclerView.SetAdapter(_userListAdapter);
@@ -93,7 +97,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _findUserField = Activity.FindViewById<AutoCompleteTextView>(Resource.Id.find_user);
             _findUserField.Threshold = 1;
             _findUserField.ItemClick += OnFindUserItemClicked;
-            SetAdapterToFindUserField(users);
+            SetAdapterToFindUserField(_users);
 
             /* Initializing other widgets */
             _userListMainContent = Activity.FindViewById<LinearLayout>(Resource.Id.user_list_main_content);
@@ -276,6 +280,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _userListMainContent.Visibility = ViewStates.Visible;
                 _emptyListTextView.Visibility = ViewStates.Gone;
             }
+        }
+
+        public bool IsListEmpty()
+        {
+            return _users.Count == 0;
         }
         #endregion
 
