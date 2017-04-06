@@ -64,6 +64,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             if (_isWideScreenDevice)
             {
+                /* Showing detailed info about user */
                 _userDetailsFragment = FragmentManager.FindFragmentByTag(UserDetailsFragment.FragmentTag)
                         as UserDetailsFragment;
 
@@ -91,6 +92,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 intent.PutExtra(UserIdKey, userId);
                 StartActivity(intent);
             }
+
             _currentUserId = userId;
         }
 
@@ -160,6 +162,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnNoMoreUsersInList()
         {
+            /* If fragment with detailed user info is present, detach it */
+            DetachFragment(_userDetailsFragment);
+            AdjustTripLayoutVisibility(true);
+
             _infoFragment = FragmentManager.FindFragmentByTag(InfoFragment.FragmentTag) as InfoFragment;
 
             if (_infoFragment == null)
@@ -168,19 +174,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 var fragmentManager = FragmentManager.BeginTransaction();
 
-                /* If fragment with detailed user info is present, detach it */
-                DetachFragment(_userDetailsFragment);
-                AdjustTripLayoutVisibility(true);
-
                 fragmentManager.Replace(
                     Resource.Id.user_details_and_trips,
                     _infoFragment,
                     InfoFragment.FragmentTag
                 );
-                
-
                 fragmentManager.SetTransition(FragmentTransit.FragmentFade);
                 fragmentManager.Commit();
+            }
+            else
+            {
+                AttachFragment(_infoFragment);
             }
         }
         #endregion
@@ -221,6 +225,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 if (_tripListFragment == null)
                 {
+                    AdjustTripLayoutVisibility(false);
                     SetTripsLabel(_currentUserId);
                     _tripListFragment = HospitalTripListFragment.NewInstance(_currentUserId);
                     _tripListFragment.ListItemClicked += OnTripListItemClicked;
@@ -297,6 +302,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 var transaction = FragmentManager.BeginTransaction();
                 transaction.Detach(fragmentToDetach);
+                transaction.Commit();
+            }
+        }
+
+        private void AttachFragment(Fragment fragmentToAttach)
+        {
+            if (fragmentToAttach != null)
+            {
+                var transaction = FragmentManager.BeginTransaction();
+                transaction.Attach(fragmentToAttach);
                 transaction.Commit();
             }
         }
