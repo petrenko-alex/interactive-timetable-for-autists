@@ -8,6 +8,7 @@ using Android.OS;
 using Android.Provider;
 using Android.Runtime;
 using Android.Views.InputMethods;
+using InteractiveTimetable.BusinessLayer.Managers;
 using SQLite;
 using Java.IO;
 using Environment = System.Environment;
@@ -21,6 +22,8 @@ namespace InteractiveTimetable.Droid
     {
         public static InteractiveTimetable Current { get; private set; }
         public UserManager UserManager { get; set; }
+        public HospitalTripManager HospitalTripManager { get; set; }
+
         public string AppFolder => Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         public float ScreenDensity => Resources.DisplayMetrics.Density;
         public bool HasCamera { get; private set; }
@@ -54,10 +57,16 @@ namespace InteractiveTimetable.Droid
             _connection = new SQLiteConnection(path);
 
             UserManager = new UserManager(_connection);
-            // TODOL: Delete InitializeForDebugging methods
+            HospitalTripManager = new HospitalTripManager(_connection);
+            // TODO: Delete InitializeForDebugging methods
             if (UserManager.UserCount == 0)
             {
                 UserManager.InitializeForDebugging(AppFolder);
+            }
+
+            if (HospitalTripManager.TripCount == 0)
+            {
+                HospitalTripManager.InitializeForDebugging(UserManager);
             }
         }
 

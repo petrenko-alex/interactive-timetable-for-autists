@@ -182,5 +182,45 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 hospitalTripsCounter++;
             }
         }
+
+        public void InitializeForDebugging(UserManager userManager)
+        {
+            var users = userManager.GetUsers();
+            var randomizer = new Random();
+
+            /* Preparing data for trips */
+            var startDates = new List<DateTime>()
+            {
+                DateTime.Now.AddDays(-5),
+                DateTime.Now.AddDays(5),
+                DateTime.Now.AddDays(8),
+            };
+
+            var endDates = new List<DateTime>()
+            {
+                DateTime.Now.AddDays(4),
+                DateTime.Now.AddDays(7),
+                DateTime.Now.AddDays(10)
+            };
+
+            /* Adding trips to users */
+            foreach (var user in users)
+            {
+                int amoutOfTrips = randomizer.Next(1,3);
+
+                for (int i = 0; i < amoutOfTrips; ++i)
+                {
+                    var trip = new HospitalTrip()
+                    {
+                        StartDate = startDates[i],
+                        FinishDate = endDates[i],
+                        Number = i + 1,
+                        UserId = user.Id
+                    };
+
+                    SaveHospitalTrip(trip);
+                }
+            }
+        }
     }
 }
