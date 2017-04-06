@@ -45,7 +45,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Setting fragments */
             AddUserListFragment();
             AddUserDetailsFragment();
-            AddTripListFragment();
+            AddTripListFragment(_currentUserId);
         }
 
         protected override void OnDestroy()
@@ -83,11 +83,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     fragmentManager.SetTransition(FragmentTransit.FragmentFade);
                     fragmentManager.Commit();
                 }
+
+                /* Showing user trips */
+                AddTripListFragment(userId);
             }
             else
             {
                 var intent = new Intent();
-
                 intent.SetClass(this, typeof(UserDetailsActivivty));
                 intent.PutExtra(UserIdKey, userId);
                 StartActivity(intent);
@@ -162,8 +164,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnNoMoreUsersInList()
         {
-            /* If fragment with detailed user info is present, detach it */
-            DetachFragment(_userDetailsFragment);
+            DestroyFragment(_userDetailsFragment);
+            DestroyFragment(_tripListFragment);
             AdjustTripLayoutVisibility(true);
 
             _infoFragment = FragmentManager.FindFragmentByTag(InfoFragment.FragmentTag) as InfoFragment;
@@ -216,41 +218,40 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void AddTripListFragment()
+        private void AddTripListFragment(int userId)
         {
             if (_isWideScreenDevice && _userDetailsFragment != null)
             {
-                _tripListFragment = FragmentManager.FindFragmentByTag(HospitalTripListFragment.FragmentTag)
-                                            as HospitalTripListFragment;
+                /* Destroy previous trip list */
+                DestroyFragment(_tripListFragment);
 
-                if (_tripListFragment == null)
-                {
-                    AdjustTripLayoutVisibility(false);
-                    SetTripsLabel(_currentUserId);
-                    _tripListFragment = HospitalTripListFragment.NewInstance(_currentUserId);
-                    _tripListFragment.ListItemClicked += OnTripListItemClicked;
-                    _tripListFragment.AddTripButtonClicked += OnAddTripButtonClicked;
-                    _tripListFragment.NoMoreTripsInList += OnNoMoreTripsInList;
+                AdjustTripLayoutVisibility(false);
+                SetTripsLabel(userId);
 
-                    var fragmentTransaction = FragmentManager.BeginTransaction();
-                    fragmentTransaction.Replace(
-                                            Resource.Id.trip_list,
-                                            _tripListFragment,
-                                            HospitalTripListFragment.FragmentTag
-                                           );
-                    fragmentTransaction.SetTransition(FragmentTransit.FragmentFade);
-                    fragmentTransaction.Commit();
-                }
-                else
-                {
-                    AdjustTripLayoutVisibility(true);
-                }
+                /* Create new fragment */
+                _tripListFragment = HospitalTripListFragment.NewInstance(userId);
+                _tripListFragment.ListItemClicked += OnTripListItemClicked;
+                _tripListFragment.AddTripButtonClicked += OnAddTripButtonClicked;
+                _tripListFragment.NoMoreTripsInList += OnNoMoreTripsInList;
+
+                var fragmentTransaction = FragmentManager.BeginTransaction();
+                fragmentTransaction.Replace(
+                    Resource.Id.trip_list,
+                    _tripListFragment,
+                    HospitalTripListFragment.FragmentTag
+                );
+                fragmentTransaction.SetTransition(FragmentTransit.FragmentFade);
+                fragmentTransaction.Commit();
+            }
+            else
+            {
+                AdjustTripLayoutVisibility(true);
             }
         }
 
         private void OnNoMoreTripsInList()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         private void OnAddTripButtonClicked()
@@ -312,6 +313,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 var transaction = FragmentManager.BeginTransaction();
                 transaction.Attach(fragmentToAttach);
+                transaction.Commit();
+            }
+        }
+
+        private void DestroyFragment(Fragment fragmentToDestroy)
+        {
+            if (fragmentToDestroy != null)
+            {
+                var transaction = FragmentManager.BeginTransaction();
+                transaction.Remove(fragmentToDestroy);
                 transaction.Commit();
             }
         }
