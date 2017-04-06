@@ -4,9 +4,7 @@
     p1:layout_width="match_parent"
     p1:layout_height="wrap_content"
     p1:id="@+id/linearLayout1"
-    p1:paddingBottom="10dp"
-    p1:paddingRight="-1dp"
-    p1:paddingLeft="-1dp">
+    p1:paddingBottom="10dp">
     <FrameLayout
         p1:minWidth="25px"
         p1:minHeight="25px"
