@@ -18,6 +18,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private UserDetailsFragment _userDetailsFragment;
         private UserDetailsEditFragment _userDetailsEditFragment;
         private InfoFragment _infoFragment;
+        private HospitalTripListFragment _tripListFragment;
         #endregion
 
         #region Internal Variables
@@ -44,6 +45,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Setting fragments */
             AddUserListFragment();
             AddUserDetailsFragment();
+            AddTripListFragment();
         }
 
         protected override void OnDestroy()
@@ -168,6 +170,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* If fragment with detailed user info is present, detach it */
                 DetachFragment(_userDetailsFragment);
+                AdjustTripLayoutVisibility(true);
 
                 fragmentManager.Replace(
                     Resource.Id.user_details_and_trips,
@@ -207,6 +210,52 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 fragmentManager.SetTransition(FragmentTransit.FragmentFade);
                 fragmentManager.Commit();
             }
+        }
+
+        private void AddTripListFragment()
+        {
+            if (_isWideScreenDevice && _userDetailsFragment != null)
+            {
+                _tripListFragment = FragmentManager.FindFragmentByTag(HospitalTripListFragment.FragmentTag)
+                                            as HospitalTripListFragment;
+
+                if (_tripListFragment == null)
+                {
+                    SetTripsLabel(_currentUserId);
+                    _tripListFragment = HospitalTripListFragment.NewInstance(_currentUserId);
+                    _tripListFragment.ListItemClicked += OnTripListItemClicked;
+                    _tripListFragment.AddTripButtonClicked += OnAddTripButtonClicked;
+                    _tripListFragment.NoMoreTripsInList += OnNoMoreTripsInList;
+
+                    var fragmentTransaction = FragmentManager.BeginTransaction();
+                    fragmentTransaction.Replace(
+                                            Resource.Id.trip_list,
+                                            _tripListFragment,
+                                            HospitalTripListFragment.FragmentTag
+                                           );
+                    fragmentTransaction.SetTransition(FragmentTransit.FragmentFade);
+                    fragmentTransaction.Commit();
+                }
+                else
+                {
+                    AdjustTripLayoutVisibility(true);
+                }
+            }
+        }
+
+        private void OnNoMoreTripsInList()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void OnAddTripButtonClicked()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void OnTripListItemClicked(int tripId)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void AddUserDetailsFragment()
@@ -249,6 +298,32 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var transaction = FragmentManager.BeginTransaction();
                 transaction.Detach(fragmentToDetach);
                 transaction.Commit();
+            }
+        }
+
+        private void SetTripsLabel(int userId)
+        {
+            var tripLabel = FindViewById<TextView>(Resource.Id.trips_label);
+            tripLabel.Text = GetString(Resource.String.trips);
+        }
+
+        private void AdjustTripLayoutVisibility(bool isHidden)
+        {
+            var tripLabel = FindViewById<TextView>(Resource.Id.trips_label);
+            var divider = FindViewById<View>(Resource.Id.trips_divider);
+            var frame = FindViewById<FrameLayout>(Resource.Id.user_trips);
+
+            if (isHidden)
+            {
+                tripLabel.Visibility = ViewStates.Gone;
+                divider.Visibility = ViewStates.Gone;
+                frame.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                tripLabel.Visibility = ViewStates.Visible;
+                divider.Visibility = ViewStates.Visible;
+                frame.Visibility = ViewStates.Visible;
             }
         }
         #endregion

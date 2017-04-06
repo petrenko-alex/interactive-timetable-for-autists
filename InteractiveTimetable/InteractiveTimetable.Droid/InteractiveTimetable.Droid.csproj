@@ -100,6 +100,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationLayer\BtimapHelper.cs" />
+    <Compile Include="ApplicationLayer\HospitalTripListAdapter.cs" />
+    <Compile Include="ApplicationLayer\HospitalTripViewHolder.cs" />
     <Compile Include="ApplicationLayer\ImageHelper.cs" />
     <Compile Include="ApplicationLayer\ToastHelper.cs" />
     <Compile Include="ApplicationLayer\UserListAdapter.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="InteractiveTimetable.cs" />
     <Compile Include="UserDetailsActivivty.cs" />
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
+    <Compile Include="UserInterfaceLayer\HospitalTripListFragment.cs" />
     <Compile Include="UserInterfaceLayer\InfoFragment.cs" />
     <Compile Include="UserInterfaceLayer\ManagementActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
