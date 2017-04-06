@@ -9,11 +9,14 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 {
     public class HospitalTripManager
     {
+        public int TripCount { get; private set; }
+
         private readonly HospitalTripRepository _repository;
 
         public HospitalTripManager(SQLiteConnection connection)
         {
             _repository = new HospitalTripRepository(connection);
+            TripCount = _repository.GetHospitalTrips().Count();
         }
 
         public HospitalTrip GetHospitalTrip(int hospitalTripId)
@@ -34,6 +37,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* Save new hospital trip */
             var newHospitalTripId = _repository.SaveHospitalTrip(hospitalTrip);
 
+            if (newHospitalTripId > 0)
+            {
+                TripCount++;
+            }
+
             AdjustTripNumbers(hospitalTrip.UserId);
 
             return newHospitalTripId;
@@ -41,11 +49,13 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
         public void DeleteHospitalTrip(int hospitalTripId)
         {
-            /* Delete hospital trip */
             var hospitalTrip = GetHospitalTrip(hospitalTripId);
-            _repository.DeleteHospitalTripCascade(hospitalTrip);
-
-            AdjustTripNumbers(hospitalTripId);
+            if (hospitalTrip != null)
+            {
+                _repository.DeleteHospitalTripCascade(hospitalTrip);
+                AdjustTripNumbers(hospitalTripId);
+                TripCount--;
+            }
         }
 
         public bool IsHospitalTripPresent(int hospitalTripId)
