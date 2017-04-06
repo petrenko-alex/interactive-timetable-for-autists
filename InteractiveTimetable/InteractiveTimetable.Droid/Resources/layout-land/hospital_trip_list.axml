@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/trip_list"
+    p1:background="#000">
+    <TextView
+        p1:text="@string/trips_list"
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/textView1"
+        p1:layout_marginTop="10dp"
+        p1:gravity="center"
+        p1:layout_marginBottom="20dp"
+        p1:textSize="25dp" />
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/hospital_trip_main_content"
+        p1:layout_weight="1">
+        <android.support.v7.widget.RecyclerView
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/trip_recycler_view"
+            p1:layout_weight="1" />
+    </LinearLayout>
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/empty_trip_list"
+        p1:layout_weight="1"
+        p1:gravity="center"
+        p1:visibility="gone"
+        p1:text="@string/empty_trip_list" />
+    <LinearLayout
+        p1:orientation="horizontal"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/linearLayout1"
+        p1:gravity="center">
+        <Button
+            p1:text="@string/add_trip"
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/add_trip_btn"
+            p1:layout_marginTop="10dp"
+            p1:layout_marginBottom="10dp" />
+    </LinearLayout>
+</LinearLayout>

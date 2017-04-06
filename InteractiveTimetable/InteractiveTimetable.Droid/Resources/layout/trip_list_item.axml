@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="horizontal"
+    p1:layout_width="match_parent"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/linearLayout1"
+    p1:paddingBottom="10dp"
+    p1:paddingRight="-1dp"
+    p1:paddingLeft="-1dp">
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/frameLayout1"
+        p1:background="#00BFFF"
+        p1:padding="1dp">
+        <TextView
+            p1:text="Large Text"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/trip_list_item"
+            p1:padding="10dp"
+            p1:gravity="center"
+            p1:background="#000" />
+    </FrameLayout>
+</LinearLayout>

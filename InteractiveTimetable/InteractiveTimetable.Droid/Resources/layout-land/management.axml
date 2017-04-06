@@ -26,7 +26,8 @@
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/textView1"
-            p1:layout_marginTop="10dp" />
+            p1:layout_marginTop="10dp"
+            p1:textSize="25dp" />
         <LinearLayout
             p1:orientation="vertical"
             p1:minWidth="25px"
@@ -42,12 +43,63 @@
                 p1:id="@+id/user_details"
                 p1:layout_marginLeft="400dp"
                 p1:layout_marginRight="400dp" />
+            <TextView
+                p1:text="@string/trips"
+                p1:textAppearance="?android:attr/textAppearanceLarge"
+                p1:layout_width="match_parent"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/trips_label"
+                p1:gravity="center"
+                p1:layout_marginTop="200dp"
+                p1:textSize="25dp" />
+            <View
+                p1:layout_width="fill_parent"
+                p1:layout_height="2dip"
+                p1:background="#00BFFF"
+                p1:layout_marginLeft="300dp"
+                p1:layout_marginRight="350dp"
+                p1:layout_marginTop="10dp" />
             <FrameLayout
                 p1:minWidth="25px"
                 p1:minHeight="25px"
                 p1:layout_width="match_parent"
                 p1:layout_height="wrap_content"
-                p1:id="@+id/user_trips" />
+                p1:id="@+id/user_trips">
+                <LinearLayout
+                    p1:orientation="horizontal"
+                    p1:minWidth="25px"
+                    p1:minHeight="25px"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="match_parent"
+                    p1:id="@+id/linearLayout1">
+                    <FrameLayout
+                        p1:minWidth="25px"
+                        p1:minHeight="25px"
+                        p1:layout_width="300dp"
+                        p1:layout_height="500dp"
+                        p1:id="@+id/frameLayout1"
+                        p1:layout_marginLeft="400dp"
+                        p1:layout_marginTop="30dp"
+                        p1:background="#00BFFF"
+                        p1:padding="1dp">
+                        <LinearLayout
+                            p1:orientation="vertical"
+                            p1:minWidth="25px"
+                            p1:minHeight="25px"
+                            p1:layout_width="match_parent"
+                            p1:layout_height="match_parent"
+                            p1:id="@+id/trip_list" />
+                    </FrameLayout>
+                    <LinearLayout
+                        p1:orientation="vertical"
+                        p1:minWidth="25px"
+                        p1:minHeight="25px"
+                        p1:layout_width="wrap_content"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/trip_detailed_info"
+                        p1:layout_marginTop="30dp" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
