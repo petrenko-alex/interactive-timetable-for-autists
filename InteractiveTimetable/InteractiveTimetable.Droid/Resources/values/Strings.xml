@@ -30,4 +30,10 @@
   Вы действительно хотите удалить его?</string>
   <string name="empty_user_list">В списке пока нет пользователей</string>
   <string name="detailed_user_info">Здесь будет выводиться детальная информация о пользователе</string>
+  <string name="kids_list">Список детей</string>
+  <string name="trips_list">Список путевок</string>
+  <string name="empty_trip_list">В списке пока нет путевок</string>
+  <string name="add_trip">Добавить путевку</string>
+  <string name="trip_in_list">Путевка №</string>
+  <string name="trips">Путевки в реабилитационный центр</string>
 </resources>
