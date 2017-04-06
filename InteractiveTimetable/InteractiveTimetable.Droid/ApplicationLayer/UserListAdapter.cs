@@ -111,10 +111,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     OnClick(Users[positionInList].Id, positionInList);
                 }
             }
-            else
-            {
-                // TODO: Show another layout when no more users in the list
-            }
         }
 
         public int InsertItem(int userId)
