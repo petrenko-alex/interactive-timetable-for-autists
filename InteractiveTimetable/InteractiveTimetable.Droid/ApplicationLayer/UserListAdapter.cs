@@ -57,9 +57,9 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             var inflater = LayoutInflater.From(_context);
-            View view = inflater.Inflate(Resource.Layout.user_list_item, parent, false);
+            var view = inflater.Inflate(Resource.Layout.user_list_item, parent, false);
 
-            UserViewHolder holder = new UserViewHolder(view, OnClick, OnItemLongClick);
+            var holder = new UserViewHolder(view, OnClick, OnItemLongClick);
             return holder;
         }
 
@@ -75,7 +75,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         private void OnItemLongClick(View view, int userId, int positionInList)
         {
-            PopupMenu menu = new PopupMenu(_context, view);
+            var menu = new PopupMenu(_context, view);
             menu.Inflate(Resource.Menu.user_popup_menu);
             menu.MenuItemClick += (sender, args) =>
             {

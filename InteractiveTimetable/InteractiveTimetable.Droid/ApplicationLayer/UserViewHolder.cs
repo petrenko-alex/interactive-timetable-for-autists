@@ -8,9 +8,9 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     class UserViewHolder : RecyclerView.ViewHolder
     {
         #region Properties
-        public ImageView UserPhoto { get; private set; }
-        public TextView LastName { get; private set; }
-        public TextView FirstAndPatronymicName { get; private set; }
+        public ImageView UserPhoto { get; }
+        public TextView LastName { get; }
+        public TextView FirstAndPatronymicName { get; }
         public int UserId { get; set; }
         public int PositionInList { get; set; }
         #endregion
