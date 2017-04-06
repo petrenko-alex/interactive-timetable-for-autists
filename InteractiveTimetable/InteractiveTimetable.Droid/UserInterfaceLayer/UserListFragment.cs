@@ -46,9 +46,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public static UserListFragment NewInstance()
         {
             /* Getting users ordered by last name */
-            var users = InteractiveTimetable.Current.UserManager.GetUsers().
-                                        OrderBy(x => x.LastName).
-                                        ToList();
+            var users = GetUsers();
 
             var userListFragment = new UserListFragment
             {
@@ -194,7 +192,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Other Methods
         public int GetFirstUserId()
         {
-            return GetUsers()[0].Id;
+            return _users[0].Id;
         }
 
         public void DataSetChanged()
@@ -253,7 +251,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             SwitchEmptyList();
         }
 
-        private IList<User> GetUsers()
+        private static IList<User> GetUsers()
         {
             return InteractiveTimetable.Current.UserManager.GetUsers().
                                         OrderBy(x => x.LastName).
