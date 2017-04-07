@@ -229,15 +229,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _userListFragment.AddUserButtonClicked += OnAddUserButtonClicked;
                 _userListFragment.NoMoreUsersInList += OnNoMoreUsersInList;
 
-                var fragmentManager = FragmentManager.BeginTransaction();
-                fragmentManager.Replace(
-                        Resource.Id.user_list,
-                        _userListFragment,
-                        UserListFragment.FragmentTag
-                    );
-
-                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                fragmentManager.Commit();
+                ReplaceFragment(
+                    Resource.Id.user_list,
+                    _userListFragment,
+                    UserListFragment.FragmentTag
+                );
             }
         }
 
@@ -304,15 +300,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _userDetailsFragment = UserDetailsFragment.NewInstance(_currentUserId);
                     _userDetailsFragment.EditButtonClicked += OnEditUserButtonClicked;
 
-                    var fragmentManager = FragmentManager.BeginTransaction();
-                    fragmentManager.Replace(
-                            Resource.Id.user_details,
-                            _userDetailsFragment,
-                            UserDetailsFragment.FragmentTag
-                        );
-
-                    fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                    fragmentManager.Commit();
+                    ReplaceFragment(
+                        Resource.Id.user_details,
+                        _userDetailsFragment,
+                        UserDetailsFragment.FragmentTag
+                    );
                 }
             }
         }
