@@ -47,13 +47,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Setting fragments */
             AddUserListFragment();
             AddUserDetailsFragment();
-            AddTripListFragment(_currentUserId);
-
-            if (_tripListFragment != null)
-            {
-                var tripId = _tripListFragment.GetFirstTripId();
-                AddTripDetailsFragment(tripId);
-            }
+            ShowTrips(_currentUserId);
         }
 
         protected override void OnDestroy()
@@ -81,19 +75,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _userDetailsFragment = UserDetailsFragment.NewInstance(userId);
                     _userDetailsFragment.EditButtonClicked += OnEditUserButtonClicked;
 
-                    var fragmentManager = FragmentManager.BeginTransaction();
-                    fragmentManager.Replace(
-                            Resource.Id.user_details,
-                            _userDetailsFragment,
-                            UserDetailsFragment.FragmentTag
-                        );
+                    ReplaceFragment(
+                        Resource.Id.user_details,
+                        _userDetailsFragment,
+                        UserDetailsFragment.FragmentTag
+                    );
 
-                    fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                    fragmentManager.Commit();
+                    /* Showing user trips */
+                    ShowTrips(userId);
                 }
-
-                /* Showing user trips */
-                AddTripListFragment(userId);
             }
             else
             {
@@ -254,7 +244,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void AddTripListFragment(int userId)
+        private void ShowTrips(int userId)
         {
             if (_isWideScreenDevice && _userDetailsFragment != null)
             {
@@ -264,20 +254,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 AdjustTripLayoutVisibility(false);
                 SetTripsLabel(userId);
 
-                /* Create new fragment */
+                /* Create new fragment with trip list */
                 _tripListFragment = HospitalTripListFragment.NewInstance(userId);
                 _tripListFragment.ListItemClicked += OnTripListItemClicked;
                 _tripListFragment.AddTripButtonClicked += OnAddTripButtonClicked;
                 _tripListFragment.NoMoreTripsInList += OnNoMoreTripsInList;
 
-                var fragmentTransaction = FragmentManager.BeginTransaction();
-                fragmentTransaction.Replace(
+                ReplaceFragment(
                     Resource.Id.trip_list,
                     _tripListFragment,
                     HospitalTripListFragment.FragmentTag
                 );
-                fragmentTransaction.SetTransition(FragmentTransit.FragmentFade);
-                fragmentTransaction.Commit();
+
+                /* Add trip detailed info */
+                var tripId = _tripListFragment.GetFirstTripId();
+                AddTripDetailsFragment(tripId);
+
             }
             else
             {
