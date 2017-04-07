@@ -181,7 +181,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void DataSetChanged()
         {
-            _tripListAdapter.Trips = GetTrips(_userId);
+            _trips = GetTrips(_userId);
+            _tripListAdapter.Trips = _trips;
             _tripListAdapter.NotifyDataSetChanged();
         }
 
@@ -191,8 +192,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             InteractiveTimetable.Current.HospitalTripManager.DeleteHospitalTrip(tripId);
 
             /* Refresh adapter */
-            _trips = GetTrips(_userId);
-            SetAdapter();
+            DataSetChanged();
 
             /* Adjust selection */
             if (_tripListAdapter.ItemCount != 0)
