@@ -58,11 +58,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             
             /* Set start date */
             var startDate = tripView.FindViewById<TextView>(Resource.Id.trip_start_date);
-            startDate.Text += " " + trip.StartDate;
+            startDate.Text += " " + trip.StartDate.ToString("d MMMM yyyy, H:mm");
 
             /* Set finish date */
             var endDate = tripView.FindViewById<TextView>(Resource.Id.trip_end_date);
-            endDate.Text += " " + trip.FinishDate;
+            endDate.Text += " " + trip.FinishDate.ToString("d MMMM yyy, H:mm");
 
             /* Set trip number */
             var tripNumber = tripView.FindViewById<TextView>(Resource.Id.trip_number);
