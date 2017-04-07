@@ -52,8 +52,9 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             var hospitalTrip = GetHospitalTrip(hospitalTripId);
             if (hospitalTrip != null)
             {
+                var userId = hospitalTrip.UserId;
                 _repository.DeleteHospitalTripCascade(hospitalTrip);
-                AdjustTripNumbers(hospitalTripId);
+                AdjustTripNumbers(userId);
                 TripCount--;
             }
         }
