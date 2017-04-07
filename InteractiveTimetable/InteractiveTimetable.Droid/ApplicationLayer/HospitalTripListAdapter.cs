@@ -44,7 +44,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             if (viewHolder != null)
             {
                 viewHolder.TripName.Text = tripAsString + tripAtPosition.Number;
-                viewHolder.TripId = tripAtPosition.UserId;
+                viewHolder.TripId = tripAtPosition.Id;
                 viewHolder.PositionInList = position;
             }
         }
