@@ -166,7 +166,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public int GetFirstTripId()
         {
-            return _trips[0].Id;
+            return _trips.Count != 0 ? _trips[0].Id : 0;
         }
 
         private static IList<HospitalTrip> GetTrips(int userId)
