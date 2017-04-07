@@ -166,6 +166,9 @@
     <AndroidResource Include="Resources\layout\trip_list_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout-land\trip_details.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />

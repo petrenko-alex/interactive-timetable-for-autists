@@ -2,6 +2,7 @@
 <resources>
 	<string name="app_name">InteractiveTimetable</string>
   <string name="general_monitoring_button">Общий мониторинг уровня развития ребенка</string>
+  <string name="monitoring_button">Мониторинг уровня развития ребенка</string>
   <string name="user_details_last_name">Фамилия: </string>
   <string name="user_details_first_name">Имя: </string>
   <string name="user_details_patronymic_name">Отчество: </string>
@@ -36,4 +37,6 @@
   <string name="add_trip">Добавить путевку</string>
   <string name="trip_in_list">Путевка №</string>
   <string name="trips">Путевки в реабилитационный центр</string>
+  <string name="trip_start_date">Дата начала путевки: </string>
+  <string name="trip_finish_date">Дата окончания путевки: </string>
 </resources>
