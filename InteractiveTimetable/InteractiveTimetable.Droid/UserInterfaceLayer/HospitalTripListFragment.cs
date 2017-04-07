@@ -89,10 +89,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.SetLayoutManager(_layoutManager);
 
             /* Setting up the adapter */
-            _tripListAdapter = new HospitalTripListAdapter(Activity, _trips);
-            _tripListAdapter.ItemClick += OnItemClick;
-            _tripListAdapter.RequestToDeleteTrip += OnDeleteButtonClicked;
-            _recyclerView.SetAdapter(_tripListAdapter);
+            SetAdapter();
 
             /* Setting event handlers */
             _addTripBtn = Activity.FindViewById<Button>(Resource.Id.add_trip_btn);
@@ -128,9 +125,43 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AddTripButtonClicked?.Invoke();
         }
 
-        private void OnDeleteButtonClicked(int arg1, int arg2)
+        private void OnDeleteButtonClicked(int tripId, int positionInList)
         {
-            throw new NotImplementedException();
+            /* Show alert if trip is present */
+            if (InteractiveTimetable.Current.HospitalTripManager.IsHospitalTripPresent(tripId))
+            {
+                AskAndDeleteTrip(
+                    GetString(Resource.String.present_trip),
+                    tripId,
+                    positionInList
+                );
+            }
+            /* Show general alert */
+            else
+            {
+                AskAndDeleteTrip(
+                    GetString(Resource.String.sure_to_delete_trip),
+                    tripId,
+                    positionInList
+                );
+            }
+        }
+
+        private void AskAndDeleteTrip(string questionToAsk, int tripId, int positionInList)
+        {
+            using (var alert = new AlertDialog.Builder(Activity))
+            {
+                alert.SetTitle(GetString(Resource.String.delete_trip));
+                alert.SetMessage(questionToAsk);
+                alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) =>
+                {
+                    DeleteTrip(tripId, positionInList);
+                });
+                alert.SetNegativeButton(GetString(Resource.String.cancel_button), (sender1, args) => { });
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+            }
         }
 
         private void OnItemClick(int tripId, int positionInList)
@@ -156,7 +187,30 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void DeleteTrip(int tripId, int positionInList)
         {
-            
+            /* Delete from database */
+            InteractiveTimetable.Current.HospitalTripManager.DeleteHospitalTrip(tripId);
+
+            /* Refresh adapter */
+            _trips = GetTrips(_userId);
+            SetAdapter();
+
+            /* Adjust selection */
+            if (_tripListAdapter.ItemCount != 0)
+            {
+                if (_currentTripId == tripId)
+                {
+                    /* Delete last in list */
+                    if (positionInList == _tripListAdapter.ItemCount)
+                    {
+                        positionInList -= 1;
+                    }
+
+                    OnItemClick(_trips[positionInList].Id, positionInList);
+                }
+            }
+
+            /* Adjust widgets visibility in case trip list is empty */
+            SwitchEmptyList();
         }
 
         public void AddTrip(int tripId)
@@ -194,6 +248,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public bool IsListEmpty()
         {
             return _trips.Count == 0;
+        }
+
+        private void SetAdapter( )
+        {
+            _tripListAdapter = new HospitalTripListAdapter(Activity, _trips);
+            _tripListAdapter.ItemClick += OnItemClick;
+            _tripListAdapter.RequestToDeleteTrip += OnDeleteButtonClicked;
+            _recyclerView.SetAdapter(_tripListAdapter);
         }
         #endregion
 

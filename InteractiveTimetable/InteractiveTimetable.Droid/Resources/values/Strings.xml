@@ -25,12 +25,21 @@
   <string name="user_data_not_set">Данные ребенка не введены.</string>
   <string name="user_photo_not_set">Фотография ребенка не выбрана.</string>
   <string name="delete_user">Удаление профиля ребенка</string>
+  <string name="delete_trip">Удаление путевки</string>
   <string name="add_user_profile">Добавить профиль ребенка</string>
   <string name="sure_to_delete_user">Вы действительно хотите удалить профиль ребенка?</string>
-  <string name="user_in_present_timetable">Выбранный профиль ребенка используется в текущем расписании. 
-  Вы действительно хотите удалить его?</string>
+  <string name="sure_to_delete_trip">Вы действительно хотите удалить выбранную путевку?</string>
+  <string name="user_in_present_timetable">
+    Выбранный профиль ребенка используется в текущем расписании. 
+    Вы действительно хотите удалить его?
+  </string>
+  <string name="present_trip">
+    Выбранная путевка является текущей.
+    Вы действительно хотите удалить её?
+  </string>
   <string name="empty_user_list">В списке пока нет пользователей</string>
   <string name="detailed_user_info">Здесь будет выводиться детальная информация о пользователе</string>
+  <string name="detailed_trip_info">Здесь будет выводиться детальная информация о путевке</string>
   <string name="kids_list">Список детей</string>
   <string name="trips_list">Список путевок</string>
   <string name="empty_trip_list">В списке пока нет путевок</string>

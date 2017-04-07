@@ -190,27 +190,37 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnNoMoreUsersInList()
         {
+            /* Destroy connected fragments */
             DestroyFragment(_userDetailsFragment);
             DestroyFragment(_tripListFragment);
             DestroyFragment(_tripDetailsFragment);
             AdjustTripLayoutVisibility(true);
 
-            _infoFragment = FragmentManager.FindFragmentByTag(InfoFragment.FragmentTag) as InfoFragment;
+            /* Add info fragment */
+            DestroyFragment(_infoFragment);
+            _infoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_user_info));
 
-            if (_infoFragment == null)
-            {
-                _infoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_user_info));
+            ReplaceFragment(
+                Resource.Id.user_details_and_trips,
+                _infoFragment,
+                InfoFragment.FragmentTag
+            );
+        }
 
-                ReplaceFragment(
-                    Resource.Id.user_details_and_trips,
-                    _infoFragment,
-                    InfoFragment.FragmentTag
-                );
-            }
-            else
-            {
-                AttachFragment(_infoFragment);
-            }
+        private void OnNoMoreTripsInList()
+        {
+            /* Destroy connected fragments */
+            DestroyFragment(_tripDetailsFragment);
+            
+            /* Add info fragment */
+            DestroyFragment(_infoFragment);
+            _infoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_trip_info));
+
+            ReplaceFragment(
+                Resource.Id.trip_detailed_info,
+                _infoFragment,
+                InfoFragment.FragmentTag
+            );
         }
         #endregion
 
@@ -268,11 +278,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 AdjustTripLayoutVisibility(true);
             }
-        }
-
-        private void OnNoMoreTripsInList()
-        {
-            //throw new System.NotImplementedException();
         }
 
         private void OnAddTripButtonClicked()
