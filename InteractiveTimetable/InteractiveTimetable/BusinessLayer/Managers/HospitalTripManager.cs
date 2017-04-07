@@ -206,7 +206,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* Adding trips to users */
             foreach (var user in users)
             {
-                int amoutOfTrips = randomizer.Next(1,3);
+                int amoutOfTrips = randomizer.Next(1,4);
 
                 for (int i = 0; i < amoutOfTrips; ++i)
                 {
