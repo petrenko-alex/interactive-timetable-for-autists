@@ -19,6 +19,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private UserDetailsEditFragment _userDetailsEditFragment;
         private InfoFragment _infoFragment;
         private HospitalTripListFragment _tripListFragment;
+        private TripDetailsFragment _tripDetailsFragment;
         #endregion
 
         #region Internal Variables
@@ -46,6 +47,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AddUserListFragment();
             AddUserDetailsFragment();
             AddTripListFragment(_currentUserId);
+
+            if (_tripListFragment != null)
+            {
+                var tripId = _tripListFragment.GetFirstTripId();
+                AddTripDetailsFragment(tripId);
+            }
         }
 
         protected override void OnDestroy()
@@ -297,6 +304,41 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
+        private void AddTripDetailsFragment(int tripId)
+        {
+            /* Determine if possible to add fragment */
+            bool isListEmpty = false;
+            if (!_isWideScreenDevice ||
+                _tripListFragment == null || 
+                _userDetailsFragment == null)
+            {
+                return;
+            }
+
+            /* Add fragment if user has trips */
+            isListEmpty = _tripListFragment.IsListEmpty();
+            if (!isListEmpty)
+            {
+                /* Destroy previous fragment */
+                DestroyFragment(_tripDetailsFragment);
+
+                /* Create and add new fragment */
+                _tripDetailsFragment = TripDetailsFragment.NewInstance(tripId);
+                _tripDetailsFragment.EditButtonClicked += OnEditTripButtonClicked;
+
+                ReplaceFragment(
+                    Resource.Id.trip_detailed_info,
+                    _tripDetailsFragment,
+                    TripDetailsFragment.FragmentTag
+                );
+            }
+        }
+
+        private void OnEditTripButtonClicked(int tripId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private void DetachFragment(Fragment fragmentToDetach)
         {
             if (fragmentToDetach != null)
@@ -325,6 +367,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 transaction.Remove(fragmentToDestroy);
                 transaction.Commit();
             }
+        }
+
+        private void ReplaceFragment(int viewToAdd, Fragment fragmentToAdd, string fragmentTag)
+        {
+            var transaction = FragmentManager.BeginTransaction();
+            transaction.Replace(viewToAdd, fragmentToAdd, fragmentTag);
+            transaction.SetTransition(FragmentTransit.FragmentFade);
+            transaction.Commit();
         }
 
         private void SetTripsLabel(int userId)
