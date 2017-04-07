@@ -93,7 +93,7 @@
                         p1:orientation="vertical"
                         p1:minWidth="25px"
                         p1:minHeight="25px"
-                        p1:layout_width="wrap_content"
+                        p1:layout_width="997dp"
                         p1:layout_height="wrap_content"
                         p1:id="@+id/trip_detailed_info"
                         p1:layout_marginLeft="50dp"
