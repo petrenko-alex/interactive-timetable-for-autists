@@ -192,6 +192,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             DestroyFragment(_userDetailsFragment);
             DestroyFragment(_tripListFragment);
+            DestroyFragment(_tripDetailsFragment);
             AdjustTripLayoutVisibility(true);
 
             _infoFragment = FragmentManager.FindFragmentByTag(InfoFragment.FragmentTag) as InfoFragment;
@@ -200,15 +201,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 _infoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_user_info));
 
-                var fragmentManager = FragmentManager.BeginTransaction();
-
-                fragmentManager.Replace(
+                ReplaceFragment(
                     Resource.Id.user_details_and_trips,
                     _infoFragment,
                     InfoFragment.FragmentTag
                 );
-                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                fragmentManager.Commit();
             }
             else
             {
