@@ -24,6 +24,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Internal Variables
         private int _currentUserId;
+        private int _currentTripId;
         private bool _isWideScreenDevice;
         #endregion
 
@@ -103,6 +104,34 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
 
             _currentUserId = userId;
+        }
+
+        private void OnTripListItemClicked(int tripId)
+        {
+            /* Determine if possible to add fragment */
+            if (!_isWideScreenDevice)
+            {
+                return;
+            }
+
+            /* If need to show another trip info */
+            if (_currentTripId != tripId)
+            {
+                /* Destroy previous fragment */
+                DestroyFragment(_tripDetailsFragment);
+
+                /* Create and add new fragment */
+                _tripDetailsFragment = TripDetailsFragment.NewInstance(tripId);
+                _tripDetailsFragment.EditButtonClicked += OnEditTripButtonClicked;
+
+                ReplaceFragment(
+                    Resource.Id.trip_detailed_info,
+                    _tripDetailsFragment,
+                    TripDetailsFragment.FragmentTag
+                );
+            }
+
+            _currentTripId = tripId;
         }
 
         public void OnEditUserButtonClicked(int userId)
@@ -266,11 +295,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             throw new System.NotImplementedException();
         }
 
-        private void OnTripListItemClicked(int tripId)
-        {
-            throw new System.NotImplementedException();
-        }
-
         private void AddUserDetailsFragment()
         {
             /* Determine if list is empty or not */
@@ -331,6 +355,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _tripDetailsFragment,
                     TripDetailsFragment.FragmentTag
                 );
+
+                _currentTripId = tripId;
             }
         }
 
