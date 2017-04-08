@@ -198,16 +198,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Adjust selection */
             if (_tripListAdapter.ItemCount != 0)
             {
-                if (_currentTripId == tripId)
+                /* Delete last in list */
+                if (positionInList == _tripListAdapter.ItemCount)
                 {
-                    /* Delete last in list */
-                    if (positionInList == _tripListAdapter.ItemCount)
-                    {
-                        positionInList -= 1;
-                    }
-
-                    OnItemClick(_trips[positionInList].Id, positionInList);
+                    positionInList -= 1;
                 }
+
+                OnItemClick(_trips[positionInList].Id, positionInList);
             }
 
             /* Adjust widgets visibility in case trip list is empty */

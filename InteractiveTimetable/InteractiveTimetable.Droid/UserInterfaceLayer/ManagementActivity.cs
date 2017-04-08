@@ -105,22 +105,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 return;
             }
 
-            /* If need to show another trip info */
-            if (_currentTripId != tripId)
-            {
-                /* Destroy previous fragment */
-                DestroyFragment(_tripDetailsFragment);
+            /* Destroy previous fragment */
+            DestroyFragment(_tripDetailsFragment);
 
-                /* Create and add new fragment */
-                _tripDetailsFragment = TripDetailsFragment.NewInstance(tripId);
-                _tripDetailsFragment.EditButtonClicked += OnEditTripButtonClicked;
+            /* Create and add new fragment */
+            _tripDetailsFragment = TripDetailsFragment.NewInstance(tripId);
+            _tripDetailsFragment.EditButtonClicked += OnEditTripButtonClicked;
 
-                ReplaceFragment(
-                    Resource.Id.trip_detailed_info,
-                    _tripDetailsFragment,
-                    TripDetailsFragment.FragmentTag
-                );
-            }
+            ReplaceFragment(
+                Resource.Id.trip_detailed_info,
+                _tripDetailsFragment,
+                TripDetailsFragment.FragmentTag
+            );
 
             _currentTripId = tripId;
         }
