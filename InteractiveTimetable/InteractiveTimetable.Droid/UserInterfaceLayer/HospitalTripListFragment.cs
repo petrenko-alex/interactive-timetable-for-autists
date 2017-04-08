@@ -184,6 +184,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _trips = GetTrips(_userId);
             _tripListAdapter.Trips = _trips;
             _tripListAdapter.NotifyDataSetChanged();
+            SwitchEmptyList();
         }
 
         private void DeleteTrip(int tripId, int positionInList)
