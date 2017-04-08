@@ -381,11 +381,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void ReplaceFragment(int viewToAdd, Fragment fragmentToAdd, string fragmentTag)
+        private void ReplaceFragment(
+            int viewToAdd, 
+            Fragment fragmentToAdd, 
+            string fragmentTag, 
+            bool needToAddToBackStack = false)
         {
             var transaction = FragmentManager.BeginTransaction();
             transaction.Replace(viewToAdd, fragmentToAdd, fragmentTag);
             transaction.SetTransition(FragmentTransit.FragmentFade);
+            if (needToAddToBackStack)
+            {
+                transaction.AddToBackStack(fragmentTag);
+            }
             transaction.Commit();
         }
 
