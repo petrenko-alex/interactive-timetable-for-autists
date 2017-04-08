@@ -142,13 +142,13 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             var userTrips = GetHospitalTrips(hospitalTrip.UserId);
             foreach (var userTrip in userTrips)
             {
-                bool newTripIntersectsAnotherTrip = hospitalTrip.StartDate >
+                bool newTripIntersectsAnotherTrip = hospitalTrip.StartDate >=
                                                     userTrip.StartDate &&
-                                                    hospitalTrip.StartDate <
+                                                    hospitalTrip.StartDate <=
                                                     userTrip.FinishDate ||
-                                                    hospitalTrip.FinishDate >
+                                                    hospitalTrip.FinishDate >=
                                                     userTrip.StartDate &&
-                                                    hospitalTrip.FinishDate <
+                                                    hospitalTrip.FinishDate <=
                                                     userTrip.FinishDate;
 
                 bool newTripOveraysAnotherTrip = userTrip.StartDate >
