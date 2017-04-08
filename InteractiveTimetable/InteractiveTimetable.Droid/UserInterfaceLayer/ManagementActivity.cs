@@ -20,6 +20,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private InfoFragment _infoFragment;
         private HospitalTripListFragment _tripListFragment;
         private TripDetailsFragment _tripDetailsFragment;
+        private TripDetailsEditFragment _tripDetailsEditFragment;
         #endregion
 
         #region Internal Variables
@@ -147,6 +148,23 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
+        private void OnEditTripButtonClicked(int tripId)
+        {
+            /* Destroy previous fragment */
+            DestroyFragment(_tripDetailsEditFragment);
+
+            /* Create and add new fragment */
+            _tripDetailsEditFragment = TripDetailsEditFragment.NewInstance(tripId);
+            _tripDetailsEditFragment.TripEdited += OnTripEdited;
+
+            ReplaceFragment(
+                Resource.Id.trip_detailed_info,
+                _tripDetailsEditFragment,
+                TripDetailsEditFragment.FragmentTag,
+                true
+            );
+        }
+
         public void OnAddUserButtonClicked()
         {
             _userDetailsEditFragment = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
@@ -186,6 +204,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public void OnUserEdited(int userId)
         {
             _userListFragment.DataSetChanged();
+        }
+
+        private void OnTripEdited(int tripId)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void OnNoMoreUsersInList()
@@ -345,12 +368,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _currentTripId = tripId;
             }
         }
-
-        private void OnEditTripButtonClicked(int tripId)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         private void DetachFragment(Fragment fragmentToDetach)
         {
             if (fragmentToDetach != null)

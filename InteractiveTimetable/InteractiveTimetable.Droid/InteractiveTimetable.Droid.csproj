@@ -116,6 +116,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterfaceLayer\TimePickerFragment.cs" />
+    <Compile Include="UserInterfaceLayer\TripDetailsEditFragment.cs" />
     <Compile Include="UserInterfaceLayer\TripDetailsFragment.cs" />
     <Compile Include="UserInterfaceLayer\UserDetailsEditFragment.cs" />
     <Compile Include="UserInterfaceLayer\UserDetailsFragment.cs" />
