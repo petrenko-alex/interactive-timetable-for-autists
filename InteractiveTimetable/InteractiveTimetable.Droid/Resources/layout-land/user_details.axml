@@ -25,7 +25,7 @@
     <FrameLayout
         p1:minWidth="25px"
         p1:minHeight="25px"
-        p1:layout_width="wrap_content"
+        p1:layout_width="997dp"
         p1:layout_height="match_parent"
         p1:id="@+id/frameLayout2"
         p1:padding="1dp"
@@ -115,8 +115,8 @@
                     p1:layout_width="wrap_content"
                     p1:layout_height="wrap_content"
                     p1:id="@+id/edit_user"
-                    p1:layout_marginTop="60dp"
-                    p1:layout_marginLeft="400dp"
+                    p1:layout_marginTop="65dp"
+                    p1:layout_marginLeft="425dp"
                     p1:background="@null" />
             </LinearLayout>
         </LinearLayout>
