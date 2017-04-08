@@ -48,4 +48,8 @@
   <string name="trips">Путевки в реабилитационный центр</string>
   <string name="trip_start_date">Дата начала путевки: </string>
   <string name="trip_finish_date">Дата окончания путевки: </string>
+  <string name="new_trip">Новая путевка</string>
+  <string name="edit_trip">Редактирование путевки</string>
+  <string name="choose_trip_start_date">Выберите дату и время начала путевки:</string>
+  <string name="choose_trip_end_date">Выберите дату и время окончания путевки:</string>
 </resources>
