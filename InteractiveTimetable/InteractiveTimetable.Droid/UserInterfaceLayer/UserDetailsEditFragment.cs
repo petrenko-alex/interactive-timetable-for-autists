@@ -87,7 +87,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 return null;
             }
 
-            View userView = inflater.Inflate(Resource.Layout.user_details_edit, container, false);
+            var userView = inflater.Inflate(Resource.Layout.user_details_edit, container, false);
 
             /* Getting widgets */
             _applyButton = userView.FindViewById<Button>(Resource.Id.apply_changes_btn);
@@ -341,6 +341,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _photoWasChanged = true;
             }
         }
+
+        private void OnUserDataChanged(object sender, EventArgs eventArgs)
+        {
+            _dataWasChanged = true;
+        }
         #endregion
 
         #region Other Methods
@@ -409,11 +414,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 InteractiveTimetable.Current.HideKeyboard(Activity.CurrentFocus.WindowToken);
             }
-        }
-
-        private void OnUserDataChanged(object sender, EventArgs eventArgs)
-        {
-            _dataWasChanged = true;
         }
         #endregion
 
