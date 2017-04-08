@@ -302,6 +302,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             catch (ArgumentException exception)
             {
+                /* Show error message */
                 var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
                 toast.SetGravity(
                     GravityFlags.ClipVertical,
@@ -309,6 +310,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     ErrorMessageYOffset
                 );
                 toast.Show();
+
+                /* Reset trip */
+                _trip = null;
                 return;
             }
         }
