@@ -20,6 +20,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly string UserIdKey = "current_user_id";
         private static readonly int RequestCamera = 0;
         private static readonly int SelectFile = 1;
+        private static readonly int ErrorMessageXOffset = 450;
+        private static readonly int ErrorMessageYOffset = -300;
         #endregion
 
         #region Widgets
@@ -197,8 +199,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Error message if trying to save empty user */
                 if (!_dataWasChanged)
                 {
-                    var toast = ToastHelper.GetErrorToast(Activity, GetString(Resource.String.user_data_not_set));
-                    toast.SetGravity(GravityFlags.ClipVertical, 450, -300);
+                    var toast = ToastHelper.GetErrorToast(
+                        Activity,
+                        GetString(Resource.String.user_data_not_set)
+                    );
+                    toast.SetGravity(
+                        GravityFlags.ClipVertical,
+                        ErrorMessageXOffset,
+                        ErrorMessageYOffset
+                    );
                     toast.Show();
                     return;
                 }
@@ -206,8 +215,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Error message if photo is not chosen */
                 if (!_photoWasChanged)
                 {
-                    var toast = ToastHelper.GetErrorToast(Activity, GetString(Resource.String.user_photo_not_set));
-                    toast.SetGravity(GravityFlags.ClipVertical, 450, -300);
+                    var toast = ToastHelper.GetErrorToast(
+                        Activity,
+                        GetString(Resource.String.user_photo_not_set)
+                    );
+                    toast.SetGravity(
+                        GravityFlags.ClipVertical,
+                        ErrorMessageXOffset,
+                        ErrorMessageYOffset
+                    );
                     toast.Show();
                     return;
                 }
@@ -259,7 +275,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 /* Showing validation errors */
                 var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
-                toast.SetGravity(GravityFlags.ClipVertical, 450, -300);
+                toast.SetGravity(
+                    GravityFlags.ClipVertical,
+                    ErrorMessageXOffset,
+                    ErrorMessageYOffset
+                );
                 toast.Show();
                 return;
             }
