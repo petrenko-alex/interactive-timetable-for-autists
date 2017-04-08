@@ -28,7 +28,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private Button _applyButton;
         private Button _cancelButton;
         private Button _editPhotoButton;
-        private ImageButton _datePickButton;
         private ImageView _userPhoto;
         private EditText _lastName;
         private EditText _firstName;
@@ -94,7 +93,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Getting widgets */
             _applyButton = userView.FindViewById<Button>(Resource.Id.apply_changes_btn);
             _cancelButton = userView.FindViewById<Button>(Resource.Id.cancel_btn);
-            _datePickButton = userView.FindViewById<ImageButton>(Resource.Id.birth_date_edit);
             _editPhotoButton = userView.FindViewById<Button>(Resource.Id.edit_photo_btn);
             _userPhoto = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
             _lastName = userView.FindViewById<EditText>(Resource.Id.last_name_edit);
@@ -105,8 +103,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Setting button click handlers */
             _applyButton.Click += OnApplyButtonClicked;
             _cancelButton.Click += OnCancelButtonClicked;
-            _datePickButton.Click += OnDatePickButtonClicked;
             _editPhotoButton.Click += OnEditPhotoButtonClicked;
+            _birthDate.Click += OnDatePickButtonClicked;
+            _birthDate.KeyListener = null;
 
             /* If user is set, retrieve his data */
             if (UserId > 0)
@@ -169,7 +168,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Reseting listeners */
             _applyButton.Click -= OnApplyButtonClicked;
             _cancelButton.Click -= OnCancelButtonClicked;
-            _datePickButton.Click -= OnDatePickButtonClicked;
             _editPhotoButton.Click -= OnEditPhotoButtonClicked;
             _firstName.TextChanged -= OnUserDataChanged;
             _lastName.TextChanged -= OnUserDataChanged;
