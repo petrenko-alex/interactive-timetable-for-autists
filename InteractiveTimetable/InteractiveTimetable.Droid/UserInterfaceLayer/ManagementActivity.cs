@@ -208,7 +208,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnTripEdited(int tripId)
         {
-            throw new System.NotImplementedException();
+            _tripListFragment.DataSetChanged();
         }
 
         public void OnNoMoreUsersInList()

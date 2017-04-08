@@ -5,6 +5,7 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
+using InteractiveTimetable.Droid.ApplicationLayer;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -15,6 +16,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly string HospitalTripIdKey = "current_trip_id";
         private static readonly string DateFormat = "dd.MM.yyyy";
         private static readonly string TimeFormat = "H:mm";
+        private static readonly int ErrorMessageXOffset = 280;
+        private static readonly int ErrorMessageYOffset = 60;
         #endregion
 
         #region Widgets
@@ -228,7 +231,93 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnApplyButtonClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            /* Edit existing user */
+            if (_trip != null)
+            {
+                if (!_dataWasChanged)
+                {
+                    CloseFragment();
+                    return;
+                }
+            }
+            /* Save new user */
+            else if (_trip == null)
+            {
+                if (!_dataWasChanged)
+                {
+                    var toast = ToastHelper.GetErrorToast(
+                        Activity,
+                        GetString(Resource.String.trip_data_not_set)
+                    );
+                    toast.SetGravity(
+                        GravityFlags.ClipVertical,
+                        ErrorMessageXOffset,
+                        ErrorMessageYOffset
+                    );
+                    toast.Show();
+                    return;
+                }
+
+                _newTrip = true;
+                _trip = new HospitalTrip();
+            }
+
+            /* Fill trip data from fields data */
+            var date = DateTime.ParseExact(
+                _startDate.Text,
+                DateFormat,
+                System.Globalization.CultureInfo.CurrentCulture
+            );
+            var time = DateTime.ParseExact(
+                _startTime.Text,
+                TimeFormat,
+                System.Globalization.CultureInfo.CurrentCulture
+            );
+            var timeSpan = new TimeSpan(time.Hour, time.Minute, time.Second);
+
+            _trip.StartDate = date.Date + timeSpan;
+
+            date = DateTime.ParseExact(
+                _finishDate.Text,
+                DateFormat,
+                System.Globalization.CultureInfo.CurrentCulture
+            );
+            time = DateTime.ParseExact(
+                _finishTime.Text,
+                TimeFormat,
+                System.Globalization.CultureInfo.CurrentCulture
+            );
+            timeSpan = new TimeSpan(time.Hour, time.Minute, time.Second);
+
+            _trip.FinishDate = date.Date + timeSpan;
+
+
+            /* Try to save trip */
+            try
+            {
+                int tripId = InteractiveTimetable.Current.HospitalTripManager.SaveHospitalTrip(_trip);
+                CloseFragment();
+
+                if (_newTrip)
+                {
+                    NewTripAdded?.Invoke(tripId);
+                    _newTrip = false;
+                    return;
+                }
+
+                TripEdited?.Invoke(tripId);
+            }
+            catch (ArgumentException exception)
+            {
+                var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
+                toast.SetGravity(
+                    GravityFlags.ClipVertical,
+                    ErrorMessageXOffset,
+                    ErrorMessageYOffset
+                );
+                toast.Show();
+                return;
+            }
         }
 
         #endregion
