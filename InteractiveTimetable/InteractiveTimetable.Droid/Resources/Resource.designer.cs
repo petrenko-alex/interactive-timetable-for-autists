@@ -448,6 +448,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06001b
 			public const int add_user_profile = 2131099675;
 			
+			// aapt resource value: 0x7f06002d
+			public const int adding_trip = 2131099693;
+			
 			// aapt resource value: 0x7f060000
 			public const int app_name = 2131099648;
 			
@@ -463,11 +466,11 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060013
 			public const int choose_photo = 2131099667;
 			
-			// aapt resource value: 0x7f06002e
-			public const int choose_trip_end_date = 2131099694;
+			// aapt resource value: 0x7f06002f
+			public const int choose_trip_end_date = 2131099695;
 			
-			// aapt resource value: 0x7f06002d
-			public const int choose_trip_start_date = 2131099693;
+			// aapt resource value: 0x7f06002e
+			public const int choose_trip_start_date = 2131099694;
 			
 			// aapt resource value: 0x7f06000a
 			public const int delete_button = 2131099658;

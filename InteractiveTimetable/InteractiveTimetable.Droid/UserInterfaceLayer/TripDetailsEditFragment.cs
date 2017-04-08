@@ -39,6 +39,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private HospitalTrip _trip;
         private DateTime _currentStartDate;
         private DateTime _currentFinishDate;
+        private int _userId;
         #endregion
 
         #region Flags
@@ -56,11 +57,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Methods
 
         #region Construct Methods
-        public static TripDetailsEditFragment NewInstance(int tripId)
+        public static TripDetailsEditFragment NewInstance(int tripId, int userId)
         {
             var tripDetailsEditFragment = new TripDetailsEditFragment()
             {
-                Arguments = new Bundle()
+                Arguments = new Bundle(),
+                _userId = userId
             };
             tripDetailsEditFragment.Arguments.PutInt(HospitalTripIdKey, tripId);
 
@@ -124,9 +126,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _currentStartDate = DateTime.Now;
                 _currentFinishDate = DateTime.Now.AddDays(7);
 
+                /* Set data to fields */
+                _startDate.Text = _currentStartDate.ToString(DateFormat);
+                _startTime.Text = _currentStartDate.ToString(TimeFormat);
+                _finishDate.Text = _currentFinishDate.ToString(DateFormat);
+                _finishTime.Text = _currentFinishDate.ToString(TimeFormat);
 
                 /* Adjust widgets */
-                _fragmentLabel.Text = GetString(Resource.String.add_trip);
+                _fragmentLabel.Text = GetString(Resource.String.adding_trip);
                 _applyButton.Text = GetString(Resource.String.add_button);
             }
 
@@ -243,23 +250,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Save new user */
             else if (_trip == null)
             {
-                if (!_dataWasChanged)
-                {
-                    var toast = ToastHelper.GetErrorToast(
-                        Activity,
-                        GetString(Resource.String.trip_data_not_set)
-                    );
-                    toast.SetGravity(
-                        GravityFlags.ClipVertical,
-                        ErrorMessageXOffset,
-                        ErrorMessageYOffset
-                    );
-                    toast.Show();
-                    return;
-                }
-
                 _newTrip = true;
                 _trip = new HospitalTrip();
+                _trip.UserId = _userId;
             }
 
             /* Fill trip data from fields data */

@@ -154,7 +154,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             DestroyFragment(_tripDetailsEditFragment);
 
             /* Create and add new fragment */
-            _tripDetailsEditFragment = TripDetailsEditFragment.NewInstance(tripId);
+            _tripDetailsEditFragment = TripDetailsEditFragment.NewInstance(tripId, _currentUserId);
             _tripDetailsEditFragment.TripEdited += OnTripEdited;
 
             ReplaceFragment(
@@ -189,6 +189,32 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
                 fragmentManager.Commit();
             }
+        }
+
+        private void OnAddTripButtonClicked()
+        {
+            /* Destroy previous fragment */
+            DestroyFragment(_tripDetailsEditFragment);
+
+            /* If info fragment is present, destroy it */
+            DestroyFragment(_infoFragment);
+
+            /* Create and add new fragment */
+            _tripDetailsEditFragment = TripDetailsEditFragment.NewInstance(0, _currentUserId);
+            _tripDetailsEditFragment.NewTripAdded += OnNewTripAdded;
+
+            ReplaceFragment(
+                Resource.Id.trip_detailed_info,
+                _tripDetailsEditFragment,
+                TripDetailsEditFragment.FragmentTag,
+                true
+            );
+        }
+
+        private void OnNewTripAdded(int tripId)
+        {
+            _tripListFragment.DataSetChanged();
+            OnTripListItemClicked(tripId);
         }
 
         public void OnNewUserAdded(int userId)
@@ -301,11 +327,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 AdjustTripLayoutVisibility(true);
             }
-        }
-
-        private void OnAddTripButtonClicked()
-        {
-            throw new System.NotImplementedException();
         }
 
         private void AddUserDetailsFragment()
