@@ -160,8 +160,9 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                                                  userTrip.FinishDate <
                                                  hospitalTrip.FinishDate;
 
-                if (newTripOveraysAnotherTrip || newTripIntersectsAnotherTrip)
-                {
+                if (hospitalTrip.Id != userTrip.Id && 
+                    (newTripOveraysAnotherTrip || newTripIntersectsAnotherTrip))
+                { 
                     throw new ArgumentException(
                         Resources.
                         Validation.
