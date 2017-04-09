@@ -67,10 +67,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             if (_isWideScreenDevice)
             {
-                DestroyFragment(_userDetailsFragment);
-
                 if (_userDetailsFragment == null || _currentUserId != userId)
                 {
+                    DestroyFragment(_userDetailsFragment);
+
                     _userDetailsFragment = UserDetailsFragment.NewInstance(userId);
                     _userDetailsFragment.EditButtonClicked += OnEditUserButtonClicked;
 
