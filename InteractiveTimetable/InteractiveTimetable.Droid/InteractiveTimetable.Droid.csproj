@@ -116,6 +116,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterfaceLayer\TimePickerFragment.cs" />
+    <Compile Include="UserInterfaceLayer\TimetableActivity.cs" />
     <Compile Include="UserInterfaceLayer\TripDetailsEditFragment.cs" />
     <Compile Include="UserInterfaceLayer\TripDetailsFragment.cs" />
     <Compile Include="UserInterfaceLayer\UserDetailsEditFragment.cs" />
@@ -173,6 +174,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout-land\trip_details_edit.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout-land\timetable.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

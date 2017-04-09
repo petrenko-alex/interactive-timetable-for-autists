@@ -6,7 +6,7 @@ using Android.Widget;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "Management", MainLauncher = true)]
+    [Activity(Label = "Management")]
     public class ManagementActivity : Activity
     {
         #region Constants
