@@ -415,6 +415,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var transaction = FragmentManager.BeginTransaction();
             transaction.Replace(viewToAdd, fragmentToAdd, fragmentTag);
             transaction.SetTransition(FragmentTransit.FragmentFade);
+            FragmentManager.PopBackStackImmediate();
             if (needToAddToBackStack)
             {
                 transaction.AddToBackStack(fragmentTag);
