@@ -37,6 +37,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Events
         public event Action<int> NewUserAdded;
         public event Action<int> UserEdited;
+        public event Action EditCanceled;
         #endregion
 
         #region Internal Variables
@@ -284,6 +285,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnCancelButtonClicked(object sender, EventArgs args)
         {
+            EditCanceled?.Invoke();
             CloseFragment();
         }
 
