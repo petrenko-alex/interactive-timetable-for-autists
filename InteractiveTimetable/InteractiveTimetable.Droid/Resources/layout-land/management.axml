@@ -25,16 +25,26 @@
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/textView1"
+            p1:id="@+id/user_card_label"
+            p1:layout_marginTop="30dp"
+            p1:textSize="25dp"
+            p1:gravity="center" />
+        <View
+            p1:layout_width="fill_parent"
+            p1:layout_height="2dip"
+            p1:background="#00BFFF"
+            p1:layout_marginLeft="300dp"
+            p1:layout_marginRight="350dp"
             p1:layout_marginTop="10dp"
-            p1:textSize="25dp" />
+            p1:id="@+id/user_card_divider" />
         <LinearLayout
             p1:orientation="vertical"
             p1:minWidth="25px"
             p1:minHeight="25px"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/user_details_and_trips">
+            p1:id="@+id/user_details_and_trips"
+            p1:layout_marginTop="30dp">
             <FrameLayout
                 p1:minWidth="25px"
                 p1:minHeight="25px"
