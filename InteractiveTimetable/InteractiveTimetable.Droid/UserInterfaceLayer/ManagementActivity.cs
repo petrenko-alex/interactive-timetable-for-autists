@@ -17,7 +17,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private UserListFragment _userListFragment;
         private UserDetailsFragment _userDetailsFragment;
         private UserDetailsEditFragment _userDetailsEditFragment;
-        private InfoFragment _infoFragment;
+        private InfoFragment _userInfoFragment;
+        private InfoFragment _tripInfoFragment;
         private HospitalTripListFragment _tripListFragment;
         private TripDetailsFragment _tripDetailsFragment;
         private TripDetailsEditFragment _tripDetailsEditFragment;
@@ -155,7 +156,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             AdjustTripLayoutVisibility(true);
 
-            DetachFragment(_infoFragment);
+            DetachFragment(_userInfoFragment);
 
             /* Create and add new fragment */
             _userDetailsEditFragment = UserDetailsEditFragment.NewInstance(0);
@@ -180,7 +181,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             else if (_userListFragment != null &&
                      _userListFragment.IsListEmpty())
             {
-                AttachFragment(_infoFragment);
+                AttachFragment(_userInfoFragment);
             }
         }
 
@@ -206,7 +207,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _tripListFragment.DataSetChanged();
 
             /* If info fragment is present, destroy it */
-            DestroyFragment(_infoFragment);
+            DestroyFragment(_tripInfoFragment);
 
             OnTripListItemClicked(tripId);
         }
@@ -216,7 +217,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListFragment.AddUser(userId);
 
             /* If info fragment is present, detach it */
-            DestroyFragment(_infoFragment);
+            DestroyFragment(_userInfoFragment);
 
             OnUserListItemClicked(userId);
         }
@@ -240,12 +241,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AdjustTripLayoutVisibility(true);
 
             /* Add info fragment */
-            DestroyFragment(_infoFragment);
-            _infoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_user_info));
+            DestroyFragment(_userInfoFragment);
+            _userInfoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_user_info));
 
             ReplaceFragment(
                 Resource.Id.user_details_and_trips,
-                _infoFragment,
+                _userInfoFragment,
                 InfoFragment.FragmentTag
             );
         }
@@ -256,12 +257,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             DestroyFragment(_tripDetailsFragment);
             
             /* Add info fragment */
-            DestroyFragment(_infoFragment);
-            _infoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_trip_info));
+            DestroyFragment(_tripInfoFragment);
+            _tripInfoFragment = InfoFragment.NewInstance(GetString(Resource.String.detailed_trip_info));
 
             ReplaceFragment(
                 Resource.Id.trip_detailed_info,
-                _infoFragment,
+                _tripInfoFragment,
                 InfoFragment.FragmentTag
             );
         }
