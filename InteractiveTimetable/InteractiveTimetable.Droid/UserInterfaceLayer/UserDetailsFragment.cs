@@ -64,6 +64,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Getting data */
             var user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
+            if (user == null)
+            {
+                return null;
+            }
+
             var userView = inflater.Inflate(Resource.Layout.user_details, container, false);
 
             /* Setting last name */

@@ -54,6 +54,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Get data */
             var trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(TripId);
+            if (trip == null)
+            {
+                return null;
+            }
+
             var tripView = inflater.Inflate(Resource.Layout.trip_details, container, false);
             
             /* Set start date */
