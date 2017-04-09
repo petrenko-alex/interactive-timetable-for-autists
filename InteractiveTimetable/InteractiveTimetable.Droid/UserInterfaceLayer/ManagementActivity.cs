@@ -220,6 +220,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             DestroyFragment(_userInfoFragment);
 
             OnUserListItemClicked(userId);
+            AdjustUserCardLayoutVisibility(false);
         }
 
         public void OnUserEdited(int userId)
@@ -239,6 +240,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             DestroyFragment(_tripListFragment);
             DestroyFragment(_tripDetailsFragment);
             AdjustTripLayoutVisibility(true);
+            AdjustUserCardLayoutVisibility(true);
 
             /* Add info fragment */
             DestroyFragment(_userInfoFragment);
@@ -460,6 +462,23 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 tripLabel.Visibility = ViewStates.Visible;
                 divider.Visibility = ViewStates.Visible;
                 frame.Visibility = ViewStates.Visible;
+            }
+        }
+
+        private void AdjustUserCardLayoutVisibility(bool isHidden)
+        {
+            var userCardLabel = FindViewById<View>(Resource.Id.user_card_label);
+            var userCardDivider = FindViewById<View>(Resource.Id.user_card_divider);
+
+            if (isHidden)
+            {
+                userCardLabel.Visibility = ViewStates.Gone;
+                userCardDivider.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                userCardLabel.Visibility = ViewStates.Visible;
+                userCardDivider.Visibility = ViewStates.Visible;
             }
         }
         #endregion
