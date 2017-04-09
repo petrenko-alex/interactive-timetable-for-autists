@@ -6,7 +6,7 @@ using Android.Widget;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "Management")]
+    [Activity(Label = "Management panel")]
     public class ManagementActivity : Activity
     {
         #region Constants
@@ -38,6 +38,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.management);
+
+            /* Hide action bar */
+            ActionBar.Hide();
 
             /* Hide keyboard */
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden | SoftInput.AdjustPan);
