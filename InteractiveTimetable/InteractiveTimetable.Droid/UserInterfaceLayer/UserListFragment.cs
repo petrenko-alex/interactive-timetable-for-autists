@@ -239,6 +239,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public void AddUser(int userId)
         {
             /* Insert in adapter */
+            _currentUserId = userId;
             int insertedPosition = _userListAdapter.InsertItem(userId);
 
             /* Scroll to inserted position */
