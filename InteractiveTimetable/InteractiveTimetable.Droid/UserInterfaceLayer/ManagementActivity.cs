@@ -40,7 +40,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             SetContentView(Resource.Layout.management);
 
             /* Hide keyboard */
-            Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
+            Window.SetSoftInputMode(SoftInput.StateAlwaysHidden | SoftInput.AdjustPan);
 
             /* Determining wide screen device */
             var layout = FindViewById<LinearLayout>(Resource.Id.main_landscape);
