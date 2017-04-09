@@ -67,22 +67,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             if (_isWideScreenDevice)
             {
-                if (_userDetailsFragment == null || _currentUserId != userId)
-                {
-                    DestroyFragment(_userDetailsFragment);
+                DestroyFragment(_userDetailsFragment);
 
-                    _userDetailsFragment = UserDetailsFragment.NewInstance(userId);
-                    _userDetailsFragment.EditButtonClicked += OnEditUserButtonClicked;
+                _userDetailsFragment = UserDetailsFragment.NewInstance(userId);
+                _userDetailsFragment.EditButtonClicked += OnEditUserButtonClicked;
 
-                    ReplaceFragment(
-                        Resource.Id.user_details,
-                        _userDetailsFragment,
-                        UserDetailsFragment.FragmentTag
-                    );
+                ReplaceFragment(
+                    Resource.Id.user_details,
+                    _userDetailsFragment,
+                    UserDetailsFragment.FragmentTag
+                );
 
-                    /* Showing user trips */
-                    ShowTrips(userId);
-                }
+                /* Showing user trips */
+                ShowTrips(userId);
             }
             else
             {
@@ -153,27 +150,37 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnAddUserButtonClicked()
         {
-            _userDetailsEditFragment = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
-                        as UserDetailsEditFragment;
+            /* Destroy previous fragment */
+            DestroyFragment(_userDetailsEditFragment);
 
-            if (_userDetailsEditFragment == null)
+            AdjustTripLayoutVisibility(true);
+
+            DetachFragment(_infoFragment);
+
+            /* Create and add new fragment */
+            _userDetailsEditFragment = UserDetailsEditFragment.NewInstance(0);
+            _userDetailsEditFragment.NewUserAdded += OnNewUserAdded;
+            _userDetailsEditFragment.EditCanceled += OnEditUserCanceled;
+
+            ReplaceFragment(
+                Resource.Id.user_details,
+                _userDetailsEditFragment,
+                UserDetailsEditFragment.FragmentTag,
+                true
+            );
+        }
+
+        private void OnEditUserCanceled()
+        {
+            if (_userListFragment != null &&
+                !_userListFragment.IsListEmpty())
             {
-                _userDetailsEditFragment = UserDetailsEditFragment.NewInstance(0);
-                _userDetailsEditFragment.NewUserAdded += OnNewUserAdded;
-
-                /* In info fragment is present, detach it */
-                DetachFragment(_infoFragment);
-
-                var fragmentManager = FragmentManager.BeginTransaction();
-                fragmentManager.Replace(
-                        Resource.Id.user_details,
-                        _userDetailsEditFragment,
-                        UserDetailsEditFragment.FragmentTag
-                    );
-
-                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
-                fragmentManager.Commit();
+                AdjustTripLayoutVisibility(false);
+            }
+            else if (_userListFragment != null &&
+                     _userListFragment.IsListEmpty())
+            {
+                AttachFragment(_infoFragment);
             }
         }
 
@@ -181,9 +188,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* Destroy previous fragment */
             DestroyFragment(_tripDetailsEditFragment);
-
-            /* If info fragment is present, destroy it */
-            DestroyFragment(_infoFragment);
 
             /* Create and add new fragment */
             _tripDetailsEditFragment = TripDetailsEditFragment.NewInstance(0, _currentUserId);
@@ -200,6 +204,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void OnNewTripAdded(int tripId)
         {
             _tripListFragment.DataSetChanged();
+
+            /* If info fragment is present, destroy it */
+            DestroyFragment(_infoFragment);
+
             OnTripListItemClicked(tripId);
         }
 
@@ -208,7 +216,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListFragment.AddUser(userId);
 
             /* If info fragment is present, detach it */
-            DetachFragment(_infoFragment);
+            DestroyFragment(_infoFragment);
 
             OnUserListItemClicked(userId);
         }
@@ -415,7 +423,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var transaction = FragmentManager.BeginTransaction();
             transaction.Replace(viewToAdd, fragmentToAdd, fragmentTag);
             transaction.SetTransition(FragmentTransit.FragmentFade);
-            FragmentManager.PopBackStackImmediate();
+
+            if (FragmentManager.BackStackEntryCount > 0)
+            {
+                FragmentManager.PopBackStackImmediate();
+            }
+
             if (needToAddToBackStack)
             {
                 transaction.AddToBackStack(fragmentTag);
