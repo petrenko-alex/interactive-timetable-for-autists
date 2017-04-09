@@ -67,9 +67,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             if (_isWideScreenDevice)
             {
-                /* Showing detailed info about user */
-                _userDetailsFragment = FragmentManager.FindFragmentByTag(UserDetailsFragment.FragmentTag)
-                        as UserDetailsFragment;
+                DestroyFragment(_userDetailsFragment);
 
                 if (_userDetailsFragment == null || _currentUserId != userId)
                 {
@@ -123,25 +121,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnEditUserButtonClicked(int userId)
         {
-            _userDetailsEditFragment = FragmentManager.FindFragmentByTag(UserDetailsEditFragment.FragmentTag)
-                        as UserDetailsEditFragment;
+            DestroyFragment(_userDetailsEditFragment);
 
-            if (_userDetailsEditFragment == null)
-            {
-                _userDetailsEditFragment = UserDetailsEditFragment.NewInstance(userId);
-                _userDetailsEditFragment.UserEdited += OnUserEdited;
+            _userDetailsEditFragment = UserDetailsEditFragment.NewInstance(userId);
+            _userDetailsEditFragment.UserEdited += OnUserEdited;
 
-                var fragmentManager = FragmentManager.BeginTransaction();
-                fragmentManager.Replace(
-                        Resource.Id.user_details,
-                        _userDetailsEditFragment,
-                        UserDetailsEditFragment.FragmentTag
-                    );
-
-                fragmentManager.SetTransition(FragmentTransit.FragmentFade);
-                fragmentManager.AddToBackStack(UserDetailsEditFragment.FragmentTag);
-                fragmentManager.Commit();
-            }
+            ReplaceFragment(
+                Resource.Id.user_details,
+                _userDetailsEditFragment,
+                UserDetailsEditFragment.FragmentTag,
+                true
+            );
         }
 
         private void OnEditTripButtonClicked(int tripId)
