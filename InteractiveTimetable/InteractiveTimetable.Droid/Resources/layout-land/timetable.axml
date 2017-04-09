@@ -4,11 +4,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
-    <TextView
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+    android:minHeight="25px"
+    android:id="@+id/timetable_main_layout">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/management_panel_button"
+            android:src="@drawable/users_icon"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true" />
+        <TextView
+            android:text="@string/our_kids"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/our_kids_label"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/management_panel_button"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:text="@string/timetable_for_the_day"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/day_timetable_label"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/our_kids_label"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="100dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout3"
+            android:layout_alignParentRight="true">
+            <ImageButton
+                android:src="@android:drawable/ic_lock_lock"
+                android:id="@+id/lock_screen_button"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/day_timetable_label"
+                android:layout_marginRight="10dp" />
+            <TextClock xmlns:p2="http://xamarin.com/mono/android/designer-default"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/clock"
+                android:gravity="center"
+                android:textSize="25dp"
+                android:layout_marginRight="50dp" />
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1" />
+        android:id="@+id/linearLayout2" />
 </LinearLayout>
