@@ -56,4 +56,7 @@
   <string name="choose_trip_end_date">Выберите дату и время окончания путевки:</string>
   <string name="our_kids">Наши дети</string>
   <string name="timetable_for_the_day">Расписание на день</string>
+  <string name="screen_is_locked">
+    Экран заблокирован. Для продолжения работы необходимо разблокировать экран.
+  </string>
 </resources>

@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using InteractiveTimetable.Droid.ApplicationLayer;
 using Java.Lang;
 using Java.Text;
 using Java.Util;
@@ -27,6 +28,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TextClock _clock;
         private ImageButton _managementPanelButton;
         private ImageButton _lockScreenButton;
+        #endregion
+
+        #region Flags
+        private bool _isLocked;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -60,8 +65,42 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnLockScreenButtonClicked(object sender, EventArgs e)
         {
-            _mainLayout.Focusable = false;
-            Console.WriteLine("Lock screen");
+            /* If locked, need to unlock */
+            if (_isLocked)
+            {
+                /* Reset handler for locked screen */
+                _managementPanelButton.Click -= OnLockedScreenClicked;
+                _mainLayout.Click -= OnLockedScreenClicked;
+
+                /* Set function handlers*/
+                _managementPanelButton.Click += OnManagementPanelButtonClicked;
+
+                /* Set button image */
+                _lockScreenButton.SetImageResource(Resource.Drawable.unlocked_icon);
+
+                _isLocked = false;
+            }
+            /* If unlocked, need to lock */
+            else
+            {
+                /* Reset function handlers */
+                _managementPanelButton.Click -= OnManagementPanelButtonClicked;
+
+                /* Set handler for lock screen */
+                _managementPanelButton.Click += OnLockedScreenClicked;
+                _mainLayout.Click += OnLockedScreenClicked;
+
+                /* Set button image */
+                _lockScreenButton.SetImageResource(Resource.Drawable.locked_icon);
+
+                _isLocked = true;
+            }
+        }
+
+        private void OnLockedScreenClicked(object sender, EventArgs e)
+        {
+            var toast = ToastHelper.GetInfoToast(this, GetString(Resource.String.screen_is_locked));
+            toast.Show();
         }
     }
 }
