@@ -60,7 +60,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnManagementPanelButtonClicked(object sender, EventArgs e)
         {
-            Console.WriteLine("Management panel");
+            /* Start management activity */
+            var intent = new Intent(this, typeof(ManagementActivity));
+            StartActivity(intent);
         }
 
         private void OnLockScreenButtonClicked(object sender, EventArgs e)
