@@ -103,6 +103,8 @@
     <Compile Include="ApplicationLayer\HospitalTripListAdapter.cs" />
     <Compile Include="ApplicationLayer\HospitalTripViewHolder.cs" />
     <Compile Include="ApplicationLayer\ImageHelper.cs" />
+    <Compile Include="ApplicationLayer\TimetableTapeListAdapter.cs" />
+    <Compile Include="ApplicationLayer\TimetableTapeItemViewHolder.cs" />
     <Compile Include="ApplicationLayer\ToastHelper.cs" />
     <Compile Include="ApplicationLayer\UserListAdapter.cs" />
     <Compile Include="ApplicationLayer\UserListEventArgs.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterfaceLayer\TimePickerFragment.cs" />
     <Compile Include="UserInterfaceLayer\TimetableActivity.cs" />
+    <Compile Include="UserInterfaceLayer\TimetableTapeFragment.cs" />
     <Compile Include="UserInterfaceLayer\TripDetailsEditFragment.cs" />
     <Compile Include="UserInterfaceLayer\TripDetailsFragment.cs" />
     <Compile Include="UserInterfaceLayer\UserDetailsEditFragment.cs" />
@@ -183,6 +186,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout-land\timetable_tape.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\timetable_tape_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
