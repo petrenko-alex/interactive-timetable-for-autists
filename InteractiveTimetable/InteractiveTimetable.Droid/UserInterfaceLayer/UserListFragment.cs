@@ -25,6 +25,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private AutoCompleteTextView _findUserField;
         private TextView _emptyListTextView;
         private LinearLayout _userListMainContent;
+        private ImageButton _timetableButton;
         #endregion
 
         #region Internal Variables
@@ -38,6 +39,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public event Action<int> ListItemClicked;
         public event Action AddUserButtonClicked;
         public event Action NoMoreUsersInList;
+        public event Action TimetableButtonClicked;
         #endregion
 
         #region Methods
@@ -63,7 +65,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             base.OnActivityCreated(savedInstanceState);
             
-            /* Initializing current user id */
+            /* Initialize current user id */
             int userId = 0;
             if (savedInstanceState != null)
             {
@@ -74,38 +76,45 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 userId = _users[0].Id;
             }
 
-            /* Getting views */
+            /* Get views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.user_recycler_view);
 
-            /* Setting up the layout manager */
+            /* Set up the layout manager */
             _layoutManager = new LinearLayoutManager(Activity);
             _recyclerView.SetLayoutManager(_layoutManager);
 
-            /* Setting up the adapter */
+            /* Set up the adapter */
             _userListAdapter = new UserListAdapter(Activity, _users);
             _userListAdapter.ItemClick += OnItemClick;
             _userListAdapter.RequestToDeleteUser += OnDeleteButtonClicked;
             _recyclerView.SetAdapter(_userListAdapter);
 
-            /* Setting event handlers */
+            /* Set event handlers */
             _addUserBtn = Activity.FindViewById<Button>(Resource.Id.add_user_btn);
+            _timetableButton = Activity.FindViewById<ImageButton>(Resource.Id.timetable_button);
             _addUserBtn.Click += OnAddBtnClicked;
+            _timetableButton.Click += OnTimetableButtonClicked;
 
-            /* Setting up the adapter for find user field */
+            /* Set up the adapter for find user field */
             _findUserField = Activity.FindViewById<AutoCompleteTextView>(Resource.Id.find_user);
             _findUserField.Threshold = 1;
             _findUserField.ItemClick += OnFindUserItemClicked;
             SetAdapterToFindUserField(_users);
 
-            /* Initializing other widgets */
+            /* Initialize other widgets */
             _userListMainContent = Activity.FindViewById<LinearLayout>(Resource.Id.user_list_main_content);
             _emptyListTextView = Activity.FindViewById<TextView>(Resource.Id.empty_list);
 
             /* Adjust widgets visibility in case user list is empty */
             SwitchEmptyList();
 
-            /* Initializing class variables */
+            /* Initialize class variables */
             _currentUserId = userId;
+        }
+
+        private void OnTimetableButtonClicked(object sender, EventArgs e)
+        {
+            TimetableButtonClicked?.Invoke();
         }
 
         private void OnFindUserItemClicked(object sender, AdapterView.ItemClickEventArgs e)
@@ -140,6 +149,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnDestroy()
         {
             _addUserBtn.Click -= OnAddBtnClicked;
+            _timetableButton.Click -= OnTimetableButtonClicked;
             _findUserField.ItemClick -= OnFindUserItemClicked;
             _userListAdapter.ItemClick -= OnItemClick;
             _userListAdapter.RequestToDeleteUser -= OnDeleteButtonClicked;

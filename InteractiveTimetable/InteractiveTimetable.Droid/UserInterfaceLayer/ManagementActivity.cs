@@ -61,8 +61,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListFragment.ListItemClicked -= OnUserListItemClicked;
             _userListFragment.NoMoreUsersInList -= OnNoMoreUsersInList;
             _userDetailsFragment.EditButtonClicked -= OnEditUserButtonClicked;
-            _userDetailsEditFragment.NewUserAdded -= OnNewUserAdded;
-            _userDetailsEditFragment.UserEdited -= OnUserEdited;
 
             base.OnDestroy();
         }
@@ -271,6 +269,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 InfoFragment.FragmentTag
             );
         }
+
+        private void OnTimetableButtonClicked()
+        {
+            /* Finish activity */
+            Finish();
+        }
         #endregion
 
         #region Other Methods
@@ -287,6 +291,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _userListFragment.ListItemClicked += OnUserListItemClicked;
                 _userListFragment.AddUserButtonClicked += OnAddUserButtonClicked;
                 _userListFragment.NoMoreUsersInList += OnNoMoreUsersInList;
+                _userListFragment.TimetableButtonClicked += OnTimetableButtonClicked;
 
                 ReplaceFragment(
                     Resource.Id.user_list,
