@@ -1,23 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
-using Java.Lang;
-using Java.Text;
-using Java.Util;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "Timetable", MainLauncher = true/*, Theme = "@android:style/Theme.Holo.Light"*/)]
-    public class TimetableActivity : Activity
+    [Activity(Label = "Interactive Timetable", MainLauncher = true/*, Theme = "@android:style/Theme.Holo.Light"*/)]
+    public class TimetableActivity : Activity, ViewTreeObserver.IOnGlobalLayoutListener
     {
         #region Constants
         private static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
@@ -25,6 +17,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Widgets
         private LinearLayout _mainLayout;
+        private LinearLayout _timetableTapeLayout;
         private TextClock _clock;
         private ImageButton _managementPanelButton;
         private ImageButton _lockScreenButton;
@@ -43,7 +36,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Hide action bar */
             ActionBar.Hide();
 
+            /* Get layouts */
             _mainLayout = FindViewById<LinearLayout>(Resource.Id.timetable_main_layout);
+            _timetableTapeLayout = FindViewById<LinearLayout>(Resource.Id.timetable_tape_layout);
 
             /* Set management panel button */
             _managementPanelButton = FindViewById<ImageButton>(Resource.Id.management_panel_button);
@@ -56,6 +51,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set lock screen button */
             _lockScreenButton = FindViewById<ImageButton>(Resource.Id.lock_screen_button);
             _lockScreenButton.Click += OnLockScreenButtonClicked;
+
+            _mainLayout.ViewTreeObserver.AddOnGlobalLayoutListener(this);
         }
 
         private void OnManagementPanelButtonClicked(object sender, EventArgs e)
@@ -103,6 +100,42 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             var toast = ToastHelper.GetInfoToast(this, GetString(Resource.String.screen_is_locked));
             toast.Show();
+        }
+
+        public void OnGlobalLayout()
+        {
+            // TODO: Delete method and class extend when don't need to know layout sizes
+            /*/* _mainLayout size in px #1#
+            int widthPx1 = _mainLayout.Width;
+            int heightPx1 = _mainLayout.Height;
+
+            Console.WriteLine($"Layout Width:{widthPx1} px");
+            Console.WriteLine($"Layout Height:{heightPx1} px");
+
+            /* _mainLayout size in dp #1#
+            var displayMetrics = Resources.DisplayMetrics;
+            float dpHeight1 = heightPx1 / displayMetrics.Density;
+            float dpWidth1 = widthPx1 / displayMetrics.Density;
+
+            Console.WriteLine($"Layout Width:{dpWidth1} dp");
+            Console.WriteLine($"Layout Height:{dpHeight1} dp");*/
+
+            /* _timetableTapeLayout size in px */
+            int widthPx = _timetableTapeLayout.Width;
+            int heightPx = _timetableTapeLayout.Height;
+
+            Console.WriteLine($"Layout Width:{widthPx} px");
+            Console.WriteLine($"Layout Height:{heightPx} px");
+
+            /* _timetableTapeLayout size in dp */
+            var displayMetrics = Resources.DisplayMetrics;
+            float dpHeight = heightPx / displayMetrics.Density;
+            float dpWidth = widthPx / displayMetrics.Density;
+
+            Console.WriteLine($"Layout Width:{dpWidth} dp");
+            Console.WriteLine($"Layout Height:{dpHeight} dp");
+
+            _mainLayout.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
         }
     }
 }
