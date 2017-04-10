@@ -103,10 +103,13 @@ namespace InteractiveTimetable.Droid
 			public const int redcustom_toast = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int unlocked_icon = 2130837512;
+			public const int timetable_icon = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int users_icon = 2130837513;
+			public const int unlocked_icon = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int users_icon = 2130837514;
 			
 			static Drawable()
 			{
@@ -124,8 +127,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f05000a
 			public const int add_trip_btn = 2131034122;
 			
-			// aapt resource value: 0x7f050057
-			public const int add_user_btn = 2131034199;
+			// aapt resource value: 0x7f050058
+			public const int add_user_btn = 2131034200;
 			
 			// aapt resource value: 0x7f050051
 			public const int apply_changes_btn = 2131034193;
@@ -151,11 +154,11 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f05001f
 			public const int day_timetable_label = 2131034143;
 			
-			// aapt resource value: 0x7f05005c
-			public const int delete_trip_item = 2131034204;
-			
 			// aapt resource value: 0x7f05005d
-			public const int delete_user_item = 2131034205;
+			public const int delete_trip_item = 2131034205;
+			
+			// aapt resource value: 0x7f05005e
+			public const int delete_user_item = 2131034206;
 			
 			// aapt resource value: 0x7f05004b
 			public const int edit_photo_btn = 2131034187;
@@ -166,8 +169,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f05003d
 			public const int edit_user = 2131034173;
 			
-			// aapt resource value: 0x7f050056
-			public const int empty_list = 2131034198;
+			// aapt resource value: 0x7f050057
+			public const int empty_list = 2131034199;
 			
 			// aapt resource value: 0x7f050008
 			public const int empty_trip_list = 2131034120;
@@ -295,6 +298,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f05003a
 			public const int textView2 = 2131034170;
 			
+			// aapt resource value: 0x7f050055
+			public const int timetable_button = 2131034197;
+			
 			// aapt resource value: 0x7f05001b
 			public const int timetable_main_layout = 2131034139;
 			
@@ -379,23 +385,23 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050049
 			public const int user_details_photo_frame = 2131034185;
 			
-			// aapt resource value: 0x7f05005b
-			public const int user_fpname = 2131034203;
+			// aapt resource value: 0x7f05005c
+			public const int user_fpname = 2131034204;
 			
-			// aapt resource value: 0x7f05005a
-			public const int user_lastname = 2131034202;
+			// aapt resource value: 0x7f05005b
+			public const int user_lastname = 2131034203;
 			
 			// aapt resource value: 0x7f05000f
 			public const int user_list = 2131034127;
 			
-			// aapt resource value: 0x7f050055
-			public const int user_list_main_content = 2131034197;
-			
-			// aapt resource value: 0x7f050058
-			public const int user_list_photo_frame = 2131034200;
+			// aapt resource value: 0x7f050056
+			public const int user_list_main_content = 2131034198;
 			
 			// aapt resource value: 0x7f050059
-			public const int user_photo = 2131034201;
+			public const int user_list_photo_frame = 2131034201;
+			
+			// aapt resource value: 0x7f05005a
+			public const int user_photo = 2131034202;
 			
 			// aapt resource value: 0x7f050054
 			public const int user_recycler_view = 2131034196;

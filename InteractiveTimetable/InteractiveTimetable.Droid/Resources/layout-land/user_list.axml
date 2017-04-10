@@ -4,15 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/user_list">
-    <TextView
-        android:text="@string/kids_list"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="25dp" />
+        android:id="@+id/relativeLayout1"
+        android:layout_marginTop="20dp">
+        <ImageButton
+            android:src="@drawable/timetable_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/timetable_button"
+            android:background="@null"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:scaleType="centerInside" />
+        <TextView
+            android:text="@string/kids_list"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView1"
+            android:textSize="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/timetable_button"
+            android:paddingRight="30dp" />
+    </RelativeLayout>
     <LinearLayout
         android:orientation="vertical"
         android:minWidth="25px"
