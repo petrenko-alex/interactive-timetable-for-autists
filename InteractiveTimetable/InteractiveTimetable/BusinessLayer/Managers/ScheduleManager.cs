@@ -33,6 +33,16 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return GetCardIds(GetSchedule(scheduleId));
         }
 
+        public IEnumerable<Card> GetScheduleCards(int scheduleId)
+        {
+            /* Get ids of cards in schedule */
+            var scheduleCardIds = GetCardIds(scheduleId);
+
+            /* Get cards by card id */
+            var scheduleCards = scheduleCardIds.Select(x => Cards.GetCard(x));
+            return scheduleCards;
+        }
+
         public int SaveSchedule(int userId, List<int> cardIds)
         {
             /* Data validation */
