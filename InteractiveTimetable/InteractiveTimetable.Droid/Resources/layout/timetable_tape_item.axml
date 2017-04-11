@@ -10,9 +10,4 @@
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
         p1:id="@+id/tape_item_image" />
-    <ImageView
-        p1:src="@android:drawable/ic_menu_gallery"
-        p1:layout_width="match_parent"
-        p1:layout_height="match_parent"
-        p1:id="@+id/imageView2" />
 </FrameLayout>
