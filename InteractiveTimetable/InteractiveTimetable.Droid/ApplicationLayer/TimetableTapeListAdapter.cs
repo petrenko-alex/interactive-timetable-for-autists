@@ -1,15 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
-using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
@@ -18,6 +11,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     {
         #region Events
         public event Action<int, int> ItemClick;
+        public event Action<int, int> ItemLongClick;
         #endregion
 
         #region Properties
