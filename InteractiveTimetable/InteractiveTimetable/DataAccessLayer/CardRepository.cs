@@ -98,5 +98,43 @@ namespace InteractiveTimetable.DataAccessLayer
                                                       PhotoPathLength);
             }
         }
+
+        public void InitializeForDebugging()
+        {
+            var activityCardType = CardTypes.GetActivityCardType();
+            var goalCardType = CardTypes.GetMotivationGoalCardType();
+
+            /* Create activity cards */
+            int cardsCount = 24;
+            string fileName = "/cards/activity_cards/activity_card_";
+            string extension = ".png";
+
+            for (int i = 0; i < cardsCount; ++i)
+            {
+                var card = new Card()
+                {
+                    CardTypeId = activityCardType.Id,
+                    PhotoPath = fileName + (i + 1) + extension,
+                };
+
+                SaveCard(card);
+            }
+
+            /* Create motivation goal cards */
+            cardsCount = 5;
+            fileName = "/cards/motivation_goal_cards/motivation_goal_card_";
+
+            for (int i = 0; i < cardsCount; ++i)
+            {
+                var card = new Card()
+                {
+                    CardTypeId = goalCardType.Id,
+                    PhotoPath = fileName + (i + 1) + extension,
+                };
+
+                SaveCard(card);
+            }
+
+        }
     }
 }
