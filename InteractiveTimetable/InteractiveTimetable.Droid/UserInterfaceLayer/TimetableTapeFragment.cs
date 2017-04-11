@@ -12,6 +12,7 @@ using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.Droid.ApplicationLayer;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
@@ -32,6 +33,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Internal Variables
         private RecyclerView.LayoutManager _layoutManager;
         private TimetableTapeListAdapter _tapeItemListAdapter;
+        private IList<Card> _tapeCards;
         private int _userId;
         #endregion
 
@@ -42,11 +44,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Methods
 
         #region Construct Methods
-        public static TimetableTapeFragment NewInstance(int userId)
+        public static TimetableTapeFragment NewInstance(int userId, IList<Card> tapeCards)
         {
             var timetableTapeFragment = new TimetableTapeFragment()
             {
-                _userId = userId
+                _userId = userId,
+                _tapeCards = tapeCards,
             };
 
             return timetableTapeFragment;
@@ -54,10 +57,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Event Handlers
-
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
+
+            /* Get data */
+            var user = InteractiveTimetable.Current.UserManager.GetUser(_userId);
 
             /* Get views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.tape_item_list);
@@ -69,12 +74,30 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
             _recyclerView.SetLayoutManager(_layoutManager);
 
+            /* Set widgets data */
+            _userName.Text = user.FirstName;
+            _userImage.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
+
             /* Set up the adapter */
-            // Get cards 
-            //_tapeItemListAdapter = new TimetableTapeListAdapter(Activity,);
+            _tapeItemListAdapter = new TimetableTapeListAdapter(Activity, _tapeCards);
+            _tapeItemListAdapter.ItemClick += OnItemClick;
+            _tapeItemListAdapter.ItemLongClick += OnItemLongClick;
+            _recyclerView.SetAdapter(_tapeItemListAdapter);
 
             /* Set handlers */
             _editTapeButton.Click += OnEditTimetableTapeButtonClicked;
+
+            // TODO: Show message if no cards yet
+        }
+
+        private void OnItemLongClick(int tapeCardId, int positionInList)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnItemClick(int tapeCardId, int positionInList)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnEditTimetableTapeButtonClicked(object sender, EventArgs e)
@@ -89,12 +112,26 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             return inflater.Inflate(Resource.Layout.timetable_tape, container, false);
         }
-        #endregion
+
+        public override void OnDestroy()
+        {
+            _tapeItemListAdapter.ItemClick -= OnItemClick;
+            _tapeItemListAdapter.ItemLongClick -= OnItemLongClick;
+            _editTapeButton.Click -= OnEditTimetableTapeButtonClicked;
+            GC.Collect();
+
+            base.OnDestroy();
+        }
 
         #endregion
 
+        #region Other Methods
+        public void DataSetChanged()
+        {
+            // TODO: Implement when need to change schedule after timetable created or changed
+        }
+        #endregion
 
+        #endregion
     }
-
-
 }

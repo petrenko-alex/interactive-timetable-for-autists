@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -51,6 +52,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set lock screen button */
             _lockScreenButton = FindViewById<ImageButton>(Resource.Id.lock_screen_button);
             _lockScreenButton.Click += OnLockScreenButtonClicked;
+
+            /* Add timetable tapes */
+            /* Get users who has current hospital trips */
+            //var userSchedules = user.Schedules;
+            //var currentSchedule = userSchedules.Any()
+             //   ? userSchedules.OrderByDescending(x => x.CreateTime).FirstOrDefault() : null;
+
+            /* Get user schedule */
 
             _mainLayout.ViewTreeObserver.AddOnGlobalLayoutListener(this);
         }
