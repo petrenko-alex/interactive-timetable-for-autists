@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
     p1:minWidth="25px"
     p1:minHeight="25px"
     p1:layout_width="wrap_content"
-    p1:layout_height="wrap_content"
-    p1:id="@+id/tape_item_frame">
-    <ImageView
-        p1:src="@android:drawable/ic_menu_gallery"
-        p1:layout_width="match_parent"
-        p1:layout_height="match_parent"
-        p1:id="@+id/tape_item_image" />
-</FrameLayout>
+    p1:layout_height="match_parent"
+    p1:id="@+id/tape_item_layout"
+    p1:gravity="center">
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/tape_item_frame"
+        p1:layout_margin="5dp"
+        p1:layout_gravity="center">
+        <ImageView
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/tape_item_image"
+            p1:scaleType="centerCrop"
+            p1:layout_gravity="center" />
+    </FrameLayout>
+</LinearLayout>

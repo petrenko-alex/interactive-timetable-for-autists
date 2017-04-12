@@ -77,11 +77,19 @@
         android:layout_width="match_parent"
         android:layout_height="2dip"
         android:layout_marginTop="5dp" />
-    <LinearLayout
-        android:orientation="horizontal"
+    <ScrollView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/timetable_tape_layout" />
+        android:id="@+id/timetable_tape_scroll"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/timetable_tape_layout" />
+    </ScrollView>
 </LinearLayout>
