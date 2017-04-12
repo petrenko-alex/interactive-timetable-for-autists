@@ -10,9 +10,12 @@ namespace InteractiveTimetable.DataAccessLayer
     {
         public readonly CardTypeRepository CardTypes;
 
+        public int CardCount { get; set; }
+
         public CardRepository(SQLiteConnection connection) : base(connection)
         {
             CardTypes = new CardTypeRepository(connection);
+            CardCount = GetCards().Count();
         }
 
         public Card GetCard(int cardId)
@@ -30,17 +33,35 @@ namespace InteractiveTimetable.DataAccessLayer
             /* Data validation */
             Validate(card);
 
-            return _database.SaveItemCascade(card);
+            var savedId = _database.SaveItemCascade(card);
+
+            if (savedId > 0)
+            {
+                CardCount++;
+            }
+
+            return savedId;
         }
 
         public int DeleteCard(int cardId)
         {
-            return _database.DeleteItem<Card>(cardId);
+            int deletedAmount = _database.DeleteItem<Card>(cardId);
+
+            if (deletedAmount > 0)
+            {
+                CardCount--;
+            }
+
+            return deletedAmount;
         }
 
         public void DeleteCardCascade(Card card)
         {
-            _database.DeleteItemCascade(card);
+            if (card != null)
+            {
+                _database.DeleteItemCascade(card);
+                CardCount--;
+            }
         }
 
         public IEnumerable<Card> GetActivityCards()
