@@ -184,7 +184,7 @@
     <Content Include="Resources\Cards\ActivityCards\activity_card_1.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_10.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_11.png" />
-    <Content Include="Resources\Cards\ActivityCards\activity_card_12.jpg" />
+    <Content Include="Resources\Cards\ActivityCards\activity_card_12.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_13.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_14.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_15.png" />
@@ -198,12 +198,12 @@
     <Content Include="Resources\Cards\ActivityCards\activity_card_22.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_23.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_24.png" />
-    <Content Include="Resources\Cards\ActivityCards\activity_card_3.jpg" />
+    <Content Include="Resources\Cards\ActivityCards\activity_card_3.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_4.png" />
-    <Content Include="Resources\Cards\ActivityCards\activity_card_5.jpg" />
+    <Content Include="Resources\Cards\ActivityCards\activity_card_5.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_6.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_7.png" />
-    <Content Include="Resources\Cards\ActivityCards\activity_card_8.jpg" />
+    <Content Include="Resources\Cards\ActivityCards\activity_card_8.png" />
     <Content Include="Resources\Cards\ActivityCards\activity_card_9.png" />
     <Content Include="Resources\Cards\GoalCards\motivation_goal_card_1.png" />
     <Content Include="Resources\Cards\GoalCards\motivation_goal_card_2.png" />
