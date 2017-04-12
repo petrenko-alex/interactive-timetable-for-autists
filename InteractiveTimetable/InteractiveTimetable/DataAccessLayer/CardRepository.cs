@@ -120,14 +120,14 @@ namespace InteractiveTimetable.DataAccessLayer
             }
         }
 
-        public void InitializeForDebugging()
+        public void InitializeForDebugging(string appFolderPath)
         {
             var activityCardType = CardTypes.GetActivityCardType();
             var goalCardType = CardTypes.GetMotivationGoalCardType();
 
             /* Create activity cards */
             int cardsCount = 24;
-            string fileName = "/cards/activity_cards/activity_card_";
+            string fileName = appFolderPath + "/cards/activity_cards/activity_card_";
             string extension = ".png";
 
             for (int i = 0; i < cardsCount; ++i)
@@ -143,7 +143,7 @@ namespace InteractiveTimetable.DataAccessLayer
 
             /* Create motivation goal cards */
             cardsCount = 5;
-            fileName = "/cards/motivation_goal_cards/motivation_goal_card_";
+            fileName = appFolderPath + "/cards/motivation_goal_cards/motivation_goal_card_";
 
             for (int i = 0; i < cardsCount; ++i)
             {
