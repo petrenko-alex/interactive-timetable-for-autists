@@ -71,6 +71,16 @@ namespace InteractiveTimetable.Droid
             {
                 HospitalTripManager.InitializeForDebugging(UserManager);
             }
+
+            if (ScheduleManager.Cards.CardCount == 0)
+            {
+                ScheduleManager.Cards.InitializeForDebugging(AppFolder);
+            }
+
+            if (ScheduleManager.ScheduleCount == 0)
+            {
+                ScheduleManager.InitializeForDebugging(UserManager);
+            }
         }
 
         private void CreateDirectoryForPictures()
