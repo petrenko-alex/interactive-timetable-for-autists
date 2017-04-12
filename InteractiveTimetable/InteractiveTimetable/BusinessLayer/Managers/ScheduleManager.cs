@@ -11,11 +11,13 @@ namespace InteractiveTimetable.BusinessLayer.Managers
     {
         private readonly ScheduleRepository _repository;
         public readonly CardRepository Cards;
+        public int ScheduleCount { get; set; }
 
         public ScheduleManager(SQLiteConnection connection)
         {
             Cards = new CardRepository(connection);
             _repository = new ScheduleRepository(connection);
+            ScheduleCount = _repository.GetSchedules().Count();
         }
 
         public Schedule GetSchedule(int scheduleId)
@@ -58,7 +60,14 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 ScheduleItems = scheduleItems,
             };
 
-            return _repository.SaveSchedule(schedule);
+            int savedId = _repository.SaveSchedule(schedule);
+
+            if (savedId > 0)
+            {
+                ScheduleCount++;
+            }
+
+            return savedId;
         }
 
         public int UpdateSchedule(int scheduleId, List<int> cardIds)
@@ -77,8 +86,12 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         internal void DeleteSchedule(int scheduleId)
         {
             var schedule = GetSchedule(scheduleId);
-            FinishSchedule(scheduleId);
-            _repository.DeleteScheduleCascade(schedule);
+            if (schedule != null)
+            {
+                FinishSchedule(scheduleId);
+                _repository.DeleteScheduleCascade(schedule);
+                ScheduleCount--;
+            }
         }
 
         public void CompleteSchedule(int scheduleId)
