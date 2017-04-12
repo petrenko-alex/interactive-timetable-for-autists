@@ -6,6 +6,8 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
+using System.Collections.Generic;
+using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -22,6 +24,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TextClock _clock;
         private ImageButton _managementPanelButton;
         private ImageButton _lockScreenButton;
+        #endregion
+
+        #region Fragments
+        private IList<TimetableTapeFragment> _tapeFragments;
         #endregion
 
         #region Flags
@@ -54,14 +60,31 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _lockScreenButton.Click += OnLockScreenButtonClicked;
 
             /* Add timetable tapes */
-            /* Get users who has current hospital trips */
-            //var userSchedules = user.Schedules;
-            //var currentSchedule = userSchedules.Any()
-             //   ? userSchedules.OrderByDescending(x => x.CreateTime).FirstOrDefault() : null;
+            AddTimetableTapeFragments();
+            /*_tapeFragments = new List<TimetableTapeFragment>();
+            var currentUsers = InteractiveTimetable.Current.UserManager.
+                                                    GetUsersForCurrentTimetable().
+                                                    ToList();
 
-            /* Get user schedule */
+            var user = currentUsers[0];
 
-            _mainLayout.ViewTreeObserver.AddOnGlobalLayoutListener(this);
+            var userSchedules = user.Schedules;
+
+            var currentSchedule =
+                userSchedules.Any()
+                ? userSchedules.OrderByDescending(x => x.CreateTime).FirstOrDefault()
+                : null;
+
+            if (currentSchedule != null)
+            {
+                var scheduleCards = InteractiveTimetable.Current.ScheduleManager.
+                                                         GetScheduleCards(currentSchedule.Id).
+                                                         ToList();
+
+                AddTimetableTapeFragment(user.Id, scheduleCards);
+            }*/
+
+            //_mainLayout.ViewTreeObserver.AddOnGlobalLayoutListener(this);
         }
 
         private void OnManagementPanelButtonClicked(object sender, EventArgs e)
@@ -146,5 +169,64 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             _mainLayout.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
         }
+
+        private void OnEditTimetableTapeButtonClicked(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        #region Other Methods
+        private void AddTimetableTapeFragment(int userId, IList<Card> scheduleCards)
+        {
+            /* Create tape fragment */
+            var tapeFragment = TimetableTapeFragment.NewInstance(userId, scheduleCards);
+            tapeFragment.EditTimetableTapeButtonClicked += OnEditTimetableTapeButtonClicked;
+
+            /* Add fragment to fragments list */
+            _tapeFragments.Add(tapeFragment);
+
+            /* Add fragment to layout */
+            AddFragment(
+                Resource.Id.timetable_tape_layout,
+                tapeFragment,
+                TimetableTapeFragment.FragmentTag + "_" + userId
+            );
+        }
+
+        private void AddTimetableTapeFragments()
+        {
+            _tapeFragments = new List<TimetableTapeFragment>();
+            var currentUsers = InteractiveTimetable.Current.UserManager.
+                                                    GetUsersForCurrentTimetable().
+                                                    ToList();
+
+            foreach (var user in currentUsers)
+            {
+                /* Get current user schedule as latest schedule */
+                var userSchedules = user.Schedules;
+                var currentSchedule =
+                    userSchedules.Any()
+                    ? userSchedules.OrderByDescending(x => x.CreateTime).FirstOrDefault()
+                    : null;
+
+                if (currentSchedule != null)
+                {
+                    var scheduleCards = InteractiveTimetable.Current.ScheduleManager.
+                                                             GetScheduleCards(currentSchedule.Id).
+                                                             ToList();
+
+                    AddTimetableTapeFragment(user.Id, scheduleCards);
+                }
+            }
+        }
+
+        private void AddFragment(int viewToAdd, Fragment fragmentToAdd, string fragmentTag)
+        {
+            var transaction = FragmentManager.BeginTransaction();
+            transaction.Add(viewToAdd, fragmentToAdd, fragmentTag);
+            transaction.SetTransition(FragmentTransit.FragmentFade);
+            transaction.Commit();
+        }
+        #endregion
     }
 }
