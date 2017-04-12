@@ -253,12 +253,12 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 var cardIdsForSchedule = new List<int>();
                 for (int i = 0; i < cardsCountForSchedule; ++i)
                 {
-                    int activityCardNumber = randomizer.Next(0, activityCardsCount + 1);
+                    int activityCardNumber = randomizer.Next(0, activityCardsCount);
                     cardIdsForSchedule.Add(activityCards[activityCardNumber].Id);
                 }
 
                 /* Choose motivation goal card */
-                int goalCardNumber = randomizer.Next(0, goalCardsCount + 1);
+                int goalCardNumber = randomizer.Next(0, goalCardsCount);
                 cardIdsForSchedule.Add(goalCards[goalCardNumber].Id);
 
                 /* Create schedule for user */
