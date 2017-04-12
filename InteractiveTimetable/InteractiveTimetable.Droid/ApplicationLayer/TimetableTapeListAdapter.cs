@@ -41,7 +41,14 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
             if (viewHolder != null)
             {
-                viewHolder.ItemImage.SetImageURI(Android.Net.Uri.Parse(tapeItemAtPosition.PhotoPath));
+                // TODO: Change to normal load - viewHolder.ItemImage.SetImageURI(Android.Net.Uri.Parse(tapeItemAtPosition.PhotoPath));
+                var imageSize = ImageHelper.ConvertPixelsToDp(
+                    60,
+                    InteractiveTimetable.Current.ScreenDensity
+                );
+                var bitmap = tapeItemAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                viewHolder.ItemImage.SetImageBitmap(bitmap);
+
                 viewHolder.TapeItemId = tapeItemAtPosition.Id;
                 viewHolder.PositionInList = position;
             }
