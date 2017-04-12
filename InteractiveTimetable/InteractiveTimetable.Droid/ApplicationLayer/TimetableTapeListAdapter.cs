@@ -43,7 +43,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             {
                 // TODO: Change to normal load - viewHolder.ItemImage.SetImageURI(Android.Net.Uri.Parse(tapeItemAtPosition.PhotoPath));
                 var imageSize = ImageHelper.ConvertPixelsToDp(
-                    60,
+                    80,
                     InteractiveTimetable.Current.ScreenDensity
                 );
                 var bitmap = tapeItemAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
