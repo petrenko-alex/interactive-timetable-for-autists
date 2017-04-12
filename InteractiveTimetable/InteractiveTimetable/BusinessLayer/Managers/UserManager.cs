@@ -30,6 +30,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return _repository.GetUsers();
         }
 
+        public IEnumerable<User> GetUsersForCurrentTimetable()
+        {
+            return GetUsers().Where(x => IsUserInPresentTimetable(x.Id));
+        }
+
         public int SaveUser(User user)
         {
             /* Data validation */
