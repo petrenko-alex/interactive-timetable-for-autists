@@ -249,7 +249,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 int goalCardsCount = goalCards.Count;
 
                 /* Choose activity card set */
-                int cardsCountForSchedule = 10;
+                int cardsCountForSchedule = 15;
                 var cardIdsForSchedule = new List<int>();
                 for (int i = 0; i < cardsCountForSchedule; ++i)
                 {
