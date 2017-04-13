@@ -69,6 +69,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _editTapeButton = Activity.FindViewById<ImageButton>(Resource.Id.tape_edit_button);
             _userName = Activity.FindViewById<TextView>(Resource.Id.tape_user_name);
             _userImage = Activity.FindViewById<ImageView>(Resource.Id.tape_user_image);
+            GenerateNewIdsForViews();
 
             /* Set up layout manager */
             _layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
@@ -129,6 +130,30 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public void DataSetChanged()
         {
             // TODO: Implement when need to change schedule after timetable created or changed
+        }
+
+        public void GenerateNewIdsForViews()
+        {
+            int newId = View.GenerateViewId();
+
+            /* New id for _recyclerView */
+            _recyclerView.Id = newId;
+            _recyclerView = Activity.FindViewById<RecyclerView>(newId);
+
+            /* New id for _editTapeButton */
+            newId = View.GenerateViewId();
+            _editTapeButton.Id = newId;
+            _editTapeButton = Activity.FindViewById<ImageButton>(newId);
+
+            /* New id for _userName */
+            newId = View.GenerateViewId();
+            _userName.Id = newId;
+            _userName = Activity.FindViewById<TextView>(newId);
+
+            /* New if for _userImage */
+            newId = View.GenerateViewId();
+            _userImage.Id = newId;
+            _userImage = Activity.FindViewById<ImageView>(newId);
         }
         #endregion
 
