@@ -82,7 +82,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Set up layout manager */
             _layoutManager = new LockableLinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
-            _layoutManager.TriedToScrollWhenLocked += OnLockedClicked;
             _recyclerView.SetLayoutManager(_layoutManager);
 
             /* Set up scroll listener for recycler view */

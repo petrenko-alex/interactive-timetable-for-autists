@@ -49,9 +49,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _timetableTapeLayout = FindViewById<LinearLayout>(Resource.Id.timetable_tape_layout);
             _timetableTapeScroll = FindViewById<LockableScrollView>(Resource.Id.timetable_tape_scroll);
 
-            /* Set scroll locker */
-            _timetableTapeScroll.TriedToScrollWhenLocked += OnTriedToScrollWhenLocked;
-
             /* Set management panel button */
             _managementPanelButton = FindViewById<ImageButton>(Resource.Id.management_panel_button);
             _managementPanelButton.Click += OnManagementPanelButtonClicked;

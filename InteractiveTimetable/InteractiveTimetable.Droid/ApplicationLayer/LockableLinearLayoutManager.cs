@@ -8,10 +8,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     internal class LockableLinearLayoutManager : LinearLayoutManager
     {
-        #region Events
-        public event Action TriedToScrollWhenLocked;
-        #endregion
-
         #region Properties
         public bool IsScrollEnabled { get; set; } = true;
         #endregion
@@ -32,21 +28,11 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #region Other Methods
         public override bool CanScrollHorizontally()
         {
-            if (!IsScrollEnabled)
-            {
-                TriedToScrollWhenLocked?.Invoke();
-            }
-
             return IsScrollEnabled && base.CanScrollHorizontally();
         }
 
         public override bool CanScrollVertically()
         {
-            if (!IsScrollEnabled)
-            {
-                TriedToScrollWhenLocked?.Invoke();
-            }
-
             return IsScrollEnabled && base.CanScrollVertically();
         }
         #endregion

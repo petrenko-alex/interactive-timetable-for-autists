@@ -10,10 +10,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     [Register("petrenko.alexander.InteractiveTimetable.Droid.ApplicationLayer.LockableScrollView")]
     internal class LockableScrollView : ScrollView
     {
-        #region Events
-        public event Action TriedToScrollWhenLocked;
-        #endregion
-
         #region Properties
         public bool IsScrollEnabled { get; set; } = true;
         #endregion
@@ -43,7 +39,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         {
             if (!IsScrollEnabled)
             {
-                TriedToScrollWhenLocked?.Invoke();
                 return false;
             }
 
@@ -62,8 +57,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                             return base.OnTouchEvent(e);
                         }
 
-                        /* If not return false and send event */
-                        TriedToScrollWhenLocked?.Invoke();
+                        /* If not return false */
                         return IsScrollEnabled;
                     }
                 default:
@@ -77,21 +71,11 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #region Other Methods
         public override bool CanScrollHorizontally(int direction)
         {
-            if (!IsScrollEnabled)
-            {
-                TriedToScrollWhenLocked?.Invoke();
-            }
-
             return IsScrollEnabled && base.CanScrollHorizontally(direction);
         }
 
         public override bool CanScrollVertically(int direction)
         {
-            if (!IsScrollEnabled)
-            {
-                TriedToScrollWhenLocked?.Invoke();
-            }
-
             return IsScrollEnabled && base.CanScrollVertically(direction);
         }
         #endregion
