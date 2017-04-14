@@ -86,7 +86,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _timetableTapeScroll.IsScrollEnabled = true;
                 foreach (var fragment in _tapeFragments)
                 {
-                    fragment.View.Click -= OnLockedScreenClicked;
                     fragment.UnlockFragment();
                 }
 
@@ -110,7 +109,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _timetableTapeScroll.IsScrollEnabled = false;
                 foreach (var fragment in _tapeFragments)
                 {
-                    fragment.View.Click += OnLockedScreenClicked;
                     fragment.LockFragment();
                 }
 
