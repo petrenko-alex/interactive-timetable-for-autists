@@ -109,6 +109,7 @@
     <Compile Include="ApplicationLayer\UserListAdapter.cs" />
     <Compile Include="ApplicationLayer\UserListEventArgs.cs" />
     <Compile Include="ApplicationLayer\UserViewHolder.cs" />
+    <Compile Include="ApplicationLayer\XamarinRecyclerViewOnScrollListener.cs" />
     <Compile Include="InteractiveTimetable.cs" />
     <Compile Include="UserDetailsActivivty.cs" />
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />

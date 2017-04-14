@@ -28,10 +28,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private ImageButton _editTapeButton;
         private TextView _userName;
         private ImageView _userImage;
+        private FrameLayout _staticGoalCardFrame;
+        private ImageView _staticGoalCard;
         #endregion
 
         #region Internal Variables
-        private RecyclerView.LayoutManager _layoutManager;
+        private LinearLayoutManager _layoutManager;
         private TimetableTapeListAdapter _tapeItemListAdapter;
         private IList<Card> _tapeCards;
         private int _userId;
@@ -69,15 +71,34 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _editTapeButton = Activity.FindViewById<ImageButton>(Resource.Id.tape_edit_button);
             _userName = Activity.FindViewById<TextView>(Resource.Id.tape_user_name);
             _userImage = Activity.FindViewById<ImageView>(Resource.Id.tape_user_image);
+            _staticGoalCard = Activity.FindViewById<ImageView>(Resource.Id.static_goal_card);
+            _staticGoalCardFrame =
+                    Activity.FindViewById<FrameLayout>(Resource.Id.static_goal_card_frame);
             GenerateNewIdsForViews();
 
             /* Set up layout manager */
             _layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
             _recyclerView.SetLayoutManager(_layoutManager);
 
+            /* Set up scroll listener for recycler view */
+            var onScrollListener = new XamarinRecyclerViewOnScrollListener(
+                _layoutManager,
+                _tapeCards.Count - 1
+            );
+            onScrollListener.LastItemIsVisible += OnLastItemIsVisible;
+            onScrollListener.LastItemIsHidden += OnLastItemIsHidden;
+            _recyclerView.AddOnScrollListener(onScrollListener);
+
             /* Set widgets data */
             _userName.Text = user.FirstName;
             _userImage.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
+            // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeCards.Last().PhotoPath));
+            var imageSize = ImageHelper.ConvertDpToPixels(
+                140,
+                InteractiveTimetable.Current.ScreenDensity
+            );
+            var bitmap = _tapeCards.Last().PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+            _staticGoalCard.SetImageBitmap(bitmap);
 
             /* Set up the adapter */
             _tapeItemListAdapter = new TimetableTapeListAdapter(Activity, _tapeCards);
@@ -89,6 +110,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _editTapeButton.Click += OnEditTimetableTapeButtonClicked;
 
             // TODO: Show message if no cards yet
+        }
+
+        private void OnLastItemIsHidden()
+        {
+            _staticGoalCardFrame.Visibility = ViewStates.Visible;
+        }
+
+        private void OnLastItemIsVisible()
+        {
+            _staticGoalCardFrame.Visibility = ViewStates.Gone;
         }
 
         private void OnItemLongClick(int tapeCardId, int positionInList)
@@ -119,6 +150,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _tapeItemListAdapter.ItemClick -= OnItemClick;
             _tapeItemListAdapter.ItemLongClick -= OnItemLongClick;
             _editTapeButton.Click -= OnEditTimetableTapeButtonClicked;
+            _recyclerView.ClearOnScrollListeners();
             GC.Collect();
 
             base.OnDestroy();
@@ -150,10 +182,20 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userName.Id = newId;
             _userName = Activity.FindViewById<TextView>(newId);
 
-            /* New if for _userImage */
+            /* New id for _userImage */
             newId = View.GenerateViewId();
             _userImage.Id = newId;
             _userImage = Activity.FindViewById<ImageView>(newId);
+
+            /* New id for _staticGoalCard */
+            newId = View.GenerateViewId();
+            _staticGoalCard.Id = newId;
+            _staticGoalCard = Activity.FindViewById<ImageView>(newId);
+
+            /* New id for _staticGoalCardFrame */
+            newId = View.GenerateViewId();
+            _staticGoalCardFrame.Id = newId;
+            _staticGoalCardFrame = Activity.FindViewById<FrameLayout>(newId);
         }
         #endregion
 
