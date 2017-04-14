@@ -1,60 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
-    p1:orientation="horizontal"
+<FrameLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:minWidth="25px"
+    p1:minHeight="25px"
     p1:layout_width="match_parent"
     p1:layout_height="wrap_content"
-    p1:id="@+id/tape_main_layout"
-    p1:background="@drawable/round_corner_frame">
-    <FrameLayout
-        p1:minWidth="25px"
-        p1:minHeight="25px"
-        p1:layout_width="wrap_content"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/frameLayout1"
-        p1:clipToPadding="false"
-        p1:clipChildren="false">
-        <TextView
-            p1:text="Александр"
-            p1:layout_width="100dp"
-            p1:id="@+id/tape_user_name"
-            p1:rotation="-90"
-            p1:layout_height="160dp"
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:gravity="center"
-            p1:ellipsize="end" />
-    </FrameLayout>
-    <ImageView
-        p1:src="@android:drawable/ic_menu_gallery"
-        p1:layout_width="150dp"
-        p1:layout_height="150dp"
-        p1:id="@+id/tape_user_image"
-        p1:scaleType="centerCrop"
-        p1:layout_gravity="center" />
+    p1:id="@+id/frameLayout1">
     <LinearLayout
-        p1:orientation="vertical"
-        p1:minWidth="25px"
-        p1:minHeight="25px"
-        p1:layout_width="wrap_content"
-        p1:layout_height="match_parent"
-        p1:id="@+id/tape_control"
-        p1:layout_marginLeft="10dp">
-        <ImageButton
-            p1:src="@android:drawable/ic_menu_edit"
-            p1:layout_width="40dp"
-            p1:layout_height="40dp"
-            p1:id="@+id/tape_edit_button"
-            p1:background="@null"
-            p1:scaleType="centerCrop" />
-    </LinearLayout>
-    <View
-        p1:layout_width="1dp"
-        p1:layout_height="fill_parent"
-        p1:background="#00BFFF"
-        p1:layout_marginLeft="5dp" />
-    <android.support.v7.widget.RecyclerView
+        p1:orientation="horizontal"
         p1:layout_width="match_parent"
-        p1:layout_height="match_parent"
-        p1:id="@+id/tape_item_list"
-        p1:layout_margin="5dp"
-        p1:layout_gravity="center" />
-</LinearLayout>
+        p1:layout_height="wrap_content"
+        p1:id="@+id/tape_main_layout"
+        p1:background="@drawable/round_corner_frame"
+        p1:layout_marginBottom="10dp">
+        <FrameLayout
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/frameLayout1"
+            p1:clipToPadding="false"
+            p1:clipChildren="false">
+            <TextView
+                p1:text="Александр"
+                p1:layout_width="100dp"
+                p1:id="@+id/tape_user_name"
+                p1:rotation="-90"
+                p1:layout_height="160dp"
+                p1:textAppearance="?android:attr/textAppearanceMedium"
+                p1:gravity="center"
+                p1:ellipsize="end" />
+        </FrameLayout>
+        <ImageView
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_width="150dp"
+            p1:layout_height="150dp"
+            p1:id="@+id/tape_user_image"
+            p1:scaleType="centerCrop"
+            p1:layout_gravity="center" />
+        <LinearLayout
+            p1:orientation="vertical"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/tape_control"
+            p1:layout_marginLeft="10dp">
+            <ImageButton
+                p1:src="@android:drawable/ic_menu_edit"
+                p1:layout_width="40dp"
+                p1:layout_height="40dp"
+                p1:id="@+id/tape_edit_button"
+                p1:background="@null"
+                p1:scaleType="centerCrop" />
+        </LinearLayout>
+        <View
+            p1:layout_width="1dp"
+            p1:layout_height="fill_parent"
+            p1:background="#00BFFF"
+            p1:layout_marginLeft="5dp"
+            p1:id="@+id/view1" />
+        <android.support.v7.widget.RecyclerView
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/tape_item_list"
+            p1:layout_margin="5dp"
+            p1:layout_gravity="center" />
+    </LinearLayout>
+</FrameLayout>

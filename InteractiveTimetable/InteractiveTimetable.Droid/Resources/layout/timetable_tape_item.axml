@@ -17,8 +17,8 @@
         p1:layout_gravity="center">
         <ImageView
             p1:src="@android:drawable/ic_menu_gallery"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
+            p1:layout_width="140dp"
+            p1:layout_height="140dp"
             p1:id="@+id/tape_item_image"
             p1:scaleType="centerCrop"
             p1:layout_gravity="center" />
