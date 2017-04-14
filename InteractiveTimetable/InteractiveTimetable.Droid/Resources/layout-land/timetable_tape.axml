@@ -63,7 +63,6 @@
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
             p1:id="@+id/tape_item_list"
-            p1:layout_margin="5dp"
             p1:layout_gravity="center"
             p1:layout_weight="1" />
         <FrameLayout
@@ -74,12 +73,14 @@
             p1:id="@+id/static_goal_card_frame"
             p1:layout_gravity="center"
             p1:background="@drawable/red_round_corner_frame"
-            p1:padding="5dp">
+            p1:padding="5dp"
+            p1:layout_margin="5dp">
             <ImageView
                 p1:src="@android:drawable/ic_menu_gallery"
                 p1:layout_width="140dp"
                 p1:layout_height="140dp"
-                p1:id="@+id/static_goal_card" />
+                p1:id="@+id/static_goal_card"
+                p1:layout_gravity="center" />
         </FrameLayout>
     </LinearLayout>
 </FrameLayout>
