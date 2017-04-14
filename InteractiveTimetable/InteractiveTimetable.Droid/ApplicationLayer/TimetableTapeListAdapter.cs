@@ -42,12 +42,33 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             if (viewHolder != null)
             {
                 // TODO: Change to normal load - viewHolder.ItemImage.SetImageURI(Android.Net.Uri.Parse(tapeItemAtPosition.PhotoPath));
-                var imageSize = ImageHelper.ConvertPixelsToDp(
-                    80,
+                var imageSize = ImageHelper.ConvertDpToPixels(
+                    140,
                     InteractiveTimetable.Current.ScreenDensity
                 );
                 var bitmap = tapeItemAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
                 viewHolder.ItemImage.SetImageBitmap(bitmap);
+
+                /* Set frame for motivation goal card */
+                bool isGoalCard =
+                        InteractiveTimetable.Current.ScheduleManager.Cards.CardTypes.
+                                             IsMotivationGoalCardType(tapeItemAtPosition.CardTypeId);
+                if (isGoalCard)
+                {
+                    viewHolder.ItemFrame.SetBackgroundResource(Resource.Drawable.red_round_corner_frame);
+
+                    int paddingDp = 5;
+                    int paddingPx = ImageHelper.ConvertDpToPixels(
+                        paddingDp,
+                        InteractiveTimetable.Current.ScreenDensity
+                    );
+                    viewHolder.ItemFrame.SetPadding(
+                        paddingPx,
+                        paddingPx,
+                        paddingPx,
+                        paddingPx
+                    );
+                }
 
                 viewHolder.TapeItemId = tapeItemAtPosition.Id;
                 viewHolder.PositionInList = position;
