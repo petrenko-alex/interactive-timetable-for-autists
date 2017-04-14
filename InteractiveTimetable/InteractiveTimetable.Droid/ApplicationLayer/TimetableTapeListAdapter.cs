@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Graphics;
 using Android.Support.V7.Widget;
 using Android.Views;
 using InteractiveTimetable.BusinessLayer.Models;
@@ -55,19 +56,11 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                                              IsMotivationGoalCardType(tapeItemAtPosition.CardTypeId);
                 if (isGoalCard)
                 {
-                    viewHolder.ItemFrame.SetBackgroundResource(Resource.Drawable.red_round_corner_frame);
-
-                    int paddingDp = 5;
-                    int paddingPx = ImageHelper.ConvertDpToPixels(
-                        paddingDp,
-                        InteractiveTimetable.Current.ScreenDensity
-                    );
-                    viewHolder.ItemFrame.SetPadding(
-                        paddingPx,
-                        paddingPx,
-                        paddingPx,
-                        paddingPx
-                    );
+                    AdjustCardFrame(viewHolder, false);
+                }
+                else
+                {
+                    AdjustCardFrame(viewHolder, true);
                 }
 
                 viewHolder.TapeItemId = tapeItemAtPosition.Id;
@@ -93,6 +86,33 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         private void OnItemClick(View view, int arg2, int arg3)
         {
             // TODO: Activity completed - show animation 
+        }
+        #endregion
+
+        #region Other Methods
+        private void AdjustCardFrame(TimetableTapeItemViewHolder viewHolder, bool isHidden)
+        {
+            if (!isHidden)
+            {
+                viewHolder.ItemFrame.SetBackgroundResource(Resource.Drawable.red_round_corner_frame);
+
+                int paddingDp = 5;
+                int paddingPx = ImageHelper.ConvertDpToPixels(
+                    paddingDp,
+                    InteractiveTimetable.Current.ScreenDensity
+                );
+                viewHolder.ItemFrame.SetPadding(
+                    paddingPx,
+                    paddingPx,
+                    paddingPx,
+                    paddingPx
+                );
+            }
+            else
+            {
+                viewHolder.ItemFrame.SetBackgroundColor(Color.Transparent);
+                viewHolder.ItemFrame.SetPadding(0, 0, 0, 0);
+            }
         }
         #endregion
 
