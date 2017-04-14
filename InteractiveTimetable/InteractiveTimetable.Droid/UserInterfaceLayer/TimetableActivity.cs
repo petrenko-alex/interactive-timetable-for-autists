@@ -25,6 +25,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private ImageButton _managementPanelButton;
         private ImageButton _lockScreenButton;
         private LockableScrollView _timetableTapeScroll;
+        private Toast _toastMessage;
         #endregion
 
         #region Fragments
@@ -122,8 +123,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnLockedScreenClicked(object sender, EventArgs e)
         {
-            var toast = ToastHelper.GetInfoToast(this, GetString(Resource.String.screen_is_locked));
-            toast.Show();
+            if (_toastMessage == null ||
+                _toastMessage.View.WindowVisibility != ViewStates.Visible)
+            {
+                _toastMessage = ToastHelper.GetInfoToast(this, GetString(Resource.String.screen_is_locked));
+                _toastMessage.Show();
+            }
         }
 
         public void OnGlobalLayout()
