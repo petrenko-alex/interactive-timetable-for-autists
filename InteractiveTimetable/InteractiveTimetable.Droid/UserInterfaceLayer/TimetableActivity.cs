@@ -24,6 +24,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TextClock _clock;
         private ImageButton _managementPanelButton;
         private ImageButton _lockScreenButton;
+        private LockableScrollView _timetableTapeScroll;
         #endregion
 
         #region Fragments
@@ -46,6 +47,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Get layouts */
             _mainLayout = FindViewById<LinearLayout>(Resource.Id.timetable_main_layout);
             _timetableTapeLayout = FindViewById<LinearLayout>(Resource.Id.timetable_tape_layout);
+            _timetableTapeScroll = FindViewById<LockableScrollView>(Resource.Id.timetable_tape_scroll);
+
+            /* Set scroll locker */
+            _timetableTapeScroll.TriedToScrollWhenLocked += OnTriedToScrollWhenLocked;
 
             /* Set management panel button */
             _managementPanelButton = FindViewById<ImageButton>(Resource.Id.management_panel_button);
@@ -61,28 +66,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Add timetable tapes */
             AddTimetableTapeFragments();
-            /*_tapeFragments = new List<TimetableTapeFragment>();
-            var currentUsers = InteractiveTimetable.Current.UserManager.
-                                                    GetUsersForCurrentTimetable().
-                                                    ToList();
-
-            var user = currentUsers[0];
-
-            var userSchedules = user.Schedules;
-
-            var currentSchedule =
-                userSchedules.Any()
-                ? userSchedules.OrderByDescending(x => x.CreateTime).FirstOrDefault()
-                : null;
-
-            if (currentSchedule != null)
-            {
-                var scheduleCards = InteractiveTimetable.Current.ScheduleManager.
-                                                         GetScheduleCards(currentSchedule.Id).
-                                                         ToList();
-
-                AddTimetableTapeFragment(user.Id, scheduleCards);
-            }*/
 
             //_mainLayout.ViewTreeObserver.AddOnGlobalLayoutListener(this);
         }
@@ -102,6 +85,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Reset handler for locked screen */
                 _managementPanelButton.Click -= OnLockedScreenClicked;
                 _mainLayout.Click -= OnLockedScreenClicked;
+                _timetableTapeScroll.IsScrollEnabled = true;
+                foreach (var fragment in _tapeFragments)
+                {
+                    fragment.View.Click -= OnLockedScreenClicked;
+                    fragment.UnlockFragment();
+                }
 
                 /* Set function handlers*/
                 _managementPanelButton.Click += OnManagementPanelButtonClicked;
@@ -120,6 +109,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Set handler for lock screen */
                 _managementPanelButton.Click += OnLockedScreenClicked;
                 _mainLayout.Click += OnLockedScreenClicked;
+                _timetableTapeScroll.IsScrollEnabled = false;
+                foreach (var fragment in _tapeFragments)
+                {
+                    fragment.View.Click += OnLockedScreenClicked;
+                    fragment.LockFragment();
+                }
 
                 /* Set button image */
                 _lockScreenButton.SetImageResource(Resource.Drawable.locked_icon);
@@ -153,16 +148,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             Console.WriteLine($"Layout Height:{dpHeight1} dp");*/
 
             /* _timetableTapeLayout size in px */
-            int widthPx = _timetableTapeLayout.Width;
-            int heightPx = _timetableTapeLayout.Height;
+            var widthPx = _timetableTapeLayout.Width;
+            var heightPx = _timetableTapeLayout.Height;
 
             Console.WriteLine($"Layout Width:{widthPx} px");
             Console.WriteLine($"Layout Height:{heightPx} px");
 
             /* _timetableTapeLayout size in dp */
             var displayMetrics = Resources.DisplayMetrics;
-            float dpHeight = heightPx / displayMetrics.Density;
-            float dpWidth = widthPx / displayMetrics.Density;
+            var dpHeight = heightPx / displayMetrics.Density;
+            var dpWidth = widthPx / displayMetrics.Density;
 
             Console.WriteLine($"Layout Width:{dpWidth} dp");
             Console.WriteLine($"Layout Height:{dpHeight} dp");
@@ -172,7 +167,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnEditTimetableTapeButtonClicked(int userId)
         {
-            throw new NotImplementedException();
+            if (_isLocked)
+            {
+                OnLockedScreenClicked(this, null);
+                return;
+            }
+            Console.WriteLine("Edit timetable tape button clicked");
+        }
+
+        private void OnTriedToScrollWhenLocked()
+        {
+            OnLockedScreenClicked(this, null);
         }
 
         #region Other Methods
@@ -181,6 +186,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Create tape fragment */
             var tapeFragment = TimetableTapeFragment.NewInstance(userId, scheduleCards);
             tapeFragment.EditTimetableTapeButtonClicked += OnEditTimetableTapeButtonClicked;
+            tapeFragment.ClickedWhenLocked += OnLockedScreenClicked;
 
             /* Add fragment to fragments list */
             _tapeFragments.Add(tapeFragment);

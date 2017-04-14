@@ -33,14 +33,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Internal Variables
-        private LinearLayoutManager _layoutManager;
+        private XamarinRecyclerViewOnScrollListener _scrollListener;
+        private LockableLinearLayoutManager _layoutManager;
         private TimetableTapeListAdapter _tapeItemListAdapter;
         private IList<Card> _tapeCards;
         private int _userId;
+        private bool _isLocked; 
         #endregion
 
         #region Events
         public event Action<int> EditTimetableTapeButtonClicked;
+        public event Action<object, EventArgs> ClickedWhenLocked;
         #endregion
 
         #region Methods
@@ -52,6 +55,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 _userId = userId,
                 _tapeCards = tapeCards,
+                _isLocked =  false
             };
 
             return timetableTapeFragment;
@@ -77,17 +81,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             GenerateNewIdsForViews();
 
             /* Set up layout manager */
-            _layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
+            _layoutManager = new LockableLinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
+            _layoutManager.TriedToScrollWhenLocked += OnLockedClicked;
             _recyclerView.SetLayoutManager(_layoutManager);
 
             /* Set up scroll listener for recycler view */
-            var onScrollListener = new XamarinRecyclerViewOnScrollListener(
+            _scrollListener = new XamarinRecyclerViewOnScrollListener(
                 _layoutManager,
                 _tapeCards.Count - 1
             );
-            onScrollListener.LastItemIsVisible += OnLastItemIsVisible;
-            onScrollListener.LastItemIsHidden += OnLastItemIsHidden;
-            _recyclerView.AddOnScrollListener(onScrollListener);
+            _scrollListener.LastItemIsVisible += OnLastItemIsVisible;
+            _scrollListener.LastItemIsHidden += OnLastItemIsHidden;
+            _recyclerView.AddOnScrollListener(_scrollListener);
 
             /* Set widgets data */
             _userName.Text = user.FirstName;
@@ -122,14 +127,24 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _staticGoalCardFrame.Visibility = ViewStates.Gone;
         }
 
-        private void OnItemLongClick(int tapeCardId, int positionInList)
+        private void OnItemLongClick(View clickedView, int tapeCardId, int positionInList)
         {
-            throw new NotImplementedException();
+            if (_isLocked)
+            {
+                OnLockedClicked();
+                return;
+            }
+            Console.WriteLine("Item long clicked");
         }
 
-        private void OnItemClick(int tapeCardId, int positionInList)
+        private void OnItemClick(View clickedView, int tapeCardId, int positionInList)
         {
-            throw new NotImplementedException();
+            if (_isLocked)
+            {
+                OnLockedClicked();
+                return;
+            }
+            Console.WriteLine("Item clicked");
         }
 
         private void OnEditTimetableTapeButtonClicked(object sender, EventArgs e)
@@ -156,6 +171,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnDestroy();
         }
 
+        private void OnLockedClicked()
+        {
+            ClickedWhenLocked?.Invoke(this, null);
+        }
         #endregion
 
         #region Other Methods
@@ -196,6 +215,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             newId = View.GenerateViewId();
             _staticGoalCardFrame.Id = newId;
             _staticGoalCardFrame = Activity.FindViewById<FrameLayout>(newId);
+        }
+
+        public void LockFragment()
+        {
+            _isLocked = true;
+            _layoutManager.IsScrollEnabled = false;
+        }
+
+        public void UnlockFragment()
+        {
+            _isLocked = false;
+            _layoutManager.IsScrollEnabled = true;
         }
         #endregion
 

@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dip"
         android:layout_marginTop="5dp" />
-    <ScrollView
+    <petrenko.alexander.InteractiveTimetable.Droid.ApplicationLayer.LockableScrollView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
@@ -91,5 +91,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/timetable_tape_layout" />
-    </ScrollView>
+    </petrenko.alexander.InteractiveTimetable.Droid.ApplicationLayer.LockableScrollView>
 </LinearLayout>

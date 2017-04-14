@@ -100,6 +100,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationLayer\BtimapHelper.cs" />
+    <Compile Include="ApplicationLayer\LockableLinearLayoutManager.cs" />
+    <Compile Include="ApplicationLayer\LockableScrollView.cs" />
     <Compile Include="ApplicationLayer\HospitalTripListAdapter.cs" />
     <Compile Include="ApplicationLayer\HospitalTripViewHolder.cs" />
     <Compile Include="ApplicationLayer\ImageHelper.cs" />

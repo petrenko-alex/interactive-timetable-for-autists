@@ -11,8 +11,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     class TimetableTapeListAdapter : RecyclerView.Adapter
     {
         #region Events
-        public event Action<int, int> ItemClick;
-        public event Action<int, int> ItemLongClick;
+        public event Action<View, int, int> ItemClick;
+        public event Action<View, int, int> ItemLongClick;
         #endregion
 
         #region Properties
@@ -78,13 +78,15 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             return holder;
         }
 
-        private void OnItemLongClick(View arg1, int arg2, int arg3)
+        private void OnItemLongClick(View clickedView, int tapeItemId, int positionInList)
         {
+            ItemLongClick?.Invoke(clickedView, tapeItemId, positionInList);
             // TODO: Cancel activity completion
         }
 
-        private void OnItemClick(View view, int arg2, int arg3)
+        private void OnItemClick(View clickedView, int tapeItemId, int positionInList)
         {
+            ItemClick?.Invoke(clickedView, tapeItemId, positionInList);
             // TODO: Activity completed - show animation 
         }
         #endregion
