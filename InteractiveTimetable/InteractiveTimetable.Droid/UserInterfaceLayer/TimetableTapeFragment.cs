@@ -12,6 +12,7 @@ using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using AndroidViewAnimations;
 using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.Droid.ApplicationLayer;
 
@@ -143,6 +144,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 OnLockedClicked();
                 return;
             }
+            YoYo.With(Techniques.Bounce).Duration(700).PlayOn(clickedView);
             Console.WriteLine("Item clicked");
         }
 
