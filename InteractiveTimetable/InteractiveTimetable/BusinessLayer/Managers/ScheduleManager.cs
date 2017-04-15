@@ -102,6 +102,18 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             _repository.SaveSchedule(schedule);
         }
 
+        public void CompleteScheduleItem(int scheduleItemId)
+        {
+            var scheduleItem = _repository.ScheduleItems.GetScheduleItem(scheduleItemId);
+            SetScheduleItemCompleted(scheduleItem, true);
+        }
+
+        public void UncompleteScheduleItem(int scheduleItemId)
+        {
+            var scheduleItem = _repository.ScheduleItems.GetScheduleItem(scheduleItemId);
+            SetScheduleItemCompleted(scheduleItem, false);
+        }
+
         public void FinishSchedule(int scheduleId)
         {
             var schedule = GetSchedule(scheduleId);
@@ -232,6 +244,15 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return schedule.ScheduleItems.
                             OrderBy(x => x.OrderNumber).
                             Select(x => x.CardId);
+        }
+
+        private void SetScheduleItemCompleted(ScheduleItem scheduleItem, bool isCompleted)
+        {
+            if (scheduleItem != null)
+            {
+                scheduleItem.IsCompleted = isCompleted;
+                _repository.ScheduleItems.SaveScheduleItem(scheduleItem);
+            }
         }
 
         public void InitializeForDebugging(UserManager userManager)
