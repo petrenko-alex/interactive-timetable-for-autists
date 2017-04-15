@@ -9,6 +9,9 @@ namespace InteractiveTimetable.BusinessLayer.Models
         [NotNull]
         public int OrderNumber { get; set; }
 
+        [NotNull]
+        public bool IsCompleted { get; set; } = false;
+
         [ForeignKey(typeof(Schedule))]
         public int ScheduleId { get; set; }
 
@@ -25,7 +28,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
             return OrderNumber.Equals(item.OrderNumber) &&
                    ScheduleId.Equals(item.ScheduleId) &&
-                   CardId.Equals(item.CardId);
+                   CardId.Equals(item.CardId) &&
+                   IsCompleted.Equals(item.IsCompleted);
         }
 
         public bool Equals(ScheduleItem obj)
@@ -37,7 +41,8 @@ namespace InteractiveTimetable.BusinessLayer.Models
 
             return OrderNumber.Equals(obj.OrderNumber) &&
                    ScheduleId.Equals(obj.ScheduleId) &&
-                   CardId.Equals(obj.CardId);
+                   CardId.Equals(obj.CardId) &&
+                   IsCompleted.Equals(obj.IsCompleted);
         }
 
         public override int GetHashCode()
@@ -47,6 +52,7 @@ namespace InteractiveTimetable.BusinessLayer.Models
                 _hashCode = InitialHashValue;
 
                 _hashCode = _hashCode * HashNumber + OrderNumber.GetHashCode();
+                _hashCode = _hashCode * HashNumber + IsCompleted.GetHashCode();
                 _hashCode = _hashCode * HashNumber + ScheduleId.GetHashCode();
                 _hashCode = _hashCode * HashNumber + CardId.GetHashCode();
 
