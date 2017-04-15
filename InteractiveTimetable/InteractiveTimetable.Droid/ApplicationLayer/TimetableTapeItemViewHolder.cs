@@ -5,7 +5,7 @@ using Android.Widget;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
 {
-    class TimetableTapeItemViewHolder : RecyclerView.ViewHolder
+    internal class TimetableTapeItemViewHolder : RecyclerView.ViewHolder
     {
         #region Properties
         public ImageView ItemImage { get; }
@@ -16,18 +16,18 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         public TimetableTapeItemViewHolder(
             View itemView,
-            Action<View, int, int> listenetForClick,
-            Action<View, int, int> listenerForLongClick)
+            Action<TimetableTapeItemViewHolder, int, int> listenetForClick,
+            Action<TimetableTapeItemViewHolder, int, int> listenerForLongClick)
             : base(itemView)
         {
             ItemImage = itemView.FindViewById<ImageView>(Resource.Id.tape_item_image);
             ItemFrame = itemView.FindViewById<FrameLayout>(Resource.Id.tape_item_frame);
 
             itemView.Click += (sender, e) =>
-                listenetForClick(itemView, TapeItemId, PositionInList);
+                listenetForClick(this, TapeItemId, PositionInList);
 
             itemView.LongClick += (sender, e) =>
-                listenerForLongClick(itemView, TapeItemId, PositionInList);
+                listenerForLongClick(this, TapeItemId, PositionInList);
         }
     }
 }

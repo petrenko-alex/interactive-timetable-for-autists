@@ -181,10 +181,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         }
 
         #region Other Methods
-        private void AddTimetableTapeFragment(int userId, IList<Card> scheduleCards)
+        private void AddTimetableTapeFragment(int userId, IList<ScheduleItem> scheduleItems)
         {
             /* Create tape fragment */
-            var tapeFragment = TimetableTapeFragment.NewInstance(userId, scheduleCards);
+            var tapeFragment = TimetableTapeFragment.NewInstance(userId, scheduleItems);
             tapeFragment.EditTimetableTapeButtonClicked += OnEditTimetableTapeButtonClicked;
             tapeFragment.ClickedWhenLocked += OnLockedScreenClicked;
 
@@ -217,11 +217,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 if (currentSchedule != null)
                 {
-                    var scheduleCards = InteractiveTimetable.Current.ScheduleManager.
-                                                             GetScheduleCards(currentSchedule.Id).
-                                                             ToList();
+                    var scheduleItems = currentSchedule.ScheduleItems.ToList();                                                           
 
-                    AddTimetableTapeFragment(user.Id, scheduleCards);
+                    AddTimetableTapeFragment(user.Id, scheduleItems);
                 }
             }
         }

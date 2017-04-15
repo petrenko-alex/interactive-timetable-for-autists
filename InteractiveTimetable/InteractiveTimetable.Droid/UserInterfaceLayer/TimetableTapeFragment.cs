@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.Media;
+using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using AndroidViewAnimations;
@@ -37,7 +32,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private XamarinRecyclerViewOnScrollListener _scrollListener;
         private LockableLinearLayoutManager _layoutManager;
         private TimetableTapeListAdapter _tapeItemListAdapter;
-        private IList<Card> _tapeCards;
+        private IList<ScheduleItem> _tapeItems;
         private int _userId;
         private bool _isLocked; 
         #endregion
@@ -50,12 +45,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Methods
 
         #region Construct Methods
-        public static TimetableTapeFragment NewInstance(int userId, IList<Card> tapeCards)
+        public static TimetableTapeFragment NewInstance(int userId, IList<ScheduleItem> tapeItems)
         {
             var timetableTapeFragment = new TimetableTapeFragment()
             {
                 _userId = userId,
-                _tapeCards = tapeCards,
+                _tapeItems = tapeItems,
                 _isLocked =  false
             };
 
@@ -88,7 +83,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set up scroll listener for recycler view */
             _scrollListener = new XamarinRecyclerViewOnScrollListener(
                 _layoutManager,
-                _tapeCards.Count - 1
+                _tapeItems.Count - 1
             );
             _scrollListener.LastItemIsVisible += OnLastItemIsVisible;
             _scrollListener.LastItemIsHidden += OnLastItemIsHidden;
@@ -97,16 +92,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set widgets data */
             _userName.Text = user.FirstName;
             _userImage.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
-            // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeCards.Last().PhotoPath));
+            // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeItems.Last().PhotoPath));
             var imageSize = ImageHelper.ConvertDpToPixels(
                 140,
                 InteractiveTimetable.Current.ScreenDensity
             );
-            var bitmap = _tapeCards.Last().PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+            var card = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                            GetCard(_tapeItems.Last().CardId);
+            var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
             _staticGoalCard.SetImageBitmap(bitmap);
 
             /* Set up the adapter */
-            _tapeItemListAdapter = new TimetableTapeListAdapter(Activity, _tapeCards);
+            _tapeItemListAdapter = new TimetableTapeListAdapter(Activity, _tapeItems);
             _tapeItemListAdapter.ItemClick += OnItemClick;
             _tapeItemListAdapter.ItemLongClick += OnItemLongClick;
             _recyclerView.SetAdapter(_tapeItemListAdapter);
@@ -127,25 +124,48 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _staticGoalCardFrame.Visibility = ViewStates.Gone;
         }
 
-        private void OnItemLongClick(View clickedView, int tapeCardId, int positionInList)
+        private void OnItemLongClick(
+            TimetableTapeItemViewHolder viewHolder,
+            int tapeItemId,
+            int positionInList)
         {
+            /* If tape is locked send signal */
             if (_isLocked)
             {
                 OnLockedClicked();
                 return;
             }
-            Console.WriteLine("Item long clicked");
+
+            /* Mark as uncomplete in database */
+            InteractiveTimetable.Current.ScheduleManager.UncompleteScheduleItem(tapeItemId);
+
         }
 
-        private void OnItemClick(View clickedView, int tapeCardId, int positionInList)
+        private void OnItemClick(
+            TimetableTapeItemViewHolder viewHolder, 
+            int tapeItemId, 
+            int positionInList)
         {
+            /* If tape is locked send signal */
             if (_isLocked)
             {
                 OnLockedClicked();
                 return;
             }
-            YoYo.With(Techniques.Bounce).Duration(700).PlayOn(clickedView);
-            Console.WriteLine("Item clicked");
+
+            /* Mark as complete in database */
+            InteractiveTimetable.Current.ScheduleManager.CompleteScheduleItem(tapeItemId);
+
+            /* Put a green tick with animation */
+            PutOnGreenTick(viewHolder.ItemImage);
+           
+            /* Timer to scroll */
+
+            /* Check if schedule is completed */
+
+
+            /* Show animation */
+            YoYo.With(Techniques.Bounce).Duration(700).PlayOn(viewHolder.ItemImage);
         }
 
         private void OnEditTimetableTapeButtonClicked(object sender, EventArgs e)
@@ -228,6 +248,20 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _isLocked = false;
             _layoutManager.IsScrollEnabled = true;
+        }
+
+        private void PutOnGreenTick(ImageView imageView)
+        {
+            var layers = new Drawable[2];
+            layers[0] = imageView.Drawable;
+            layers[1] = Resources.GetDrawable(Resource.Drawable.green_tick);
+            var layerDrawable = new LayerDrawable(layers);
+            imageView.SetImageDrawable(layerDrawable);
+        }
+
+        private void PutOffGreenTick(ImageView imageView)
+        {
+
         }
         #endregion
 

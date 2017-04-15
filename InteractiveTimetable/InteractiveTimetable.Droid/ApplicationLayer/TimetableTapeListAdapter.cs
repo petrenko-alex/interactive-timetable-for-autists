@@ -11,12 +11,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     class TimetableTapeListAdapter : RecyclerView.Adapter
     {
         #region Events
-        public event Action<View, int, int> ItemClick;
-        public event Action<View, int, int> ItemLongClick;
+        public event Action<TimetableTapeItemViewHolder, int, int> ItemClick;
+        public event Action<TimetableTapeItemViewHolder, int, int> ItemLongClick;
         #endregion
 
         #region Properties
-        public IList<Card> TapeItems { get; set; }
+        public IList<ScheduleItem> TapeItems { get; set; }
         public override int ItemCount => TapeItems.Count;
         #endregion
 
@@ -27,7 +27,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #region Methods
 
         #region Construct Methods
-        public TimetableTapeListAdapter(Activity context, IList<Card> tapeItems)
+        public TimetableTapeListAdapter(Activity context, IList<ScheduleItem> tapeItems)
         {
             _context = context;
             TapeItems = tapeItems;
@@ -38,22 +38,24 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             var tapeItemAtPosition = TapeItems[position];
+            var card = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                            GetCard(tapeItemAtPosition.CardId);
             var viewHolder = holder as TimetableTapeItemViewHolder;
 
             if (viewHolder != null)
             {
-                // TODO: Change to normal load - viewHolder.ItemImage.SetImageURI(Android.Net.Uri.Parse(tapeItemAtPosition.PhotoPath));
+                // TODO: Change to normal load - viewHolder.ItemImage.SetImageURI(Android.Net.Uri.Parse(card.PhotoPath));
                 var imageSize = ImageHelper.ConvertDpToPixels(
                     140,
                     InteractiveTimetable.Current.ScreenDensity
                 );
-                var bitmap = tapeItemAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
                 viewHolder.ItemImage.SetImageBitmap(bitmap);
 
                 /* Set frame for motivation goal card */
                 bool isGoalCard =
                         InteractiveTimetable.Current.ScheduleManager.Cards.CardTypes.
-                                             IsMotivationGoalCardType(tapeItemAtPosition.CardTypeId);
+                                             IsMotivationGoalCardType(card.CardTypeId);
                 if (isGoalCard)
                 {
                     AdjustCardFrame(viewHolder, false);
@@ -78,16 +80,20 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             return holder;
         }
 
-        private void OnItemLongClick(View clickedView, int tapeItemId, int positionInList)
+        private void OnItemLongClick(
+            TimetableTapeItemViewHolder viewHolder, 
+            int tapeItemId, 
+            int positionInList)
         {
-            ItemLongClick?.Invoke(clickedView, tapeItemId, positionInList);
-            // TODO: Cancel activity completion
+            ItemLongClick?.Invoke(viewHolder, tapeItemId, positionInList);
         }
 
-        private void OnItemClick(View clickedView, int tapeItemId, int positionInList)
+        private void OnItemClick(
+            TimetableTapeItemViewHolder viewHolder, 
+            int tapeItemId, 
+            int positionInList)
         {
-            ItemClick?.Invoke(clickedView, tapeItemId, positionInList);
-            // TODO: Activity completed - show animation 
+            ItemClick?.Invoke(viewHolder, tapeItemId, positionInList);
         }
         #endregion
 
