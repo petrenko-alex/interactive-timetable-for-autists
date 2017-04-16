@@ -59,4 +59,6 @@
   <string name="screen_is_locked">
     Экран заблокирован. Для продолжения работы необходимо разблокировать экран.
   </string>
+  <string name="return_completed_schedule">Вернуть выполненное расписание</string>
+  <string name="schedule_is_completed">Все занятия на сегодня выполнены.</string>
 </resources>

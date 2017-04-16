@@ -65,6 +65,33 @@
             p1:id="@+id/tape_item_list"
             p1:layout_gravity="center"
             p1:layout_weight="1" />
+        <LinearLayout
+            p1:orientation="vertical"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/tape_info_layout"
+            p1:layout_weight="1"
+            p1:gravity="center"
+            p1:visibility="gone">
+            <TextView
+                p1:text="@string/schedule_is_completed"
+                p1:textAppearance="?android:attr/textAppearanceLarge"
+                p1:layout_width="match_parent"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/tape_info"
+                p1:gravity="center"
+                p1:layout_gravity="center" />
+            <Button
+                p1:text="@string/return_completed_schedule"
+                p1:layout_width="wrap_content"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/return_schedule_button"
+                p1:gravity="center"
+                p1:layout_gravity="center"
+                p1:layout_marginTop="10dp" />
+        </LinearLayout>
         <FrameLayout
             p1:minWidth="25px"
             p1:minHeight="25px"
