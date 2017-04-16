@@ -15,6 +15,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         private readonly int _lastItemPosition;
         #endregion
 
+        #region Properties
+        public int ScrollX1 { get; set; }
+        #endregion
+
         public XamarinRecyclerViewOnScrollListener(
             LinearLayoutManager layoutManager, 
             int lastItemPosition)
@@ -26,6 +30,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
         {
             base.OnScrolled(recyclerView, dx, dy);
+
+            ScrollX1 = ScrollX1 + dx;
 
             /* Check whether the last item is visible */
             var lastVisibleItemPosition = _layoutManager.FindLastVisibleItemPosition();
