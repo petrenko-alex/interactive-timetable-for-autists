@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
@@ -65,6 +67,16 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     AdjustCardFrame(viewHolder, true);
                 }
 
+                /* Set green tick if schedule item is completed */
+                if (tapeItemAtPosition.IsCompleted)
+                {
+                    PutOnGreenTick(viewHolder.ItemImage);
+                }
+                else
+                {
+                    PutOffGreenTick(viewHolder.ItemImage);
+                }
+
                 viewHolder.TapeItemId = tapeItemAtPosition.Id;
                 viewHolder.PositionInList = position;
             }
@@ -120,6 +132,25 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             {
                 viewHolder.ItemFrame.SetBackgroundColor(Color.Transparent);
                 viewHolder.ItemFrame.SetPadding(0, 0, 0, 0);
+            }
+        }
+
+        private void PutOnGreenTick(ImageView imageView)
+        {
+            var layers = new Drawable[2];
+            layers[0] = imageView.Drawable;
+            layers[1] = _context.Resources.GetDrawable(Resource.Drawable.green_tick);
+            var layerDrawable = new LayerDrawable(layers);
+            imageView.SetImageDrawable(layerDrawable);
+        }
+
+        private void PutOffGreenTick(ImageView imageView)
+        {
+            var layer = imageView.Drawable as LayerDrawable;
+            if (layer != null)
+            {
+                var cardImage = layer.GetDrawable(0);
+                imageView.SetImageDrawable(cardImage);
             }
         }
         #endregion
