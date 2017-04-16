@@ -71,8 +71,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Add timetable tapes */
             AddTimetableTapeFragments();
-
-            //_mainLayout.ViewTreeObserver.AddOnGlobalLayoutListener(this);
         }
 
         private void OnManagementPanelButtonClicked(object sender, EventArgs e)
@@ -134,42 +132,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _toastMessage = ToastHelper.GetInfoToast(this, GetString(Resource.String.screen_is_locked));
                 _toastMessage.Show();
             }
-        }
-
-        public void OnGlobalLayout()
-        {
-            // TODO: Delete method and class extend when don't need to know layout sizes
-            /*/* _mainLayout size in px #1#
-            int widthPx1 = _mainLayout.Width;
-            int heightPx1 = _mainLayout.Height;
-
-            Console.WriteLine($"Layout Width:{widthPx1} px");
-            Console.WriteLine($"Layout Height:{heightPx1} px");
-
-            /* _mainLayout size in dp #1#
-            var displayMetrics = Resources.DisplayMetrics;
-            float dpHeight1 = heightPx1 / displayMetrics.Density;
-            float dpWidth1 = widthPx1 / displayMetrics.Density;
-
-            Console.WriteLine($"Layout Width:{dpWidth1} dp");
-            Console.WriteLine($"Layout Height:{dpHeight1} dp");*/
-
-            /* _timetableTapeLayout size in px */
-            var widthPx = _timetableTapeLayout.Width;
-            var heightPx = _timetableTapeLayout.Height;
-
-            Console.WriteLine($"Layout Width:{widthPx} px");
-            Console.WriteLine($"Layout Height:{heightPx} px");
-
-            /* _timetableTapeLayout size in dp */
-            var displayMetrics = Resources.DisplayMetrics;
-            var dpHeight = heightPx / displayMetrics.Density;
-            var dpWidth = widthPx / displayMetrics.Density;
-
-            Console.WriteLine($"Layout Width:{dpWidth} dp");
-            Console.WriteLine($"Layout Height:{dpHeight} dp");
-
-            _mainLayout.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
         }
 
         private void OnEditTimetableTapeButtonClicked(int userId)
