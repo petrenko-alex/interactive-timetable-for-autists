@@ -29,6 +29,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private ImageView _userImage;
         private FrameLayout _staticGoalCardFrame;
         private ImageView _staticGoalCard;
+        private LinearLayout _infoLayout;
+        private Button _returnScheduleButton;
+        private TextView _infoText;
         #endregion
 
         #region Internal Variables
@@ -36,9 +39,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private LockableLinearLayoutManager _layoutManager;
         private TimetableTapeListAdapter _tapeItemListAdapter;
         private IList<ScheduleItem> _tapeItems;
+        private Schedule _currentSchedule;
         private int _userId;
         private bool _isLocked;
-        private Timer _timer;
         private int _itemWidth;
         #endregion
 
@@ -70,6 +73,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Get data */
             var user = InteractiveTimetable.Current.UserManager.GetUser(_userId);
+            _currentSchedule = InteractiveTimetable.Current.ScheduleManager.
+                                                    GetSchedule(_tapeItems[0].ScheduleId);
 
             /* Get views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.tape_item_list);
@@ -79,6 +84,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _staticGoalCard = Activity.FindViewById<ImageView>(Resource.Id.static_goal_card);
             _staticGoalCardFrame =
                     Activity.FindViewById<FrameLayout>(Resource.Id.static_goal_card_frame);
+            _infoLayout = Activity.FindViewById<LinearLayout>(Resource.Id.tape_info_layout);
+            _returnScheduleButton = Activity.FindViewById<Button>(Resource.Id.return_schedule_button);
+            _infoText = Activity.FindViewById<TextView>(Resource.Id.tape_info);
             GenerateNewIdsForViews();
 
             /* Set up layout manager */
@@ -115,6 +123,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Set handlers */
             _editTapeButton.Click += OnEditTimetableTapeButtonClicked;
+            _returnScheduleButton.Click += OnReturnScheduleButtonClicked;
 
             /* Set view settings */
             _recyclerView.SetClipToPadding(false);
@@ -198,45 +207,75 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* Timer to scroll */
                 _itemWidth = viewHolder.ItemImage.Width;
-                _timer = new Timer(ScrollTimer);
-                _timer.Elapsed += (sender, e) => NeedToScroll(sender, e, positionInList);
-                _timer.Start();
-
-                /* Check if schedule is completed */
-                bool isScheduleCompleted = InteractiveTimetable.Current.ScheduleManager.
-                                IsScheduleCompleted(scheduleItem.ScheduleId);
-
-                if (isScheduleCompleted)
-                {
-                    /* Mark as completed in database */
-                    InteractiveTimetable.Current.ScheduleManager.
-                                         CompleteSchedule(scheduleItem.ScheduleId);
-
-                    /* Show animation */
-                    var goalImage = _tapeItemListAdapter.GoalViewHolder.ItemImage;
-                    YoYo.With(Techniques.RubberBand).Duration(1000).PlayOn(goalImage);
-                    YoYo.With(Techniques.Shake).Duration(1000).PlayOn(goalImage);
-                    YoYo.With(Techniques.Wobble).Duration(1000).PlayOn(goalImage);
-
-                    /* Timer to hide tape and show info message */
-                }
+                var scrollTimer = new Timer(ScrollTimer);
+                scrollTimer.Elapsed += (sender, e) => NeedToScroll(sender, e, positionInList);
+                scrollTimer.Start();
             }
         }
-    
+
+        private void CheckIfScheduleIsCompleted()
+        {
+            /* Check if schedule is completed */
+            bool isScheduleCompleted = InteractiveTimetable.Current.ScheduleManager.
+                            IsScheduleCompleted(_currentSchedule.Id);
+
+            if (isScheduleCompleted)
+            {
+                /* Mark as completed in database */
+                InteractiveTimetable.Current.ScheduleManager.
+                                     CompleteSchedule(_currentSchedule.Id);
+
+                /* Show animation */
+                var goalImage = _tapeItemListAdapter.GoalViewHolder.ItemImage;
+                YoYo.With(Techniques.RubberBand).Duration(1000).PlayOn(goalImage);
+                YoYo.With(Techniques.Shake).Duration(1000).PlayOn(goalImage);
+                YoYo.With(Techniques.Wobble).Duration(1000).PlayOn(goalImage);
+
+                /* Timer to hide tape and show info message */
+                var hideTimer = new Timer(ScrollTimer * 2);
+                hideTimer.Elapsed += NeedToHideTimetableTape;
+                hideTimer.Start();
+            }
+        }
+
+        private void NeedToHideTimetableTape(object sender, ElapsedEventArgs e)
+        {
+            var timer = sender as Timer;
+            timer?.Stop();
+
+            Activity.RunOnUiThread(() =>
+            {
+                YoYo.With(Techniques.FadeIn).Duration(AnimationDuration).PlayOn(_infoLayout);
+                _staticGoalCardFrame.Visibility = ViewStates.Gone;
+                _recyclerView.Visibility = ViewStates.Gone;
+
+                _infoLayout.Visibility = ViewStates.Visible;
+            });
+        }
+
+        private void OnReturnScheduleButtonClicked(object sender, EventArgs e)
+        {
+            _infoLayout.Visibility = ViewStates.Gone;
+            _recyclerView.Visibility = ViewStates.Visible;
+            _recyclerView.SmoothScrollToPosition(0);
+            _staticGoalCardFrame.Visibility = ViewStates.Visible;
+        }
+
         private void NeedToScroll(object sender, ElapsedEventArgs args, int positionInList)
         {
-            _timer.Stop();
+            var timer = sender as Timer;
+            timer?.Stop();
 
             Activity.RunOnUiThread(() =>
             {
                 /* Set right padding */
-                //int rightPadding = _tapeItems.Count * _itemWidth;
                 int rightPadding = _recyclerView.Width;
                 _recyclerView.SetPadding(0, 0, rightPadding, 0);
-                Console.WriteLine($"RecyclerView Width {_recyclerView.Width}");
 
-                ScrollToHideCompletedActivity();
-                //SmoothScrollToHideCompletedActivities();
+                //ScrollToHideCompletedActivity();
+                SmoothScrollToHideCompletedActivities();
+
+                CheckIfScheduleIsCompleted();
             });
         }
 
@@ -308,6 +347,21 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             newId = View.GenerateViewId();
             _staticGoalCardFrame.Id = newId;
             _staticGoalCardFrame = Activity.FindViewById<FrameLayout>(newId);
+
+            /* New id for _infoLayout */
+            newId = View.GenerateViewId();
+            _infoLayout.Id = newId;
+            _infoLayout = Activity.FindViewById<LinearLayout>(newId);
+
+            /* New id for _returnScheduleButton */
+            newId = View.GenerateViewId();
+            _returnScheduleButton.Id = newId;
+            _returnScheduleButton = Activity.FindViewById<Button>(newId);
+
+            /* New id for _infoText */
+            newId = View.GenerateViewId();
+            _infoText.Id = newId;
+            _infoText = Activity.FindViewById<TextView>(newId);
         }
 
         public void LockFragment()
@@ -359,9 +413,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void ScrollToHideCompletedActivity()
         {
             var lastCompletedActivityNumber = GetLastCompletedActivityNumber();
-
-            Console.WriteLine( $"Last visible item {_layoutManager.FindLastVisibleItemPosition()}");
-            Console.WriteLine($"Last completely visible item {_layoutManager.FindLastCompletelyVisibleItemPosition()}");
 
             /* If have completed activities need to scroll */
             if (lastCompletedActivityNumber > 0)
