@@ -25,6 +25,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return _repository.GetSchedule(scheduleId);
         }
 
+        public ScheduleItem GetScheduleItem(int scheduleItemId)
+        {
+            return _repository.ScheduleItems.GetScheduleItem(scheduleItemId);
+        }
+
         public IEnumerable<Schedule> GetSchedules(int userId)
         {
             return _repository.GetUserSchedules(userId);
@@ -97,9 +102,39 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         public void CompleteSchedule(int scheduleId)
         {
             var schedule = GetSchedule(scheduleId);
-            schedule.FinishTime = DateTime.Now;
-            schedule.IsCompleted = true;
-            _repository.SaveSchedule(schedule);
+            if (schedule != null)
+            {
+                schedule.FinishTime = DateTime.Now;
+                schedule.IsCompleted = true;
+                _repository.SaveSchedule(schedule);
+            }
+        }
+
+        public void UncompleteSchedule(int scheduleId)
+        {
+            var schedule = GetSchedule(scheduleId);
+            if (schedule != null)
+            {
+                schedule.FinishTime = new DateTime();
+                schedule.IsCompleted = false;
+                _repository.SaveSchedule(schedule);
+            }
+        }
+
+        public bool IsScheduleCompleted(int scheduleId)
+        {
+            var schedule = GetSchedule(scheduleId);
+            var scheduleItems = schedule?.ScheduleItems.OrderBy(x => x.OrderNumber).ToList();
+
+            if (scheduleItems != null && scheduleItems.Any())
+            {
+                /* Remove goal schedule item */
+                scheduleItems.RemoveAt(scheduleItems.Count - 1);
+
+                return scheduleItems.All(x => x.IsCompleted);
+            }
+
+            return false;
         }
 
         public void CompleteScheduleItem(int scheduleItemId)
@@ -270,7 +305,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                 int goalCardsCount = goalCards.Count;
 
                 /* Choose activity card set */
-                int cardsCountForSchedule = 17;
+                int cardsCountForSchedule = 10;
                 var cardIdsForSchedule = new List<int>();
                 for (int i = 0; i < cardsCountForSchedule; ++i)
                 {
