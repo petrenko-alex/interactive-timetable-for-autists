@@ -18,6 +18,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #endregion
 
         #region Properties
+        public TimetableTapeItemViewHolder GoalViewHolder;
         public IList<ScheduleItem> TapeItems { get; set; }
         public override int ItemCount => TapeItems.Count;
         #endregion
@@ -60,6 +61,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                                              IsMotivationGoalCardType(card.CardTypeId);
                 if (isGoalCard)
                 {
+                    GoalViewHolder = viewHolder;
                     AdjustCardFrame(viewHolder, false);
                 }
                 else
