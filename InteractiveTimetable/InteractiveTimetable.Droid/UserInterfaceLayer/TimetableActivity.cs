@@ -21,9 +21,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Widgets
         private LinearLayout _mainLayout;
         private LinearLayout _timetableTapeLayout;
+        private LinearLayout _timetableInfoLayout;
         private TextClock _clock;
         private ImageButton _managementPanelButton;
         private ImageButton _lockScreenButton;
+        private Button _goAndAddButton;
         private LockableScrollView _timetableTapeScroll;
         private Toast _toastMessage;
         #endregion
@@ -49,6 +51,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _mainLayout = FindViewById<LinearLayout>(Resource.Id.timetable_main_layout);
             _timetableTapeLayout = FindViewById<LinearLayout>(Resource.Id.timetable_tape_layout);
             _timetableTapeScroll = FindViewById<LockableScrollView>(Resource.Id.timetable_tape_scroll);
+            _timetableInfoLayout = FindViewById<LinearLayout>(Resource.Id.timetable_info_layout);
+           
+            /* Set go and add button */
+            _goAndAddButton = FindViewById<Button>(Resource.Id.go_and_add_button);
+            _goAndAddButton.Click += OnManagementPanelButtonClicked;
 
             /* Set management panel button */
             _managementPanelButton = FindViewById<ImageButton>(Resource.Id.management_panel_button);
@@ -222,6 +229,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     AddTimetableTapeFragment(user.Id, scheduleItems);
                 }
             }
+
+            /* Show info message if no users with current trips */
+            if (!currentUsers.Any())
+            {
+                ShowNoUsersInfo();
+            }
         }
 
         private void AddFragment(int viewToAdd, Fragment fragmentToAdd, string fragmentTag)
@@ -230,6 +243,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             transaction.Add(viewToAdd, fragmentToAdd, fragmentTag);
             transaction.SetTransition(FragmentTransit.FragmentFade);
             transaction.Commit();
+        }
+
+        private void ShowNoUsersInfo()
+        {
+            _timetableTapeScroll.Visibility = ViewStates.Gone;
+            _lockScreenButton.Visibility = ViewStates.Gone;
+            FindViewById<TextView>(Resource.Id.our_kids_label).Visibility = ViewStates.Gone;
+            FindViewById<TextView>(Resource.Id.day_timetable_label).Visibility = ViewStates.Gone;
+
+            _timetableInfoLayout.Visibility = ViewStates.Visible;
         }
         #endregion
     }

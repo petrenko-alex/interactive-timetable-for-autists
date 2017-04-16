@@ -83,7 +83,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/timetable_tape_scroll"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:visibility="visible">
         <LinearLayout
             android:orientation="vertical"
             android:minWidth="25px"
@@ -92,4 +93,39 @@
             android:layout_height="match_parent"
             android:id="@+id/timetable_tape_layout" />
     </petrenko.alexander.InteractiveTimetable.Droid.ApplicationLayer.LockableScrollView>
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/timetable_info_layout"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone">
+        <TextView
+            android:text="@string/no_users_for_current_date"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:gravity="center"
+            android:textSize="30dp" />
+        <TextView
+            android:text="@string/to_start_working_with_timetable"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:gravity="center"
+            android:layout_marginTop="10dp" />
+        <Button
+            android:text="@string/go_and_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/go_and_add_button"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
 </LinearLayout>
