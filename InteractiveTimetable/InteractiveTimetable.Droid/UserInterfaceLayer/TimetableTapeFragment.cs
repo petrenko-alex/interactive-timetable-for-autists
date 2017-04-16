@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Android.App;
 using Android.Graphics.Drawables;
 using Android.OS;
@@ -17,6 +18,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     {
         #region Constants
         public static readonly string FragmentTag = "timetable_tape_fragment";
+        private static readonly int AnimationDuration = 700;
+        private static readonly int ScrollTimer = 1000;
         #endregion
 
         #region Widgets
@@ -34,7 +37,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TimetableTapeListAdapter _tapeItemListAdapter;
         private IList<ScheduleItem> _tapeItems;
         private int _userId;
-        private bool _isLocked; 
+        private bool _isLocked;
+        private Timer _timer;
+        private int _itemWidth;
         #endregion
 
         #region Events
@@ -111,6 +116,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set handlers */
             _editTapeButton.Click += OnEditTimetableTapeButtonClicked;
 
+            /* Set view settings */
+            _recyclerView.SetClipToPadding(false);
+
             // TODO: Show message if no cards yet
         }
 
@@ -136,9 +144,30 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 return;
             }
 
-            /* Mark as uncomplete in database */
-            InteractiveTimetable.Current.ScheduleManager.UncompleteScheduleItem(tapeItemId);
+            var scheduleItem = InteractiveTimetable.Current.ScheduleManager.
+                                                    GetScheduleItem(tapeItemId);
 
+            if (scheduleItem.IsCompleted)
+            {
+                /* Check if schedule completed */
+                bool isScheduleCompleted = InteractiveTimetable.Current.ScheduleManager.
+                                IsScheduleCompleted(scheduleItem.ScheduleId);
+
+                if (isScheduleCompleted)
+                {
+                    /* Mark as uncompleted in database */
+                    InteractiveTimetable.Current.ScheduleManager.
+                                         UncompleteSchedule(scheduleItem.ScheduleId);
+                }
+
+                /* Mark as uncomplete in database and data set */
+                InteractiveTimetable.Current.ScheduleManager.UncompleteScheduleItem(tapeItemId);
+                _tapeItems[positionInList].IsCompleted = false;
+
+                /* Put off a green tick with animation */
+                PutOffGreenTick(viewHolder.ItemImage);
+                YoYo.With(Techniques.Landing).Duration(AnimationDuration).PlayOn(viewHolder.ItemImage);
+            }
         }
 
         private void OnItemClick(
@@ -153,19 +182,62 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 return;
             }
 
-            /* Mark as complete in database */
-            InteractiveTimetable.Current.ScheduleManager.CompleteScheduleItem(tapeItemId);
+            /* Get data */
+            var scheduleItem = InteractiveTimetable.Current.ScheduleManager.
+                                                    GetScheduleItem(tapeItemId);
 
-            /* Put a green tick with animation */
-            PutOnGreenTick(viewHolder.ItemImage);
-           
-            /* Timer to scroll */
+            if (!scheduleItem.IsCompleted)
+            {
+                /* Mark as complete in database and data set */
+                InteractiveTimetable.Current.ScheduleManager.CompleteScheduleItem(tapeItemId);
+                _tapeItems[positionInList].IsCompleted = true;
 
-            /* Check if schedule is completed */
+                /* Put on a green tick with animation */
+                PutOnGreenTick(viewHolder.ItemImage);
+                YoYo.With(Techniques.Landing).Duration(AnimationDuration).PlayOn(viewHolder.ItemImage);
 
+                /* Timer to scroll */
+                _itemWidth = viewHolder.ItemImage.Width;
+                _timer = new Timer(ScrollTimer);
+                _timer.Elapsed += (sender, e) => NeedToScroll(sender, e, positionInList);
+                _timer.Start();
 
-            /* Show animation */
-            YoYo.With(Techniques.Bounce).Duration(700).PlayOn(viewHolder.ItemImage);
+                /* Check if schedule is completed */
+                bool isScheduleCompleted = InteractiveTimetable.Current.ScheduleManager.
+                                IsScheduleCompleted(scheduleItem.ScheduleId);
+
+                if (isScheduleCompleted)
+                {
+                    /* Mark as completed in database */
+                    InteractiveTimetable.Current.ScheduleManager.
+                                         CompleteSchedule(scheduleItem.ScheduleId);
+
+                    /* Show animation */
+                    var goalImage = _tapeItemListAdapter.GoalViewHolder.ItemImage;
+                    YoYo.With(Techniques.RubberBand).Duration(1000).PlayOn(goalImage);
+                    YoYo.With(Techniques.Shake).Duration(1000).PlayOn(goalImage);
+                    YoYo.With(Techniques.Wobble).Duration(1000).PlayOn(goalImage);
+
+                    /* Timer to hide tape and show info message */
+                }
+            }
+        }
+    
+        private void NeedToScroll(object sender, ElapsedEventArgs args, int positionInList)
+        {
+            _timer.Stop();
+
+            Activity.RunOnUiThread(() =>
+            {
+                /* Set right padding */
+                //int rightPadding = _tapeItems.Count * _itemWidth;
+                int rightPadding = _recyclerView.Width;
+                _recyclerView.SetPadding(0, 0, rightPadding, 0);
+                Console.WriteLine($"RecyclerView Width {_recyclerView.Width}");
+
+                ScrollToHideCompletedActivity();
+                //SmoothScrollToHideCompletedActivities();
+            });
         }
 
         private void OnEditTimetableTapeButtonClicked(object sender, EventArgs e)
@@ -261,7 +333,61 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void PutOffGreenTick(ImageView imageView)
         {
+            Drawable cardImage = null;
+            var layer = imageView.Drawable as LayerDrawable;
+            if (layer != null)
+            {
+                cardImage = layer.GetDrawable(0);
+            }
+            imageView.SetImageDrawable(cardImage);
+        }
 
+        private void SmoothScrollToHideCompletedActivities()
+        {
+            // TODO: Not stable when amount of items in tape is 20 and higher
+            var lastCompletedActivityNumber =  GetLastCompletedActivityNumber();
+
+            /* If have completed activities need to scroll */
+            if (lastCompletedActivityNumber > 0)
+            {
+                /* Calculate scrollX */
+                int scrollX = (_itemWidth + 7) * lastCompletedActivityNumber + 1;
+                _recyclerView.SmoothScrollBy(scrollX - _scrollListener.ScrollX1, 0);
+            }
+        }
+
+        private void ScrollToHideCompletedActivity()
+        {
+            var lastCompletedActivityNumber = GetLastCompletedActivityNumber();
+
+            Console.WriteLine( $"Last visible item {_layoutManager.FindLastVisibleItemPosition()}");
+            Console.WriteLine($"Last completely visible item {_layoutManager.FindLastCompletelyVisibleItemPosition()}");
+
+            /* If have completed activities need to scroll */
+            if (lastCompletedActivityNumber > 0)
+            {
+                _layoutManager.ScrollToPositionWithOffset(lastCompletedActivityNumber, 0);
+            }
+        }
+
+        private int GetLastCompletedActivityNumber()
+        {
+            /* Find last completed activity */
+            var lastCompletedActivityNumber = 0;
+            int activityCount = _tapeItems.Count;
+            for (int i = 0; i < activityCount; ++i)
+            {
+                if (!_tapeItems[lastCompletedActivityNumber].IsCompleted)
+                {
+                    break;
+                }
+                else
+                {
+                    lastCompletedActivityNumber = i + 1;
+                }
+            }
+
+            return lastCompletedActivityNumber;
         }
         #endregion
 

@@ -99,7 +99,20 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             int tapeItemId, 
             int positionInList)
         {
-            ItemLongClick?.Invoke(viewHolder, tapeItemId, positionInList);
+            /* Get data */
+            var scheduleItem = InteractiveTimetable.Current.ScheduleManager.
+                                                    GetScheduleItem(tapeItemId);
+
+            bool isGoalCard = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                                   IsMotivationGoalCard(scheduleItem.CardId);
+            /* No interactions with goal card */
+            if (!isGoalCard)
+            {
+                /* Change item in adapter data set */
+                TapeItems[positionInList].IsCompleted = false;
+
+                ItemLongClick?.Invoke(viewHolder, tapeItemId, positionInList);
+            }
         }
 
         private void OnItemClick(
@@ -107,7 +120,21 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             int tapeItemId, 
             int positionInList)
         {
-            ItemClick?.Invoke(viewHolder, tapeItemId, positionInList);
+            /* Get data */
+            var scheduleItem = InteractiveTimetable.Current.ScheduleManager.
+                                                    GetScheduleItem(tapeItemId);
+
+            bool isGoalCard = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                                   IsMotivationGoalCard(scheduleItem.CardId);
+
+            /* No interaction with goal card */
+            if (!isGoalCard)
+            {
+                /* Change item in adapter data set */
+                TapeItems[positionInList].IsCompleted = true;
+
+                ItemClick?.Invoke(viewHolder, tapeItemId, positionInList);
+            }
         }
         #endregion
 
