@@ -298,27 +298,30 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             /* Create schedules for every user in database */
             foreach (var user in users)
             {
-                /* Get cards from database */
-                var activityCards = Cards.GetActivityCards().ToList();
-                var goalCards = Cards.GetMotivationGoalCards().ToList();
-                int activityCardsCount = activityCards.Count;
-                int goalCardsCount = goalCards.Count;
-
-                /* Choose activity card set */
-                int cardsCountForSchedule = 10;
-                var cardIdsForSchedule = new List<int>();
-                for (int i = 0; i < cardsCountForSchedule; ++i)
+                if (randomizer.Next(0, 2) == 1)
                 {
-                    int activityCardNumber = randomizer.Next(0, activityCardsCount);
-                    cardIdsForSchedule.Add(activityCards[activityCardNumber].Id);
+                    /* Get cards from database */
+                    var activityCards = Cards.GetActivityCards().ToList();
+                    var goalCards = Cards.GetMotivationGoalCards().ToList();
+                    int activityCardsCount = activityCards.Count;
+                    int goalCardsCount = goalCards.Count;
+
+                    /* Choose activity card set */
+                    int cardsCountForSchedule = 15;
+                    var cardIdsForSchedule = new List<int>();
+                    for (int i = 0; i < cardsCountForSchedule; ++i)
+                    {
+                        int activityCardNumber = randomizer.Next(0, activityCardsCount);
+                        cardIdsForSchedule.Add(activityCards[activityCardNumber].Id);
+                    }
+
+                    /* Choose motivation goal card */
+                    int goalCardNumber = randomizer.Next(0, goalCardsCount);
+                    cardIdsForSchedule.Add(goalCards[goalCardNumber].Id);
+
+                    /* Create schedule for user */
+                    SaveSchedule(user.Id, cardIdsForSchedule);
                 }
-
-                /* Choose motivation goal card */
-                int goalCardNumber = randomizer.Next(0, goalCardsCount);
-                cardIdsForSchedule.Add(goalCards[goalCardNumber].Id);
-
-                /* Create schedule for user */
-                SaveSchedule(user.Id, cardIdsForSchedule);
             }
         }
     }
