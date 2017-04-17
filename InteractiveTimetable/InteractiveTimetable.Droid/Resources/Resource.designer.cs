@@ -655,6 +655,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06002b
 			public const int new_trip = 2131099691;
 			
+			// aapt resource value: 0x7f060038
+			public const int no_timetable_for_today = 2131099704;
+			
 			// aapt resource value: 0x7f060035
 			public const int no_users_for_current_date = 2131099701;
 			

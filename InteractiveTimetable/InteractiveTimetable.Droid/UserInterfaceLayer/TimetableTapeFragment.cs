@@ -73,8 +73,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Get data */
             var user = InteractiveTimetable.Current.UserManager.GetUser(_userId);
-            _currentSchedule = InteractiveTimetable.Current.ScheduleManager.
-                                                    GetSchedule(_tapeItems[0].ScheduleId);
 
             /* Get views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.tape_item_list);
@@ -93,33 +91,57 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _layoutManager = new LockableLinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
             _recyclerView.SetLayoutManager(_layoutManager);
 
-            /* Set up scroll listener for recycler view */
-            _scrollListener = new XamarinRecyclerViewOnScrollListener(
-                _layoutManager,
-                _tapeItems.Count - 1
-            );
-            _scrollListener.LastItemIsVisible += OnLastItemIsVisible;
-            _scrollListener.LastItemIsHidden += OnLastItemIsHidden;
-            _recyclerView.AddOnScrollListener(_scrollListener);
-
-            /* Set widgets data */
-            _userName.Text = user.FirstName;
-            _userImage.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
-            // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeItems.Last().PhotoPath));
-            var imageSize = ImageHelper.ConvertDpToPixels(
-                140,
-                InteractiveTimetable.Current.ScreenDensity
-            );
-            var card = InteractiveTimetable.Current.ScheduleManager.Cards.
-                                            GetCard(_tapeItems.Last().CardId);
-            var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-            _staticGoalCard.SetImageBitmap(bitmap);
-
             /* Set up the adapter */
             _tapeItemListAdapter = new TimetableTapeListAdapter(Activity, _tapeItems);
             _tapeItemListAdapter.ItemClick += OnItemClick;
             _tapeItemListAdapter.ItemLongClick += OnItemLongClick;
             _recyclerView.SetAdapter(_tapeItemListAdapter);
+
+            /* Set widgets data */
+            _userName.Text = user.FirstName;
+            _userImage.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
+
+            /* If has schedule for today */
+            if (_tapeItems.Any())
+            {
+                _currentSchedule = InteractiveTimetable.Current.ScheduleManager.
+                                                    GetSchedule(_tapeItems[0].ScheduleId);
+
+                /* Set up scroll listener for recycler view */
+                _scrollListener = new XamarinRecyclerViewOnScrollListener(
+                    _layoutManager,
+                    _tapeItems.Count - 1
+                );
+                _scrollListener.LastItemIsVisible += OnLastItemIsVisible;
+                _scrollListener.LastItemIsHidden += OnLastItemIsHidden;
+                _recyclerView.AddOnScrollListener(_scrollListener);
+                _recyclerView.AddOnScrollListener(_scrollListener);
+
+                /* Set static goal card */
+                // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeItems.Last().PhotoPath));
+                var imageSize = ImageHelper.ConvertDpToPixels(
+                    140,
+                    InteractiveTimetable.Current.ScreenDensity
+                );
+                var card = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                                GetCard(_tapeItems.Last().CardId);
+                var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                _staticGoalCard.SetImageBitmap(bitmap);
+
+                /* If timetable is completed */
+                if (_currentSchedule.IsCompleted)
+                {
+                    NeedToHideTimetableTape(this, null);
+                }
+            }
+            /* If no schedule for today */
+            else
+            {
+                NeedToHideTimetableTape(this, null);
+
+                _infoText.Text = GetString(Resource.String.no_timetable_for_today);
+                _returnScheduleButton.Visibility = ViewStates.Gone;
+            }
 
             /* Set handlers */
             _editTapeButton.Click += OnEditTimetableTapeButtonClicked;
@@ -127,8 +149,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Set view settings */
             _recyclerView.SetClipToPadding(false);
-
-            // TODO: Show message if no cards yet
         }
 
         private void OnLastItemIsHidden()
@@ -235,6 +255,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var hideTimer = new Timer(ScrollTimer * 2);
                 hideTimer.Elapsed += NeedToHideTimetableTape;
                 hideTimer.Start();
+
+                /* Set text for info message */
+                _infoText.Text = GetString(Resource.String.schedule_is_completed);
             }
         }
 
@@ -245,11 +268,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             Activity.RunOnUiThread(() =>
             {
-                YoYo.With(Techniques.FadeIn).Duration(AnimationDuration).PlayOn(_infoLayout);
                 _staticGoalCardFrame.Visibility = ViewStates.Gone;
                 _recyclerView.Visibility = ViewStates.Gone;
-
+                YoYo.With(Techniques.FadeIn).Duration(AnimationDuration).PlayOn(_infoLayout);
+                
                 _infoLayout.Visibility = ViewStates.Visible;
+                _returnScheduleButton.Visibility = ViewStates.Visible;
             });
         }
 

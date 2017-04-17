@@ -66,4 +66,5 @@
     Для работы с расписанием необходимо добавить пользователей и путевки.
   </string>
   <string name="go_and_add">Перейти к добавлению...</string>
+  <string name="no_timetable_for_today">На текущую дату расписание еще не составлено.</string>
 </resources>

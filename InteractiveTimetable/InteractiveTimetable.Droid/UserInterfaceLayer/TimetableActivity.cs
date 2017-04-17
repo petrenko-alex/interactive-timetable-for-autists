@@ -12,7 +12,7 @@ using InteractiveTimetable.BusinessLayer.Models;
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     [Activity(Label = "Interactive Timetable", MainLauncher = true/*, Theme = "@android:style/Theme.Holo.Light"*/)]
-    public class TimetableActivity : Activity, ViewTreeObserver.IOnGlobalLayoutListener
+    public class TimetableActivity : Activity
     {
         #region Constants
         private static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
@@ -178,18 +178,20 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             foreach (var user in currentUsers)
             {
                 /* Get current user schedule as latest schedule */
+                var scheduleItems = new List<ScheduleItem>();
                 var userSchedules = user.Schedules;
                 var currentSchedule =
                     userSchedules.Any()
                     ? userSchedules.OrderByDescending(x => x.CreateTime).FirstOrDefault()
                     : null;
 
-                if (currentSchedule != null)
+                /* If user has today timetable */
+                if (currentSchedule != null && currentSchedule.CreateTime.Date.Equals(DateTime.Today))
                 {
-                    var scheduleItems = currentSchedule.ScheduleItems.ToList();                                                           
-
-                    AddTimetableTapeFragment(user.Id, scheduleItems);
+                    scheduleItems = currentSchedule.ScheduleItems.ToList();
                 }
+
+                AddTimetableTapeFragment(user.Id, scheduleItems);
             }
 
             /* Show info message if no users with current trips */
