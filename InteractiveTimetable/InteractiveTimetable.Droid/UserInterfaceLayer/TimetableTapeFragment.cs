@@ -43,6 +43,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private int _userId;
         private bool _isLocked;
         private int _itemWidth;
+        private Timer _scrollTimer;
         #endregion
 
         #region Events
@@ -127,6 +128,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                                                 GetCard(_tapeItems.Last().CardId);
                 var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
                 _staticGoalCard.SetImageBitmap(bitmap);
+
+                /* Set up timers */
+                _scrollTimer = new Timer(ScrollTimer);
 
                 /* If timetable is completed */
                 if (_currentSchedule.IsCompleted)
@@ -227,9 +231,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* Timer to scroll */
                 _itemWidth = viewHolder.ItemImage.Width;
-                var scrollTimer = new Timer(ScrollTimer);
-                scrollTimer.Elapsed += (sender, e) => NeedToScroll(sender, e, positionInList);
-                scrollTimer.Start();
+                _scrollTimer.Stop();
+                _scrollTimer.Elapsed += (sender, e) => NeedToScroll(sender, e, positionInList);
+                _scrollTimer.Start();
             }
         }
 
