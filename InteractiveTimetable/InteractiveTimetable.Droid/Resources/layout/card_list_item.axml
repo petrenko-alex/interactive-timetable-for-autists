@@ -3,15 +3,22 @@
     p1:orientation="vertical"
     p1:layout_width="wrap_content"
     p1:layout_height="wrap_content"
-    p1:id="@+id/card_list_item_layout"
-    p1:gravity="center">
-    <ImageView
-        p1:src="@android:drawable/ic_menu_gallery"
-        p1:layout_width="140dp"
-        p1:layout_height="140dp"
-        p1:id="@+id/card_list_item_image"
-        p1:padding="5dp"
-        p1:layout_gravity="center"
-        p1:scaleType="centerCrop"
-        p1:layout_margin="5dp" />
+    p1:id="@+id/linearLayout1"
+    p1:padding="5dp">
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/card_list_item_frame"
+        p1:background="@drawable/card_frame"
+        p1:padding="5dp">
+        <ImageView
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_width="140dp"
+            p1:layout_height="140dp"
+            p1:id="@+id/card_list_item_image"
+            p1:layout_gravity="center"
+            p1:scaleType="centerCrop" />
+    </FrameLayout>
 </LinearLayout>

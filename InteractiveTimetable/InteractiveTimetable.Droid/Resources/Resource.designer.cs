@@ -167,43 +167,43 @@ namespace InteractiveTimetable.Droid
 			public const int cancel_trip_edit_button = 2131034199;
 			
 			// aapt resource value: 0x7f050002
-			public const int card_list_item_image = 2131034114;
+			public const int card_list_item_frame = 2131034114;
 			
-			// aapt resource value: 0x7f050001
-			public const int card_list_item_layout = 2131034113;
+			// aapt resource value: 0x7f050003
+			public const int card_list_item_image = 2131034115;
 			
 			// aapt resource value: 0x7f05002e
 			public const int clock = 2131034158;
 			
-			// aapt resource value: 0x7f050003
-			public const int create_timetable_main_layout = 2131034115;
+			// aapt resource value: 0x7f050004
+			public const int create_timetable_main_layout = 2131034116;
+			
+			// aapt resource value: 0x7f05000d
+			public const int ct_activity_cards = 2131034125;
 			
 			// aapt resource value: 0x7f05000c
-			public const int ct_activity_cards = 2131034124;
+			public const int ct_activity_cards_divider = 2131034124;
 			
 			// aapt resource value: 0x7f05000b
-			public const int ct_activity_cards_divider = 2131034123;
+			public const int ct_activity_cards_label = 2131034123;
 			
 			// aapt resource value: 0x7f05000a
-			public const int ct_activity_cards_label = 2131034122;
-			
-			// aapt resource value: 0x7f050009
-			public const int ct_activity_cards_layout = 2131034121;
-			
-			// aapt resource value: 0x7f050006
-			public const int ct_back_button = 2131034118;
+			public const int ct_activity_cards_layout = 2131034122;
 			
 			// aapt resource value: 0x7f050007
-			public const int ct_current_date = 2131034119;
-			
-			// aapt resource value: 0x7f050005
-			public const int ct_label = 2131034117;
-			
-			// aapt resource value: 0x7f050004
-			public const int ct_top_bar = 2131034116;
+			public const int ct_back_button = 2131034119;
 			
 			// aapt resource value: 0x7f050008
-			public const int ct_top_bar_divider = 2131034120;
+			public const int ct_current_date = 2131034120;
+			
+			// aapt resource value: 0x7f050006
+			public const int ct_label = 2131034118;
+			
+			// aapt resource value: 0x7f050005
+			public const int ct_top_bar = 2131034117;
+			
+			// aapt resource value: 0x7f050009
+			public const int ct_top_bar_divider = 2131034121;
 			
 			// aapt resource value: 0x7f05002b
 			public const int day_timetable_label = 2131034155;
@@ -226,14 +226,14 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050076
 			public const int empty_list = 2131034230;
 			
-			// aapt resource value: 0x7f050014
-			public const int empty_trip_list = 2131034132;
+			// aapt resource value: 0x7f050015
+			public const int empty_trip_list = 2131034133;
 			
-			// aapt resource value: 0x7f05000d
-			public const int error_message = 2131034125;
+			// aapt resource value: 0x7f05000e
+			public const int error_message = 2131034126;
 			
-			// aapt resource value: 0x7f05000f
-			public const int error_text = 2131034127;
+			// aapt resource value: 0x7f050010
+			public const int error_text = 2131034128;
 			
 			// aapt resource value: 0x7f050072
 			public const int find_user = 2131034226;
@@ -271,11 +271,11 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f05006b
 			public const int gridLayout1 = 2131034219;
 			
-			// aapt resource value: 0x7f050012
-			public const int hospital_trip_main_content = 2131034130;
+			// aapt resource value: 0x7f050013
+			public const int hospital_trip_main_content = 2131034131;
 			
-			// aapt resource value: 0x7f05000e
-			public const int imageView1 = 2131034126;
+			// aapt resource value: 0x7f05000f
+			public const int imageView1 = 2131034127;
 			
 			// aapt resource value: 0x7f050017
 			public const int info = 2131034135;
@@ -292,8 +292,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f05006c
 			public const int last_name_edit = 2131034220;
 			
-			// aapt resource value: 0x7f050015
-			public const int linearLayout1 = 2131034133;
+			// aapt resource value: 0x7f050001
+			public const int linearLayout1 = 2131034113;
 			
 			// aapt resource value: 0x7f050065
 			public const int linearLayout2 = 2131034213;
@@ -391,8 +391,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050037
 			public const int tape_user_name = 2131034167;
 			
-			// aapt resource value: 0x7f050011
-			public const int textView1 = 2131034129;
+			// aapt resource value: 0x7f050012
+			public const int textView1 = 2131034130;
 			
 			// aapt resource value: 0x7f050033
 			public const int textView2 = 2131034163;
@@ -430,8 +430,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050048
 			public const int trip_end_date = 2131034184;
 			
-			// aapt resource value: 0x7f050010
-			public const int trip_list = 2131034128;
+			// aapt resource value: 0x7f050011
+			public const int trip_list = 2131034129;
 			
 			// aapt resource value: 0x7f050025
 			public const int trip_list_frame = 2131034149;
@@ -442,8 +442,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f050046
 			public const int trip_number = 2131034182;
 			
-			// aapt resource value: 0x7f050013
-			public const int trip_recycler_view = 2131034131;
+			// aapt resource value: 0x7f050014
+			public const int trip_recycler_view = 2131034132;
 			
 			// aapt resource value: 0x7f050047
 			public const int trip_start_date = 2131034183;

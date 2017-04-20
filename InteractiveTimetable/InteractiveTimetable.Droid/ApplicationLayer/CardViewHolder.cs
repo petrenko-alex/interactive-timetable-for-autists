@@ -9,6 +9,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     {
         #region Properties
         public ImageView CardImage { get; }
+        public FrameLayout CardFrame { get; }
         public int CardId { get; set; }
         public int PositionInList { get; set; }
         #endregion
@@ -20,6 +21,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             : base(itemView)
         {
             CardImage = itemView.FindViewById<ImageView>(Resource.Id.card_list_item_image);
+            CardFrame = itemView.FindViewById<FrameLayout>(Resource.Id.card_list_item_frame);
 
             itemView.Click += (sender, e) => listenerForClick(CardId, CardImage);
             itemView.LongClick += (sender, e) => listenerForLongClick(CardId, PositionInList);

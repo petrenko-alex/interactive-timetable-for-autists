@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.OS;
 using Android.Provider;
 using Android.Support.V7.Widget;

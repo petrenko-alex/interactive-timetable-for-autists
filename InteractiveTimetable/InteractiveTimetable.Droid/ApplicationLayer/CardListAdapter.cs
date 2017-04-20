@@ -55,17 +55,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     viewHolder.CardImage.SetImageBitmap(bitmap);
                     viewHolder.CardId = cardAtPosition.Id;
 
-                    viewHolder.CardImage.SetBackgroundResource(Resource.Drawable.card_frame);
-                    var paddingInPx = ImageHelper.ConvertDpToPixels(
-                        5,
-                        InteractiveTimetable.Current.ScreenDensity
-                    );
-                    viewHolder.CardImage.SetPadding(paddingInPx, paddingInPx ,paddingInPx, paddingInPx);
+                    viewHolder.CardFrame.SetBackgroundResource(Resource.Drawable.card_frame);
                 }
                 /* If showing add button */
                 else
                 {
-                    viewHolder.ItemView.SetBackgroundResource(0);
+                    viewHolder.CardFrame.SetBackgroundResource(0);
                     viewHolder.CardImage.SetImageResource(Resource.Drawable.add_card_button);
                 }
                 viewHolder.PositionInList = position;
