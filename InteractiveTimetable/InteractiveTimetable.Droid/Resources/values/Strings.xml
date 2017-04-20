@@ -67,4 +67,7 @@
   </string>
   <string name="go_and_add">Перейти к добавлению...</string>
   <string name="no_timetable_for_today">На текущую дату расписание еще не составлено.</string>
+  <string name="creating_timetable_for">Составление расписания для</string>
+  <string name="activities">Виды деятельности:</string>
+  <string name="motivation_goals">Мотивационные цели:</string>
 </resources>

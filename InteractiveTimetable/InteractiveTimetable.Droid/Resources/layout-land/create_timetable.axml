@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/create_timetable_main_layout">
+    <RelativeLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/ct_top_bar"
+        p1:layout_marginTop="10dp">
+        <TextView
+            p1:text="@string/creating_timetable_for"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/ct_label"
+            p1:textSize="25dp"
+            p1:layout_toRightOf="@+id/ct_back_button"
+            p1:layout_centerInParent="true"
+            p1:layout_marginLeft="50dp" />
+        <ImageButton
+            p1:src="@drawable/back_button"
+            p1:layout_width="60dp"
+            p1:layout_height="60dp"
+            p1:id="@+id/ct_back_button"
+            p1:scaleType="centerInside"
+            p1:layout_marginLeft="10dp"
+            p1:layout_alignParentStart="true"
+            p1:layout_centerInParent="true"
+            p1:background="@null" />
+        <TextView
+            p1:text="Current date"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/textView1"
+            p1:layout_alignParentEnd="true"
+            p1:layout_centerInParent="true"
+            p1:textSize="25dp"
+            p1:layout_marginRight="50dp" />
+    </RelativeLayout>
+    <View
+        p1:background="#00BFFF"
+        p1:id="@+id/ct_top_bar_divider"
+        p1:layout_width="match_parent"
+        p1:layout_height="2dip"
+        p1:layout_marginTop="5dp" />
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/ct_activity_cards_layout"
+        p1:layout_marginTop="10dp">
+        <TextView
+            p1:text="@string/activities"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/ct_activity_cards_label"
+            p1:textSize="25dp"
+            p1:layout_marginLeft="10dp" />
+        <View
+            p1:background="#00BFFF"
+            p1:id="@+id/ct_activity_cards_divider"
+            p1:layout_width="match_parent"
+            p1:layout_height="2dip"
+            p1:layout_marginTop="5dp" />
+        <android.support.v7.widget.RecyclerView
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/ct_activity_cards"
+            p1:layout_marginTop="5dp" />
+        <ImageButton
+            p1:src="@drawable/add_card_button"
+            p1:layout_width="140dp"
+            p1:layout_height="140dp"
+            p1:id="@+id/ct_activity_cards_add"
+            p1:scaleType="centerInside"
+            p1:background="@null"
+            p1:padding="5dp" />
+    </LinearLayout>
+</LinearLayout>

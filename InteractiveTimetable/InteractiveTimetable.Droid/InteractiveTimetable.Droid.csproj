@@ -126,6 +126,7 @@
     <Compile Include="ApplicationLayer\XamarinRecyclerViewOnScrollListener.cs" />
     <Compile Include="InteractiveTimetable.cs" />
     <Compile Include="UserDetailsActivivty.cs" />
+    <Compile Include="UserInterfaceLayer\CreateTimetableActivity.cs" />
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
     <Compile Include="UserInterfaceLayer\HospitalTripListFragment.cs" />
     <Compile Include="UserInterfaceLayer\InfoFragment.cs" />
@@ -206,6 +207,9 @@
     <AndroidResource Include="Resources\layout\timetable_tape_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout-land\create_timetable.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />
@@ -256,6 +260,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\green_tick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\back_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\add_card_button.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
