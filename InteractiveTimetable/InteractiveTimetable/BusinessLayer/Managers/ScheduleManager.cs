@@ -50,6 +50,17 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return scheduleCards;
         }
 
+        public IEnumerable<Schedule> GetSchedulesWhereCardIsUsed(int cardId)
+        {
+            var card = Cards.GetCard(cardId);
+
+            /* Get all schedules where card is used */
+            var cardScheduleIds = card.ScheduleItems.Select(x => x.ScheduleId).Distinct();
+            var cardSchedules = cardScheduleIds.Select(x => GetSchedule(x));
+
+            return cardSchedules;
+        }
+
         public int SaveSchedule(int userId, List<int> cardIds)
         {
             /* Data validation */
