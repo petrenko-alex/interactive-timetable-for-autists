@@ -622,6 +622,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060009
 			public const int add_button = 2131099657;
 			
+			// aapt resource value: 0x7f06003c
+			public const int add_card = 2131099708;
+			
 			// aapt resource value: 0x7f060012
 			public const int add_photo = 2131099666;
 			

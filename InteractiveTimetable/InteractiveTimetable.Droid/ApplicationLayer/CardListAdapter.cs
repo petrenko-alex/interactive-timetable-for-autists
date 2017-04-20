@@ -11,7 +11,8 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     public class CardListAdapter : RecyclerView.Adapter
     {
         #region Events
-        public event Action<int, ImageView> ItemClick;
+        public event Action<int> AddCardButtonClicked;
+        public event Action<int, ImageView> CardSelected;
         public event Action<int, int> RequestToDeleteItem;
         #endregion
 
@@ -85,9 +86,23 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             // TODO: Delete card
         }
 
-        private void OnCardClick(int cardID, ImageView cardImage)
+        private void OnCardClick(int cardId, ImageView cardImage)
         {
-            // TODO: Send signal - card selected
+            /* Add button clicked */
+            if (cardId <= 0)
+            {
+                /* 
+                 * Pick any card from data set because we only need card type 
+                 * and it's the same for all card in data set 
+                 */
+                var card = Cards[0];
+                AddCardButtonClicked?.Invoke(card.CardTypeId);
+            }
+            /* Card clicked */
+            else
+            {
+                CardSelected?.Invoke(cardId, cardImage);
+            }
         }
         #endregion
 
@@ -97,9 +112,17 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             
         }
 
-        public int InsertItem(int cardId)
+        public void InsertItem(int cardId)
         {
-            return 0;
+            /* Get data from database */
+            var card = InteractiveTimetable.Current.ScheduleManager.Cards.GetCard(cardId);
+
+            /* Insert in data set */
+            int lastPosition = ItemCount - 1;
+            Cards.Insert(lastPosition, card);
+
+            /* Notify adapter */
+            NotifyItemInserted(lastPosition);
         }
         #endregion
 

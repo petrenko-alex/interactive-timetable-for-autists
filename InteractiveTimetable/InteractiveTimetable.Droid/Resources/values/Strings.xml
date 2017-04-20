@@ -70,4 +70,5 @@
   <string name="creating_timetable_for">Составление расписания</string>
   <string name="activities">Виды деятельности:</string>
   <string name="motivation_goals">Мотивационные цели:</string>
+  <string name="add_card">Добавить карточку</string>
 </resources>
