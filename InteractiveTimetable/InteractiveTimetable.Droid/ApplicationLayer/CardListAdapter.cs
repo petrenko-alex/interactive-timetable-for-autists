@@ -13,7 +13,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #region Events
         public event Action<int> AddCardButtonClicked;
         public event Action<int, ImageView> CardSelected;
-        public event Action<int, int> RequestToDeleteItem;
+        public event Action<int, int> RequestToDeleteCard;
         #endregion
 
         #region Properties
@@ -46,6 +46,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 /* If showing card */
                 if (cardAtPosition.Id > 0)
                 {
+                    /* Set image */
                     // TODO: Change to normal load - viewHolder.CardImage.SetImageURI(Android.Net.Uri.Parse(cardAtPosition.PhotoPath));
                     var imageSize = ImageHelper.ConvertDpToPixels(
                         140,
@@ -55,7 +56,20 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     viewHolder.CardImage.SetImageBitmap(bitmap);
                     viewHolder.CardId = cardAtPosition.Id;
 
+                    /* Set frame */
                     viewHolder.CardFrame.SetBackgroundResource(Resource.Drawable.card_frame);
+                    var paddingInDp = 5;
+                    var paddingInPx = ImageHelper.ConvertDpToPixels(
+                        paddingInDp,
+                        InteractiveTimetable.Current.ScreenDensity
+                    );
+                    viewHolder.CardFrame.SetPadding(
+                        paddingInPx,
+                        paddingInPx,
+                        paddingInPx,
+                        paddingInPx
+                    );
+                    viewHolder.CardImage.SetScaleType(ImageView.ScaleType.CenterCrop);
                 }
                 /* If showing add button */
                 else
@@ -76,9 +90,19 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             return holder;
         }
 
-        private void OnCardLongClick(int cardId, int positionInList)
+        private void OnCardLongClick(View view, int cardId, int positionInList)
         {
-            // TODO: Delete card
+            if (cardId > 0)
+            {
+                var menu = new PopupMenu(_context, view);
+                menu.Inflate(Resource.Menu.card_popup_menu);
+                menu.MenuItemClick += (sender, args) =>
+                {
+                    RequestToDeleteCard?.Invoke(cardId, positionInList);
+                };
+
+                menu.Show();
+            }
         }
 
         private void OnCardClick(int cardId, ImageView cardImage)
@@ -104,7 +128,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #region Other Methods
         public void RemoveItem(int positionInList)
         {
-            
+            /* Remove from adapter data set */
+            Cards.RemoveAt(positionInList);
+
+            /* Notify adapter */
+            NotifyItemRemoved(positionInList);
+            NotifyItemRangeChanged(positionInList, ItemCount);
         }
 
         public void InsertItem(int cardId)
@@ -117,7 +146,9 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             Cards.Insert(lastPosition, card);
 
             /* Notify adapter */
+            int amountOfChangedItems = 2;
             NotifyItemInserted(lastPosition);
+            NotifyItemRangeChanged(lastPosition, amountOfChangedItems);
         }
         #endregion
 

@@ -106,7 +106,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set up the adapter for activity cards recycler view */
             _activityCardsAdapter = new CardListAdapter(this, cards);
             _activityCardsAdapter.CardSelected += OnActivityCardClick;
-            _activityCardsAdapter.RequestToDeleteItem += OnRequestToDeleteActivityCard;
+            _activityCardsAdapter.RequestToDeleteCard += OnRequestToDeleteActivityCard;
             _activityCardsAdapter.AddCardButtonClicked += OnAddCardButtonClicked;
             _activityCards.SetAdapter(_activityCardsAdapter);
         }
@@ -125,7 +125,36 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnRequestToDeleteActivityCard(int cardId, int positionInList)
         {
-            throw new NotImplementedException();
+            /* Show alert if card is used in uncompleted schedules and cancel deleting */
+            if (IsCardInPresentTimetable(cardId))
+            {
+                using (var alert = new AlertDialog.Builder(this))
+                {
+                    alert.SetTitle(GetString(Resource.String.delete_card));
+                    alert.SetMessage(Resource.String.card_is_used);
+                    alert.SetNeutralButton(GetString(Resource.String.ok_button), (sender, args) => {});
+
+                    Dialog dialog = alert.Create();
+                    dialog.Show();
+                }
+            }
+            /* Show general alert */
+            else
+            {
+                using (var alert = new AlertDialog.Builder(this))
+                {
+                    alert.SetTitle(GetString(Resource.String.delete_card));
+                    alert.SetMessage(GetString(Resource.String.sure_to_delete_card));
+                    alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) =>
+                    {
+                        DeleteCard(cardId, positionInList);
+                    });
+                    alert.SetNegativeButton(GetString(Resource.String.cancel_button), (sender1, args) => { });
+
+                    Dialog dialog = alert.Create();
+                    dialog.Show();
+                }
+            }
         }
 
         private void OnActivityCardClick(int cardId, ImageView cardImage)
@@ -266,6 +295,39 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     GetString(Resource.String.choose_photo)),
                 requestCode
             );
+        }
+
+        private bool IsCardInPresentTimetable(int cardId)
+        {
+            /* Get all schedules where card is used */
+            var schedulesForCard = InteractiveTimetable.Current.ScheduleManager.
+                                                        GetSchedulesWhereCardIsUsed(cardId);
+
+            /* Select only uncompleted schedules */
+            var uncompletedSchedules = schedulesForCard.Where(x => !x.IsCompleted || !x.CreateTime.Date.Equals(DateTime.Today));
+
+            return uncompletedSchedules.Any();
+        }
+
+        private void DeleteCard(int cardId, int positionInList)
+        {
+            /* Get card */
+            var card = InteractiveTimetable.Current.ScheduleManager.Cards.GetCard(cardId);
+
+            /* Delete from database */
+            InteractiveTimetable.Current.ScheduleManager.Cards.DeleteCard(cardId);
+
+            /* Delete from adapter */
+            bool isActivityCard = InteractiveTimetable.Current.ScheduleManager.Cards.CardTypes.
+                                                       IsActivityCardType(card.CardTypeId);
+            if (isActivityCard)
+            {
+                _activityCardsAdapter.RemoveItem(positionInList);
+            }
+            else
+            {
+                //_goalCardsAdapter.RemoveItem(positionInList);
+            }
         }
 
         //        private void OnCreateTimetableClicked(object sender, EventArgs e)

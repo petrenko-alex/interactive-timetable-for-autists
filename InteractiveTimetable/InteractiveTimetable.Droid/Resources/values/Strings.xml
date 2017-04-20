@@ -13,6 +13,7 @@
   <string name="delete_button">Удалить</string>
   <string name="edit_button">Изменить</string>
   <string name="cancel_button">Отмена</string>
+  <string name="ok_button">Ок</string>
   <string name="enter_first_name">Введите имя...</string>
   <string name="enter_last_name">Введите фамилию...</string>
   <string name="enter_patronymic_name">Введите отчество...</string>
@@ -27,9 +28,11 @@
   <string name="user_photo_not_set">Фотография ребенка не выбрана.</string>
   <string name="delete_user">Удаление профиля ребенка</string>
   <string name="delete_trip">Удаление путевки</string>
+  <string name="delete_card">Удаление карточки</string>
   <string name="add_user_profile">Добавить профиль ребенка</string>
   <string name="sure_to_delete_user">Вы действительно хотите удалить профиль ребенка?</string>
   <string name="sure_to_delete_trip">Вы действительно хотите удалить выбранную путевку?</string>
+  <string name="sure_to_delete_card">Вы действительно хотите удалить выбранную карточку?</string>
   <string name="user_in_present_timetable">
     Выбранный профиль ребенка используется в текущем расписании. 
     Вы действительно хотите удалить его?
@@ -37,6 +40,10 @@
   <string name="present_trip">
     Выбранная путевка является текущей.
     Вы действительно хотите удалить её?
+  </string>
+  <string name="card_is_used">
+    Выбранная карточка используется в расписании.
+    В данный момент ее невозможно удалить.
   </string>
   <string name="empty_user_list">В списке пока нет пользователей</string>
   <string name="detailed_user_info">Здесь будет выводиться детальная информация о пользователе</string>

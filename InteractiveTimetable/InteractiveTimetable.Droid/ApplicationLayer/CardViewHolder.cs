@@ -17,14 +17,14 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         public CardViewHolder(
             View itemView,
             Action<int, ImageView> listenerForClick,
-            Action<int, int> listenerForLongClick)
+            Action<View, int, int> listenerForLongClick)
             : base(itemView)
         {
             CardImage = itemView.FindViewById<ImageView>(Resource.Id.card_list_item_image);
             CardFrame = itemView.FindViewById<FrameLayout>(Resource.Id.card_list_item_frame);
 
             itemView.Click += (sender, e) => listenerForClick(CardId, CardImage);
-            itemView.LongClick += (sender, e) => listenerForLongClick(CardId, PositionInList);
+            itemView.LongClick += (sender, e) => listenerForLongClick(itemView, CardId, PositionInList);
         }
     }
 }
