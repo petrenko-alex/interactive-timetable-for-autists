@@ -16,6 +16,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     {
         #region Constants
         private static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
+        private static readonly int CreateTimetableRequest = 0;
         #endregion
 
         #region Widgets
@@ -141,7 +142,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 OnLockedScreenClicked(this, null);
                 return;
             }
-            Console.WriteLine("Edit timetable tape button clicked");
+            
+            /* Create and start activity */
+            var intent = new Intent(this, typeof(CreateTimetableActivity));
+            intent.PutExtra("user_id", userId);
+            intent.PutExtra("date", DateTime.Today.ToString("dd.MM.yyyy"));
+            StartActivityForResult(intent, CreateTimetableRequest);
         }
 
         private void OnTriedToScrollWhenLocked()

@@ -112,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationLayer\BtimapHelper.cs" />
+    <Compile Include="ApplicationLayer\CardListAdapter.cs" />
+    <Compile Include="ApplicationLayer\CardViewHolder.cs" />
+    <Compile Include="ApplicationLayer\GridAutofitLayoutManager.cs" />
     <Compile Include="ApplicationLayer\LockableLinearLayoutManager.cs" />
     <Compile Include="ApplicationLayer\LockableScrollView.cs" />
     <Compile Include="ApplicationLayer\HospitalTripListAdapter.cs" />
@@ -210,6 +213,9 @@
     <AndroidResource Include="Resources\layout-land\create_timetable.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\card_list_item.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />
@@ -266,6 +272,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\add_card_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\card_frame.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

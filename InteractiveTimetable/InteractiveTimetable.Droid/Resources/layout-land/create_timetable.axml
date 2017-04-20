@@ -36,7 +36,7 @@
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:id="@+id/textView1"
+            p1:id="@+id/ct_current_date"
             p1:layout_alignParentEnd="true"
             p1:layout_centerInParent="true"
             p1:textSize="25dp"
@@ -74,14 +74,8 @@
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/ct_activity_cards"
-            p1:layout_marginTop="5dp" />
-        <ImageButton
-            p1:src="@drawable/add_card_button"
-            p1:layout_width="140dp"
-            p1:layout_height="140dp"
-            p1:id="@+id/ct_activity_cards_add"
-            p1:scaleType="centerInside"
-            p1:background="@null"
-            p1:padding="5dp" />
+            p1:layout_marginTop="5dp"
+            p1:layout_marginLeft="10dp"
+            p1:layout_marginRight="10dp" />
     </LinearLayout>
 </LinearLayout>
