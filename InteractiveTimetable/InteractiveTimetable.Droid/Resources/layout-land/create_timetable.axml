@@ -58,21 +58,39 @@
         p1:layout_marginTop="10dp"
         p1:layout_marginLeft="10dp"
         p1:layout_marginRight="10dp">
-        <FrameLayout
+        <LinearLayout
+            p1:orientation="horizontal"
             p1:minWidth="25px"
             p1:minHeight="25px"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/new_tape_frame"
-            p1:background="@drawable/round_corner_frame">
+            p1:id="@+id/linearLayout1"
+            p1:background="@drawable/round_corner_frame"
+            p1:gravity="center"
+            p1:padding="10dp">
             <android.support.v7.widget.RecyclerView
-                p1:layout_width="match_parent"
+                p1:layout_width="wrap_content"
                 p1:layout_height="wrap_content"
                 p1:id="@+id/new_tape"
-                p1:layout_gravity="center"
-                p1:layout_marginLeft="5dp"
-                p1:layout_marginRight="5dp" />
-        </FrameLayout>
+                p1:layout_weight="1" />
+            <ImageView
+                p1:src="@android:drawable/ic_menu_gallery"
+                p1:layout_width="140dp"
+                p1:layout_height="140dp"
+                p1:id="@+id/new_tape_goal"
+                p1:background="@drawable/redcustom_toast"
+                p1:layout_marginLeft="10dp"
+                p1:layout_marginBottom="20dp" />
+            <ImageButton
+                p1:src="@drawable/add_card_button"
+                p1:layout_width="140dp"
+                p1:layout_height="140dp"
+                p1:id="@+id/new_tape_add"
+                p1:scaleType="centerCrop"
+                p1:background="@null"
+                p1:layout_marginLeft="10dp"
+                p1:layout_marginBottom="20dp" />
+        </LinearLayout>
         <Button
             p1:text="@string/all_done"
             p1:layout_width="wrap_content"
