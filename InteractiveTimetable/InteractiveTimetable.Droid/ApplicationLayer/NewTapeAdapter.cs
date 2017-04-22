@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
 {
@@ -98,7 +99,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         private void OnDeleteButtonClicked(int positionInList)
         {
-            Console.WriteLine("Delete tape item!");
+            /* Delete from data set */
+            TapeItems.RemoveAt(positionInList);
+
+            /* Notify adapter */
+            NotifyItemRemoved(positionInList);
+            NotifyItemRangeChanged(positionInList, TapeItems.Count);
         }
 
         private void OnItemClick(NewTapeItemViewHolder viewHolder)
