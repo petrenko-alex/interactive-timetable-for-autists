@@ -64,6 +64,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 {
                     /* Empty item */
                     viewHolder.ItemImage.SetImageResource(Resource.Drawable.empty_new_tape_item);
+                    viewHolder.ItemFrame.SetBackgroundResource(0);
                 }
                 else
                 {
@@ -145,6 +146,19 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             /* Set Current Card */
             CurrentCard.ItemImage.SetImageDrawable(cardImage.Drawable);
             CurrentCard.TapeItemId = cardId;
+        }
+
+        public void AddNewTapeItem()
+        {
+            /* Add card to data set */
+            var card = new Card()
+            {
+                Id = 0
+            };
+            TapeItems.Add(card);
+
+            /* Notify adapter */
+            NotifyItemInserted(TapeItems.Count);
         }
         #endregion
 

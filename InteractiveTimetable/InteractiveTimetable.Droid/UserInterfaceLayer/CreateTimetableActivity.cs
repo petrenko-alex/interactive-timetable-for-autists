@@ -35,6 +35,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private NewTapeAdapter _newTapeAdapter;
         private LinearLayoutManager _newTapeLayoutManager;
         private ImageView _newTapeGoal;
+        private ImageButton _addItemToNewTapeButton;
         #endregion
 
         #region Activity Cards Widgets
@@ -93,6 +94,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _goalCards = FindViewById<RecyclerView>(Resource.Id.ct_goal_cards);
             _newTape = FindViewById<RecyclerView>(Resource.Id.new_tape);
             _newTapeGoal = FindViewById<ImageView>(Resource.Id.new_tape_goal);
+            _addItemToNewTapeButton = FindViewById<ImageButton>(Resource.Id.new_tape_add);
 
             /* Set data for views */
             /* Set new tape goal card */
@@ -124,10 +126,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Set handlers */
             _backButton.Click += OnBackButtonClicked;
+            _addItemToNewTapeButton.Click += OnAddItemToNewTapeButtonClicked;
 
             /* Add cards */
             AddActivityCards();
             AddGoalCards();
+        }
+
+        private void OnAddItemToNewTapeButtonClicked(object sender, EventArgs e)
+        {
+            _newTapeAdapter.AddNewTapeItem();
+            _newTape.SmoothScrollToPosition(_newTapeAdapter.ItemCount);
         }
 
         private void OnBackButtonClicked(object sender, EventArgs e)
