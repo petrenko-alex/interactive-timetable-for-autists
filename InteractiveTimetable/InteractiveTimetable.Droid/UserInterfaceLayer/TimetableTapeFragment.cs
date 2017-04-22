@@ -47,7 +47,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Events
-        public event Action<int, IList<int>> EditTimetableTapeButtonClicked;
+        public event Action<int, IList<Card>> EditTimetableTapeButtonClicked;
         public event Action<object, EventArgs> ClickedWhenLocked;
         #endregion
 
@@ -309,8 +309,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnEditTimetableTapeButtonClicked(object sender, EventArgs e)
         {
-            var cardIds = _tapeItems.Select(x => x.CardId).ToList();
-            EditTimetableTapeButtonClicked?.Invoke(_userId, cardIds);
+            var cards = _tapeItems.
+                    Select(x => InteractiveTimetable.Current.ScheduleManager.Cards.
+                                                     GetCard(x.CardId)).
+                    ToList();
+            EditTimetableTapeButtonClicked?.Invoke(_userId, cards);
         }
 
         public override View OnCreateView(

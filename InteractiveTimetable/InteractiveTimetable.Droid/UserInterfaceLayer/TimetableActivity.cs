@@ -135,19 +135,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void OnEditTimetableTapeButtonClicked(int userId, IList<int>  cardIds)
+        private void OnEditTimetableTapeButtonClicked(int userId, IList<Card>  cards)
         {
             if (_isLocked)
             {
                 OnLockedScreenClicked(this, null);
                 return;
             }
-            
+
             /* Create and start activity */
             var intent = new Intent(this, typeof(CreateTimetableActivity));
             intent.PutExtra("user_id", userId);
             intent.PutExtra("date", DateTime.Today.ToString("dd.MM.yyyy"));
-            intent.PutExtra("card_ids", cardIds.ToArray());
+            intent.PutExtra("cards", cards.Select(card => ParcelableCard.FromCard(card)).ToArray());
             StartActivityForResult(intent, CreateTimetableRequest);
         }
 

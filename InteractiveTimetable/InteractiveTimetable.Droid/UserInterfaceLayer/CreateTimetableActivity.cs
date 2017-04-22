@@ -68,11 +68,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             ActionBar.Hide();
 
             /* Get data */
-            var cardIds = Intent.GetIntArrayExtra("card_ids").ToList();
-            if (cardIds.Count > 0)
+            var parcelableCards = Intent.GetParcelableArrayExtra("cards").ToList();
+            var cards = parcelableCards.Select(x => ParcelableCard.ToCard((ParcelableCard) x)).ToList();
+            if (cards.Count > 0)
             {
-                _newTapeGoalCardId = cardIds.Count > 0 ? cardIds.Last() : 0;
-                cardIds.RemoveAt(cardIds.Count - 1);
+                _newTapeGoalCardId = cards.Count > 0 ? cards.Last().Id : 0;
+                cards.RemoveAt(cards.Count - 1);
             }
 
             int userId = Intent.GetIntExtra("user_id", 0);
@@ -118,7 +119,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set new tape */
             _newTapeLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.Horizontal, false);
             _newTape.SetLayoutManager(_newTapeLayoutManager);
-            _newTapeAdapter = new NewTapeAdapter(this, cardIds);
+            _newTapeAdapter = new NewTapeAdapter(this, cards);
             _newTape.SetAdapter(_newTapeAdapter);
 
             /* Set handlers */

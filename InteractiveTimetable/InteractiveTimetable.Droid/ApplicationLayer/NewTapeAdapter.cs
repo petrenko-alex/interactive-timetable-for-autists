@@ -4,6 +4,7 @@ using Android.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
 {
@@ -15,7 +16,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         #region Properties
         public NewTapeItemViewHolder CurrentCard { get; set; }
-        public IList<int> TapeItems { get; set; }
+        public IList<Card> TapeItems { get; set; }
         public override int ItemCount => TapeItems.Count;
         #endregion
 
@@ -27,14 +28,19 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #region Methods
 
         #region Construct Methods
-        public NewTapeAdapter(Activity context, IList<int> tapeItems)
+        public NewTapeAdapter(Activity context, IList<Card> tapeItems)
         {
             _context = context;
             if (tapeItems.Count == 0)
             {
-                TapeItems = new List<int>()
+                var card = new Card()
                 {
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                    Id = 0
+                };
+
+                TapeItems = new List<Card>()
+                {
+                    card, card, card, card, card, card, card, card, card, card,
                 };
             }
             else
@@ -54,30 +60,24 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             {
                 var itemAtPosition = TapeItems[position];
 
-                if (itemAtPosition <= 0)
+                if (itemAtPosition.Id <= 0)
                 {
                     /* Empty item */
                     viewHolder.ItemImage.SetImageResource(Resource.Drawable.empty_new_tape_item);
                 }
                 else
                 {
-                    var card = InteractiveTimetable.Current.ScheduleManager.Cards.
-                                                    GetCard(itemAtPosition);
-
-                    if (card != null)
-                    {
-                        /* Set card image */
-                        var imageSize = ImageHelper.ConvertDpToPixels(
-                            140,
-                            InteractiveTimetable.Current.ScreenDensity
-                        );
-                        var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-                        viewHolder.ItemImage.SetImageBitmap(bitmap);
-                    }
+                    /* Set card image */
+                    var imageSize = ImageHelper.ConvertDpToPixels(
+                        140,
+                        InteractiveTimetable.Current.ScreenDensity
+                    );
+                    var bitmap = itemAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                    viewHolder.ItemImage.SetImageBitmap(bitmap);
                 }
 
                 /* Set common properties */
-                viewHolder.TapeItemId = itemAtPosition;
+                viewHolder.TapeItemId = itemAtPosition.Id;
                 viewHolder.PositionInList = position;
 
                 /* Set current card */
@@ -114,7 +114,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #endregion
 
         #region Other Methods
-
         public void SetCurrentCard(NewTapeItemViewHolder viewHolder)
         {
             /* Put off green frame from old CurrentCard */
@@ -139,6 +138,11 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         public void SetActivityCard(int cardId, ImageView cardImage)
         {
+            /* Change card in data set */
+            var card = InteractiveTimetable.Current.ScheduleManager.Cards.GetCard(cardId);
+            TapeItems[CurrentCard.PositionInList] = card;
+            
+            /* Set Current Card */
             CurrentCard.ItemImage.SetImageDrawable(cardImage.Drawable);
             CurrentCard.TapeItemId = cardId;
         }
