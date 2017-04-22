@@ -12,13 +12,15 @@
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
         p1:id="@+id/nti_frame"
-        p1:layout_gravity="center">
+        p1:layout_gravity="center"
+        p1:padding="5dp">
         <ImageView
             p1:layout_width="140dp"
             p1:layout_height="140dp"
             p1:id="@+id/nti_image"
             p1:layout_gravity="center"
-            p1:src="@android:drawable/ic_menu_gallery" />
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:scaleType="centerCrop" />
     </FrameLayout>
     <ImageButton
         p1:src="@android:drawable/ic_menu_delete"

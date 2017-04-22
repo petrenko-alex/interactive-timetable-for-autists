@@ -17,7 +17,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         public NewTapeItemViewHolder(
             View itemView,
-            Action<int> listenerForClick,
+            Action<NewTapeItemViewHolder> listenerForClick,
             Action<int> listenerForDeleteButtonClick)
             : base(itemView)
         {
@@ -25,7 +25,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             ItemFrame = itemView.FindViewById<FrameLayout>(Resource.Id.nti_frame);
             DeleteButton = itemView.FindViewById<ImageButton>(Resource.Id.nti_delete_button);
 
-            ItemImage.Click += (sender, e) => listenerForClick(PositionInList);
+            ItemImage.Click += (sender, e) => listenerForClick(this);
             DeleteButton.Click += (sender, e) => listenerForDeleteButtonClick(PositionInList);
         }
     }

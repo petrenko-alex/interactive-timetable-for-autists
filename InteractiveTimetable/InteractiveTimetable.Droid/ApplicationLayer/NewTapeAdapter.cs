@@ -13,13 +13,14 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #endregion
 
         #region Properties
-        public int CurrentCard { get; set; }
+        public NewTapeItemViewHolder CurrentCard { get; set; }
         public IList<int> TapeItems { get; set; }
         public override int ItemCount => TapeItems.Count;
         #endregion
 
         #region Internal Variables
         private Activity _context;
+        private int _currentCardPosition;
         #endregion
 
         #region Methods
@@ -39,6 +40,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             {
                 TapeItems = tapeItems;
             }
+            _currentCardPosition = 0;
         }
         #endregion
 
@@ -76,6 +78,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 /* Set common properties */
                 viewHolder.TapeItemId = itemAtPosition;
                 viewHolder.PositionInList = position;
+
+                /* Set current card */
+                if (_currentCardPosition == position)
+                {
+                    SetCurrentCard(viewHolder);
+                }
             }
         }
 
@@ -93,10 +101,34 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             Console.WriteLine("Delete tape item!");
         }
 
-        private void OnItemClick(int positionInList)
+        private void OnItemClick(NewTapeItemViewHolder viewHolder)
         {
-            Console.WriteLine("Select tape item!");
+            /* Put off green frame from old CurrentCard */
+            CurrentCard.ItemFrame.SetBackgroundResource(0);
+
+            SetCurrentCard(viewHolder);
         }
+        #endregion
+
+        #region Other Methods
+
+        public void SetCurrentCard(NewTapeItemViewHolder viewHolder)
+        {
+            /* New CurrentCard */
+            CurrentCard = viewHolder;
+            _currentCardPosition = CurrentCard.PositionInList;
+
+            /* Green frame with paddings */
+            CurrentCard.ItemFrame.SetBackgroundResource(Resource.Drawable.green_round_corner_frame);
+            var paddingInDp = 5;
+            var paddingInPx = ImageHelper.ConvertDpToPixels(
+                paddingInDp,
+                InteractiveTimetable.Current.ScreenDensity
+            );
+            CurrentCard.ItemFrame.SetPadding(paddingInPx, paddingInPx, paddingInPx, paddingInPx);
+        }
+        
+
         #endregion
 
         #endregion
