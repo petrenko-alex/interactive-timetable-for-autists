@@ -16,7 +16,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         public TimetableTapeItemViewHolder(
             View itemView,
-            Action<TimetableTapeItemViewHolder, int, int> listenetForClick,
+            Action<TimetableTapeItemViewHolder, int, int> listenerForClick,
             Action<TimetableTapeItemViewHolder, int, int> listenerForLongClick)
             : base(itemView)
         {
@@ -24,7 +24,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             ItemFrame = itemView.FindViewById<FrameLayout>(Resource.Id.tape_item_frame);
 
             itemView.Click += (sender, e) =>
-                listenetForClick(this, TapeItemId, PositionInList);
+                listenerForClick(this, TapeItemId, PositionInList);
 
             itemView.LongClick += (sender, e) =>
                 listenerForLongClick(this, TapeItemId, PositionInList);
