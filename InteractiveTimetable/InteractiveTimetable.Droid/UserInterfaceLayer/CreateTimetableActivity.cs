@@ -28,12 +28,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TextView _label;
         private TextView _currentDateView;
         private ImageButton _backButton;
-        private RecyclerView _goalCards;
 
         #region Activity Cards Widgets
         private RecyclerView _activityCards;
         private GridAutofitLayoutManager _activityCardsLayoutManager;
         private CardListAdapter _activityCardsAdapter;
+        #endregion
+
+        #region Goal Cards Widgets
+        private RecyclerView _goalCards;
+        private GridAutofitLayoutManager _goalCardsLayoutManager;
+        private CardListAdapter _goalCardsAdapter;
         #endregion
 
         #endregion
@@ -68,6 +73,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _currentDateView = FindViewById<TextView>(Resource.Id.ct_current_date);
             _backButton = FindViewById<ImageButton>(Resource.Id.ct_back_button);
             _activityCards = FindViewById<RecyclerView>(Resource.Id.ct_activity_cards);
+            _goalCards = FindViewById<RecyclerView>(Resource.Id.ct_goal_cards);
 
             /* Set data for view */
             string label = $"{_currentUser.FirstName} {_currentUser.LastName} - {_label.Text}";
@@ -79,6 +85,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Add cards */
             AddActivityCards();
+            AddGoalCards();
         }
 
         private void OnBackButtonClicked(object sender, EventArgs e)
@@ -105,10 +112,34 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             
             /* Set up the adapter for activity cards recycler view */
             _activityCardsAdapter = new CardListAdapter(this, cards);
-            _activityCardsAdapter.CardSelected += OnActivityCardClick;
-            _activityCardsAdapter.RequestToDeleteCard += OnRequestToDeleteActivityCard;
+            _activityCardsAdapter.CardSelected += OnActivityCardClicked;
+            _activityCardsAdapter.RequestToDeleteCard += OnRequestToDeleteCard;
             _activityCardsAdapter.AddCardButtonClicked += OnAddCardButtonClicked;
             _activityCards.SetAdapter(_activityCardsAdapter);
+        }
+
+        private void AddGoalCards()
+        {
+            /* Get data */
+            var cards = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                             GetMotivationGoalCards().
+                                             ToList();
+            /* Add empty card for add button */
+            cards.Add(new Card()
+            {
+                Id = 0
+            });
+
+            /* Set up layout manager for goal cards recycler view */
+            _goalCardsLayoutManager = new GridAutofitLayoutManager(this, CardColumnWidth);
+            _goalCards.SetLayoutManager(_goalCardsLayoutManager);
+
+            /* Set up the adapter for goal cards recycler view */
+            _goalCardsAdapter = new CardListAdapter(this, cards);
+            _goalCardsAdapter.CardSelected += OnGoalCardClicked;
+            _goalCardsAdapter.RequestToDeleteCard += OnRequestToDeleteCard;
+            _goalCardsAdapter.AddCardButtonClicked += OnAddCardButtonClicked;
+            _goalCards.SetAdapter(_goalCardsAdapter);
         }
 
         private void OnAddCardButtonClicked(int cardTypeId)
@@ -123,7 +154,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void OnRequestToDeleteActivityCard(int cardId, int positionInList)
+        private void OnRequestToDeleteCard(int cardId, int positionInList)
         {
             /* Show alert if card is used in uncompleted schedules and cancel deleting */
             if (IsCardInPresentTimetable(cardId))
@@ -157,7 +188,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void OnActivityCardClick(int cardId, ImageView cardImage)
+        private void OnActivityCardClicked(int cardId, ImageView cardImage)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnGoalCardClicked(int cardId, ImageView cardImage)
         {
             throw new NotImplementedException();
         }
@@ -220,7 +256,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 }
                 else
                 {
-                    //_goalCardsAdapter.InsertItem(cardId);
+                    _goalCardsAdapter.InsertItem(cardId);
                 }
             }
         }
@@ -326,7 +362,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             else
             {
-                //_goalCardsAdapter.RemoveItem(positionInList);
+                _goalCardsAdapter.RemoveItem(positionInList);
             }
         }
 
