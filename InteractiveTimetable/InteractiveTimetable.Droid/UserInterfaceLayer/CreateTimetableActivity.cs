@@ -231,12 +231,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnActivityCardClicked(int cardId, ImageView cardImage)
         {
-            throw new NotImplementedException();
+            _newTapeAdapter.SetActivityCard(cardId, cardImage);
+            
+            /* Set next CurrentCard */
+            var currentPosition = _newTapeAdapter.CurrentCard.PositionInList;
+            var nextHolder = _newTape.FindViewHolderForAdapterPosition(currentPosition + 1)
+                    as NewTapeItemViewHolder;
+            if (nextHolder != null)
+            {
+                _newTapeAdapter.SetCurrentCard(nextHolder);
+            }
         }
 
         private void OnGoalCardClicked(int cardId, ImageView cardImage)
         {
-            throw new NotImplementedException();
+            _newTapeGoal.SetImageDrawable(cardImage.Drawable);
+            _newTapeGoalCardId = cardId;
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

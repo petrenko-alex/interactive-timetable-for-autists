@@ -103,9 +103,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         private void OnItemClick(NewTapeItemViewHolder viewHolder)
         {
-            /* Put off green frame from old CurrentCard */
-            CurrentCard.ItemFrame.SetBackgroundResource(0);
-
             SetCurrentCard(viewHolder);
         }
         #endregion
@@ -114,6 +111,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         public void SetCurrentCard(NewTapeItemViewHolder viewHolder)
         {
+            /* Put off green frame from old CurrentCard */
+            if (CurrentCard != null)
+            {
+                CurrentCard.ItemFrame.SetBackgroundResource(0);
+            }
+
             /* New CurrentCard */
             CurrentCard = viewHolder;
             _currentCardPosition = CurrentCard.PositionInList;
@@ -127,8 +130,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             );
             CurrentCard.ItemFrame.SetPadding(paddingInPx, paddingInPx, paddingInPx, paddingInPx);
         }
-        
 
+        public void SetActivityCard(int cardId, ImageView cardImage)
+        {
+            CurrentCard.ItemImage.SetImageDrawable(cardImage.Drawable);
+            CurrentCard.TapeItemId = cardId;
+        }
         #endregion
 
         #endregion
