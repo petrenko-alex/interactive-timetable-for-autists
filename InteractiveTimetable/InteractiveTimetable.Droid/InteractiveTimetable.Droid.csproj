@@ -58,6 +58,7 @@
       <HintPath>..\..\packages\AndroidViewAnimations.1.1.3.0\lib\MonoAndroid23\AndroidViewAnimations.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Mono.Android.Export" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -122,6 +123,7 @@
     <Compile Include="ApplicationLayer\ImageHelper.cs" />
     <Compile Include="ApplicationLayer\NewTapeAdapter.cs" />
     <Compile Include="ApplicationLayer\NewTapeItemViewHolder.cs" />
+    <Compile Include="ApplicationLayer\ParcelableCard.cs" />
     <Compile Include="ApplicationLayer\TimetableTapeListAdapter.cs" />
     <Compile Include="ApplicationLayer\TimetableTapeItemViewHolder.cs" />
     <Compile Include="ApplicationLayer\ToastHelper.cs" />
