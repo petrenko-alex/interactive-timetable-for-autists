@@ -54,6 +54,39 @@
         p1:minHeight="25px"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
+        p1:id="@+id/new_tape_layout"
+        p1:layout_marginTop="10dp"
+        p1:layout_marginLeft="10dp"
+        p1:layout_marginRight="10dp">
+        <FrameLayout
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/new_tape_frame"
+            p1:background="@drawable/round_corner_frame">
+            <android.support.v7.widget.RecyclerView
+                p1:layout_width="match_parent"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/new_tape"
+                p1:layout_gravity="center"
+                p1:layout_marginLeft="5dp"
+                p1:layout_marginRight="5dp" />
+        </FrameLayout>
+        <Button
+            p1:text="@string/all_done"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/new_tape_ready_button"
+            p1:layout_gravity="right"
+            p1:layout_marginTop="10dp" />
+    </LinearLayout>
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
         p1:id="@+id/ct_activity_cards_layout"
         p1:layout_marginTop="10dp">
         <TextView

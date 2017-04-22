@@ -79,4 +79,5 @@
   <string name="goals">Мотивационные цели:</string>
   <string name="motivation_goals">Мотивационные цели:</string>
   <string name="add_card">Добавить карточку</string>
+  <string name="all_done">Готово</string>
 </resources>
