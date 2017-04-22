@@ -120,6 +120,8 @@
     <Compile Include="ApplicationLayer\HospitalTripListAdapter.cs" />
     <Compile Include="ApplicationLayer\HospitalTripViewHolder.cs" />
     <Compile Include="ApplicationLayer\ImageHelper.cs" />
+    <Compile Include="ApplicationLayer\NewTapeAdapter.cs" />
+    <Compile Include="ApplicationLayer\NewTapeItemViewHolder.cs" />
     <Compile Include="ApplicationLayer\TimetableTapeListAdapter.cs" />
     <Compile Include="ApplicationLayer\TimetableTapeItemViewHolder.cs" />
     <Compile Include="ApplicationLayer\ToastHelper.cs" />
@@ -216,6 +218,9 @@
     <AndroidResource Include="Resources\layout\card_list_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\new_tape_item.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />
@@ -278,6 +283,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\card_popup_menu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\empty_new_tape_item.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

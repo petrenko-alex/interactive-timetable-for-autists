@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Android.App;
@@ -29,6 +30,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TextView _currentDateView;
         private ImageButton _backButton;
 
+        #region New Tape Widgets
+        private RecyclerView _newTape;
+        private NewTapeAdapter _newTapeAdapter;
+        private LinearLayoutManager _newTapeLayoutManager;
+        private ImageView _newTapeGoal;
+        #endregion
+
         #region Activity Cards Widgets
         private RecyclerView _activityCards;
         private GridAutofitLayoutManager _activityCardsLayoutManager;
@@ -47,6 +55,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private User _currentUser;
         private DateTime _currentDate;
         private File _photo;
+        private int _newTapeGoalCardId;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -59,6 +68,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             ActionBar.Hide();
 
             /* Get data */
+            var cardIds = Intent.GetIntArrayExtra("card_ids").ToList();
+            if (cardIds.Count > 0)
+            {
+                _newTapeGoalCardId = cardIds.Count > 0 ? cardIds.Last() : 0;
+                cardIds.RemoveAt(cardIds.Count - 1);
+            }
+
             int userId = Intent.GetIntExtra("user_id", 0);
             string currentDate = Intent.GetStringExtra("date");
             _currentUser = InteractiveTimetable.Current.UserManager.GetUser(userId);
@@ -74,11 +90,36 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _backButton = FindViewById<ImageButton>(Resource.Id.ct_back_button);
             _activityCards = FindViewById<RecyclerView>(Resource.Id.ct_activity_cards);
             _goalCards = FindViewById<RecyclerView>(Resource.Id.ct_goal_cards);
+            _newTape = FindViewById<RecyclerView>(Resource.Id.new_tape);
+            _newTapeGoal = FindViewById<ImageView>(Resource.Id.new_tape_goal);
 
-            /* Set data for view */
+            /* Set data for views */
+            /* Set new tape goal card */
+            if (_newTapeGoalCardId > 0)
+            {
+                var goalCard = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                                    GetCard(_newTapeGoalCardId);
+                var imageSize = ImageHelper.ConvertDpToPixels(
+                    140,
+                    InteractiveTimetable.Current.ScreenDensity
+                );
+                var bitmap = goalCard.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                _newTapeGoal.SetImageBitmap(bitmap);
+            }
+            else
+            {
+                _newTapeGoal.SetImageResource(Resource.Drawable.empty_new_tape_item);
+            }
+
             string label = $"{_currentUser.FirstName} {_currentUser.LastName} - {_label.Text}";
             _label.Text = label;
             _currentDateView.Text = _currentDate.ToString("dd MMMM yyyy");
+
+            /* Set new tape */
+            _newTapeLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.Horizontal, false);
+            _newTape.SetLayoutManager(_newTapeLayoutManager);
+            _newTapeAdapter = new NewTapeAdapter(this, cardIds);
+            _newTape.SetAdapter(_newTapeAdapter);
 
             /* Set handlers */
             _backButton.Click += OnBackButtonClicked;

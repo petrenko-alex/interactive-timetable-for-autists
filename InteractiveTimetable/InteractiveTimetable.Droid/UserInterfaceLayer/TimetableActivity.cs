@@ -135,7 +135,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void OnEditTimetableTapeButtonClicked(int userId)
+        private void OnEditTimetableTapeButtonClicked(int userId, IList<int>  cardIds)
         {
             if (_isLocked)
             {
@@ -147,6 +147,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var intent = new Intent(this, typeof(CreateTimetableActivity));
             intent.PutExtra("user_id", userId);
             intent.PutExtra("date", DateTime.Today.ToString("dd.MM.yyyy"));
+            intent.PutExtra("card_ids", cardIds.ToArray());
             StartActivityForResult(intent, CreateTimetableRequest);
         }
 

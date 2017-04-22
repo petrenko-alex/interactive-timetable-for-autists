@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
+    p1:layout_width="wrap_content"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/new_tape_item_layout"
+    p1:gravity="center"
+    p1:padding="10dp">
+    <FrameLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/nti_frame"
+        p1:layout_gravity="center">
+        <ImageView
+            p1:layout_width="140dp"
+            p1:layout_height="140dp"
+            p1:id="@+id/nti_image"
+            p1:layout_gravity="center"
+            p1:src="@android:drawable/ic_menu_gallery" />
+    </FrameLayout>
+    <ImageButton
+        p1:src="@android:drawable/ic_menu_delete"
+        p1:id="@+id/nti_delete_button"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:background="@null"
+        p1:layout_gravity="center" />
+</LinearLayout>
