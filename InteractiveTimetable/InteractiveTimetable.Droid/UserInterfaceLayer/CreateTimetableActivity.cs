@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Android.App;
@@ -7,6 +6,7 @@ using Android.Content;
 using Android.OS;
 using Android.Provider;
 using Android.Support.V7.Widget;
+using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.Droid.ApplicationLayer;
@@ -23,12 +23,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly int ActivityCardViaFile = 1;
         private static readonly int GoalCardViaCamera = 2;
         private static readonly int GoalCardViaFile = 3;
+        private static readonly int ErrorMessageXOffset = 0;
+        private static readonly int ErrorMessageYOffset = -220;
         #endregion
 
         #region Widgets
         private TextView _label;
         private TextView _currentDateView;
         private ImageButton _backButton;
+        private Button _createScheduleButton;
 
         #region New Tape Widgets
         private RecyclerView _newTape;
@@ -57,6 +60,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private DateTime _currentDate;
         private File _photo;
         private int _newTapeGoalCardId;
+        private int _tapeNumber;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -69,6 +73,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             ActionBar.Hide();
 
             /* Get data */
+            _tapeNumber = Intent.GetIntExtra("tape_number", 0);
             var parcelableCards = Intent.GetParcelableArrayExtra("cards").ToList();
             var cards = parcelableCards.Select(x => ParcelableCard.ToCard((ParcelableCard) x)).ToList();
             if (cards.Count > 0)
@@ -95,6 +100,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _newTape = FindViewById<RecyclerView>(Resource.Id.new_tape);
             _newTapeGoal = FindViewById<ImageView>(Resource.Id.new_tape_goal);
             _addItemToNewTapeButton = FindViewById<ImageButton>(Resource.Id.new_tape_add);
+            _createScheduleButton = FindViewById<Button>(Resource.Id.new_tape_ready_button);
 
             /* Set data for views */
             /* Set new tape goal card */
@@ -127,6 +133,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set handlers */
             _backButton.Click += OnBackButtonClicked;
             _addItemToNewTapeButton.Click += OnAddItemToNewTapeButtonClicked;
+            _createScheduleButton.Click += OnCreateTimetableClicked;
 
             /* Add cards */
             AddActivityCards();
@@ -427,12 +434,37 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        //        private void OnCreateTimetableClicked(object sender, EventArgs e)
-        //        {
-        //            var intent = new Intent(this, typeof(TimetableActivity));
-        //            intent.PutExtra("timetable", int[]);
-        //            SetResult(Result.Ok, intent);
-        //            Finish();
-        //        }
+        private void OnCreateTimetableClicked(object sender, EventArgs e)
+        {
+            /* Prepare data */
+            var cards = _newTapeAdapter.TapeItems.Select(x => x.Id).ToList();
+            cards.Add(_newTapeGoalCardId);
+            cards = cards.Where(x => x > 0).ToList();
+
+            /* Validate schedule */
+            try
+            {
+                InteractiveTimetable.Current.ScheduleManager.Validate(cards);
+            }
+            catch (ArgumentException exception)
+            {
+                /* Show validation errors */
+                var toast = ToastHelper.GetErrorToast(this, exception.Message);
+                toast.SetGravity(
+                    GravityFlags.ClipVertical,
+                    ErrorMessageXOffset,
+                    ErrorMessageYOffset
+                );
+                toast.Show();
+                return;
+            }
+
+            /* Send data */
+            var intent = new Intent(this, typeof(TimetableActivity));
+            intent.PutExtra("cards", cards.ToArray());
+            intent.PutExtra("tape_number", _tapeNumber);
+            SetResult(Result.Ok, intent);
+            Finish();
+        }
     }
 }

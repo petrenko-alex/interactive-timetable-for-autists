@@ -39,27 +39,35 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private LockableLinearLayoutManager _layoutManager;
         private TimetableTapeListAdapter _tapeItemListAdapter;
         private IList<ScheduleItem> _tapeItems;
-        private Schedule _currentSchedule;
-        private int _userId;
         private bool _isLocked;
         private int _itemWidth;
         private Timer _scrollTimer;
         #endregion
 
         #region Events
-        public event Action<int, IList<Card>> EditTimetableTapeButtonClicked;
+        public event Action<int, int, IList<Card>> EditTimetableTapeButtonClicked;
         public event Action<object, EventArgs> ClickedWhenLocked;
+        #endregion
+
+        #region Properties
+        public int TapeNumber { get; set; }
+        public Schedule CurrentSchedule { get; private set; }
+        public int UserId { get; private set; }
         #endregion
 
         #region Methods
 
         #region Construct Methods
-        public static TimetableTapeFragment NewInstance(int userId, IList<ScheduleItem> tapeItems)
+        public static TimetableTapeFragment NewInstance(
+            int userId, 
+            IList<ScheduleItem> tapeItems, 
+            int fragmentNumber)
         {
             var timetableTapeFragment = new TimetableTapeFragment()
             {
-                _userId = userId,
+                UserId = userId,
                 _tapeItems = tapeItems,
+                TapeNumber =  fragmentNumber,
                 _isLocked =  false
             };
 
@@ -73,7 +81,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnActivityCreated(savedInstanceState);
 
             /* Get data */
-            var user = InteractiveTimetable.Current.UserManager.GetUser(_userId);
+            var user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
 
             /* Get views */
             _recyclerView = Activity.FindViewById<RecyclerView>(Resource.Id.tape_item_list);
@@ -105,7 +113,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* If has schedule for today */
             if (_tapeItems.Any())
             {
-                _currentSchedule = InteractiveTimetable.Current.ScheduleManager.
+                CurrentSchedule = InteractiveTimetable.Current.ScheduleManager.
                                                     GetSchedule(_tapeItems[0].ScheduleId);
 
                 /* Set up scroll listener for recycler view */
@@ -115,7 +123,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 );
                 _scrollListener.LastItemIsVisible += OnLastItemIsVisible;
                 _scrollListener.LastItemIsHidden += OnLastItemIsHidden;
-                _recyclerView.AddOnScrollListener(_scrollListener);
                 _recyclerView.AddOnScrollListener(_scrollListener);
 
                 /* Set static goal card */
@@ -133,7 +140,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _scrollTimer = new Timer(ScrollTimer);
 
                 /* If timetable is completed */
-                if (_currentSchedule.IsCompleted)
+                if (CurrentSchedule.IsCompleted)
                 {
                     NeedToHideTimetableTape(this, null);
                 }
@@ -241,13 +248,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* Check if schedule is completed */
             bool isScheduleCompleted = InteractiveTimetable.Current.ScheduleManager.
-                            IsScheduleCompleted(_currentSchedule.Id);
+                            IsScheduleCompleted(CurrentSchedule.Id);
 
             if (isScheduleCompleted)
             {
                 /* Mark as completed in database */
                 InteractiveTimetable.Current.ScheduleManager.
-                                     CompleteSchedule(_currentSchedule.Id);
+                                     CompleteSchedule(CurrentSchedule.Id);
 
                 /* Show animation */
                 var goalImage = _tapeItemListAdapter.GoalViewHolder.ItemImage;
@@ -309,11 +316,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnEditTimetableTapeButtonClicked(object sender, EventArgs e)
         {
+            /* Get card ids */
             var cards = _tapeItems.
                     Select(x => InteractiveTimetable.Current.ScheduleManager.Cards.
                                                      GetCard(x.CardId)).
                     ToList();
-            EditTimetableTapeButtonClicked?.Invoke(_userId, cards);
+
+            EditTimetableTapeButtonClicked?.Invoke(UserId, TapeNumber, cards);
         }
 
         public override View OnCreateView(
@@ -342,9 +351,58 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Other Methods
-        public void DataSetChanged()
+
+        public void SetSchedule(IList<ScheduleItem> tapeItems)
         {
-            // TODO: Implement when need to change schedule after timetable created or changed
+            /* Show timetable tape if hidden */
+            if (_infoLayout.Visibility == ViewStates.Visible)
+            {
+                _infoLayout.Visibility = ViewStates.Gone;
+                _returnScheduleButton.Visibility = ViewStates.Gone;
+
+                _staticGoalCardFrame.Visibility = ViewStates.Visible;
+                _recyclerView.Visibility = ViewStates.Visible;
+            }
+
+            /* Set data */
+            _tapeItems = tapeItems;
+
+            CurrentSchedule = InteractiveTimetable.Current.ScheduleManager.
+                                                    GetSchedule(_tapeItems[0].ScheduleId);
+
+            /* Reset scroll listener */
+            if (_scrollListener != null)
+            {
+                _scrollListener.LastItemIsVisible -= OnLastItemIsVisible;
+                _scrollListener.LastItemIsHidden -= OnLastItemIsHidden;
+                _recyclerView.RemoveOnScrollListener(_scrollListener);
+            }
+            _scrollListener = new XamarinRecyclerViewOnScrollListener(
+                _layoutManager,
+                _tapeItems.Count - 1
+            );
+            _scrollListener.LastItemIsVisible += OnLastItemIsVisible;
+            _scrollListener.LastItemIsHidden += OnLastItemIsHidden;            
+            _recyclerView.AddOnScrollListener(_scrollListener);
+
+            /* Set static goal card */
+            // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeItems.Last().PhotoPath));
+            var imageSize = ImageHelper.ConvertDpToPixels(
+                140,
+                InteractiveTimetable.Current.ScreenDensity
+            );
+            var card = InteractiveTimetable.Current.ScheduleManager.Cards.
+                                            GetCard(_tapeItems.Last().CardId);
+            var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+            _staticGoalCard.SetImageBitmap(bitmap);
+
+            /* Set up timers */
+            _scrollTimer = new Timer(ScrollTimer);
+
+            /* Set adapter */
+            _tapeItemListAdapter.TapeItems = _tapeItems;
+            _tapeItemListAdapter.NotifyDataSetChanged();
+            _recyclerView.SmoothScrollToPosition(0);
         }
 
         public void GenerateNewIdsForViews()

@@ -135,7 +135,49 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void OnEditTimetableTapeButtonClicked(int userId, IList<Card>  cards)
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == Result.Ok)
+            {
+                var id = 0;
+                var cards = data.GetIntArrayExtra("cards").ToList();
+                int tapeNumber = data.GetIntExtra("tape_number", 0);
+
+                var tapeFragment = _tapeFragments[tapeNumber];
+
+                /* If need to edit existing schedule */
+                if (tapeFragment.CurrentSchedule != null &&
+                    tapeFragment.CurrentSchedule.Id > 0 &&
+                    !tapeFragment.CurrentSchedule.IsCompleted)
+                {
+                    /* Update schedule in data base */
+                    id = InteractiveTimetable.Current.ScheduleManager.UpdateSchedule(
+                        tapeFragment.CurrentSchedule.Id,
+                        cards
+                    );
+                }
+                /* If need to create new schedule */
+                else
+                {
+                    /* Create schedule in database */
+                    id = InteractiveTimetable.Current.ScheduleManager.SaveSchedule(
+                        tapeFragment.UserId,
+                        cards
+                    );
+                }
+
+                /* Set schedule in tape fragment */
+                var schedule = InteractiveTimetable.Current.ScheduleManager.GetSchedule(id);
+                _tapeFragments[tapeNumber].SetSchedule(schedule.ScheduleItems);
+            }
+        }
+
+        private void OnEditTimetableTapeButtonClicked(
+            int userId,
+            int tapeNumber, 
+            IList<Card>  cards)
         {
             if (_isLocked)
             {
@@ -147,6 +189,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var intent = new Intent(this, typeof(CreateTimetableActivity));
             intent.PutExtra("user_id", userId);
             intent.PutExtra("date", DateTime.Today.ToString("dd.MM.yyyy"));
+            intent.PutExtra("tape_number", tapeNumber);
             intent.PutExtra("cards", cards.Select(card => ParcelableCard.FromCard(card)).ToArray());
             StartActivityForResult(intent, CreateTimetableRequest);
         }
@@ -160,7 +203,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void AddTimetableTapeFragment(int userId, IList<ScheduleItem> scheduleItems)
         {
             /* Create tape fragment */
-            var tapeFragment = TimetableTapeFragment.NewInstance(userId, scheduleItems);
+            var tapeFragment = TimetableTapeFragment.NewInstance(
+                userId,
+                scheduleItems,
+                _tapeFragments.Count
+            );
             tapeFragment.EditTimetableTapeButtonClicked += OnEditTimetableTapeButtonClicked;
             tapeFragment.ClickedWhenLocked += OnLockedScreenClicked;
 
