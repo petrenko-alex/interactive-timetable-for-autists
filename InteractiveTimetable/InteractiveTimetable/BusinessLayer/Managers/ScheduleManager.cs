@@ -167,7 +167,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             _repository.SaveSchedule(schedule);
         }
 
-        private void Validate(List<int> cardIds)
+        public void Validate(List<int> cardIds)
         {
             /* Checking that ... */
 
