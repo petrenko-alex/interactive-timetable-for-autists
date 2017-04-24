@@ -31,8 +31,15 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         {
             base.OnScrolled(recyclerView, dx, dy);
 
-            ScrollX1 = ScrollX1 + dx;
-
+            if (ScrollX1 + dx < 0)
+            {
+                ScrollX1 = 0;
+            }
+            else
+            {
+                ScrollX1 = ScrollX1 + dx;
+            }
+            
             /* Check whether the last item is visible */
             var lastVisibleItemPosition = _layoutManager.FindLastVisibleItemPosition();
             if (lastVisibleItemPosition == _lastItemPosition)
