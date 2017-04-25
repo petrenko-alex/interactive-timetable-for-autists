@@ -215,7 +215,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void OnRequestToDeleteCard(int cardId, int positionInList)
         {
             /* Show alert if card is used in uncompleted schedules and cancel deleting */
-            if (IsCardInPresentTimetable(cardId))
+            bool isCardInNewTape = _newTapeAdapter.TapeItems.Any(x => x.Id == cardId);
+            bool isCardInPresentSchedule = IsCardInPresentTimetable(cardId);
+
+            if (isCardInNewTape || isCardInPresentSchedule)
             {
                 using (var alert = new AlertDialog.Builder(this))
                 {
