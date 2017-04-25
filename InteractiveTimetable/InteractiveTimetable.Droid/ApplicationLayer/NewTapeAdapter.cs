@@ -100,12 +100,28 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         private void OnDeleteButtonClicked(int positionInList)
         {
-            /* Delete from data set */
-            TapeItems.RemoveAt(positionInList);
+            if (ItemCount > 1)
+            {
+                /* Delete from data set */
+                TapeItems.RemoveAt(positionInList);
 
-            /* Notify adapter */
-            NotifyItemRemoved(positionInList);
-            NotifyItemRangeChanged(positionInList, TapeItems.Count);
+                /* Notify adapter */
+                NotifyItemRemoved(positionInList);
+                NotifyItemRangeChanged(positionInList, TapeItems.Count);
+            }
+            else
+            {
+                /* Show alert that deleting of last card placeholder is not allowed */
+                using (var alert = new AlertDialog.Builder(_context))
+                {
+                    alert.SetTitle(_context.GetString(Resource.String.delete_placeholder));
+                    alert.SetMessage(Resource.String.cant_delete_last_placeholder);
+                    alert.SetNeutralButton(_context.GetString(Resource.String.ok_button), (sender, args) => { });
+
+                    Dialog dialog = alert.Create();
+                    dialog.Show();
+                }
+            }
         }
 
         private void OnItemClick(NewTapeItemViewHolder viewHolder)

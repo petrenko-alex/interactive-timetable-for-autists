@@ -29,6 +29,7 @@
   <string name="delete_user">Удаление профиля ребенка</string>
   <string name="delete_trip">Удаление путевки</string>
   <string name="delete_card">Удаление карточки</string>
+  <string name="delete_placeholder">Удаление ячейки</string>
   <string name="add_user_profile">Добавить профиль ребенка</string>
   <string name="sure_to_delete_user">Вы действительно хотите удалить профиль ребенка?</string>
   <string name="sure_to_delete_trip">Вы действительно хотите удалить выбранную путевку?</string>
@@ -80,4 +81,5 @@
   <string name="motivation_goals">Мотивационные цели:</string>
   <string name="add_card">Добавить карточку</string>
   <string name="all_done">Готово</string>
+  <string name="cant_delete_last_placeholder">Удаление последней ячейки для карточки запрещено.</string>
 </resources>
