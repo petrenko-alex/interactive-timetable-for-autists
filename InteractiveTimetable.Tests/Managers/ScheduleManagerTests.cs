@@ -444,7 +444,7 @@ namespace InteractiveTimetable.Tests.Managers
             var finishedSchedule = _manager.GetSchedule(scheduleId);
 
             // assert
-            Assert.AreEqual(TrimMilliseconds(DateTime.Now),
+            Assert.AreEqual(TrimMilliseconds(DateTime.Today),
                             TrimMilliseconds(finishedSchedule.FinishTime));
         }
 

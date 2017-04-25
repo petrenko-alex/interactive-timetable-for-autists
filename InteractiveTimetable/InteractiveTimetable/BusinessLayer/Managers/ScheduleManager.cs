@@ -163,7 +163,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         public void FinishSchedule(int scheduleId)
         {
             var schedule = GetSchedule(scheduleId);
-            schedule.FinishTime = DateTime.Now;
+            schedule.FinishTime = DateTime.Today;
             _repository.SaveSchedule(schedule);
         }
 
