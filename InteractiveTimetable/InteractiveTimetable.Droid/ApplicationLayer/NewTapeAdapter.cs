@@ -100,6 +100,15 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         {
             if (ItemCount > 1)
             {
+                /* Set new Current Card */
+                if (CurrentCard.PositionInList == ItemCount - 1)
+                {
+                    var viewHolder = _parent.
+                        FindViewHolderForAdapterPosition(CurrentCard.PositionInList - 1) 
+                        as NewTapeItemViewHolder;
+                    SetCurrentCard(viewHolder);
+                }
+
                 /* Delete from data set */
                 TapeItems.RemoveAt(positionInList);
 
