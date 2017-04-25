@@ -10,10 +10,6 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     class NewTapeAdapter : RecyclerView.Adapter
     {
-        #region Events
-        public event Action<int> ItemClick;
-        #endregion
-
         #region Properties
         public NewTapeItemViewHolder CurrentCard { get; set; }
         public IList<Card> TapeItems { get; set; }
