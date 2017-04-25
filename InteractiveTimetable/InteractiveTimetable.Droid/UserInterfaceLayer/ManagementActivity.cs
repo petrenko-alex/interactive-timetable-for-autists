@@ -275,6 +275,21 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Finish activity */
             Finish();
         }
+
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+
+            if (_userInfoFragment != null)
+            {
+                AttachFragment(_userInfoFragment);
+            }
+            else if(_userDetailsFragment != null)
+            {
+                AdjustTripLayoutVisibility(false);
+            }
+        }
+
         #endregion
 
         #region Other Methods
