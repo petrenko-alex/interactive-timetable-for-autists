@@ -127,7 +127,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set new tape */
             _newTapeLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.Horizontal, false);
             _newTape.SetLayoutManager(_newTapeLayoutManager);
-            _newTapeAdapter = new NewTapeAdapter(this, cards);
+            _newTapeAdapter = new NewTapeAdapter(this, _newTape, cards);
             _newTape.SetAdapter(_newTapeAdapter);
 
             /* Set handlers */
@@ -254,6 +254,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _newTapeAdapter.SetActivityCard(cardId, cardImage);
             
             /* Set next CurrentCard */
+            // TODO: Move to to SetActivityCard method in adapter(use _parent)
             var currentPosition = _newTapeAdapter.CurrentCard.PositionInList;
             var nextHolder = _newTape.FindViewHolderForAdapterPosition(currentPosition + 1)
                     as NewTapeItemViewHolder;

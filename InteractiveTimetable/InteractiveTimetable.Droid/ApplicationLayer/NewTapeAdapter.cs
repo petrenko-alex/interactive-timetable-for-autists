@@ -18,15 +18,17 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         #region Internal Variables
         private Activity _context;
+        private RecyclerView _parent;
         private int _currentCardPosition;
         #endregion
 
         #region Methods
 
         #region Construct Methods
-        public NewTapeAdapter(Activity context, IList<Card> tapeItems)
+        public NewTapeAdapter(Activity context, RecyclerView parent, IList<Card> tapeItems)
         {
             _context = context;
+            _parent = parent;
             if (tapeItems.Count == 0)
             {
                 var card = new Card()
