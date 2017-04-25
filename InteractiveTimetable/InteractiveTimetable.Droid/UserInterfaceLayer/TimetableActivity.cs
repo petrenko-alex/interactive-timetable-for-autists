@@ -72,6 +72,30 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Add timetable tapes */
             AddTimetableTapeFragments();
+
+            /* Mark yesterday schedules as finished */
+            FinishYesterdaySchedules();
+        }
+
+        private void FinishYesterdaySchedules()
+        {
+            var yesterday = DateTime.Today.AddDays(-1);
+
+            /* For all users */
+            var users = InteractiveTimetable.Current.UserManager.GetUsers();
+            foreach (var user in users)
+            {
+                /* For all user schedules that was created yesterday and was not completed */
+                var schedules = InteractiveTimetable.Current.ScheduleManager.
+                                                     GetSchedules(user.Id).
+                                                     Where(x => x.CreateTime.Date.Equals(yesterday) 
+                                                     && !x.IsCompleted);
+                /* Finish schedule */
+                foreach (var schedule in schedules)
+                {
+                    InteractiveTimetable.Current.ScheduleManager.FinishSchedule(schedule.Id);
+                }
+            }
         }
 
         private void OnManagementPanelButtonClicked(object sender, EventArgs e)
