@@ -350,7 +350,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 {
                     var uri = data.Data;
                     _currentUri = uri;
-                    _userPhoto.SetImageURI(uri);
+
+                    /* Display image with resizing */
+                    var path = InteractiveTimetable.Current.GetPathToImage(Activity, uri);
+                    var bitmap = path.LoadAndResizeBitmap(_userPhoto.Width, _userPhoto.Height);
+                    if (bitmap != null)
+                    {
+                        _userPhoto.SetImageBitmap(bitmap);
+                    }
 
                     /* Setting a flag to choose method to get image path */
                     _fromGallery = true;
