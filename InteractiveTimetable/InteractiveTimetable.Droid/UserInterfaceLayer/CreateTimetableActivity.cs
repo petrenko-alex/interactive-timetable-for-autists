@@ -395,7 +395,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             );
 
             intent.SetType("image/*");
-            intent.SetAction(Intent.ActionGetContent);
 
             StartActivityForResult(
                 Intent.CreateChooser(

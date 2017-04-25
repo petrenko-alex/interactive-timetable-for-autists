@@ -417,7 +417,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                             MediaStore.Images.Media.ExternalContentUri);
 
             intent.SetType("image/*");
-            intent.SetAction(Intent.ActionGetContent);
 
             StartActivityForResult(
                 Intent.CreateChooser(
