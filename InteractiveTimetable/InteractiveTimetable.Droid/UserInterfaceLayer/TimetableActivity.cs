@@ -17,6 +17,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Constants
         private static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
         private static readonly int CreateTimetableRequest = 0;
+        private static readonly int ManageUsersRequest = 1;
         #endregion
 
         #region Widgets
@@ -102,7 +103,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* Start management activity */
             var intent = new Intent(this, typeof(ManagementActivity));
-            StartActivity(intent);
+            StartActivityForResult(intent, ManageUsersRequest);
         }
 
         private void OnLockScreenButtonClicked(object sender, EventArgs e)
