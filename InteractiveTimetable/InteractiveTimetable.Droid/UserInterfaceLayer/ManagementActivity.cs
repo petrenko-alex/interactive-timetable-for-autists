@@ -272,7 +272,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnTimetableButtonClicked()
         {
-            /* Finish activity */
+            var intent = new Intent(this, typeof(TimetableActivity));
+            SetResult(Result.Ok, intent);
             Finish();
         }
 
