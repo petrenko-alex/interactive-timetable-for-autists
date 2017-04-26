@@ -290,6 +290,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnReturnScheduleButtonClicked(object sender, EventArgs e)
         {
+            /* If tape is locked send signal */
+            if (_isLocked)
+            {
+                OnLockedClicked();
+                return;
+            }
+
             _infoLayout.Visibility = ViewStates.Gone;
             _recyclerView.Visibility = ViewStates.Visible;
             _recyclerView.SmoothScrollToPosition(0);
