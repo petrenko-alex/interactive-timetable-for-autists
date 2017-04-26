@@ -537,6 +537,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             return lastCompletedActivityNumber;
         }
+
+        public void RefreshUserInfo()
+        {
+            /* Get latest data */
+            var user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
+
+            /* Set name */
+            _userName.Text = user.FirstName;
+
+            /* Set photo */
+            var bitmap = user.PhotoPath.LoadAndResizeBitmap(_userImage.Width, _userImage.Height);
+            if (bitmap != null)
+            {
+                _userImage.SetImageBitmap(bitmap);
+            }
+        }
         #endregion
 
         #endregion

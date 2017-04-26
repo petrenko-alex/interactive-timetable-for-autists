@@ -164,7 +164,55 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (resultCode == Result.Ok)
+            if (resultCode == Result.Ok && requestCode == ManageUsersRequest)
+            {
+                var newUsers = InteractiveTimetable.Current.UserManager.
+                                                    GetUsersForCurrentTimetable().
+                                                    ToList();
+
+                var currentUserIds = _tapeFragments.Select(x => x.UserId).ToList();
+                var newUserIds = newUsers.Select(x => x.Id).ToList();
+
+                /* Get users to delete */
+                var usersToDelete = currentUserIds.Except(newUserIds).ToList();
+
+                /* Delete tapes */
+                foreach (var userId in usersToDelete)
+                {
+                    var tapeToDelete = _tapeFragments.First(x => x.UserId == userId);
+                    DestroyFragment(tapeToDelete);
+                    _tapeFragments.Remove(tapeToDelete);
+                }
+
+                /* In case there is no more tapes */
+                if (_tapeFragments.Count == 0)
+                {
+                    ShowNoUsersInfo();
+                }
+
+                /* Get users to add */
+                var usersToAdd = newUserIds.Except(currentUserIds).ToList();
+
+                /* Add tapes */
+                foreach (var userId in usersToAdd)
+                {
+                    AddTimetableTapeFragment(userId, new List<ScheduleItem>());
+                }
+
+                /* In case there were no tapes before */
+                if (_tapeFragments.Count > 0 && 
+                    _timetableInfoLayout.Visibility == ViewStates.Visible)
+                {
+                    ShowTapes();
+                }
+
+                /* Refresh user names and photos */
+                foreach (var tapeFragment in _tapeFragments)
+                {
+                    tapeFragment.RefreshUserInfo();
+                }
+            }
+            else if (resultCode == Result.Ok && requestCode == CreateTimetableRequest)
             {
                 var id = 0;
                 var cards = data.GetIntArrayExtra("cards").ToList();
@@ -288,6 +336,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             transaction.Commit();
         }
 
+        private void DestroyFragment(Fragment fragmentToDestroy)
+        {
+            if (fragmentToDestroy != null)
+            {
+                var transaction = FragmentManager.BeginTransaction();
+                transaction.Remove(fragmentToDestroy);
+                transaction.Commit();
+            }
+        }
+
         private void ShowNoUsersInfo()
         {
             _timetableTapeScroll.Visibility = ViewStates.Gone;
@@ -296,6 +354,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             FindViewById<TextView>(Resource.Id.day_timetable_label).Visibility = ViewStates.Gone;
 
             _timetableInfoLayout.Visibility = ViewStates.Visible;
+        }
+
+        private void ShowTapes()
+        {
+            _timetableTapeScroll.Visibility = ViewStates.Visible;
+            _lockScreenButton.Visibility = ViewStates.Visible;
+            FindViewById<TextView>(Resource.Id.our_kids_label).Visibility = ViewStates.Visible;
+            FindViewById<TextView>(Resource.Id.day_timetable_label).Visibility = ViewStates.Visible;
+
+            _timetableInfoLayout.Visibility = ViewStates.Gone;
         }
         #endregion
     }
