@@ -3,6 +3,7 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using InteractiveTimetable.Droid.ApplicationLayer;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -11,6 +12,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Constants
         public static readonly string FragmentTag = "user_details_fragment";
         private static readonly string UserIdKey = "current_user_id";
+        private static readonly int UserImageSizeDp = 300;
         #endregion
 
         #region Widgets
@@ -93,7 +95,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Setting photo */
             var photoView = userView.FindViewById<ImageView>(Resource.Id.user_details_photo);
-            photoView.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
+            var imageSize = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
+            var bitmap = user.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+            if (bitmap != null)
+            {
+                photoView.SetImageBitmap(bitmap);
+            }
 
             /* Setting button click handlers */
             _editButton = userView.FindViewById<ImageButton>(Resource.Id.edit_user);

@@ -21,6 +21,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly int SelectFile = 1;
         private static readonly int ErrorMessageXOffset = 450;
         private static readonly int ErrorMessageYOffset = -300;
+        private static readonly int UserImageSizeDp = 300;
         #endregion
 
         #region Widgets
@@ -126,7 +127,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _birthDate.Text = _user.BirthDate.ToString("dd.MM.yyyy");
 
                 /* Setting photo */
-                _userPhoto.SetImageURI(Android.Net.Uri.Parse(_user.PhotoPath));
+                var bitmap = _user.PhotoPath.LoadAndResizeBitmap(_userPhoto.Width, _userPhoto.Height);
+                if (_bitmap != null)
+                {
+                    _userPhoto.SetImageBitmap(_bitmap);
+                }
 
                 /* Adjust apply button */
                 _applyButton.Text = GetString(Resource.String.edit_button);
@@ -336,7 +341,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     if (_bitmap != null)
                     {
                         _userPhoto.SetImageBitmap(_bitmap);
-                        _bitmap = null;
                     }
 
                     /* Setting a flag to choose method to get image path */

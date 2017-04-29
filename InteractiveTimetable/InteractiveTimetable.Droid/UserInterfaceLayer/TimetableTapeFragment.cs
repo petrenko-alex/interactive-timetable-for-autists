@@ -20,6 +20,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public static readonly string FragmentTag = "timetable_tape_fragment";
         private static readonly int AnimationDuration = 700;
         private static readonly int ScrollTimer = 1000;
+        private static readonly int UserImageSizeDp = 150;
+        private static readonly int GoalCardImageSizeDp = 140;
         #endregion
 
         #region Widgets
@@ -108,7 +110,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Set widgets data */
             _userName.Text = user.FirstName;
-            _userImage.SetImageURI(Android.Net.Uri.Parse(user.PhotoPath));
+            var imageSizePx = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
+            var bitmap = user.PhotoPath.LoadAndResizeBitmap(imageSizePx, imageSizePx);
+            if (bitmap != null)
+            {
+                _userImage.SetImageBitmap(bitmap);
+            }
 
             /* If has schedule for today */
             if (_tapeItems.Any())
@@ -126,15 +133,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _recyclerView.AddOnScrollListener(_scrollListener);
 
                 /* Set static goal card */
-                // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeItems.Last().PhotoPath));
-                var imageSize = ImageHelper.ConvertDpToPixels(
-                    140,
-                    InteractiveTimetable.Current.ScreenDensity
-                );
+                var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
                 var card = InteractiveTimetable.Current.ScheduleManager.Cards.
                                                 GetCard(_tapeItems.Last().CardId);
-                var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-                _staticGoalCard.SetImageBitmap(bitmap);
+                bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                if (bitmap != null)
+                {
+                    _staticGoalCard.SetImageBitmap(bitmap);
+                }
 
                 /* Set up timers */
                 _scrollTimer = new Timer(ScrollTimer);
@@ -393,15 +399,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.AddOnScrollListener(_scrollListener);
 
             /* Set static goal card */
-            // TODO: Change to normal load - _staticGoalCard.SetImageURI(Android.Net.Uri.Parse(_tapeItems.Last().PhotoPath));
-            var imageSize = ImageHelper.ConvertDpToPixels(
-                140,
-                InteractiveTimetable.Current.ScreenDensity
-            );
+            var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
             var card = InteractiveTimetable.Current.ScheduleManager.Cards.
                                             GetCard(_tapeItems.Last().CardId);
             var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-            _staticGoalCard.SetImageBitmap(bitmap);
+            if (bitmap != null)
+            {
+                _staticGoalCard.SetImageBitmap(bitmap);
+            }
 
             /* Set up timers */
             _scrollTimer = new Timer(ScrollTimer);
@@ -547,7 +552,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userName.Text = user.FirstName;
 
             /* Set photo */
-            var bitmap = user.PhotoPath.LoadAndResizeBitmap(_userImage.Width, _userImage.Height);
+            var imageSizePx = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
+            var bitmap = user.PhotoPath.LoadAndResizeBitmap(imageSizePx, imageSizePx);
             if (bitmap != null)
             {
                 _userImage.SetImageBitmap(bitmap);

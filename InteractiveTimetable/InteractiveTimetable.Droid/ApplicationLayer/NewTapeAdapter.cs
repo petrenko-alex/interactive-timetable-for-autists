@@ -10,6 +10,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     class NewTapeAdapter : RecyclerView.Adapter
     {
+        #region Constants
+        private static readonly int CardImageSizeDp;
+        #endregion
+
         #region Properties
         public NewTapeItemViewHolder CurrentCard { get; set; }
         public IList<Card> TapeItems { get; set; }
@@ -67,12 +71,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 else
                 {
                     /* Set card image */
-                    var imageSize = ImageHelper.ConvertDpToPixels(
-                        140,
-                        InteractiveTimetable.Current.ScreenDensity
-                    );
+                    var imageSize = ImageHelper.ConvertDpToPixels(CardImageSizeDp);
                     var bitmap = itemAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-                    viewHolder.ItemImage.SetImageBitmap(bitmap);
+                    if (bitmap != null)
+                    {
+                        viewHolder.ItemImage.SetImageBitmap(bitmap);
+                    }
                 }
 
                 /* Set common properties */

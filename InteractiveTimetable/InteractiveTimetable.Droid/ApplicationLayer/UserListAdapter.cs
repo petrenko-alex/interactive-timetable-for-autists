@@ -11,6 +11,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     public class UserListAdapter : RecyclerView.Adapter
     {
+        #region Constants
+        private static readonly int UserImageSizeDp = 150;
+        #endregion
+
         #region Events
         public event EventHandler<UserListEventArgs> ItemClick;
         public event Action<int, int> RequestToDeleteUser;
@@ -47,7 +51,14 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 viewHolder.FirstAndPatronymicName.Text = userAtPosition.FirstName +
                                                          " " +
                                                          userAtPosition.PatronymicName;
-                viewHolder.UserPhoto.SetImageURI(Android.Net.Uri.Parse(userAtPosition.PhotoPath));
+
+                var imageSize = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
+                var bitmap = userAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                if (bitmap != null)
+                {
+                    viewHolder.UserPhoto.SetImageBitmap(bitmap);
+                }
+
                 viewHolder.UserId = userAtPosition.Id;
                 viewHolder.PositionInList = position;
             }

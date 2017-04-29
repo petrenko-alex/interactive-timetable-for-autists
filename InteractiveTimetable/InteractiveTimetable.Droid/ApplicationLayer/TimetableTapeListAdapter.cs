@@ -12,6 +12,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     class TimetableTapeListAdapter : RecyclerView.Adapter
     {
+        #region Constants
+        private static readonly int CardImageSizeDp = 140;
+        #endregion
+
         #region Events
         public event Action<TimetableTapeItemViewHolder, int, int> ItemClick;
         public event Action<TimetableTapeItemViewHolder, int, int> ItemLongClick;
@@ -47,13 +51,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
             if (viewHolder != null)
             {
-                // TODO: Change to normal load - viewHolder.ItemImage.SetImageURI(Android.Net.Uri.Parse(card.PhotoPath));
-                var imageSize = ImageHelper.ConvertDpToPixels(
-                    140,
-                    InteractiveTimetable.Current.ScreenDensity
-                );
+                var imageSize = ImageHelper.ConvertDpToPixels(CardImageSizeDp);
                 var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-                viewHolder.ItemImage.SetImageBitmap(bitmap);
+                if (bitmap != null)
+                {
+                    viewHolder.ItemImage.SetImageBitmap(bitmap);
+                }
 
                 /* Set frame for motivation goal card */
                 bool isGoalCard =

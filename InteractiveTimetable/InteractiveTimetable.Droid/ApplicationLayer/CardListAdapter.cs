@@ -10,6 +10,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     public class CardListAdapter : RecyclerView.Adapter
     {
+        #region Constants
+        private static readonly int CardImageSizeDp = 140;
+        #endregion
+
         #region Events
         public event Action<int> AddCardButtonClicked;
         public event Action<int, ImageView> CardSelected;
@@ -47,13 +51,12 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 if (cardAtPosition.Id > 0)
                 {
                     /* Set image */
-                    // TODO: Change to normal load - viewHolder.CardImage.SetImageURI(Android.Net.Uri.Parse(cardAtPosition.PhotoPath));
-                    var imageSize = ImageHelper.ConvertDpToPixels(
-                        140,
-                        InteractiveTimetable.Current.ScreenDensity
-                    );
+                    var imageSize = ImageHelper.ConvertDpToPixels(CardImageSizeDp);
                     var bitmap = cardAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-                    viewHolder.CardImage.SetImageBitmap(bitmap);
+                    if (bitmap != null)
+                    {
+                        viewHolder.CardImage.SetImageBitmap(bitmap);
+                    }
                     viewHolder.CardId = cardAtPosition.Id;
 
                     /* Set frame */

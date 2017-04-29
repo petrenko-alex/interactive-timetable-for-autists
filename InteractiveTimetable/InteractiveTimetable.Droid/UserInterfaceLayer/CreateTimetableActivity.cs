@@ -25,6 +25,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly int GoalCardViaFile = 3;
         private static readonly int ErrorMessageXOffset = 0;
         private static readonly int ErrorMessageYOffset = -220;
+        private static readonly int CardImageSizeDp = 140;
         #endregion
 
         #region Widgets
@@ -108,12 +109,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 var goalCard = InteractiveTimetable.Current.ScheduleManager.Cards.
                                                     GetCard(_newTapeGoalCardId);
-                var imageSize = ImageHelper.ConvertDpToPixels(
-                    140,
-                    InteractiveTimetable.Current.ScreenDensity
-                );
+                var imageSize = ImageHelper.ConvertDpToPixels(CardImageSizeDp);
                 var bitmap = goalCard.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
-                _newTapeGoal.SetImageBitmap(bitmap);
+                if (bitmap != null)
+                {
+                    _newTapeGoal.SetImageBitmap(bitmap);
+                }
             }
             else
             {
