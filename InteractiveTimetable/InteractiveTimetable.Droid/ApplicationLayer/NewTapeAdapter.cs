@@ -11,7 +11,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
     class NewTapeAdapter : RecyclerView.Adapter
     {
         #region Constants
-        private static readonly int CardImageSizeDp;
+        private static readonly int CardImageSizeDp = 140;
         #endregion
 
         #region Properties

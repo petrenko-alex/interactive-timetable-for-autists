@@ -127,10 +127,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _birthDate.Text = _user.BirthDate.ToString("dd.MM.yyyy");
 
                 /* Setting photo */
-                var bitmap = _user.PhotoPath.LoadAndResizeBitmap(_userPhoto.Width, _userPhoto.Height);
-                if (_bitmap != null)
+                var imageSize = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
+                var bitmap = _user.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                if (bitmap != null)
                 {
-                    _userPhoto.SetImageBitmap(_bitmap);
+                    _userPhoto.SetImageBitmap(bitmap);
                 }
 
                 /* Adjust apply button */
@@ -337,7 +338,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _currentUri = Android.Net.Uri.FromFile(_photo);
 
                     /* Displaying image with resizing */
-                    _bitmap = _photo.Path.LoadAndResizeBitmap(_userPhoto.Width, _userPhoto.Height);
+                    var imageSize = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
+                    _bitmap = _photo.Path.LoadAndResizeBitmap(imageSize, imageSize);
                     if (_bitmap != null)
                     {
                         _userPhoto.SetImageBitmap(_bitmap);
@@ -356,8 +358,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _currentUri = uri;
 
                     /* Display image with resizing */
+                    var imageSize = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
                     var path = InteractiveTimetable.Current.GetPathToImage(Activity, uri);
-                    var bitmap = path.LoadAndResizeBitmap(_userPhoto.Width, _userPhoto.Height);
+                    var bitmap = path.LoadAndResizeBitmap(imageSize, imageSize);
                     if (bitmap != null)
                     {
                         _userPhoto.SetImageBitmap(bitmap);
