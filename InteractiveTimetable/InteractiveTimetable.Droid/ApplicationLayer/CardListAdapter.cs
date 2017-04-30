@@ -61,7 +61,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                     viewHolder.CardId = cardAtPosition.Id;
 
                     /* Set frame */
-                    viewHolder.CardFrame.SetBackgroundResource(Resource.Drawable.card_frame);
+                    viewHolder.CardFrame.SetBackgroundResource(Resource.Drawable.grey_frame_round5);
                     var paddingInDp = 5;
                     var paddingInPx = ImageHelper.ConvertDpToPixels(
                         paddingInDp,

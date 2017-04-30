@@ -11,7 +11,7 @@
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
         p1:id="@+id/card_list_item_frame"
-        p1:background="@drawable/card_frame"
+        p1:background="@drawable/grey_frame_round5"
         p1:padding="5dp">
         <ImageView
             p1:src="@android:drawable/ic_menu_gallery"

@@ -2,7 +2,10 @@
 <resources>
   <item name="deep_sky_blue" type="color">#00BFFF</item>
   <item name="black" type="color">#000000</item>
-  <item name="green" type="color">#00FF00</item>
+  <item name="green" type="color">#00E676</item>
   <item name="red" type="color">#FF0000</item>
   <item name="gentle_red" type="color">#FF4C4C</item>
+  <item name="grey300" type="color">#E0E0E0</item>
+  <item name="grey400" type="color">#BDBDBD</item>
+  <item name="vivid_blue" type="color">#2196F3</item>
 </resources>

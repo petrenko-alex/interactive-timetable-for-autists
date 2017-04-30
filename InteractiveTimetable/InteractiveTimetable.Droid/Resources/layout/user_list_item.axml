@@ -12,14 +12,15 @@
         p1:id="@+id/user_list_photo_frame"
         p1:layout_marginLeft="10dp"
         p1:padding="1dp"
-        p1:background="@color/deep_sky_blue"
+        p1:background="@drawable/grey_frame_round5"
         p1:layout_marginBottom="10dp">
         <ImageView
             p1:src="@android:drawable/ic_menu_gallery"
             p1:id="@+id/user_photo"
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
-            p1:scaleType="centerCrop" />
+            p1:scaleType="centerCrop"
+            p1:layout_margin="2dp" />
     </FrameLayout>
     <LinearLayout
         p1:orientation="vertical"

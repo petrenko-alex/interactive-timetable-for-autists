@@ -44,6 +44,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set tool bar */
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
 
             /* Hide keyboard */
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden | SoftInput.AdjustPan);

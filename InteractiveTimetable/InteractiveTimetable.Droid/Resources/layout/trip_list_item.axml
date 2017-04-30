@@ -11,7 +11,7 @@
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
         p1:id="@+id/frameLayout1"
-        p1:background="@color/deep_sky_blue"
+        p1:background="@drawable/grey_frame_round5"
         p1:padding="1dp">
         <TextView
             p1:text="Large Text"
@@ -20,7 +20,6 @@
             p1:layout_height="match_parent"
             p1:id="@+id/trip_list_item"
             p1:padding="10dp"
-            p1:gravity="center"
-            p1:background="#000" />
+            p1:gravity="center" />
     </FrameLayout>
 </LinearLayout>

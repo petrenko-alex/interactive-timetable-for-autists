@@ -4,7 +4,7 @@
     p1:layout_width="match_parent"
     p1:layout_height="wrap_content"
     p1:id="@+id/trip_details"
-    p1:background="@drawable/frame_with_black_back">
+    p1:background="@drawable/grey_frame_round10">
     <TextView
         p1:text="@string/trip_in_list"
         p1:textAppearance="?android:attr/textAppearanceLarge"
@@ -38,7 +38,7 @@
         <View
             p1:layout_width="100dp"
             p1:layout_height="2dip"
-            p1:background="@color/deep_sky_blue"
+            p1:background="@color/vivid_blue"
             p1:layout_gravity="center"
             p1:layout_marginLeft="30dp"
             p1:layout_marginRight="30dp" />
