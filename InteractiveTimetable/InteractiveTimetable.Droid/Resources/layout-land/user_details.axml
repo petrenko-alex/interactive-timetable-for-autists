@@ -14,7 +14,7 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/frameLayout1"
         p1:padding="1dp"
-        p1:background="#00BFFF">
+        p1:background="@color/deep_sky_blue">
         <ImageView
             p1:src="@drawable/add_photo_button"
             p1:layout_width="300dp"
@@ -29,7 +29,7 @@
         p1:layout_height="match_parent"
         p1:id="@+id/frameLayout2"
         p1:padding="1dp"
-        p1:background="#00BFFF"
+        p1:background="@color/deep_sky_blue"
         p1:layout_marginLeft="50dp"
         p1:layout_marginTop="20dp"
         p1:layout_marginBottom="20dp">

@@ -72,7 +72,7 @@
         </LinearLayout>
     </RelativeLayout>
     <View
-        android:background="#00BFFF"
+        android:background="@color/deep_sky_blue"
         android:id="@+id/top_bar_divider"
         android:layout_width="match_parent"
         android:layout_height="2dip"

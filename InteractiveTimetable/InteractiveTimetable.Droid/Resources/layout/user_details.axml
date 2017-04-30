@@ -20,7 +20,7 @@
         android:id="@+id/frameLayout3"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:background="#00BFFF"
+        android:background="@color/deep_sky_blue"
         android:padding="1dp">
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
@@ -78,7 +78,7 @@
         android:id="@+id/primerdivisor"
         android:layout_height="2dp"
         android:layout_width="wrap_content"
-        android:background="#00BFFF"
+        android:background="@color/deep_sky_blue"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp" />

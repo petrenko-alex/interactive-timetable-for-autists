@@ -43,7 +43,7 @@
             p1:layout_marginRight="50dp" />
     </RelativeLayout>
     <View
-        p1:background="#00BFFF"
+        p1:background="@color/deep_sky_blue"
         p1:id="@+id/ct_top_bar_divider"
         p1:layout_width="match_parent"
         p1:layout_height="2dip"
@@ -116,7 +116,7 @@
             p1:textSize="25dp"
             p1:layout_marginLeft="10dp" />
         <View
-            p1:background="#00BFFF"
+            p1:background="@color/deep_sky_blue"
             p1:id="@+id/ct_activity_cards_divider"
             p1:layout_width="match_parent"
             p1:layout_height="2dip"
@@ -146,7 +146,7 @@
             p1:layout_marginLeft="10dp"
             p1:textSize="25dp" />
         <View
-            p1:background="#00BFFF"
+            p1:background="@color/deep_sky_blue"
             p1:id="@+id/ct_activity_cards_divider"
             p1:layout_width="match_parent"
             p1:layout_height="2dip"

@@ -38,7 +38,7 @@
         <View
             p1:layout_width="100dp"
             p1:layout_height="2dip"
-            p1:background="#00BFFF"
+            p1:background="@color/deep_sky_blue"
             p1:layout_gravity="center"
             p1:layout_marginLeft="30dp"
             p1:layout_marginRight="30dp" />

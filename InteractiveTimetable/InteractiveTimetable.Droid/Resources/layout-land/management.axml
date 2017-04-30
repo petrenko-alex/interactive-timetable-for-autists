@@ -32,7 +32,7 @@
         <View
             p1:layout_width="fill_parent"
             p1:layout_height="2dip"
-            p1:background="#00BFFF"
+            p1:background="@color/deep_sky_blue"
             p1:layout_marginLeft="300dp"
             p1:layout_marginRight="350dp"
             p1:layout_marginTop="10dp"
@@ -65,7 +65,7 @@
             <View
                 p1:layout_width="fill_parent"
                 p1:layout_height="2dip"
-                p1:background="#00BFFF"
+                p1:background="@color/deep_sky_blue"
                 p1:layout_marginLeft="300dp"
                 p1:layout_marginRight="350dp"
                 p1:layout_marginTop="10dp"

@@ -11,7 +11,7 @@
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
         p1:id="@+id/frameLayout1"
-        p1:background="#00BFFF"
+        p1:background="@color/deep_sky_blue"
         p1:padding="1dp">
         <TextView
             p1:text="Large Text"
