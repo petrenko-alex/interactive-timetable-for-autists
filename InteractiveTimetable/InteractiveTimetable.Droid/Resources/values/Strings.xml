@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">InteractiveTimetable</string>
+	<string name="app_name">Интерактивное расписание</string>
+  <string name="welcome">Добро пожаловать</string>
   <string name="general_monitoring_button">Общий мониторинг уровня развития ребенка</string>
   <string name="monitoring_button">Мониторинг уровня развития ребенка</string>
   <string name="user_details_last_name">Фамилия: </string>
@@ -82,4 +83,9 @@
   <string name="add_card">Добавить карточку</string>
   <string name="all_done">Готово</string>
   <string name="cant_delete_last_placeholder">Удаление последней ячейки для карточки запрещено.</string>
+  <string name="choose_user">Выберите пользователя</string>
+  <string name="enter_password">Введите пароль</string>
+  <string name="password">Пароль...</string>
+  <string name="log_in">Войти</string>
+  <string name="wrong_password">Неверный пароль</string>
 </resources>

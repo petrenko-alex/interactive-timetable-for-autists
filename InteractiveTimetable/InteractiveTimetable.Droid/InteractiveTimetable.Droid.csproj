@@ -165,6 +165,7 @@
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
     <Compile Include="UserInterfaceLayer\HospitalTripListFragment.cs" />
     <Compile Include="UserInterfaceLayer\InfoFragment.cs" />
+    <Compile Include="UserInterfaceLayer\LoginActivity.cs" />
     <Compile Include="UserInterfaceLayer\ManagementActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -254,6 +255,12 @@
     <AndroidResource Include="Resources\layout\toolbar.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\log_in.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\password_dialog.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />
@@ -341,6 +348,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\grey_frame_round5.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\default_user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

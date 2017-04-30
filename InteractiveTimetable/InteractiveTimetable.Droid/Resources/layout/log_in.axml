@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/log_in_main_layout">
+    <include
+        p1:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        p1:layout_alignParentTop="true" />
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/li_greetings"
+        p1:layout_below="@+id/toolbar">
+        <TextView
+            p1:text="@string/app_name"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/li_app_name"
+            p1:gravity="center"
+            p1:textSize="50dp" />
+        <TextView
+            p1:text="@string/welcome"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/li_welcome"
+            p1:gravity="center"
+            p1:textSize="45dp" />
+    </LinearLayout>
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/linearLayout1"
+        p1:layout_centerInParent="true">
+        <TextView
+            p1:text="@string/choose_user"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:id="@+id/textView3"
+            p1:gravity="center"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:layout_marginBottom="30dp"
+            p1:textSize="25dp" />
+        <FrameLayout
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/li_user_list_frame"
+            p1:background="@drawable/grey_frame_round10">
+            <LinearLayout
+                p1:orientation="horizontal"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/li_user">
+                <ImageView
+                    p1:src="@drawable/default_user"
+                    p1:layout_width="150dp"
+                    p1:layout_height="150dp"
+                    p1:id="@+id/imageView1" />
+                <LinearLayout
+                    p1:orientation="vertical"
+                    p1:minWidth="25px"
+                    p1:minHeight="25px"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="match_parent"
+                    p1:id="@+id/linearLayout4"
+                    p1:gravity="center"
+                    p1:layout_marginLeft="10dp"
+                    p1:layout_marginRight="10dp">
+                    <TextView
+                        p1:text="Карпова"
+                        p1:textAppearance="?android:attr/textAppearanceLarge"
+                        p1:layout_width="match_parent"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/textView4" />
+                    <TextView
+                        p1:text="Светлана Александровна"
+                        p1:textAppearance="?android:attr/textAppearanceLarge"
+                        p1:layout_width="match_parent"
+                        p1:layout_height="wrap_content"
+                        p1:id="@+id/textView5" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>

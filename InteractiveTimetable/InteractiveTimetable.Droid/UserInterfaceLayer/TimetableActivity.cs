@@ -11,7 +11,7 @@ using InteractiveTimetable.BusinessLayer.Models;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "Interactive Timetable", MainLauncher = true)]
+    [Activity(Label = "Interactive Timetable", MainLauncher = false)]
     public class TimetableActivity : Activity
     {
         #region Constants
