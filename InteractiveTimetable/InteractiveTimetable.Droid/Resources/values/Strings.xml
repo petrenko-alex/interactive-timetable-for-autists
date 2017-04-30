@@ -87,5 +87,6 @@
   <string name="enter_password">Введите пароль</string>
   <string name="password">Пароль...</string>
   <string name="log_in">Войти</string>
+  <string name="logging_in">Вход в систему</string>
   <string name="wrong_password">Неверный пароль</string>
 </resources>

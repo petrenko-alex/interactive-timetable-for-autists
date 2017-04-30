@@ -6,17 +6,20 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using AndroidViewAnimations;
 using AlertDialog = Android.App.AlertDialog;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "LoginActivity", MainLauncher = true)]
+    [Activity(Label = "Вход в систему", MainLauncher = true)]
     public class LoginActivity : ActionBarActivity
     {
         #region Constants
         private static readonly string DefaultPassword = "123";
+        private static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
         private static readonly int HidePasswordInfoTimer = 2000;
+        private static readonly int WrongPasswordAnimationDuration = 700;
         #endregion
 
         #region Widgets
@@ -32,6 +35,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             Window.AddFlags(WindowManagerFlags.Fullscreen);
+            AdjustToolbarForActivity();
 
             /* Set view handlers */
             _defaultUser = FindViewById<LinearLayout>(Resource.Id.li_user);
@@ -57,13 +61,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 positiveButton.Click += (sender, args) =>
                 {
                     var infoField = dialogView.FindViewById<TextView>(Resource.Id.password_info);
-                    var password = dialogView.FindViewById<EditText>(Resource.Id.li_password).Text;
+                    var passwordField = dialogView.FindViewById<EditText>(Resource.Id.li_password);
+                    var password = passwordField.Text;
 
                     /* If password is not correct */
                     if (password != DefaultPassword)
                     {
                         infoField.Text = GetString(Resource.String.wrong_password);
                         infoField.Visibility = ViewStates.Visible;
+
+                        /* Show animation */
+                        YoYo.With(Techniques.Bounce).
+                             Duration(WrongPasswordAnimationDuration).
+                             PlayOn(passwordField);
 
                         /* Timer to hide password info */
                         var timer = new Timer(HidePasswordInfoTimer);
@@ -92,6 +102,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     dialog.Dismiss();
                 };
             }
+        }
+
+        private void AdjustToolbarForActivity()
+        {
+            /* Set toolbar layout */
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var toolbarContent = FindViewById<LinearLayout>(Resource.Id.toolbar_content);
+            var layout = LayoutInflater.Inflate(Resource.Layout.login_toolbar, toolbar, false);
+            toolbarContent.AddView(layout);
+
+            /* Set toolbar controls */
+            var title = toolbar.FindViewById<TextView>(Resource.Id.toolbar_title);
+            title.Text = GetString(Resource.String.logging_in);
+
+            var clock = toolbar.FindViewById<TextClock>(Resource.Id.toolbar_clock);
+            clock.Format24Hour = DateTimeFormat;
         }
     }
 }
