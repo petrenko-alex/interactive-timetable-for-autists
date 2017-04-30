@@ -5,6 +5,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
+using PopupMenu = Android.Support.V7.Widget.PopupMenu;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
 {

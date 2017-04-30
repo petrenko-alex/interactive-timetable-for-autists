@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="petrenko.alexander" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="17" />
-	<application android:label="InteractiveTimetable.Droid"></application>
+	<application android:label="InteractiveTimetable.Droid" android:theme="@style/MyTheme"></application>
 </manifest>

@@ -67,11 +67,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.create_timetable);
-
-            /* Hide action bar */
-            ActionBar.Hide();
 
             /* Get data */
             _tapeNumber = Intent.GetIntExtra("tape_number", 0);

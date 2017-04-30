@@ -1,13 +1,15 @@
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     [Activity(Label = "Management panel")]
-    public class ManagementActivity : Activity
+    public class ManagementActivity : ActionBarActivity
     {
         #region Constants
         private static readonly string UserIdKey = "current_user_id";
@@ -39,8 +41,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             SetContentView(Resource.Layout.management);
 
-            /* Hide action bar */
-            ActionBar.Hide();
+            /* Set tool bar */
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
 
             /* Hide keyboard */
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden | SoftInput.AdjustPan);

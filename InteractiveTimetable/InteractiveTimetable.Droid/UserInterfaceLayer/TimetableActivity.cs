@@ -43,11 +43,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.timetable);
-
-            /* Hide action bar */
-            ActionBar.Hide();
 
             /* Get layouts */
             _mainLayout = FindViewById<LinearLayout>(Resource.Id.timetable_main_layout);
