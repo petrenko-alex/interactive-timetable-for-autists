@@ -17,9 +17,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     {
         #region Constants
         private static readonly string DefaultPassword = "123";
-        private static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
         private static readonly int HidePasswordInfoTimer = 2000;
         private static readonly int WrongPasswordAnimationDuration = 700;
+        private static readonly int HomeScreenRequest = 1;
         #endregion
 
         #region Widgets
@@ -92,7 +92,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     }
                     else
                     {
-                        // Call HomeScreenActivity
+                        /* Call home screen activity */
+                        var intent = new Intent(this, typeof(HomeScreenActivity));
+                        intent.PutExtra("user_name", "Светлана");
+                        StartActivityForResult(intent, HomeScreenRequest);
+
                         dialog.Dismiss();
                     }
                 };
@@ -117,7 +121,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             title.Text = GetString(Resource.String.logging_in);
 
             var clock = toolbar.FindViewById<TextClock>(Resource.Id.toolbar_clock);
-            clock.Format24Hour = DateTimeFormat;
+            clock.Format24Hour = InteractiveTimetable.DateTimeFormat;
         }
     }
 }

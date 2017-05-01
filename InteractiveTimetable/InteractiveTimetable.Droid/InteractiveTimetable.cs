@@ -20,6 +20,8 @@ namespace InteractiveTimetable.Droid
     [Application]
     class InteractiveTimetable : Application
     {
+        public static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
+
         public static InteractiveTimetable Current { get; private set; }
         public UserManager UserManager { get; set; }
         public HospitalTripManager HospitalTripManager { get; set; }
