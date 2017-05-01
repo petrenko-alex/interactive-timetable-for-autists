@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:layout_width="match_parent"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/home_screen_toolbar_layout">
+    <TextView
+        p1:text="Title"
+        p1:textAppearance="?android:attr/textAppearanceLarge"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/toolbar_title"
+        p1:layout_centerVertical="true"
+        p1:layout_marginLeft="10dp"
+        p1:layout_alignParentStart="true" />
+    <TextClock
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/toolbar_clock"
+        p1:layout_centerVertical="true"
+        p1:layout_toLeftOf="@+id/toolbar_logout"
+        p1:textSize="25dp"
+        p1:layout_marginRight="30dp" />
+    <ImageButton
+        p1:src="@drawable/logout"
+        p1:layout_width="48dp"
+        p1:layout_height="48dp"
+        p1:id="@+id/toolbar_logout"
+        p1:scaleType="centerCrop"
+        p1:layout_margin="5dp"
+        p1:layout_alignParentEnd="true"
+        p1:background="@null" />
+</RelativeLayout>

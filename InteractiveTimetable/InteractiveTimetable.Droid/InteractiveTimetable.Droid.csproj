@@ -163,6 +163,7 @@
     <Compile Include="UserDetailsActivivty.cs" />
     <Compile Include="UserInterfaceLayer\CreateTimetableActivity.cs" />
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
+    <Compile Include="UserInterfaceLayer\HomeScreenActivity.cs" />
     <Compile Include="UserInterfaceLayer\HospitalTripListFragment.cs" />
     <Compile Include="UserInterfaceLayer\InfoFragment.cs" />
     <Compile Include="UserInterfaceLayer\LoginActivity.cs" />
@@ -267,6 +268,12 @@
     <AndroidResource Include="Resources\layout\login_toolbar.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\home_screen.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\home_screen_toolbar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />
@@ -366,6 +373,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\add_user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\kid_part_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\timetable_part_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

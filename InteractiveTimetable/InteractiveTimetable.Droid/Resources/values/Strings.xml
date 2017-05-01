@@ -89,4 +89,7 @@
   <string name="log_in">Войти</string>
   <string name="logging_in">Вход в систему</string>
   <string name="wrong_password">Неверный пароль</string>
+  <string name="kid_profile_management">Управление профилями детей</string>
+  <string name="timetable">Расписание</string>
+  <string name="home_screen">Домашний экран</string>
 </resources>

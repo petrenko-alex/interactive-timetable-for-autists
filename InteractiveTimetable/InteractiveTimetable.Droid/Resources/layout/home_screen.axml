@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/home_screen_layout">
+    <include
+        p1:id="@+id/hs_toolbar"
+        layout="@layout/toolbar"
+        p1:layout_alignParentTop="true" />
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/hs_greetings"
+        p1:layout_centerHorizontal="true"
+        p1:layout_below="@+id/hs_toolbar">
+        <TextView
+            p1:text="@string/app_name"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/hs_app_name"
+            p1:textSize="50dp"
+            p1:gravity="center" />
+        <TextView
+            p1:text="@string/welcome"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/hs_welcome"
+            p1:textSize="45dp"
+            p1:gravity="center" />
+    </LinearLayout>
+    <GridLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/screens_grid_layout"
+        p1:layout_centerInParent="true"
+        p1:columnCount="2">
+        <FrameLayout
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:id="@+id/timetable_part_frame"
+            p1:background="@drawable/grey_frame_round10">
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/timetable_part_layout">
+                <TextView
+                    p1:text="@string/timetable"
+                    p1:textAppearance="?android:attr/textAppearanceLarge"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/timetable_part_text"
+                    p1:gravity="center"
+                    p1:textSize="25dp"
+                    p1:layout_marginBottom="10dp" />
+                <ImageView
+                    p1:src="@drawable/timetable_part_icon"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/timetable_part_image"
+                    p1:layout_margin="10dp" />
+            </LinearLayout>
+        </FrameLayout>
+        <FrameLayout
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:id="@+id/management_part_frame"
+            p1:background="@drawable/grey_frame_round10"
+            p1:layout_marginLeft="100dp">
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/management_part_layout">
+                <TextView
+                    p1:text="@string/kid_profile_management"
+                    p1:textAppearance="?android:attr/textAppearanceLarge"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/management_part_text"
+                    p1:gravity="center"
+                    p1:textSize="25dp"
+                    p1:layout_marginBottom="10dp" />
+                <ImageView
+                    p1:src="@drawable/kid_part_icon"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/imageView2"
+                    p1:layout_margin="10dp" />
+            </LinearLayout>
+        </FrameLayout>
+    </GridLayout>
+</RelativeLayout>
