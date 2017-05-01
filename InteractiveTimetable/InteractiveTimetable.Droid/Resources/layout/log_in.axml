@@ -5,7 +5,7 @@
     p1:layout_height="match_parent"
     p1:id="@+id/log_in_main_layout">
     <include
-        p1:id="@+id/toolbar"
+        p1:id="@+id/li_toolbar"
         layout="@layout/toolbar"
         p1:layout_alignParentTop="true" />
     <LinearLayout
@@ -15,7 +15,7 @@
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
         p1:id="@+id/li_greetings"
-        p1:layout_below="@+id/toolbar">
+        p1:layout_below="@+id/li_toolbar">
         <TextView
             p1:text="@string/app_name"
             p1:textAppearance="?android:attr/textAppearanceLarge"

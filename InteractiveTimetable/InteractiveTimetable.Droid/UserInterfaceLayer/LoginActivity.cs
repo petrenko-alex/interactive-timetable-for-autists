@@ -32,7 +32,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             SetContentView(Resource.Layout.log_in);
 
             /* Set tool bar */
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<Toolbar>(Resource.Id.li_toolbar);
             SetSupportActionBar(toolbar);
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             AdjustToolbarForActivity();
@@ -111,7 +111,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void AdjustToolbarForActivity()
         {
             /* Set toolbar layout */
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<Toolbar>(Resource.Id.li_toolbar);
             var toolbarContent = FindViewById<LinearLayout>(Resource.Id.toolbar_content);
             var layout = LayoutInflater.Inflate(Resource.Layout.login_toolbar, toolbar, false);
             toolbarContent.AddView(layout);
