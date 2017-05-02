@@ -38,8 +38,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.management);
+            OverridePendingTransition(
+                Resource.Animation.enter_from_right,
+                Resource.Animation.exit_to_left
+            );
 
             /* Set tool bar */
             var toolbar = FindViewById<Toolbar>(Resource.Id.m_toolbar);
@@ -278,6 +281,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnBackPressed()
         {
             base.OnBackPressed();
+
+            OverridePendingTransition(
+                Resource.Animation.enter_from_left,
+                Resource.Animation.exit_to_right
+            );
 
             if (_userInfoFragment != null)
             {
@@ -522,6 +530,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             homeButton.Click += (sender, e) =>
             {
                 Finish();
+                OverridePendingTransition(
+                    Resource.Animation.enter_from_left,
+                    Resource.Animation.exit_to_right
+                );
             };
         }
         #endregion

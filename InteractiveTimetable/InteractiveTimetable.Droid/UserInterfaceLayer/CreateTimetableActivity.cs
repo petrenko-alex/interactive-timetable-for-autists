@@ -70,6 +70,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.create_timetable);
+            OverridePendingTransition(
+                Resource.Animation.enter_from_right,
+                Resource.Animation.exit_to_left
+            );
 
             /* Get data */
             _tapeNumber = Intent.GetIntExtra("tape_number", 0);
@@ -187,6 +191,21 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             SetResult(Result.Canceled, null);
             Finish();
+
+            OverridePendingTransition(
+                Resource.Animation.enter_from_left,
+                Resource.Animation.exit_to_right
+            );
+        }
+
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+
+            OverridePendingTransition(
+                Resource.Animation.enter_from_left,
+                Resource.Animation.exit_to_right
+            );
         }
 
         private void AddActivityCards()

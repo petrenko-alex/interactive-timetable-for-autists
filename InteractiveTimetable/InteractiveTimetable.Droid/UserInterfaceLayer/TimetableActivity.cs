@@ -49,7 +49,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.timetable);
-            
+            OverridePendingTransition(
+                Resource.Animation.enter_from_right,
+                Resource.Animation.exit_to_left
+            );
+
             /* Set class variables */
             _chosenDate = DateTime.Today;
 
@@ -104,6 +108,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void OnHomeScreenButtonClicked(object sender, EventArgs e)
         {
             Finish();
+            OverridePendingTransition(
+                Resource.Animation.enter_from_left,
+                Resource.Animation.exit_to_right
+            );
+        }
+
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+            OverridePendingTransition(
+                Resource.Animation.enter_from_left,
+                Resource.Animation.exit_to_right
+            );
         }
 
         private void FinishYesterdaySchedules()

@@ -61,6 +61,24 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f040009
 			public const int abc_slide_out_top = 2130968585;
 			
+			// aapt resource value: 0x7f04000a
+			public const int enter_from_left = 2130968586;
+			
+			// aapt resource value: 0x7f04000b
+			public const int enter_from_right = 2130968587;
+			
+			// aapt resource value: 0x7f04000c
+			public const int exit_to_left = 2130968588;
+			
+			// aapt resource value: 0x7f04000d
+			public const int exit_to_right = 2130968589;
+			
+			// aapt resource value: 0x7f04000e
+			public const int slide_in = 2130968590;
+			
+			// aapt resource value: 0x7f04000f
+			public const int slide_out = 2130968591;
+			
 			static Animation()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
