@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:layout_width="match_parent"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/create_timetable_toolbar_layout">
+    <ImageButton
+        p1:src="@drawable/home_button"
+        p1:layout_width="48dp"
+        p1:layout_height="48dp"
+        p1:id="@+id/toolbar_home"
+        p1:layout_alignParentStart="true"
+        p1:scaleType="centerCrop"
+        p1:background="@null"
+        p1:layout_margin="5dp"
+        p1:layout_centerVertical="true" />
+    <ImageButton
+        p1:src="@drawable/back_button"
+        p1:layout_width="48dp"
+        p1:layout_height="48dp"
+        p1:id="@+id/toolbar_back"
+        p1:layout_toRightOf="@+id/toolbar_home"
+        p1:scaleType="centerCrop"
+        p1:background="@null"
+        p1:layout_margin="5dp"
+        p1:layout_centerVertical="true" />
+    <TextView
+        p1:text="Title"
+        p1:textAppearance="?android:attr/textAppearanceLarge"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/toolbar_title"
+        p1:layout_toRightOf="@+id/toolbar_back"
+        p1:layout_centerVertical="true"
+        p1:layout_marginLeft="10dp" />
+    <TextView
+        p1:text="Timetable Date"
+        p1:textAppearance="?android:attr/textAppearanceLarge"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/toolbar_chosen_date"
+        p1:layout_centerInParent="true" />
+    <TextClock
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/toolbar_clock"
+        p1:layout_centerVertical="true"
+        p1:textSize="25dp"
+        p1:layout_alignParentEnd="true"
+        p1:layout_marginRight="10dp" />
+</RelativeLayout>

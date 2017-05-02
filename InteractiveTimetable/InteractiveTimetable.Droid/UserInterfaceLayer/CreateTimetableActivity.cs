@@ -5,17 +5,20 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Provider;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using Java.IO;
+using AlertDialog = Android.App.AlertDialog;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     [Activity(Label = "Create Timetable")]
-    public class CreateTimetableActivity : Activity
+    public class CreateTimetableActivity : ActionBarActivity
     {
         #region Constants
         private static readonly int CardColumnWidth = 120;
@@ -29,9 +32,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Widgets
-        private TextView _label;
-        private TextView _currentDateView;
         private ImageButton _backButton;
+        private ImageButton _homeButton;
         private Button _createScheduleButton;
 
         #region New Tape Widgets
@@ -88,10 +90,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 CultureInfo.CurrentCulture
             );
 
+            /* Set tool bar */
+            var toolbar = FindViewById<Toolbar>(Resource.Id.ct_toolbar);
+            SetSupportActionBar(toolbar);
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            AdjustToolbarForActivity();
+
             /* Get views */
-            _label = FindViewById<TextView>(Resource.Id.ct_label);
-            _currentDateView = FindViewById<TextView>(Resource.Id.ct_current_date);
-            _backButton = FindViewById<ImageButton>(Resource.Id.ct_back_button);
             _activityCards = FindViewById<RecyclerView>(Resource.Id.ct_activity_cards);
             _goalCards = FindViewById<RecyclerView>(Resource.Id.ct_goal_cards);
             _newTape = FindViewById<RecyclerView>(Resource.Id.new_tape);
@@ -117,10 +122,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _newTapeGoal.SetImageResource(Resource.Drawable.empty_new_tape_item);
             }
 
-            string label = $"{_currentUser.FirstName} {_currentUser.LastName} - {_label.Text}";
-            _label.Text = label;
-            _currentDateView.Text = _currentDate.ToString("dd MMMM yyyy");
-
             /* Set new tape */
             _newTapeLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.Horizontal, false);
             _newTape.SetLayoutManager(_newTapeLayoutManager);
@@ -128,13 +129,52 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _newTape.SetAdapter(_newTapeAdapter);
 
             /* Set handlers */
-            _backButton.Click += OnBackButtonClicked;
             _addItemToNewTapeButton.Click += OnAddItemToNewTapeButtonClicked;
             _createScheduleButton.Click += OnCreateTimetableClicked;
 
             /* Add cards */
             AddActivityCards();
             AddGoalCards();
+        }
+
+        private void AdjustToolbarForActivity()
+        {
+            /* Set toolbar layout */
+            var toolbar = FindViewById<Toolbar>(Resource.Id.ct_toolbar);
+            var toolbarContent = FindViewById<LinearLayout>(Resource.Id.toolbar_content);
+            var layout = LayoutInflater.Inflate(Resource.Layout.create_timetable_toolbar, toolbar, false);
+            toolbarContent.AddView(layout);
+
+            /* Set toolbar controls */
+            var title = toolbar.FindViewById<TextView>(Resource.Id.toolbar_title);
+            string label = $"{_currentUser.FirstName} " +
+                           $"{_currentUser.LastName} - " +
+                           $"{GetString(Resource.String.creating_timetable_for)}";
+            title.Text = label;
+
+            var clock = toolbar.FindViewById<TextClock>(Resource.Id.toolbar_clock);
+            clock.Format24Hour = InteractiveTimetable.DateTimeFormat;
+
+            var chosenDate = toolbar.FindViewById<TextView>(Resource.Id.toolbar_chosen_date);
+            chosenDate.Text = GetString(Resource.String.chosen_date) + ": " + _currentDate.ToString("D");
+
+            _backButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_back);
+            _backButton.Click += OnBackButtonClicked;
+
+            _homeButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_home);
+            _homeButton.Click += OnHomeButtonClicked;
+        }
+
+        private void OnHomeButtonClicked(object sender, EventArgs e)
+        {
+            /* Finish current activity */
+            SetResult(Result.Canceled, null);
+            Finish();
+
+            /* Call home screen activity */
+            var intent = new Intent(this, typeof(HomeScreenActivity));
+            intent.SetFlags(ActivityFlags.ClearTop);
+            StartActivity(intent);
         }
 
         private void OnAddItemToNewTapeButtonClicked(object sender, EventArgs e)
