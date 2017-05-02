@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/monitoring_main_layout">
+    <include
+        p1:id="@+id/monitoring_toolbar"
+        layout="@layout/toolbar"
+        p1:layout_alignParentTop="true" />
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/monitoring_headers"
+        p1:layout_centerHorizontal="true"
+        p1:layout_below="@+id/monitoring_toolbar"
+        p1:layout_marginTop="10dp">
+        <TextView
+            p1:text="Header"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/monitoring_header"
+            p1:gravity="center"
+            p1:textSize="40dp" />
+        <TextView
+            p1:text="Trip info"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/monitoring_trip_info"
+            p1:gravity="center"
+            p1:textSize="35dp" />
+    </LinearLayout>
+    <ScrollView
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/table_vertical_scroll"
+        p1:layout_below="@+id/monitoring_headers"
+        p1:layout_centerHorizontal="true"
+        p1:layout_marginTop="50dp"
+        p1:scrollbars="horizontal|vertical"
+        p1:scrollbarStyle="outsideInset"
+        p1:fillViewport="true">
+        <HorizontalScrollView
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/table_horizontal_scroll"
+            p1:scrollbars="horizontal|vertical">
+            <TableLayout
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/table" />
+        </HorizontalScrollView>
+    </ScrollView>
+</RelativeLayout>

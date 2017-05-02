@@ -4,6 +4,9 @@
   <string name="welcome">Добро пожаловать</string>
   <string name="general_monitoring_button">Общий мониторинг уровня развития ребенка</string>
   <string name="monitoring_button">Мониторинг уровня развития ребенка</string>
+  <string name="monitoring">Мониторинг уровня развития</string>
+  <string name="general_monitoring">Общий мониторинг уровня развития</string>
+  <string name="trip_monitoring">Мониторинг уровня развития в пределах путевки</string>
   <string name="user_details_last_name">Фамилия: </string>
   <string name="user_details_first_name">Имя: </string>
   <string name="user_details_patronymic_name">Отчество: </string>
