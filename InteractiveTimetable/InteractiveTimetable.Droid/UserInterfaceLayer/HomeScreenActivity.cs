@@ -1,6 +1,7 @@
 using System;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
@@ -9,14 +10,17 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "HomeScreenActivity")]
+    [Activity(Label = "HomeScreenActivity", LaunchMode = LaunchMode.SingleTask)]
     public class HomeScreenActivity : ActionBarActivity
     {
         #region Widgets
-
         private TextView _greetingsString;
         private FrameLayout _timetablePartButton;
         private FrameLayout _managementPartButton;
+        #endregion
+
+        #region Internal Variables
+        private string _currentUser;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -31,15 +35,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AdjustToolbarForActivity();
 
             /* Get data */
-            var userName = Intent.GetStringExtra("user_name");
-
+            _currentUser = Intent.GetStringExtra("user_name");
+            
             /* Get views */
             _greetingsString = FindViewById<TextView>(Resource.Id.hs_welcome);
             _timetablePartButton = FindViewById<FrameLayout>(Resource.Id.timetable_part_frame);
             _managementPartButton = FindViewById<FrameLayout>(Resource.Id.management_part_frame);
 
             /* Set widgets data */
-            _greetingsString.Text += $", {userName}!";
+            _greetingsString.Text += $", {_currentUser}!";
 
             /* Set handlers */
             _timetablePartButton.Click += OnTimetablePartButtonClicked;
