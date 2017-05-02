@@ -92,4 +92,5 @@
   <string name="kid_profile_management">Управление профилями детей</string>
   <string name="timetable">Расписание</string>
   <string name="home_screen">Домашний экран</string>
+  <string name="chosen_date">Выбранная дата</string>
 </resources>

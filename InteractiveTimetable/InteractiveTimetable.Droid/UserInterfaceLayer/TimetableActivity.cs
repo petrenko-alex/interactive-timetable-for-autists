@@ -7,12 +7,14 @@ using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using System.Collections.Generic;
+using Android.Support.V7.App;
 using InteractiveTimetable.BusinessLayer.Models;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     [Activity(Label = "Interactive Timetable", MainLauncher = false)]
-    public class TimetableActivity : Activity
+    public class TimetableActivity : ActionBarActivity
     {
         #region Constants
         private static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
@@ -21,15 +23,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Widgets
-        private LinearLayout _mainLayout;
+        private RelativeLayout _mainLayout;
         private LinearLayout _timetableTapeLayout;
         private LinearLayout _timetableInfoLayout;
-        private TextClock _clock;
-        private ImageButton _managementPanelButton;
+        private ImageButton _homeScreenButton;
         private ImageButton _lockScreenButton;
         private Button _goAndAddButton;
         private LockableScrollView _timetableTapeScroll;
         private Toast _toastMessage;
+        #endregion
+
+        #region Internal Variables
+        private DateTime _chosenDate;
         #endregion
 
         #region Fragments
@@ -44,34 +49,61 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.timetable);
+            
+            /* Set class variables */
+            _chosenDate = DateTime.Today;
+
+            /* Set tool bar */
+            var toolbar = FindViewById<Toolbar>(Resource.Id.t_toolbar);
+            SetSupportActionBar(toolbar);
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            AdjustToolbarForActivity();
 
             /* Get layouts */
-            _mainLayout = FindViewById<LinearLayout>(Resource.Id.timetable_main_layout);
+            _mainLayout = FindViewById<RelativeLayout>(Resource.Id.timetable_main_layout);
             _timetableTapeLayout = FindViewById<LinearLayout>(Resource.Id.timetable_tape_layout);
             _timetableTapeScroll = FindViewById<LockableScrollView>(Resource.Id.timetable_tape_scroll);
             _timetableInfoLayout = FindViewById<LinearLayout>(Resource.Id.timetable_info_layout);
-           
+
             /* Set go and add button */
             _goAndAddButton = FindViewById<Button>(Resource.Id.go_and_add_button);
             _goAndAddButton.Click += OnManagementPanelButtonClicked;
-
-            /* Set management panel button */
-            _managementPanelButton = FindViewById<ImageButton>(Resource.Id.management_panel_button);
-            _managementPanelButton.Click += OnManagementPanelButtonClicked;
-
-            /* Set clock */
-            _clock = FindViewById<TextClock>(Resource.Id.clock);
-            _clock.Format24Hour = DateTimeFormat;
-
-            /* Set lock screen button */
-            _lockScreenButton = FindViewById<ImageButton>(Resource.Id.lock_screen_button);
-            _lockScreenButton.Click += OnLockScreenButtonClicked;
 
             /* Add timetable tapes */
             AddTimetableTapeFragments();
 
             /* Mark yesterday schedules as finished */
             FinishYesterdaySchedules();
+        }
+
+        private void AdjustToolbarForActivity()
+        {
+            /* Set toolbar layout */
+            var toolbar = FindViewById<Toolbar>(Resource.Id.t_toolbar);
+            var toolbarContent = FindViewById<LinearLayout>(Resource.Id.toolbar_content);
+            var layout = LayoutInflater.Inflate(Resource.Layout.timetable_toolbar, toolbar, false);
+            toolbarContent.AddView(layout);
+
+            /* Set toolbar controls */
+            var title = toolbar.FindViewById<TextView>(Resource.Id.toolbar_title);
+            title.Text = GetString(Resource.String.timetable_for_the_day);
+
+            var clock = toolbar.FindViewById<TextClock>(Resource.Id.toolbar_clock);
+            clock.Format24Hour = InteractiveTimetable.DateTimeFormat;
+
+            _lockScreenButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_lock);
+            _lockScreenButton.Click += OnLockScreenButtonClicked;
+
+            _homeScreenButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_home);
+            _homeScreenButton.Click += OnHomeScreenButtonClicked;
+
+            var chosenDate = toolbar.FindViewById<TextView>(Resource.Id.toolbar_chosen_date);
+            chosenDate.Text = GetString(Resource.String.chosen_date) + ": " + _chosenDate.ToString("D");
+        }
+
+        private void OnHomeScreenButtonClicked(object sender, EventArgs e)
+        {
+            Finish();
         }
 
         private void FinishYesterdaySchedules()
@@ -108,7 +140,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             if (_isLocked)
             {
                 /* Reset handler for locked screen */
-                _managementPanelButton.Click -= OnLockedScreenClicked;
+                _homeScreenButton.Click -= OnLockedScreenClicked;
                 _mainLayout.Click -= OnLockedScreenClicked;
                 _timetableTapeScroll.IsScrollEnabled = true;
                 foreach (var fragment in _tapeFragments)
@@ -117,7 +149,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 }
 
                 /* Set function handlers*/
-                _managementPanelButton.Click += OnManagementPanelButtonClicked;
+                _homeScreenButton.Click += OnHomeScreenButtonClicked;
 
                 /* Set button image */
                 _lockScreenButton.SetImageResource(Resource.Drawable.unlocked_icon);
@@ -128,10 +160,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             else
             {
                 /* Reset function handlers */
-                _managementPanelButton.Click -= OnManagementPanelButtonClicked;
+                _homeScreenButton.Click -= OnHomeScreenButtonClicked;
 
                 /* Set handler for lock screen */
-                _managementPanelButton.Click += OnLockedScreenClicked;
+                _homeScreenButton.Click += OnLockedScreenClicked;
                 _mainLayout.Click += OnLockedScreenClicked;
                 _timetableTapeScroll.IsScrollEnabled = false;
                 foreach (var fragment in _tapeFragments)
@@ -345,9 +377,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void ShowNoUsersInfo()
         {
             _timetableTapeScroll.Visibility = ViewStates.Gone;
-            _lockScreenButton.Visibility = ViewStates.Gone;
-            FindViewById<TextView>(Resource.Id.our_kids_label).Visibility = ViewStates.Gone;
-            FindViewById<TextView>(Resource.Id.day_timetable_label).Visibility = ViewStates.Gone;
+            _lockScreenButton.Visibility = ViewStates.Gone;           
 
             _timetableInfoLayout.Visibility = ViewStates.Visible;
         }
@@ -356,8 +386,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _timetableTapeScroll.Visibility = ViewStates.Visible;
             _lockScreenButton.Visibility = ViewStates.Visible;
-            FindViewById<TextView>(Resource.Id.our_kids_label).Visibility = ViewStates.Visible;
-            FindViewById<TextView>(Resource.Id.day_timetable_label).Visibility = ViewStates.Visible;
 
             _timetableInfoLayout.Visibility = ViewStates.Gone;
         }
