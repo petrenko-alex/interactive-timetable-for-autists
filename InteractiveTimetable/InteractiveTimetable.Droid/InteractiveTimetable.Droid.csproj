@@ -170,6 +170,7 @@
     <Compile Include="UserInterfaceLayer\ManagementActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInterfaceLayer\MonitoringActivity.cs" />
     <Compile Include="UserInterfaceLayer\TimePickerFragment.cs" />
     <Compile Include="UserInterfaceLayer\TimetableActivity.cs" />
     <Compile Include="UserInterfaceLayer\TimetableTapeFragment.cs" />
