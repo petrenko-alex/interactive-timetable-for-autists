@@ -12,7 +12,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "Вход в систему", MainLauncher = true)]
+    [Activity(Label = "Вход в систему", MainLauncher = false)]
     public class LoginActivity : ActionBarActivity
     {
         #region Constants

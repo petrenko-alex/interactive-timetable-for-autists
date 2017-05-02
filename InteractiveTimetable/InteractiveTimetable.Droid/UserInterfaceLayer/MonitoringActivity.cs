@@ -9,12 +9,14 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "MonitoringActivity")]
+    [Activity(Label = "MonitoringActivity", MainLauncher = true)]
     public class MonitoringActivity : ActionBarActivity
     {
         #region Widgets
+        private HorizontalScrollView _layoutForTable;
         private ImageButton _backButton;
-        private ImageButton _homeButton;        
+        private ImageButton _homeButton;
+        private TableLayout _table;        
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -29,10 +31,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Get views */
             var tripInfo = FindViewById<TextView>(Resource.Id.monitoring_trip_info);
             var heading = FindViewById<TextView>(Resource.Id.monitoring_header);
+            _layoutForTable = FindViewById<HorizontalScrollView>(Resource.Id.table_horizontal_scroll);
 
             /* Get data */
             var userId = Intent.GetIntExtra("user_id", 0);
             var tripId = Intent.GetIntExtra("trip_id", 0);
+
+            // TODO: Delete after finish
+            userId = 1;
+            tripId = 1;
 
             /* Set data to views */
             if (tripId > 0)
@@ -84,6 +91,49 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             _homeButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_home);
             _homeButton.Click += OnHomeButtonClicked;
+
+            CreateTable();
+        }
+
+        private void CreateTable()
+        {
+            /* Get data for table */
+
+            /* Create table */
+            var tableParams = new TableLayout.LayoutParams(
+                ViewGroup.LayoutParams.WrapContent,
+                ViewGroup.LayoutParams.WrapContent
+            );
+            var rowParams = new TableRow.LayoutParams(
+                150,
+                50
+            );
+
+            _table = new TableLayout(this);
+            /*_table.LayoutParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WrapContent,
+                ViewGroup.LayoutParams.WrapContent
+            );*/
+            
+
+            /* Create header */
+            var headingRow = new TableRow(this);
+            headingRow.LayoutParameters = tableParams;
+            
+            var mainHeaderColumn = new TextView(this);
+            mainHeaderColumn.LayoutParameters = rowParams;
+            mainHeaderColumn.Text = "Критерии и оценки";
+            mainHeaderColumn.SetBackgroundResource(Resource.Drawable.table_frame);
+            mainHeaderColumn.Gravity = GravityFlags.Center;
+
+            headingRow.AddView(mainHeaderColumn);
+            _table.AddView(headingRow);
+
+            /* Create rows for grades */
+            /* Create rows for sums */
+
+
+            _layoutForTable.AddView(_table);
         }
 
         private void OnHomeButtonClicked(object sender, EventArgs e)
