@@ -69,6 +69,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _userListFragment.ListItemClicked -= OnUserListItemClicked;
             _userListFragment.NoMoreUsersInList -= OnNoMoreUsersInList;
             _userDetailsFragment.EditButtonClicked -= OnEditUserButtonClicked;
+            _userDetailsFragment.GeneralMonitoringButtonClicked -= OnGeneralMonitoringButtonClicked;
 
             base.OnDestroy();
         }
@@ -81,6 +82,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 _userDetailsFragment = UserDetailsFragment.NewInstance(userId);
                 _userDetailsFragment.EditButtonClicked += OnEditUserButtonClicked;
+                _userDetailsFragment.GeneralMonitoringButtonClicked +=
+                        OnGeneralMonitoringButtonClicked;
 
                 ReplaceFragment(
                     Resource.Id.user_details,
@@ -116,6 +119,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Create and add new fragment */
             _tripDetailsFragment = TripDetailsFragment.NewInstance(tripId);
             _tripDetailsFragment.EditButtonClicked += OnEditTripButtonClicked;
+            _tripDetailsFragment.TripMonitoringButtonClicked += OnTripMonitoringButtonClicked;
 
             ReplaceFragment(
                 Resource.Id.trip_detailed_info,
@@ -297,6 +301,20 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
+        private void OnGeneralMonitoringButtonClicked(int userId)
+        {
+            var intent = new Intent(this, typeof(MonitoringActivity));
+            intent.PutExtra("user_id", userId);
+            StartActivity(intent);
+        }
+
+        private void OnTripMonitoringButtonClicked(int userId, int tripId)
+        {
+            var intent = new Intent(this, typeof(MonitoringActivity));
+            intent.PutExtra("user_id", userId);
+            intent.PutExtra("trip_id", tripId);
+            StartActivity(intent);
+        }
         #endregion
 
         #region Other Methods
@@ -374,6 +392,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _currentUserId = _userListFragment.GetFirstUserId();
                     _userDetailsFragment = UserDetailsFragment.NewInstance(_currentUserId);
                     _userDetailsFragment.EditButtonClicked += OnEditUserButtonClicked;
+                    _userDetailsFragment.GeneralMonitoringButtonClicked +=
+                            OnGeneralMonitoringButtonClicked;
 
                     ReplaceFragment(
                         Resource.Id.user_details,
@@ -405,6 +425,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Create and add new fragment */
                 _tripDetailsFragment = TripDetailsFragment.NewInstance(tripId);
                 _tripDetailsFragment.EditButtonClicked += OnEditTripButtonClicked;
+                _tripDetailsFragment.TripMonitoringButtonClicked += OnTripMonitoringButtonClicked;
 
                 ReplaceFragment(
                     Resource.Id.trip_detailed_info,

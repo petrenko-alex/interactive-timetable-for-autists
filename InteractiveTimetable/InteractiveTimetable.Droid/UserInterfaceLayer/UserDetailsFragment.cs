@@ -17,10 +17,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Widgets
         private ImageButton _editButton;
+        private Button _generalMonitoringButton;
         #endregion
 
         #region Events
         public event Action<int> EditButtonClicked;
+        public event Action<int> GeneralMonitoringButtonClicked;
         #endregion
 
         #region Properties
@@ -106,9 +108,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _editButton = userView.FindViewById<ImageButton>(Resource.Id.edit_user);
             _editButton.Click += OnEditUserButtonClicked;
 
+            _generalMonitoringButton = userView.FindViewById<Button>(Resource.Id.general_monitoring);
+            _generalMonitoringButton.Click += OnGeneralMonitoringButtonClicked;
+
             return userView;
         }
-    
+
+        private void OnGeneralMonitoringButtonClicked(object sender, EventArgs e)
+        {
+            GeneralMonitoringButtonClicked?.Invoke(UserId);
+        }
+
         private void OnEditUserButtonClicked(object sender, EventArgs args)
         {
             EditButtonClicked?.Invoke(UserId);

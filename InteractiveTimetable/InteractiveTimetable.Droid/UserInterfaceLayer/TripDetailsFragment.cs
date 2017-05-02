@@ -15,10 +15,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Widgets
         private ImageButton _editButton;
+        private Button _tripMonitoringButton;
         #endregion
 
         #region Events
         public event Action<int> EditButtonClicked;
+        public event Action<int, int> TripMonitoringButtonClicked;
         #endregion
 
         #region Properties
@@ -77,7 +79,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _editButton = tripView.FindViewById<ImageButton>(Resource.Id.edit_trip_button);
             _editButton.Click += OnEditTripButtonClicked;
 
+            _tripMonitoringButton = tripView.FindViewById<Button>(Resource.Id.monitoring_button);
+            _tripMonitoringButton.Click += OnTripMonitoringButtonClicked;
+
             return tripView;
+        }
+
+        private void OnTripMonitoringButtonClicked(object sender, EventArgs e)
+        {
+            var trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(TripId);
+            TripMonitoringButtonClicked?.Invoke(trip.UserId, TripId);
         }
 
         private void OnEditTripButtonClicked(object sender, EventArgs args)
