@@ -4,7 +4,7 @@
     p1:layout_height="wrap_content"
     p1:id="@+id/timetable_toolbar_layout">
     <ImageButton
-        p1:src="@drawable/back_button"
+        p1:src="@drawable/home_button"
         p1:layout_width="48dp"
         p1:layout_height="48dp"
         p1:id="@+id/toolbar_home"
@@ -36,13 +36,14 @@
         p1:layout_centerVertical="true"
         p1:textSize="25dp"
         p1:layout_alignParentEnd="true"
-        p1:layout_marginRight="10dp" />
+        p1:layout_marginRight="10dp"
+        p1:layout_marginLeft="10dp" />
     <ImageButton
         p1:src="@drawable/unlocked_icon"
-        p1:layout_width="48dp"
-        p1:layout_height="48dp"
+        p1:layout_width="32dp"
+        p1:layout_height="32dp"
         p1:id="@+id/toolbar_lock"
-        p1:scaleType="centerCrop"
+        p1:scaleType="centerInside"
         p1:layout_margin="5dp"
         p1:layout_centerVertical="true"
         p1:layout_toLeftOf="@+id/toolbar_clock"

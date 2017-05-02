@@ -1855,8 +1855,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060086
 			public const int add_trip_btn = 2131099782;
 			
-			// aapt resource value: 0x7f060119
-			public const int add_user_btn = 2131099929;
+			// aapt resource value: 0x7f060114
+			public const int add_user_btn = 2131099924;
 			
 			// aapt resource value: 0x7f06003c
 			public const int alertTitle = 2131099708;
@@ -1864,17 +1864,17 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06001e
 			public const int always = 2131099678;
 			
-			// aapt resource value: 0x7f060112
-			public const int apply_changes_btn = 2131099922;
+			// aapt resource value: 0x7f06010c
+			public const int apply_changes_btn = 2131099916;
 			
-			// aapt resource value: 0x7f0600f9
-			public const int apply_trip_edit_button = 2131099897;
+			// aapt resource value: 0x7f0600f2
+			public const int apply_trip_edit_button = 2131099890;
 			
 			// aapt resource value: 0x7f06001b
 			public const int beginning = 2131099675;
 			
-			// aapt resource value: 0x7f060111
-			public const int birth_date_show = 2131099921;
+			// aapt resource value: 0x7f06010b
+			public const int birth_date_show = 2131099915;
 			
 			// aapt resource value: 0x7f060023
 			public const int bottom = 2131099683;
@@ -1882,17 +1882,17 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06002f
 			public const int buttonPanel = 2131099695;
 			
-			// aapt resource value: 0x7f0600f8
-			public const int buttons_layout = 2131099896;
+			// aapt resource value: 0x7f0600f1
+			public const int buttons_layout = 2131099889;
 			
 			// aapt resource value: 0x7f0600af
 			public const int cancel_action = 2131099823;
 			
-			// aapt resource value: 0x7f060113
-			public const int cancel_btn = 2131099923;
+			// aapt resource value: 0x7f06010d
+			public const int cancel_btn = 2131099917;
 			
-			// aapt resource value: 0x7f0600fa
-			public const int cancel_trip_edit_button = 2131099898;
+			// aapt resource value: 0x7f0600f3
+			public const int cancel_trip_edit_button = 2131099891;
 			
 			// aapt resource value: 0x7f060058
 			public const int card_list_item_frame = 2131099736;
@@ -1905,9 +1905,6 @@ namespace InteractiveTimetable.Droid
 			
 			// aapt resource value: 0x7f0600b7
 			public const int chronometer = 2131099831;
-			
-			// aapt resource value: 0x7f0600ca
-			public const int clock = 2131099850;
 			
 			// aapt resource value: 0x7f06001f
 			public const int collapseActionView = 2131099679;
@@ -1960,41 +1957,38 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060038
 			public const int customPanel = 2131099704;
 			
-			// aapt resource value: 0x7f0600c7
-			public const int day_timetable_label = 2131099847;
-			
 			// aapt resource value: 0x7f060046
 			public const int decor_content_parent = 2131099718;
 			
 			// aapt resource value: 0x7f06002b
 			public const int default_activity_button = 2131099691;
 			
-			// aapt resource value: 0x7f06011e
-			public const int delete_card_button = 2131099934;
+			// aapt resource value: 0x7f060119
+			public const int delete_card_button = 2131099929;
 			
-			// aapt resource value: 0x7f06011f
-			public const int delete_trip_item = 2131099935;
+			// aapt resource value: 0x7f06011a
+			public const int delete_trip_item = 2131099930;
 			
-			// aapt resource value: 0x7f060120
-			public const int delete_user_item = 2131099936;
+			// aapt resource value: 0x7f06011b
+			public const int delete_user_item = 2131099931;
 			
 			// aapt resource value: 0x7f06000d
 			public const int disableHome = 2131099661;
 			
-			// aapt resource value: 0x7f06010c
-			public const int edit_photo_btn = 2131099916;
+			// aapt resource value: 0x7f060105
+			public const int edit_photo_btn = 2131099909;
 			
 			// aapt resource value: 0x7f06004a
 			public const int edit_query = 2131099722;
 			
-			// aapt resource value: 0x7f0600ed
-			public const int edit_trip_button = 2131099885;
+			// aapt resource value: 0x7f0600e6
+			public const int edit_trip_button = 2131099878;
 			
-			// aapt resource value: 0x7f0600fe
-			public const int edit_user = 2131099902;
+			// aapt resource value: 0x7f0600f7
+			public const int edit_user = 2131099895;
 			
-			// aapt resource value: 0x7f060118
-			public const int empty_list = 2131099928;
+			// aapt resource value: 0x7f060113
+			public const int empty_list = 2131099923;
 			
 			// aapt resource value: 0x7f060085
 			public const int empty_trip_list = 2131099781;
@@ -2017,41 +2011,41 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06003e
 			public const int expanded_menu = 2131099710;
 			
-			// aapt resource value: 0x7f060114
-			public const int find_user = 2131099924;
+			// aapt resource value: 0x7f06010e
+			public const int find_user = 2131099918;
 			
-			// aapt resource value: 0x7f0600f6
-			public const int finish_date = 2131099894;
+			// aapt resource value: 0x7f0600ef
+			public const int finish_date = 2131099887;
+			
+			// aapt resource value: 0x7f0600ee
+			public const int finish_date_label = 2131099886;
+			
+			// aapt resource value: 0x7f0600ed
+			public const int finish_date_layout = 2131099885;
+			
+			// aapt resource value: 0x7f0600f0
+			public const int finish_time = 2131099888;
+			
+			// aapt resource value: 0x7f060109
+			public const int first_name_edit = 2131099913;
+			
+			// aapt resource value: 0x7f0600ca
+			public const int frameLayout1 = 2131099850;
+			
+			// aapt resource value: 0x7f060100
+			public const int frameLayout2 = 2131099904;
 			
 			// aapt resource value: 0x7f0600f5
-			public const int finish_date_label = 2131099893;
+			public const int frameLayout3 = 2131099893;
 			
-			// aapt resource value: 0x7f0600f4
-			public const int finish_date_layout = 2131099892;
+			// aapt resource value: 0x7f0600fe
+			public const int general_monitoring = 2131099902;
 			
-			// aapt resource value: 0x7f0600f7
-			public const int finish_time = 2131099895;
-			
-			// aapt resource value: 0x7f06010f
-			public const int first_name_edit = 2131099919;
-			
-			// aapt resource value: 0x7f0600d1
-			public const int frameLayout1 = 2131099857;
+			// aapt resource value: 0x7f0600c9
+			public const int go_and_add_button = 2131099849;
 			
 			// aapt resource value: 0x7f060107
-			public const int frameLayout2 = 2131099911;
-			
-			// aapt resource value: 0x7f0600fc
-			public const int frameLayout3 = 2131099900;
-			
-			// aapt resource value: 0x7f060105
-			public const int general_monitoring = 2131099909;
-			
-			// aapt resource value: 0x7f0600d0
-			public const int go_and_add_button = 2131099856;
-			
-			// aapt resource value: 0x7f06010d
-			public const int gridLayout1 = 2131099917;
+			public const int gridLayout1 = 2131099911;
 			
 			// aapt resource value: 0x7f060005
 			public const int home = 2131099653;
@@ -2110,8 +2104,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060000
 			public const int item_touch_helper_previous_elevation = 2131099648;
 			
-			// aapt resource value: 0x7f06010e
-			public const int last_name_edit = 2131099918;
+			// aapt resource value: 0x7f060108
+			public const int last_name_edit = 2131099912;
 			
 			// aapt resource value: 0x7f06008d
 			public const int li_app_name = 2131099789;
@@ -2143,29 +2137,26 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060057
 			public const int linearLayout1 = 2131099735;
 			
-			// aapt resource value: 0x7f060108
-			public const int linearLayout2 = 2131099912;
+			// aapt resource value: 0x7f060101
+			public const int linearLayout2 = 2131099905;
 			
-			// aapt resource value: 0x7f0600c8
-			public const int linearLayout3 = 2131099848;
+			// aapt resource value: 0x7f060106
+			public const int linearLayout3 = 2131099910;
 			
 			// aapt resource value: 0x7f060092
 			public const int linearLayout4 = 2131099794;
 			
-			// aapt resource value: 0x7f06010b
-			public const int linearLayout5 = 2131099915;
+			// aapt resource value: 0x7f060104
+			public const int linearLayout5 = 2131099908;
 			
-			// aapt resource value: 0x7f060109
-			public const int linearLayout6 = 2131099913;
+			// aapt resource value: 0x7f060102
+			public const int linearLayout6 = 2131099906;
 			
 			// aapt resource value: 0x7f06000a
 			public const int listMode = 2131099658;
 			
 			// aapt resource value: 0x7f06002c
 			public const int list_item = 2131099692;
-			
-			// aapt resource value: 0x7f0600c9
-			public const int lock_screen_button = 2131099849;
 			
 			// aapt resource value: 0x7f06008a
 			public const int log_in_main_layout = 2131099786;
@@ -2181,9 +2172,6 @@ namespace InteractiveTimetable.Droid
 			
 			// aapt resource value: 0x7f060097
 			public const int main_portait = 2131099799;
-			
-			// aapt resource value: 0x7f0600c5
-			public const int management_panel_button = 2131099845;
 			
 			// aapt resource value: 0x7f060079
 			public const int management_part_frame = 2131099769;
@@ -2203,8 +2191,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06001d
 			public const int middle = 2131099677;
 			
-			// aapt resource value: 0x7f0600ec
-			public const int monitoring_button = 2131099884;
+			// aapt resource value: 0x7f0600e5
+			public const int monitoring_button = 2131099877;
 			
 			// aapt resource value: 0x7f060015
 			public const int multiply = 2131099669;
@@ -2254,20 +2242,17 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f0600a9
 			public const int nti_image = 2131099817;
 			
-			// aapt resource value: 0x7f0600c6
-			public const int our_kids_label = 2131099846;
-			
 			// aapt resource value: 0x7f060031
 			public const int parentPanel = 2131099697;
 			
 			// aapt resource value: 0x7f0600c2
 			public const int password_info = 2131099842;
 			
-			// aapt resource value: 0x7f060110
-			public const int patronymic_name_edit = 2131099920;
+			// aapt resource value: 0x7f06010a
+			public const int patronymic_name_edit = 2131099914;
 			
-			// aapt resource value: 0x7f060104
-			public const int primerdivisor = 2131099908;
+			// aapt resource value: 0x7f0600fd
+			public const int primerdivisor = 2131099901;
 			
 			// aapt resource value: 0x7f060006
 			public const int progress_circular = 2131099654;
@@ -2278,11 +2263,11 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060041
 			public const int radio = 2131099713;
 			
-			// aapt resource value: 0x7f0600c4
-			public const int relativeLayout1 = 2131099844;
+			// aapt resource value: 0x7f060110
+			public const int relativeLayout1 = 2131099920;
 			
-			// aapt resource value: 0x7f0600db
-			public const int return_schedule_button = 2131099867;
+			// aapt resource value: 0x7f0600d4
+			public const int return_schedule_button = 2131099860;
 			
 			// aapt resource value: 0x7f0600b8
 			public const int right_icon = 2131099832;
@@ -2365,23 +2350,23 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060019
 			public const int src_over = 2131099673;
 			
-			// aapt resource value: 0x7f0600f2
-			public const int start_date = 2131099890;
+			// aapt resource value: 0x7f0600eb
+			public const int start_date = 2131099883;
 			
-			// aapt resource value: 0x7f0600f1
-			public const int start_date_label = 2131099889;
+			// aapt resource value: 0x7f0600ea
+			public const int start_date_label = 2131099882;
 			
-			// aapt resource value: 0x7f0600f0
-			public const int start_date_layout = 2131099888;
+			// aapt resource value: 0x7f0600e9
+			public const int start_date_layout = 2131099881;
 			
-			// aapt resource value: 0x7f0600f3
-			public const int start_time = 2131099891;
+			// aapt resource value: 0x7f0600ec
+			public const int start_time = 2131099884;
 			
-			// aapt resource value: 0x7f0600dd
-			public const int static_goal_card = 2131099869;
+			// aapt resource value: 0x7f0600d6
+			public const int static_goal_card = 2131099862;
 			
-			// aapt resource value: 0x7f0600dc
-			public const int static_goal_card_frame = 2131099868;
+			// aapt resource value: 0x7f0600d5
+			public const int static_goal_card_frame = 2131099861;
 			
 			// aapt resource value: 0x7f0600b0
 			public const int status_bar_latest_event_content = 2131099824;
@@ -2392,41 +2377,44 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060053
 			public const int submit_area = 2131099731;
 			
+			// aapt resource value: 0x7f0600c4
+			public const int t_toolbar = 2131099844;
+			
 			// aapt resource value: 0x7f06000c
 			public const int tabMode = 2131099660;
 			
-			// aapt resource value: 0x7f0600d5
-			public const int tape_control = 2131099861;
+			// aapt resource value: 0x7f0600ce
+			public const int tape_control = 2131099854;
 			
-			// aapt resource value: 0x7f0600d6
-			public const int tape_edit_button = 2131099862;
-			
-			// aapt resource value: 0x7f0600da
-			public const int tape_info = 2131099866;
-			
-			// aapt resource value: 0x7f0600d9
-			public const int tape_info_layout = 2131099865;
-			
-			// aapt resource value: 0x7f0600df
-			public const int tape_item_frame = 2131099871;
-			
-			// aapt resource value: 0x7f0600e0
-			public const int tape_item_image = 2131099872;
-			
-			// aapt resource value: 0x7f0600de
-			public const int tape_item_layout = 2131099870;
-			
-			// aapt resource value: 0x7f0600d8
-			public const int tape_item_list = 2131099864;
-			
-			// aapt resource value: 0x7f0600d2
-			public const int tape_main_layout = 2131099858;
-			
-			// aapt resource value: 0x7f0600d4
-			public const int tape_user_image = 2131099860;
+			// aapt resource value: 0x7f0600cf
+			public const int tape_edit_button = 2131099855;
 			
 			// aapt resource value: 0x7f0600d3
-			public const int tape_user_name = 2131099859;
+			public const int tape_info = 2131099859;
+			
+			// aapt resource value: 0x7f0600d2
+			public const int tape_info_layout = 2131099858;
+			
+			// aapt resource value: 0x7f0600d8
+			public const int tape_item_frame = 2131099864;
+			
+			// aapt resource value: 0x7f0600d9
+			public const int tape_item_image = 2131099865;
+			
+			// aapt resource value: 0x7f0600d7
+			public const int tape_item_layout = 2131099863;
+			
+			// aapt resource value: 0x7f0600d1
+			public const int tape_item_list = 2131099857;
+			
+			// aapt resource value: 0x7f0600cb
+			public const int tape_main_layout = 2131099851;
+			
+			// aapt resource value: 0x7f0600cd
+			public const int tape_user_image = 2131099853;
+			
+			// aapt resource value: 0x7f0600cc
+			public const int tape_user_name = 2131099852;
 			
 			// aapt resource value: 0x7f0600bf
 			public const int text = 2131099839;
@@ -2443,8 +2431,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060082
 			public const int textView1 = 2131099778;
 			
-			// aapt resource value: 0x7f0600cf
-			public const int textView2 = 2131099855;
+			// aapt resource value: 0x7f0600c8
+			public const int textView2 = 2131099848;
 			
 			// aapt resource value: 0x7f06008f
 			public const int textView3 = 2131099791;
@@ -2458,11 +2446,11 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f0600b6
 			public const int time = 2131099830;
 			
-			// aapt resource value: 0x7f060116
-			public const int timetable_button = 2131099926;
+			// aapt resource value: 0x7f060111
+			public const int timetable_button = 2131099921;
 			
-			// aapt resource value: 0x7f0600ce
-			public const int timetable_info_layout = 2131099854;
+			// aapt resource value: 0x7f0600c7
+			public const int timetable_info_layout = 2131099847;
 			
 			// aapt resource value: 0x7f0600c3
 			public const int timetable_main_layout = 2131099843;
@@ -2479,14 +2467,14 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060077
 			public const int timetable_part_text = 2131099767;
 			
-			// aapt resource value: 0x7f0600cd
-			public const int timetable_tape_layout = 2131099853;
+			// aapt resource value: 0x7f0600c6
+			public const int timetable_tape_layout = 2131099846;
 			
-			// aapt resource value: 0x7f0600cc
-			public const int timetable_tape_scroll = 2131099852;
+			// aapt resource value: 0x7f0600c5
+			public const int timetable_tape_scroll = 2131099845;
 			
-			// aapt resource value: 0x7f0600e1
-			public const int timetable_toolbar_layout = 2131099873;
+			// aapt resource value: 0x7f0600da
+			public const int timetable_toolbar_layout = 2131099866;
 			
 			// aapt resource value: 0x7f06002e
 			public const int title = 2131099694;
@@ -2497,32 +2485,32 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06003b
 			public const int title_template = 2131099707;
 			
-			// aapt resource value: 0x7f0600e4
-			public const int toolbar = 2131099876;
+			// aapt resource value: 0x7f0600dd
+			public const int toolbar = 2131099869;
 			
 			// aapt resource value: 0x7f060096
 			public const int toolbar_add_user = 2131099798;
 			
-			// aapt resource value: 0x7f0600e7
-			public const int toolbar_back = 2131099879;
+			// aapt resource value: 0x7f0600e0
+			public const int toolbar_back = 2131099872;
 			
-			// aapt resource value: 0x7f0600e2
-			public const int toolbar_chosen_date = 2131099874;
+			// aapt resource value: 0x7f0600db
+			public const int toolbar_chosen_date = 2131099867;
 			
 			// aapt resource value: 0x7f06007f
 			public const int toolbar_clock = 2131099775;
 			
-			// aapt resource value: 0x7f0600e5
-			public const int toolbar_content = 2131099877;
+			// aapt resource value: 0x7f0600de
+			public const int toolbar_content = 2131099870;
 			
-			// aapt resource value: 0x7f0600e6
-			public const int toolbar_content_layout = 2131099878;
+			// aapt resource value: 0x7f0600df
+			public const int toolbar_content_layout = 2131099871;
 			
 			// aapt resource value: 0x7f0600a6
 			public const int toolbar_home = 2131099814;
 			
-			// aapt resource value: 0x7f0600e3
-			public const int toolbar_lock = 2131099875;
+			// aapt resource value: 0x7f0600dc
+			public const int toolbar_lock = 2131099868;
 			
 			// aapt resource value: 0x7f060080
 			public const int toolbar_logout = 2131099776;
@@ -2536,23 +2524,20 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06003a
 			public const int topPanel = 2131099706;
 			
-			// aapt resource value: 0x7f0600cb
-			public const int top_bar_divider = 2131099851;
-			
 			// aapt resource value: 0x7f0600a4
 			public const int trip_detailed_info = 2131099812;
 			
+			// aapt resource value: 0x7f0600e1
+			public const int trip_details = 2131099873;
+			
+			// aapt resource value: 0x7f0600e7
+			public const int trip_details_edit = 2131099879;
+			
 			// aapt resource value: 0x7f0600e8
-			public const int trip_details = 2131099880;
+			public const int trip_edit_label = 2131099880;
 			
-			// aapt resource value: 0x7f0600ee
-			public const int trip_details_edit = 2131099886;
-			
-			// aapt resource value: 0x7f0600ef
-			public const int trip_edit_label = 2131099887;
-			
-			// aapt resource value: 0x7f0600eb
-			public const int trip_end_date = 2131099883;
+			// aapt resource value: 0x7f0600e4
+			public const int trip_end_date = 2131099876;
 			
 			// aapt resource value: 0x7f060081
 			public const int trip_list = 2131099777;
@@ -2560,17 +2545,17 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f0600a3
 			public const int trip_list_frame = 2131099811;
 			
-			// aapt resource value: 0x7f0600fb
-			public const int trip_list_item = 2131099899;
+			// aapt resource value: 0x7f0600f4
+			public const int trip_list_item = 2131099892;
 			
-			// aapt resource value: 0x7f0600e9
-			public const int trip_number = 2131099881;
+			// aapt resource value: 0x7f0600e2
+			public const int trip_number = 2131099874;
 			
 			// aapt resource value: 0x7f060084
 			public const int trip_recycler_view = 2131099780;
 			
-			// aapt resource value: 0x7f0600ea
-			public const int trip_start_date = 2131099882;
+			// aapt resource value: 0x7f0600e3
+			public const int trip_start_date = 2131099875;
 			
 			// aapt resource value: 0x7f0600a1
 			public const int trips_divider = 2131099809;
@@ -2593,62 +2578,62 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06009f
 			public const int user_details = 2131099807;
 			
-			// aapt resource value: 0x7f060102
-			public const int user_details_age = 2131099906;
+			// aapt resource value: 0x7f0600fb
+			public const int user_details_age = 2131099899;
 			
 			// aapt resource value: 0x7f06009e
 			public const int user_details_and_trips = 2131099806;
 			
-			// aapt resource value: 0x7f060103
-			public const int user_details_birth = 2131099907;
+			// aapt resource value: 0x7f0600fc
+			public const int user_details_birth = 2131099900;
 			
-			// aapt resource value: 0x7f060100
-			public const int user_details_first_name = 2131099904;
+			// aapt resource value: 0x7f0600f9
+			public const int user_details_first_name = 2131099897;
 			
-			// aapt resource value: 0x7f060106
-			public const int user_details_fragment = 2131099910;
+			// aapt resource value: 0x7f0600ff
+			public const int user_details_fragment = 2131099903;
 			
 			// aapt resource value: 0x7f06009b
 			public const int user_details_general = 2131099803;
 			
-			// aapt resource value: 0x7f0600ff
-			public const int user_details_last_name = 2131099903;
+			// aapt resource value: 0x7f0600f8
+			public const int user_details_last_name = 2131099896;
 			
-			// aapt resource value: 0x7f060101
-			public const int user_details_patronymic_name = 2131099905;
+			// aapt resource value: 0x7f0600fa
+			public const int user_details_patronymic_name = 2131099898;
 			
-			// aapt resource value: 0x7f0600fd
-			public const int user_details_photo = 2131099901;
+			// aapt resource value: 0x7f0600f6
+			public const int user_details_photo = 2131099894;
 			
-			// aapt resource value: 0x7f06010a
-			public const int user_details_photo_frame = 2131099914;
+			// aapt resource value: 0x7f060103
+			public const int user_details_photo_frame = 2131099907;
 			
-			// aapt resource value: 0x7f06011d
-			public const int user_fpname = 2131099933;
+			// aapt resource value: 0x7f060118
+			public const int user_fpname = 2131099928;
 			
-			// aapt resource value: 0x7f06011c
-			public const int user_lastname = 2131099932;
+			// aapt resource value: 0x7f060117
+			public const int user_lastname = 2131099927;
 			
 			// aapt resource value: 0x7f060098
 			public const int user_list = 2131099800;
 			
-			// aapt resource value: 0x7f060117
-			public const int user_list_main_content = 2131099927;
-			
-			// aapt resource value: 0x7f06011a
-			public const int user_list_photo_frame = 2131099930;
-			
-			// aapt resource value: 0x7f06011b
-			public const int user_photo = 2131099931;
+			// aapt resource value: 0x7f060112
+			public const int user_list_main_content = 2131099922;
 			
 			// aapt resource value: 0x7f060115
-			public const int user_recycler_view = 2131099925;
+			public const int user_list_photo_frame = 2131099925;
+			
+			// aapt resource value: 0x7f060116
+			public const int user_photo = 2131099926;
+			
+			// aapt resource value: 0x7f06010f
+			public const int user_recycler_view = 2131099919;
 			
 			// aapt resource value: 0x7f0600a2
 			public const int user_trips = 2131099810;
 			
-			// aapt resource value: 0x7f0600d7
-			public const int view1 = 2131099863;
+			// aapt resource value: 0x7f0600d0
+			public const int view1 = 2131099856;
 			
 			// aapt resource value: 0x7f060022
 			public const int withText = 2131099682;
@@ -3094,6 +3079,9 @@ namespace InteractiveTimetable.Droid
 			
 			// aapt resource value: 0x7f070067
 			public const int choose_user = 2131165287;
+			
+			// aapt resource value: 0x7f070070
+			public const int chosen_date = 2131165296;
 			
 			// aapt resource value: 0x7f070060
 			public const int creating_timetable_for = 2131165280;
