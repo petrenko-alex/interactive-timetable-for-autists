@@ -42,9 +42,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             SetContentView(Resource.Layout.management);
 
             /* Set tool bar */
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<Toolbar>(Resource.Id.m_toolbar);
             SetSupportActionBar(toolbar);
             Window.AddFlags(WindowManagerFlags.Fullscreen);
+            AdjustToolbarForActivity();
 
             /* Hide keyboard */
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden | SoftInput.AdjustPan);
@@ -274,13 +275,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             );
         }
 
-        private void OnTimetableButtonClicked()
-        {
-            var intent = new Intent(this, typeof(TimetableActivity));
-            SetResult(Result.Ok, intent);
-            Finish();
-        }
-
         public override void OnBackPressed()
         {
             base.OnBackPressed();
@@ -311,7 +305,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _userListFragment.ListItemClicked += OnUserListItemClicked;
                 _userListFragment.AddUserButtonClicked += OnAddUserButtonClicked;
                 _userListFragment.NoMoreUsersInList += OnNoMoreUsersInList;
-                _userListFragment.TimetableButtonClicked += OnTimetableButtonClicked;
 
                 ReplaceFragment(
                     Resource.Id.user_list,
@@ -508,6 +501,28 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 userCardLabel.Visibility = ViewStates.Visible;
                 userCardDivider.Visibility = ViewStates.Visible;
             }
+        }
+
+        private void AdjustToolbarForActivity()
+        {
+            /* Set toolbar layout */
+            var toolbar = FindViewById<Toolbar>(Resource.Id.m_toolbar);
+            var toolbarContent = FindViewById<LinearLayout>(Resource.Id.toolbar_content);
+            var layout = LayoutInflater.Inflate(Resource.Layout.management_toolbar, toolbar, false);
+            toolbarContent.AddView(layout);
+
+            /* Set toolbar controls */
+            var title = toolbar.FindViewById<TextView>(Resource.Id.toolbar_title);
+            title.Text = GetString(Resource.String.kid_profile_management);
+
+            var clock = toolbar.FindViewById<TextClock>(Resource.Id.toolbar_clock);
+            clock.Format24Hour = InteractiveTimetable.DateTimeFormat;
+
+            var homeButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_home);
+            homeButton.Click += (sender, e) =>
+            {
+                Finish();
+            };
         }
         #endregion
 

@@ -11,16 +11,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/relativeLayout1"
         android:layout_marginTop="20dp">
-        <ImageButton
-            android:src="@drawable/timetable_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/timetable_button"
-            android:background="@null"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dp"
-            android:scaleType="centerInside" />
         <TextView
             android:text="@string/kids_list"
             android:textAppearance="?android:attr/textAppearanceLarge"

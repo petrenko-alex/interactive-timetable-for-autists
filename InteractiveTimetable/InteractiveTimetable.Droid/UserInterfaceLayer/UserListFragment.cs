@@ -25,7 +25,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private AutoCompleteTextView _findUserField;
         private TextView _emptyListTextView;
         private LinearLayout _userListMainContent;
-        private ImageButton _timetableButton;
         #endregion
 
         #region Internal Variables
@@ -39,7 +38,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public event Action<int> ListItemClicked;
         public event Action AddUserButtonClicked;
         public event Action NoMoreUsersInList;
-        public event Action TimetableButtonClicked;
         #endregion
 
         #region Methods
@@ -91,9 +89,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Set event handlers */
             _addUserBtn = Activity.FindViewById<Button>(Resource.Id.add_user_btn);
-            _timetableButton = Activity.FindViewById<ImageButton>(Resource.Id.timetable_button);
             _addUserBtn.Click += OnAddBtnClicked;
-            _timetableButton.Click += OnTimetableButtonClicked;
 
             /* Set up the adapter for find user field */
             _findUserField = Activity.FindViewById<AutoCompleteTextView>(Resource.Id.find_user);
@@ -110,11 +106,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Initialize class variables */
             _currentUserId = userId;
-        }
-
-        private void OnTimetableButtonClicked(object sender, EventArgs e)
-        {
-            TimetableButtonClicked?.Invoke();
         }
 
         private void OnFindUserItemClicked(object sender, AdapterView.ItemClickEventArgs e)
@@ -149,7 +140,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public override void OnDestroy()
         {
             _addUserBtn.Click -= OnAddBtnClicked;
-            _timetableButton.Click -= OnTimetableButtonClicked;
             _findUserField.ItemClick -= OnFindUserItemClicked;
             _userListAdapter.ItemClick -= OnItemClick;
             _userListAdapter.RequestToDeleteUser -= OnDeleteButtonClicked;

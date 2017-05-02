@@ -274,6 +274,9 @@
     <AndroidResource Include="Resources\layout\home_screen_toolbar.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\management_toolbar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\management.axml" />

@@ -1,5 +1,6 @@
 using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
@@ -17,7 +18,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private FrameLayout _timetablePartButton;
         private FrameLayout _managementPartButton;
         #endregion
-
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -48,12 +48,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnManagementPartButtonClicked(object sender, EventArgs e)
         {
-            Console.WriteLine("Management part");
+            /* Call management activity */
+            var intent = new Intent(this, typeof(ManagementActivity));
+            StartActivity(intent);
         }
 
         private void OnTimetablePartButtonClicked(object sender, EventArgs e)
         {
-            Console.WriteLine("Timetable part");
+            /* Call timetable activity */
+            var intent = new Intent(this, typeof(TimetableActivity));
+            StartActivity(intent);
         }
 
         private void AdjustToolbarForActivity()
@@ -77,7 +81,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnLogoutButtonClicked(object sender, EventArgs e)
         {
-            /* Finish activity */
             Finish();
         }
     }
