@@ -85,6 +85,11 @@ namespace InteractiveTimetable.Droid
             {
                 ScheduleManager.InitializeForDebugging(UserManager);
             }
+
+            if (DiagnosticManager.DiagnosticCount == 0)
+            {
+                DiagnosticManager.InitializeForDebugging(UserManager, HospitalTripManager);
+            }
         }
 
         private void CreateDirectoryForPictures()

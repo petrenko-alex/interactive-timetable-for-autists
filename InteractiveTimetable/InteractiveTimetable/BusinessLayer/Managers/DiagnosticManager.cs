@@ -11,6 +11,8 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 {
     public class DiagnosticManager
     {
+        public int DiagnosticCount { get; private set; }
+
         private readonly DiagnosticRepository _repository;
         private readonly HospitalTripManager _hospitalTripManager;
 
@@ -18,6 +20,7 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         {
             _repository = new DiagnosticRepository(connection);
             _hospitalTripManager = new HospitalTripManager(connection);
+            DiagnosticCount = _repository.GetDiagnostics().Count();
         }
 
         public Diagnostic GetDiagnostic(int diagnosticId)
@@ -47,14 +50,21 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             var grades = CreateGrades(criterionsAndGrades).ToList();
 
             /* Creating a diagnostic object */
-            Diagnostic diagnostic = new Diagnostic()
+            var diagnostic = new Diagnostic()
             {
                 Date = dateTime,
                 HospitalTripId = hospitalTripId,
                 CriterionGrades = grades
             };
 
-            return _repository.SaveDiagnostic(diagnostic);
+            var savedId = _repository.SaveDiagnostic(diagnostic);
+
+            if (savedId > 0)
+            {
+                DiagnosticCount++;
+            }
+
+            return savedId;
         }
 
         public int UpdateDiagnostic(int diagnosticId, DateTime dateTime, 
@@ -78,7 +88,11 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         public void DeleteDiagnostic(int diagnosticId)
         {
             var diagnostic = GetDiagnostic(diagnosticId);
-            _repository.DeleteDiagnosticCascade(diagnostic);
+            if (diagnostic != null)
+            {
+                _repository.DeleteDiagnosticCascade(diagnostic);
+                DiagnosticCount--;
+            }
         }
 
         public int GetTotalSum(int diagnosticId)
@@ -240,6 +254,48 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
                 currentGrades[i].Grade = criterionsAndGrades[key];
                 _repository.Grades.SaveCriterionGrade(currentGrades[i]);
+            }
+        }
+
+        public void InitializeForDebugging(UserManager userManager, HospitalTripManager tripManager)
+        {
+            /* Create diagnostics for each user */
+            var randomizer = new Random();
+            var users = userManager.GetUsers();
+
+            foreach (var user in users)
+            {
+                /* Create diagnostics for each user trip */
+                // TODO: var createOrNot = randomizer.Next(0, 2);
+                var userTrips = user.HospitalTrips.ToList();
+
+                foreach (var trip in userTrips)
+                {
+                    /* Create diagnostics */
+                    // TODO: Change diagnostics amount range to [0;4)
+                    var diagnosticsAmount = randomizer.Next(1, 4);
+                    for (int i = 0; i < diagnosticsAmount; i++)
+                    {
+                        /* Create single diagnostic */
+                        var criterion18 = Resources.Repositories.CriterionDefinitionStrings.
+                                                    Criterion18;
+                        var criterionAndGrades = new Dictionary<string, string>();
+                        var keys = GetCriterions().ToList();
+
+                        foreach (var key in keys)
+                        {
+                            var grade = randomizer.Next(1, 5).ToString();
+                            if (key.Equals(criterion18))
+                            {
+                                grade = "1010";
+                            }
+
+                            criterionAndGrades.Add(key, grade);
+                        }
+
+                        SaveDiagnostic(trip.Id, trip.StartDate.AddDays(1), criterionAndGrades);
+                    }
+                }
             }
         }
     }
