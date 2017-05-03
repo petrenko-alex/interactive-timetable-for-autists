@@ -17,23 +17,27 @@ namespace InteractiveTimetable.DataAccessLayer
         {
             _gradeTypes = new CriterionGradeTypeRepository(connection);
 
-            /* Adding default criterion definitions */
-            for (int i = 1; i <= NumberOfCriterions; ++i)
+            var definitions = GerCriterionDefinitions().ToList();
+            if (definitions.Count == 0)
             {
-                /* Creating a criterion */
-                var resourceString = "Criterion" + i;
-                var criterionDefinition = new CriterionDefinition()
+                /* Adding default criterion definitions */
+                for (int i = 1; i <= NumberOfCriterions; ++i)
                 {
-                    Number = i,
-                    Definition = Resources.
-                            Repositories.
-                            CriterionDefinitionStrings.
-                            ResourceManager.
-                            GetString(resourceString),
-                    CriterionGradeTypeId = _gradeTypes.
-                            GetCriterionGradeTypeByNumber(i).Id
-                };
-                SaveCriterionDefinition(criterionDefinition);
+                    /* Creating a criterion */
+                    var resourceString = "Criterion" + i;
+                    var criterionDefinition = new CriterionDefinition()
+                    {
+                        Number = i,
+                        Definition = Resources.
+                                Repositories.
+                                CriterionDefinitionStrings.
+                                ResourceManager.
+                                GetString(resourceString),
+                        CriterionGradeTypeId = _gradeTypes.
+                                GetCriterionGradeTypeByNumber(i).Id
+                    };
+                    SaveCriterionDefinition(criterionDefinition);
+                }
             }
         }
 

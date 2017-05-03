@@ -24,19 +24,23 @@ namespace InteractiveTimetable.DataAccessLayer
         internal CriterionGradeTypeRepository(SQLiteConnection connection)
             : base(connection)
         {
-            /* Adding default criterion grade types */
-            var pointCriterionGradeType = new CriterionGradeType()
+            var types = GetCriterionGradeTypes().ToList();
+            if (types.Count == 0)
             {
-                TypeName = PointTypeName
-            };
+                /* Adding default criterion grade types */
+                var pointCriterionGradeType = new CriterionGradeType()
+                {
+                    TypeName = PointTypeName
+                };
 
-            var tickCriterionGradeType = new CriterionGradeType()
-            {
-                TypeName = TickTypeName
-            };
+                var tickCriterionGradeType = new CriterionGradeType()
+                {
+                    TypeName = TickTypeName
+                };
 
-            SaveCriterionGradeType(pointCriterionGradeType);
-            SaveCriterionGradeType(tickCriterionGradeType);
+                SaveCriterionGradeType(pointCriterionGradeType);
+                SaveCriterionGradeType(tickCriterionGradeType);
+            }
         }
 
         internal CriterionGradeType GetCriterionGradeType(int id)
