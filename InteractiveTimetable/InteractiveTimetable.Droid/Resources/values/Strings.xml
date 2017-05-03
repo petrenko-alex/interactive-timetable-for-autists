@@ -96,4 +96,8 @@
   <string name="timetable">Расписание</string>
   <string name="home_screen">Домашний экран</string>
   <string name="chosen_date">Выбранная дата</string>
+  <string name="criterions_and_grades">Критерии и оценки</string>
+  <string name="date">Дата проведения диагностики</string>
+  <string name="grade_total_sum">Общая сумма баллов</string>
+  <string name="grade_partial_sum">Сумма баллов оценок</string>
 </resources>

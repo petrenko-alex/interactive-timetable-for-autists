@@ -1,10 +1,12 @@
 using System;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using InteractiveTimetable.Droid.ApplicationLayer;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
@@ -12,6 +14,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     [Activity(Label = "MonitoringActivity", MainLauncher = true)]
     public class MonitoringActivity : ActionBarActivity
     {
+        #region Constants
+        private static readonly int HeaderColumnWidth = 150;
+        private static readonly int HeaderColumnHeight = 50;
+
+        #endregion
+
         #region Widgets
         private HorizontalScrollView _layoutForTable;
         private ImageButton _backButton;
@@ -99,36 +107,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* Get data for table */
 
-            /* Create table */
-            var tableParams = new TableLayout.LayoutParams(
-                ViewGroup.LayoutParams.WrapContent,
-                ViewGroup.LayoutParams.WrapContent
-            );
-            var rowParams = new TableRow.LayoutParams(
-                150,
-                50
-            );
-
+            /* Create table */   
             _table = new TableLayout(this);
             /*_table.LayoutParameters = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent,
                 ViewGroup.LayoutParams.WrapContent
             );*/
-            
 
             /* Create header */
-            var headingRow = new TableRow(this);
-            headingRow.LayoutParameters = tableParams;
+            AddHeaderToTable(_table);
             
-            var mainHeaderColumn = new TextView(this);
-            mainHeaderColumn.LayoutParameters = rowParams;
-            mainHeaderColumn.Text = "Критерии и оценки";
-            mainHeaderColumn.SetBackgroundResource(Resource.Drawable.table_frame);
-            mainHeaderColumn.Gravity = GravityFlags.Center;
-
-            headingRow.AddView(mainHeaderColumn);
-            _table.AddView(headingRow);
-
             /* Create rows for grades */
             /* Create rows for sums */
 
@@ -165,5 +153,106 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 Resource.Animation.exit_to_right
             );
         }
+
+        #region Table Methods
+
+        private void AddHeaderToTable(TableLayout table)
+        {
+            /* Get data */
+            var criterions = InteractiveTimetable.Current.DiagnosticManager.GetCriterions().ToList();
+
+            /* Prepare layout params */
+            var paramsForDefinitions = new TableRow.LayoutParams(
+                HeaderColumnWidth,
+                HeaderColumnHeight
+            );
+
+            /* Create and insert first header column */
+            var topLeftColumn = CreateColumn(
+                paramsForDefinitions,
+                GetString(Resource.String.criterions_and_grades)
+            );
+            topLeftColumn.Gravity = GravityFlags.Center;
+
+            var firstRow = CreateRow();
+            firstRow.AddView(topLeftColumn);
+            table.AddView(firstRow);
+
+            /* Create and insert second header column */
+            var dateColumn = CreateColumn(
+                paramsForDefinitions,
+                GetString(Resource.String.date)
+            );
+
+            var secondRow = CreateRow();
+            secondRow.AddView(dateColumn);
+            table.AddView(secondRow);
+
+            /* Add criterion definition header columns */
+            foreach (var criterion in criterions)
+            {
+                /* Create column for criterion definition */
+                var column = CreateColumn(paramsForDefinitions, criterion);
+
+                /* Add to table */
+                var row = CreateRow();
+                row.AddView(column);
+                _table.AddView(row);
+            }
+
+            /* Add columns for sums */
+            var partialSumsColumns = CreateColumn(
+                paramsForDefinitions,
+                GetString(Resource.String.grade_partial_sum)
+            );
+            var sumColumn = CreateColumn(
+                paramsForDefinitions,
+                GetString(Resource.String.grade_total_sum)
+            );
+
+            var lastRow1 = CreateRow();
+            lastRow1.AddView(partialSumsColumns);
+            table.AddView(lastRow1);
+
+            var lastRow2 = CreateRow();
+            lastRow2.AddView(sumColumn);
+            table.AddView(lastRow2);
+        }
+
+        private TableRow CreateRow()
+        {
+            var tableParams = new TableLayout.LayoutParams(
+                ViewGroup.LayoutParams.WrapContent,
+                ViewGroup.LayoutParams.WrapContent
+            );
+
+            var row = new TableRow(this)
+            {
+                LayoutParameters = tableParams
+            };
+
+            return row;
+        }
+
+        private TextView CreateColumn(TableRow.LayoutParams layoutParams, string columnText)
+        {
+            /* Create column with parameters */
+            var column = new TextView(this)
+            {
+                LayoutParameters = layoutParams,
+            };
+            column.SetBackgroundResource(Resource.Drawable.table_frame);
+
+            var paddingInDp = ImageHelper.ConvertPixelsToDp(5);
+            column.SetPadding(paddingInDp, 0, paddingInDp, 0);
+            column.Gravity = GravityFlags.CenterVertical;
+
+            /* Set text */
+            column.Text = columnText;
+
+            return column;
+        }
+
+        #endregion
     }
 }

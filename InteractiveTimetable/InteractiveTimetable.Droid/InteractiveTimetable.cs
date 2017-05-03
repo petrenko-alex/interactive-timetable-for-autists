@@ -26,6 +26,7 @@ namespace InteractiveTimetable.Droid
         public UserManager UserManager { get; set; }
         public HospitalTripManager HospitalTripManager { get; set; }
         public ScheduleManager ScheduleManager { get; set; }
+        public DiagnosticManager DiagnosticManager { get; set; }
 
         public string AppFolder => Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         public float ScreenDensity => Resources.DisplayMetrics.Density;
@@ -62,6 +63,7 @@ namespace InteractiveTimetable.Droid
             UserManager = new UserManager(_connection);
             HospitalTripManager = new HospitalTripManager(_connection);
             ScheduleManager = new ScheduleManager(_connection);
+            DiagnosticManager = new DiagnosticManager(_connection);
 
             // TODO: Delete InitializeForDebugging methods
             if (UserManager.UserCount == 0)

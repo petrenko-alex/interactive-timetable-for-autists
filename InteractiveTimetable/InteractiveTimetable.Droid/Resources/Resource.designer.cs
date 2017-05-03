@@ -3125,6 +3125,12 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f070063
 			public const int creating_timetable_for = 2131165283;
 			
+			// aapt resource value: 0x7f070074
+			public const int criterions_and_grades = 2131165300;
+			
+			// aapt resource value: 0x7f070075
+			public const int date = 2131165301;
+			
 			// aapt resource value: 0x7f07002f
 			public const int delete_button = 2131165231;
 			
@@ -3184,6 +3190,12 @@ namespace InteractiveTimetable.Droid
 			
 			// aapt resource value: 0x7f070065
 			public const int goals = 2131165285;
+			
+			// aapt resource value: 0x7f070077
+			public const int grade_partial_sum = 2131165303;
+			
+			// aapt resource value: 0x7f070076
+			public const int grade_total_sum = 2131165302;
 			
 			// aapt resource value: 0x7f070072
 			public const int home_screen = 2131165298;
