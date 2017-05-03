@@ -8,4 +8,8 @@
   <item name="grey300" type="color">#E0E0E0</item>
   <item name="grey400" type="color">#BDBDBD</item>
   <item name="vivid_blue" type="color">#2196F3</item>
+  <item name="grade_1" type="color">#FF33CC</item>
+  <item name="grade_2" type="color">#FFC000</item>
+  <item name="grade_3" type="color">#8EAADB</item>
+  <item name="grade_4" type="color">#A8D08D</item>
 </resources>
