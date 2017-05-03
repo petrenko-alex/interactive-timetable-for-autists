@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.Content;
@@ -6,6 +7,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
@@ -17,14 +19,20 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Constants
         private static readonly int HeaderColumnWidth = 150;
         private static readonly int HeaderColumnHeight = 50;
-
+        private static readonly int GradeColumnWidth = 50;
+        private static readonly int GradeColumnHeight = 50;
         #endregion
 
         #region Widgets
         private HorizontalScrollView _layoutForTable;
         private ImageButton _backButton;
         private ImageButton _homeButton;
-        private TableLayout _table;        
+        private TableLayout _table;
+        #endregion
+
+        #region Internal Variables
+        private User _user;
+        private HospitalTrip _trip;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -46,16 +54,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            userId = 1;
-            tripId = 1;
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[0];
+            userId = debugUser.Id;
+            tripId = debugUser.HospitalTrips[0].Id;
 
             /* Set data to views */
             if (tripId > 0)
             {
-                var trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(tripId);
+                _trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(tripId);
                 string text = $"{GetString(Resource.String.trip_in_list)}" +
-                              $"{trip.Number} " +
-                              $"{trip.StartDate:dd.MM.yyyy} - {trip.FinishDate:dd.MM.yyyy}";
+                              $"{_trip.Number} " +
+                              $"{_trip.StartDate:dd.MM.yyyy} - {_trip.FinishDate:dd.MM.yyyy}";
                 tripInfo.Text = text;
 
                 heading.Text = GetString(Resource.String.trip_monitoring);
@@ -68,8 +77,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             if (userId > 0)
             {
-                var user = InteractiveTimetable.Current.UserManager.GetUser(userId);
-                heading.Text = $"{user.FirstName} - {heading.Text}";
+                _user = InteractiveTimetable.Current.UserManager.GetUser(userId);
+                heading.Text = $"{_user.FirstName} - {heading.Text}";
             }
 
             /* Set tool bar */
@@ -77,6 +86,30 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             SetSupportActionBar(toolbar);
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             AdjustToolbarForActivity();
+
+            /* Get diagnostics and create table */
+            var diagnostics = new List<Diagnostic>();
+            if (_trip != null)
+            {
+                diagnostics = _trip.Diagnostics;
+            }
+            else
+            {
+                var trips = _user.HospitalTrips;
+                foreach (var trip in trips)
+                {
+                    diagnostics.AddRange(trip.Diagnostics);
+                }
+            }
+
+            if (diagnostics.Count > 0)
+            {
+                CreateTable(diagnostics);
+            }
+            else
+            {
+                // TODO: Show info screen
+            }
         }
 
         private void AdjustToolbarForActivity()
@@ -100,13 +133,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _homeButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_home);
             _homeButton.Click += OnHomeButtonClicked;
 
-            CreateTable();
         }
 
-        private void CreateTable()
+        private void CreateTable(List<Diagnostic> diagnostics)
         {
-            /* Get data for table */
-
             /* Create table */   
             _table = new TableLayout(this);
             /*_table.LayoutParameters = new LinearLayout.LayoutParams(
@@ -118,11 +148,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AddHeaderToTable(_table);
             
             /* Create rows for grades */
+//            foreach (var diagnostic in diagnostics)
+//            {
+//                AddDiagnosticToTable(_table, diagnostic);
+//            }
+            AddDiagnosticToTable(_table, diagnostics[0]);
+
             /* Create rows for sums */
 
 
             _layoutForTable.AddView(_table);
-        }
+        }        
 
         private void OnHomeButtonClicked(object sender, EventArgs e)
         {
@@ -219,6 +255,43 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             table.AddView(lastRow2);
         }
 
+        private void AddDiagnosticToTable(TableLayout table, Diagnostic diagnostic)
+        {
+            var gradesAmount = 4;
+            var paramsForDiagnostic = new TableRow.LayoutParams(
+                GradeColumnWidth,
+                GradeColumnHeight
+            );
+
+            /* Set grade header */
+            var firstRow = (TableRow) table.GetChildAt(0);
+            for (int i = 0; i < gradesAmount; ++i)
+            {
+                var gradeHeaderColumn = CreateColumn(paramsForDiagnostic, $"{i + 1}");
+                gradeHeaderColumn.Gravity = GravityFlags.Center;
+                //SetColumnColor(i + 1, gradeHeaderColumn);
+                firstRow.AddView(gradeHeaderColumn);
+            }
+
+            /* Set date */
+            var secondRow = (TableRow) table.GetChildAt(1);
+            var dateColumn = CreateColumn(
+                paramsForDiagnostic,
+                diagnostic.Date.ToString("dd.MM.yyyy")
+            );
+            var columnParams = (TableRow.LayoutParams) dateColumn.LayoutParameters;
+            columnParams.Span = 4;
+
+            //secondRow.AddView(dateColumn);
+
+            /* Set grades */
+
+            /* Set partial sums */
+
+            /* Set total sum */
+
+        }
+
         private TableRow CreateRow()
         {
             var tableParams = new TableLayout.LayoutParams(
@@ -251,6 +324,27 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             column.Text = columnText;
 
             return column;
+        }
+
+        private void SetColumnColor(int grade, TextView column)
+        {
+            if (grade == 1)
+            {
+                column.SetBackgroundResource(Resource.Drawable.table_grade_1_frame);
+            }
+            else if (grade == 2)
+            {
+                column.SetBackgroundResource(Resource.Drawable.table_grade_2_frame);
+            }
+            else if (grade == 3)
+            {
+                column.SetBackgroundResource(Resource.Drawable.table_grade_3_frame);
+
+            }
+            else if (grade == 4)
+            {
+                column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
+            }
         }
 
         #endregion
