@@ -18,9 +18,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     {
         #region Constants
         private static readonly int HeaderColumnWidth = 150;
-        private static readonly int HeaderColumnHeight = 50;
+        private static readonly int HeaderColumnHeight = 70;
         private static readonly int GradeColumnWidth = 50;
-        private static readonly int GradeColumnHeight = 50;
+        private static readonly int GradeColumnHeight = 70;
         #endregion
 
         #region Widgets
@@ -139,10 +139,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* Create table */   
             _table = new TableLayout(this);
-            /*_table.LayoutParameters = new LinearLayout.LayoutParams(
+            _table.LayoutParameters = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent,
                 ViewGroup.LayoutParams.WrapContent
-            );*/
+            );
 
             /* Create header */
             AddHeaderToTable(_table);
@@ -269,22 +269,69 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 var gradeHeaderColumn = CreateColumn(paramsForDiagnostic, $"{i + 1}");
                 gradeHeaderColumn.Gravity = GravityFlags.Center;
-                //SetColumnColor(i + 1, gradeHeaderColumn);
+                SetColumnColor(i + 1, gradeHeaderColumn);
                 firstRow.AddView(gradeHeaderColumn);
             }
 
             /* Set date */
             var secondRow = (TableRow) table.GetChildAt(1);
+            var paramsForDate = new TableRow.LayoutParams(
+                                                           ViewGroup.LayoutParams.WrapContent,
+                                                           GradeColumnHeight
+                                                         );
+            paramsForDate.Span = 4;
+
             var dateColumn = CreateColumn(
-                paramsForDiagnostic,
+                paramsForDate,
                 diagnostic.Date.ToString("dd.MM.yyyy")
             );
-            var columnParams = (TableRow.LayoutParams) dateColumn.LayoutParameters;
-            columnParams.Span = 4;
-
-            //secondRow.AddView(dateColumn);
+            dateColumn.Gravity = GravityFlags.Center;
+            secondRow.AddView(dateColumn);
 
             /* Set grades */
+            var paramsForGrade = new TableRow.LayoutParams(
+                                                          GradeColumnWidth,
+                                                          GradeColumnHeight
+                                                         );
+
+            int gradeAmount = 4;
+            int rowToStart = 2;
+            foreach (var grade in diagnostic.CriterionGrades)
+            {
+                /* Create 4 columns for grades */
+                var currentRow = (TableRow) table.GetChildAt(rowToStart);
+                for (int i = 0; i < gradeAmount; ++i)
+                {
+                    var gradeColumn = CreateColumn(paramsForGrade, "");
+                    currentRow.AddView(gradeColumn);
+                }
+
+                if (grade.Grade == "1")
+                {
+                    var column = (TextView) currentRow.GetChildAt(1);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_1_frame);
+                }
+                else if (grade.Grade == "2")
+                {
+                    var column = (TextView)currentRow.GetChildAt(2);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_2_frame);
+                }
+                else if (grade.Grade == "3")
+                {
+                    var column = (TextView)currentRow.GetChildAt(3);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_3_frame);
+                }
+                else if (grade.Grade == "4")
+                {
+                    var column = (TextView)currentRow.GetChildAt(4);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
+                }
+                rowToStart++;
+            }
 
             /* Set partial sums */
 
@@ -298,6 +345,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 ViewGroup.LayoutParams.WrapContent,
                 ViewGroup.LayoutParams.WrapContent
             );
+            tableParams.SetMargins(0, 0, 0, 0);
 
             var row = new TableRow(this)
             {
@@ -310,6 +358,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TextView CreateColumn(TableRow.LayoutParams layoutParams, string columnText)
         {
             /* Create column with parameters */
+            layoutParams.SetMargins(0, 0, 0, 0);
             var column = new TextView(this)
             {
                 LayoutParameters = layoutParams,
