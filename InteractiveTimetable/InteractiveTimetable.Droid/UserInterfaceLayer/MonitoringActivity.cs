@@ -140,8 +140,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Create table */   
             _table = new TableLayout(this);
             _table.LayoutParameters = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WrapContent,
-                ViewGroup.LayoutParams.WrapContent
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.MatchParent
             );
 
             /* Create header */
@@ -208,7 +208,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 paramsForDefinitions,
                 GetString(Resource.String.criterions_and_grades)
             );
-            topLeftColumn.Gravity = GravityFlags.Center;
 
             var firstRow = CreateRow();
             firstRow.AddView(topLeftColumn);
@@ -268,7 +267,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             for (int i = 0; i < gradesAmount; ++i)
             {
                 var gradeHeaderColumn = CreateColumn(paramsForDiagnostic, $"{i + 1}");
-                gradeHeaderColumn.Gravity = GravityFlags.Center;
                 SetColumnColor(i + 1, gradeHeaderColumn);
                 firstRow.AddView(gradeHeaderColumn);
             }
@@ -285,7 +283,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 paramsForDate,
                 diagnostic.Date.ToString("dd.MM.yyyy")
             );
-            dateColumn.Gravity = GravityFlags.Center;
             secondRow.AddView(dateColumn);
 
             /* Set grades */
@@ -342,10 +339,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TableRow CreateRow()
         {
             var tableParams = new TableLayout.LayoutParams(
-                ViewGroup.LayoutParams.WrapContent,
-                ViewGroup.LayoutParams.WrapContent
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.MatchParent
             );
-            tableParams.SetMargins(0, 0, 0, 0);
 
             var row = new TableRow(this)
             {
@@ -358,7 +354,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private TextView CreateColumn(TableRow.LayoutParams layoutParams, string columnText)
         {
             /* Create column with parameters */
-            layoutParams.SetMargins(0, 0, 0, 0);
             var column = new TextView(this)
             {
                 LayoutParameters = layoutParams,
@@ -367,7 +362,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var paddingInDp = ImageHelper.ConvertPixelsToDp(5);
             column.SetPadding(paddingInDp, 0, paddingInDp, 0);
-            column.Gravity = GravityFlags.CenterVertical;
 
             /* Set text */
             column.Text = columnText;
