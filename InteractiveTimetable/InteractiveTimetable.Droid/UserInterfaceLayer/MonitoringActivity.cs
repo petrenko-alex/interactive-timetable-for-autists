@@ -54,9 +54,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[0];
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[1];
             userId = debugUser.Id;
-            tripId = debugUser.HospitalTrips[0].Id;
+            tripId = 0;//debugUser.HospitalTrips[0].Id;
 
             /* Set data to views */
             if (tripId > 0)
@@ -148,14 +148,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AddHeaderToTable(_table);
             
             /* Create rows for grades */
-//            foreach (var diagnostic in diagnostics)
-//            {
-//                AddDiagnosticToTable(_table, diagnostic);
-//            }
-            AddDiagnosticToTable(_table, diagnostics[0]);
-
-            /* Create rows for sums */
-
+            int diagnosticsAmount = diagnostics.Count;
+            for (int i = 0; i < diagnosticsAmount; ++i)
+            {
+                AddDiagnosticToTable(_table, diagnostics[i], i);
+            }
 
             _layoutForTable.AddView(_table);
         }        
@@ -254,7 +251,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             table.AddView(lastRow2);
         }
 
-        private void AddDiagnosticToTable(TableLayout table, Diagnostic diagnostic)
+        private void AddDiagnosticToTable(TableLayout table, Diagnostic diagnostic, int diagnosticNumber)
         {
             var gradesAmount = 4;
             var paramsForDiagnostic = new TableRow.LayoutParams(
@@ -291,13 +288,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                                                           GradeColumnHeight
                                                          );
 
-            int gradeAmount = 4;
             int rowToStart = 2;
+
             foreach (var grade in diagnostic.CriterionGrades)
             {
                 /* Create 4 columns for grades */
                 var currentRow = (TableRow) table.GetChildAt(rowToStart);
-                for (int i = 0; i < gradeAmount; ++i)
+                for (int i = 0; i < gradesAmount; ++i)
                 {
                     var gradeColumn = CreateColumn(paramsForGrade, "");
                     currentRow.AddView(gradeColumn);
@@ -305,25 +302,33 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 if (grade.Grade == "1")
                 {
-                    var column = (TextView) currentRow.GetChildAt(1);
+                    int gradeNumber = 1;
+                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
+                    var column = (TextView) currentRow.GetChildAt(childPosition);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_1_frame);
                 }
                 else if (grade.Grade == "2")
                 {
-                    var column = (TextView)currentRow.GetChildAt(2);
+                    int gradeNumber = 2;
+                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
+                    var column = (TextView)currentRow.GetChildAt(childPosition);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_2_frame);
                 }
                 else if (grade.Grade == "3")
                 {
-                    var column = (TextView)currentRow.GetChildAt(3);
+                    int gradeNumber = 3;
+                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
+                    var column = (TextView)currentRow.GetChildAt(childPosition);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_3_frame);
                 }
                 else if (grade.Grade == "4")
                 {
-                    var column = (TextView)currentRow.GetChildAt(4);
+                    int gradeNumber = 4;
+                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
+                    var column = (TextView)currentRow.GetChildAt(childPosition);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
                 }
