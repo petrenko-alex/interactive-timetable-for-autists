@@ -270,7 +270,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             );
 
             var diagnostic = _diagnostics[diagnosticNumber];
+
+            /* Create table */
             var table = CreateTable(paramsForTable);
+            table.SetBackgroundResource(Resource.Drawable.table_frame);
+            var paddingDp = 4;
+            var paddingPx = ImageHelper.ConvertDpToPixels(paddingDp);
+            table.SetPadding(paddingDp, paddingPx, paddingPx, paddingPx);
 
             /* Create grade header column */
             var firstRow = CreateRow();
@@ -372,7 +378,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var totalSumColumn = CreateColumn(paramsForDate, totalSum + "");
             totalSumRow.AddView(totalSumColumn);
             table.AddView(totalSumRow);
-
+            
             /* Add table to data set */
             _tables.Insert(diagnosticNumber, table);
 
