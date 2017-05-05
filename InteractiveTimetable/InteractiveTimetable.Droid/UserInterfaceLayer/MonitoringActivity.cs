@@ -22,6 +22,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly int GradeColumnWidth = 50;
         private static readonly int GradeColumnHeight = 50;
         private static readonly string TickUnicodeSymbol = "\u2713";
+        private static readonly int MaxVisibleDiagnostics = 3;
         #endregion
 
         #region Widgets
@@ -178,6 +179,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Create tables for diagnostics */
             int diagnosticsAmount = _diagnostics.Count;
+            if(diagnosticsAmount > MaxVisibleDiagnostics)
+            {
+                diagnosticsAmount = MaxVisibleDiagnostics;
+            }
+
             for (int i = 0; i < diagnosticsAmount; ++i)
             {
                 AddDiagnosticTable(i);
