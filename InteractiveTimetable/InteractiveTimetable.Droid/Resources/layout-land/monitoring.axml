@@ -52,6 +52,14 @@
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
             p1:id="@+id/table_horizontal_scroll"
-            p1:scrollbars="horizontal|vertical" />
+            p1:scrollbars="horizontal|vertical">
+            <LinearLayout
+                p1:orientation="horizontal"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/table_layout" />
+        </HorizontalScrollView>
     </ScrollView>
 </RelativeLayout>

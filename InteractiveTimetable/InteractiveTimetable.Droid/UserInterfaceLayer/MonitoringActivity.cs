@@ -18,21 +18,23 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     {
         #region Constants
         private static readonly int HeaderColumnWidth = 150;
-        private static readonly int HeaderColumnHeight = 70;
+        private static readonly int HeaderColumnHeight = 50;
         private static readonly int GradeColumnWidth = 50;
-        private static readonly int GradeColumnHeight = 70;
+        private static readonly int GradeColumnHeight = 50;
         #endregion
 
         #region Widgets
-        private HorizontalScrollView _layoutForTable;
+        private LinearLayout _layoutForTable;
         private ImageButton _backButton;
         private ImageButton _homeButton;
-        private TableLayout _table;
+        private TableLayout _headerTable;
         #endregion
 
         #region Internal Variables
         private User _user;
         private HospitalTrip _trip;
+        private List<Diagnostic> _diagnostics;
+        private List<TableLayout> _tables;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -47,14 +49,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Get views */
             var tripInfo = FindViewById<TextView>(Resource.Id.monitoring_trip_info);
             var heading = FindViewById<TextView>(Resource.Id.monitoring_header);
-            _layoutForTable = FindViewById<HorizontalScrollView>(Resource.Id.table_horizontal_scroll);
+            _layoutForTable = FindViewById<LinearLayout>(Resource.Id.table_layout);
 
             /* Get data */
             var userId = Intent.GetIntExtra("user_id", 0);
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[1];
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[0];
             userId = debugUser.Id;
             tripId = 0;//debugUser.HospitalTrips[0].Id;
 
@@ -88,23 +90,25 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AdjustToolbarForActivity();
 
             /* Get diagnostics and create table */
-            var diagnostics = new List<Diagnostic>();
+            _diagnostics = new List<Diagnostic>();
+            _tables = new List<TableLayout>();
             if (_trip != null)
             {
-                diagnostics = _trip.Diagnostics;
+                _diagnostics = _trip.Diagnostics.OrderBy(x => x.Date).ToList();
             }
             else
             {
                 var trips = _user.HospitalTrips;
                 foreach (var trip in trips)
                 {
-                    diagnostics.AddRange(trip.Diagnostics);
+                    _diagnostics.AddRange(trip.Diagnostics);
                 }
+                _diagnostics = _diagnostics.OrderBy(x => x.Date).ToList();
             }
 
-            if (diagnostics.Count > 0)
+            if (_diagnostics.Count > 0)
             {
-                CreateTable(diagnostics);
+                CreateTables();
             }
             else
             {
@@ -135,26 +139,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         }
 
-        private void CreateTable(List<Diagnostic> diagnostics)
+        private void CreateTables()
         {
-            /* Create table */   
-            _table = new TableLayout(this);
-            _table.LayoutParameters = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MatchParent,
-                ViewGroup.LayoutParams.MatchParent
-            );
-
-            /* Create header */
-            AddHeaderToTable(_table);
+            /* Create header table */   
+            AddHeaderTable();
             
             /* Create rows for grades */
-            int diagnosticsAmount = diagnostics.Count;
-            for (int i = 0; i < diagnosticsAmount; ++i)
-            {
-                AddDiagnosticToTable(_table, diagnostics[i], i);
-            }
-
-            _layoutForTable.AddView(_table);
+//            int diagnosticsAmount = _diagnostics.Count;
+//            for (int i = 0; i < diagnosticsAmount; ++i)
+//            {
+//                AddDiagnosticTable(i);
+//            }
+            AddDiagnosticTable(0);
         }        
 
         private void OnHomeButtonClicked(object sender, EventArgs e)
@@ -189,8 +185,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Table Methods
 
-        private void AddHeaderToTable(TableLayout table)
+        private void AddHeaderTable()
         {
+            _headerTable = CreateTable();
+
             /* Get data */
             var criterions = InteractiveTimetable.Current.DiagnosticManager.GetCriterions().ToList();
 
@@ -208,7 +206,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var firstRow = CreateRow();
             firstRow.AddView(topLeftColumn);
-            table.AddView(firstRow);
+            _headerTable.AddView(firstRow);
 
             /* Create and insert second header column */
             var dateColumn = CreateColumn(
@@ -218,7 +216,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var secondRow = CreateRow();
             secondRow.AddView(dateColumn);
-            table.AddView(secondRow);
+            _headerTable.AddView(secondRow);
 
             /* Add criterion definition header columns */
             foreach (var criterion in criterions)
@@ -229,7 +227,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Add to table */
                 var row = CreateRow();
                 row.AddView(column);
-                _table.AddView(row);
+                _headerTable.AddView(row);
             }
 
             /* Add columns for sums */
@@ -244,56 +242,74 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var lastRow1 = CreateRow();
             lastRow1.AddView(partialSumsColumns);
-            table.AddView(lastRow1);
+            _headerTable.AddView(lastRow1);
 
             var lastRow2 = CreateRow();
             lastRow2.AddView(sumColumn);
-            table.AddView(lastRow2);
+            _headerTable.AddView(lastRow2);
+
+            /* Add table to layout */
+            _layoutForTable.AddView(_headerTable);
         }
 
-        private void AddDiagnosticToTable(TableLayout table, Diagnostic diagnostic, int diagnosticNumber)
+        private void AddDiagnosticTable(int diagnosticNumber)
         {
+            /* Prepare data */
             var gradesAmount = 4;
+
+            var paramsForTable = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.MatchParent
+            );
+            int marginDp = 10;
+            int marginPx = ImageHelper.ConvertDpToPixels(marginDp);
+            paramsForTable.SetMargins(marginPx, 0, marginDp, 0);
+
             var paramsForDiagnostic = new TableRow.LayoutParams(
                 GradeColumnWidth,
                 GradeColumnHeight
             );
 
-            /* Set grade header */
-            var firstRow = (TableRow) table.GetChildAt(0);
+            var diagnostic = _diagnostics[diagnosticNumber];
+            var table = CreateTable(paramsForTable);
+
+            /* Create grade header column */
+            var firstRow = CreateRow();
             for (int i = 0; i < gradesAmount; ++i)
             {
                 var gradeHeaderColumn = CreateColumn(paramsForDiagnostic, $"{i + 1}");
                 SetColumnColor(i + 1, gradeHeaderColumn);
                 firstRow.AddView(gradeHeaderColumn);
             }
+            table.AddView(firstRow);
 
-            /* Set date */
-            var secondRow = (TableRow) table.GetChildAt(1);
+            /* Create date column */
+            var secondRow = CreateRow();
             var paramsForDate = new TableRow.LayoutParams(
-                                                           ViewGroup.LayoutParams.WrapContent,
-                                                           GradeColumnHeight
-                                                         );
-            paramsForDate.Span = 4;
+                ViewGroup.LayoutParams.WrapContent,
+                GradeColumnHeight
+            )
+            {
+                Span = 4
+            };
 
             var dateColumn = CreateColumn(
                 paramsForDate,
                 diagnostic.Date.ToString("dd.MM.yyyy")
             );
             secondRow.AddView(dateColumn);
+            table.AddView(secondRow);
 
-            /* Set grades */
+            /* Create grade columns */
             var paramsForGrade = new TableRow.LayoutParams(
-                                                          GradeColumnWidth,
-                                                          GradeColumnHeight
-                                                         );
-
-            int rowToStart = 2;
+                GradeColumnWidth,
+                GradeColumnHeight
+            );
 
             foreach (var grade in diagnostic.CriterionGrades)
             {
                 /* Create 4 columns for grades */
-                var currentRow = (TableRow) table.GetChildAt(rowToStart);
+                var currentRow = CreateRow();
                 for (int i = 0; i < gradesAmount; ++i)
                 {
                     var gradeColumn = CreateColumn(paramsForGrade, "");
@@ -302,43 +318,78 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 if (grade.Grade == "1")
                 {
-                    int gradeNumber = 1;
-                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
-                    var column = (TextView) currentRow.GetChildAt(childPosition);
+                    var column = (TextView) currentRow.GetChildAt(0);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_1_frame);
                 }
                 else if (grade.Grade == "2")
                 {
-                    int gradeNumber = 2;
-                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
-                    var column = (TextView)currentRow.GetChildAt(childPosition);
+                    var column = (TextView)currentRow.GetChildAt(1);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_2_frame);
                 }
                 else if (grade.Grade == "3")
                 {
-                    int gradeNumber = 3;
-                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
-                    var column = (TextView)currentRow.GetChildAt(childPosition);
+                    var column = (TextView)currentRow.GetChildAt(2);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_3_frame);
                 }
                 else if (grade.Grade == "4")
                 {
-                    int gradeNumber = 4;
-                    int childPosition = gradeNumber + (diagnosticNumber * gradesAmount);
-                    var column = (TextView)currentRow.GetChildAt(childPosition);
+                    var column = (TextView)currentRow.GetChildAt(3);
                     column.Text = grade.Grade;
                     column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
                 }
-                rowToStart++;
+                else if (grade.Grade.Length == 4)
+                {
+                    /* Parse complex grade */
+                    for (int i = 0; i < gradesAmount; ++i)
+                    {
+                        
+                    }
+                }
+                
+                table.AddView(currentRow);
             }
 
             /* Set partial sums */
+            var partialSumRow = CreateRow();
+            for (int i = 0; i < gradesAmount; ++i)
+            {
+                int sum = InteractiveTimetable.Current.DiagnosticManager.
+                                               GetPartialSum(diagnostic.Id, i + 1);
+                var sumColumn = CreateColumn(paramsForGrade, sum + "");
+                partialSumRow.AddView(sumColumn);
+            }
+            table.AddView(partialSumRow);
 
             /* Set total sum */
 
+
+            /* Add table to data set */
+            _tables.Insert(diagnosticNumber, table);
+
+            /* Add table to layout */
+            _layoutForTable.AddView(table);
+        }
+
+        private TableLayout CreateTable(LinearLayout.LayoutParams layoutParams = null)
+        {
+            if (layoutParams == null)
+            {
+                layoutParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MatchParent,
+                    ViewGroup.LayoutParams.MatchParent
+                );
+            }
+
+            var table = new TableLayout(this)
+            {
+                LayoutParameters = layoutParams
+            };
+
+
+            return table;
         }
 
         private TableRow CreateRow()
