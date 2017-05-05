@@ -21,6 +21,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly int HeaderColumnHeight = 50;
         private static readonly int GradeColumnWidth = 50;
         private static readonly int GradeColumnHeight = 50;
+        private static readonly string TickUnicodeSymbol = "\u2713";
         #endregion
 
         #region Widgets
@@ -345,7 +346,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     /* Parse complex grade */
                     for (int i = 0; i < gradesAmount; ++i)
                     {
-                        
+                        if (grade.Grade[i] == '1')
+                        {
+                            var column = (TextView)currentRow.GetChildAt(i);
+                            column.Text = TickUnicodeSymbol;
+                        }
                     }
                 }
                 
