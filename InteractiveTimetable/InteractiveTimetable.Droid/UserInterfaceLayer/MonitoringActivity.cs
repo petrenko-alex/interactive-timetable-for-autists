@@ -424,6 +424,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 LayoutParameters = layoutParams,
             };
             column.SetBackgroundResource(Resource.Drawable.table_frame);
+            column.Gravity = GravityFlags.Center;
 
             var paddingInDp = ImageHelper.ConvertPixelsToDp(5);
             column.SetPadding(paddingInDp, 0, paddingInDp, 0);
