@@ -1789,7 +1789,7 @@ namespace InteractiveTimetable.Droid
 			public const int round_corner_frame = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int table_frame = 2130837620;
+			public const int table_column_frame = 2130837620;
 			
 			// aapt resource value: 0x7f020075
 			public const int table_grade_1_frame = 2130837621;

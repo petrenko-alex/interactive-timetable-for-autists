@@ -178,7 +178,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Create tables for diagnostics */
             int diagnosticsAmount = _diagnostics.Count;
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < diagnosticsAmount; ++i)
             {
                 AddDiagnosticTable(i);
             }
@@ -421,7 +421,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 LayoutParameters = layoutParams,
             };
-            column.SetBackgroundResource(Resource.Drawable.table_frame);
+            column.SetBackgroundResource(Resource.Drawable.table_column_frame);
             column.Gravity = GravityFlags.Center;
 
             var paddingInDp = ImageHelper.ConvertPixelsToDp(5);
