@@ -369,7 +369,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             table.AddView(partialSumRow);
 
             /* Set total sum */
-
+            var totalSumRow = CreateRow();
+            int totalSum = InteractiveTimetable.Current.DiagnosticManager.GetTotalSum(diagnostic.Id);
+            var totalSumColumn = CreateColumn(paramsForDate, totalSum + "");
+            totalSumRow.AddView(totalSumColumn);
+            table.AddView(totalSumRow);
 
             /* Add table to data set */
             _tables.Insert(diagnosticNumber, table);
