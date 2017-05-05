@@ -34,15 +34,43 @@
             p1:gravity="center"
             p1:textSize="35dp" />
     </LinearLayout>
+    <RelativeLayout
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/table_controls"
+        p1:layout_centerHorizontal="true"
+        p1:layout_below="@+id/monitoring_headers"
+        p1:layout_marginTop="50dp">
+        <ImageButton
+            p1:src="@drawable/previous"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/previous_table"
+            p1:layout_alignParentStart="true"
+            p1:background="@null"
+            p1:layout_centerVertical="true"
+            p1:layout_marginLeft="10dp" />
+        <ImageButton
+            p1:src="@drawable/next"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/next_table"
+            p1:layout_alignParentEnd="true"
+            p1:background="@null"
+            p1:layout_centerVertical="true"
+            p1:layout_marginRight="30dp" />
+    </RelativeLayout>
     <ScrollView
         p1:minWidth="25px"
         p1:minHeight="25px"
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
         p1:id="@+id/table_vertical_scroll"
-        p1:layout_below="@+id/monitoring_headers"
+        p1:layout_below="@+id/table_controls"
         p1:layout_centerHorizontal="true"
-        p1:layout_marginTop="50dp"
+        p1:layout_marginTop="10dp"
         p1:scrollbars="horizontal|vertical"
         p1:scrollbarStyle="outsideInset"
         p1:fillViewport="true">

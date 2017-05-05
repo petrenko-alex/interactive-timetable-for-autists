@@ -14,7 +14,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     [Activity(Label = "MonitoringActivity", MainLauncher = true)]
-    public class MonitoringActivity : ActionBarActivity
+    public class MonitoringActivity : ActionBarActivity, ViewTreeObserver.IOnGlobalLayoutListener
     {
         #region Constants
         private static readonly int HeaderColumnWidth = 150;
@@ -188,6 +188,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 AddDiagnosticTable(i);
             }
+
+            _layoutForTable.ViewTreeObserver.AddOnGlobalLayoutListener(this);
         }
 
         private void AddHeaderTable()
@@ -464,6 +466,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
             }
+        }
+
+        public void OnGlobalLayout()
+        {
+            _layoutForTable.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
+
+            /* Adjust table controls width to match table width */
+            var width = _layoutForTable.Width;
+            var tableControls = FindViewById<RelativeLayout>(Resource.Id.table_controls);
+            tableControls.LayoutParameters.Width = width;
         }
         #endregion
     }
