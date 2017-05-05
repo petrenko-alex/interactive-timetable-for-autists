@@ -57,7 +57,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[0];
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[1];
             userId = debugUser.Id;
             tripId = 0;//debugUser.HospitalTrips[0].Id;
 
@@ -139,21 +139,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _homeButton.Click += OnHomeButtonClicked;
 
         }
-
-        private void CreateTables()
-        {
-            /* Create header table */   
-            AddHeaderTable();
-            
-            /* Create rows for grades */
-//            int diagnosticsAmount = _diagnostics.Count;
-//            for (int i = 0; i < diagnosticsAmount; ++i)
-//            {
-//                AddDiagnosticTable(i);
-//            }
-            AddDiagnosticTable(0);
-        }        
-
+        
         private void OnHomeButtonClicked(object sender, EventArgs e)
         {
             Finish();
@@ -185,6 +171,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         }
 
         #region Table Methods
+        private void CreateTables()
+        {
+            /* Create header table */
+            AddHeaderTable();
+
+            /* Create tables for diagnostics */
+            int diagnosticsAmount = _diagnostics.Count;
+            for (int i = 0; i < 3; ++i)
+            {
+                AddDiagnosticTable(i);
+            }
+        }
 
         private void AddHeaderTable()
         {
@@ -455,7 +453,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
             }
         }
-
         #endregion
     }
 }
