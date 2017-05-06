@@ -29,6 +29,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private LinearLayout _layoutForTable;
         private ImageButton _backButton;
         private ImageButton _homeButton;
+        private ImageButton _nextTablePageButton;
+        private ImageButton _previousTablePageButton;
         private TableLayout _headerTable;
         #endregion
 
@@ -37,6 +39,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private HospitalTrip _trip;
         private List<Diagnostic> _diagnostics;
         private List<TableLayout> _tables;
+        private List<int> _visibleDiagnosticIndexes;
         #endregion
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -52,6 +55,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripInfo = FindViewById<TextView>(Resource.Id.monitoring_trip_info);
             var heading = FindViewById<TextView>(Resource.Id.monitoring_header);
             _layoutForTable = FindViewById<LinearLayout>(Resource.Id.table_layout);
+            _nextTablePageButton = FindViewById<ImageButton>(Resource.Id.next_table);
+            _previousTablePageButton = FindViewById<ImageButton>(Resource.Id.previous_table);
+
+            /* Set handlers */
+            _nextTablePageButton.Click += OnNextTablePageButtonClicked;
+            _previousTablePageButton.Click += OnPreviousTablePageButtonClicked;
 
             /* Get data */
             var userId = Intent.GetIntExtra("user_id", 0);
@@ -94,6 +103,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Get diagnostics and create table */
             _diagnostics = new List<Diagnostic>();
             _tables = new List<TableLayout>();
+            _visibleDiagnosticIndexes = new List<int>();
             if (_trip != null)
             {
                 _diagnostics = _trip.Diagnostics.OrderBy(x => x.Date).ToList();
@@ -115,6 +125,61 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             else
             {
                 // TODO: Show info screen
+            }
+        }
+
+        private void OnPreviousTablePageButtonClicked(object sender, EventArgs e)
+        {
+            int firstVisibleDiagnosticIndex = _visibleDiagnosticIndexes[0];
+            if (firstVisibleDiagnosticIndex > 0)
+            {
+                
+            }
+            else
+            {
+                Console.WriteLine("No previous diagnostics");
+            }
+        }
+
+        private void OnNextTablePageButtonClicked(object sender, EventArgs e)
+        {
+            /* Check if has diagnostics */
+            int lastVisibleDiagnosticIndex = _visibleDiagnosticIndexes[MaxVisibleDiagnostics - 1];
+            if (lastVisibleDiagnosticIndex != _diagnostics.Count - 1)
+            {
+                /* Increment indexes in _visibleDiagnosticIndexes */
+                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
+                {
+                    _visibleDiagnosticIndexes[i]++;
+                }
+
+                /* Set tables */
+                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
+                {
+                    int index = _visibleDiagnosticIndexes[i];
+
+                    /* If already has table for diagnostic */
+                    if (index <= _tables.Count - 1)
+                    {
+                        var table = _tables[index];
+
+                        /* Remove old table from layout */
+                        _layoutForTable.RemoveViewAt(i + 1);
+                        _layoutForTable.RemoveView(table);
+
+                        /* Set another table to layout */
+                        _layoutForTable.AddView(table, i + 1);
+                    }
+                    else
+                    {
+                        /* Need to create new table */
+                        AddDiagnosticTable(index, i + 1);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No more diagnostics");
             }
         }
 
@@ -187,6 +252,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             for (int i = 0; i < diagnosticsAmount; ++i)
             {
                 AddDiagnosticTable(i);
+                _visibleDiagnosticIndexes.Add(i);
             }
 
             _layoutForTable.ViewTreeObserver.AddOnGlobalLayoutListener(this);
@@ -259,7 +325,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _layoutForTable.AddView(_headerTable);
         }
 
-        private void AddDiagnosticTable(int diagnosticNumber)
+        private void AddDiagnosticTable(int diagnosticNumber, int insertTableAt = -1)
         {
             /* Prepare data */
             var gradesAmount = 4;
@@ -308,7 +374,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var dateColumn = CreateColumn(
                 paramsForDate,
-                diagnostic.Date.ToString("dd.MM.yyyy")
+                diagnosticNumber + "" //diagnostic.Date.ToString("dd.MM.yyyy")
             );
             secondRow.AddView(dateColumn);
             table.AddView(secondRow);
@@ -391,7 +457,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _tables.Insert(diagnosticNumber, table);
 
             /* Add table to layout */
-            _layoutForTable.AddView(table);
+            if (insertTableAt >= 0)
+            {
+                _layoutForTable.AddView(table, insertTableAt);
+            }
+            else
+            {
+                _layoutForTable.AddView(table);
+            }
         }
 
         private TableLayout CreateTable(LinearLayout.LayoutParams layoutParams = null)
