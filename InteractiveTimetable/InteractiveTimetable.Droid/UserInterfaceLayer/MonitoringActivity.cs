@@ -133,6 +133,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnAddDiagnosticButtonClicked(object sender, EventArgs e)
         {
+            var transaction = FragmentManager.BeginTransaction();
+            var previousFragment = FragmentManager.
+                    FindFragmentByTag(DiagnosticDialogFragment.FragmentTag);
+
+            if (previousFragment != null)
+            {
+                transaction.Remove(previousFragment);
+            }
+            transaction.AddToBackStack(null);
+
+            var dialog = DiagnosticDialogFragment.NewInstance(0);
+            dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
+
         }
 
         private void OnPreviousTablePageButtonClicked(object sender, EventArgs e)

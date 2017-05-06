@@ -167,6 +167,7 @@
     <Compile Include="UserDetailsActivivty.cs" />
     <Compile Include="UserInterfaceLayer\CreateTimetableActivity.cs" />
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
+    <Compile Include="UserInterfaceLayer\DiagnosticDialogFragment.cs" />
     <Compile Include="UserInterfaceLayer\HomeScreenActivity.cs" />
     <Compile Include="UserInterfaceLayer\HospitalTripListFragment.cs" />
     <Compile Include="UserInterfaceLayer\InfoFragment.cs" />
