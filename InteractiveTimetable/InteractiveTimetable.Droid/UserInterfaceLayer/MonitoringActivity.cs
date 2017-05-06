@@ -290,6 +290,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
 
             _layoutForTable.ViewTreeObserver.AddOnGlobalLayoutListener(this);
+
+            /* Adjust table page control buttons */
+            _previousTablePageButton.Visibility = ViewStates.Invisible;
+
+            if (_diagnostics.Count <= MaxVisibleDiagnostics)
+            {
+                _nextTablePageButton.Visibility = ViewStates.Invisible;
+            }
         }
 
         private void AddHeaderTable()
