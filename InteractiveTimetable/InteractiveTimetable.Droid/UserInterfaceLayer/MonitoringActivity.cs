@@ -67,7 +67,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[1];
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[2];
             userId = debugUser.Id;
             tripId = 0;//debugUser.HospitalTrips[0].Id;
 
@@ -153,6 +153,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _visibleDiagnosticIndexes[i]++;
                 }
 
+                /* Delete current visible tables from layout */
+                for (int i = MaxVisibleDiagnostics; i > 0; --i)
+                {
+                    var table = _layoutForTable.GetChildAt(i);
+                    _layoutForTable.RemoveView(table);
+                }
+
                 /* Set tables */
                 for (int i = 0; i < MaxVisibleDiagnostics; ++i)
                 {
@@ -163,10 +170,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     {
                         var table = _tables[index];
 
-                        /* Remove old table from layout */
-                        _layoutForTable.RemoveViewAt(i + 1);
-                        _layoutForTable.RemoveView(table);
-
                         /* Set another table to layout */
                         _layoutForTable.AddView(table, i + 1);
                     }
@@ -176,10 +179,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                         AddDiagnosticTable(index, i + 1);
                     }
                 }
-            }
-            else
-            {
-                Console.WriteLine("No more diagnostics");
+
+                /* Enable previous button because one was hidden */
+                _previousTablePageButton.Visibility = ViewStates.Visible;
+
+                /* Disable next button if no more diagnostics to show */
+                lastVisibleDiagnosticIndex = _visibleDiagnosticIndexes[MaxVisibleDiagnostics - 1];
+                if (lastVisibleDiagnosticIndex == _diagnostics.Count - 1)
+                {
+                    _nextTablePageButton.Visibility = ViewStates.Invisible;
+                }
             }
         }
 
