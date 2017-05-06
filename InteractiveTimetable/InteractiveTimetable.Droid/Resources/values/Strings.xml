@@ -100,4 +100,25 @@
   <string name="date">Дата проведения диагностики</string>
   <string name="grade_total_sum">Общая сумма баллов</string>
   <string name="grade_partial_sum">Сумма баллов оценок</string>
+  <string name="adding_diagnostic">Добавление диагностики</string>
+  <string name="editing_diagnostic">Редактирование диагностики</string>
+  <string name="enter_diagnostic_date">Введите дату и время проведения диагностики</string>
+  <string name="criterion1">Знания, представления об окружающем мире</string>
+  <string name="criterion2">Сенсорные эталоны (цвет)</string>
+  <string name="criterion3">Сенсорные эталоны (форма)</string>
+  <string name="criterion4">Сенсорные эталоны (величина)</string>
+  <string name="criterion5">Количественные представления</string>
+  <string name="criterion6">Особенности и характер познавательной дейтельности</string>
+  <string name="criterion7">Изобразительная деятельность (рисование)</string>
+  <string name="criterion8">Изобразительная деятельность (лепка)</string>
+  <string name="criterion9">Изобразительная деятельность (аппликация)</string>
+  <string name="criterion10">Самообслуживание</string>
+  <string name="criterion11">Бытовые навыки</string>
+  <string name="criterion12">Игра</string>
+  <string name="criterion13">Взаимодействие с детьми и взрослыми</string>
+  <string name="criterion14">Коммуникация</string>
+  <string name="criterion15">Понимание обращённой речи</string>
+  <string name="criterion16">Наличие речи</string>
+  <string name="criterion17">Общее эмоциональное состояние ребенка</string>
+  <string name="criterion18">Наличие дезадаптивного поведения</string>
 </resources>
