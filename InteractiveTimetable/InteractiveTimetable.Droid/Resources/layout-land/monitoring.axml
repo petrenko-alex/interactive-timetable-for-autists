@@ -61,6 +61,13 @@
             p1:background="@null"
             p1:layout_centerVertical="true"
             p1:layout_marginRight="30dp" />
+        <ImageButton
+            p1:src="@drawable/plus_button"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/add_diagnostic_button"
+            p1:background="@null"
+            p1:layout_centerInParent="true" />
     </RelativeLayout>
     <ScrollView
         p1:minWidth="25px"

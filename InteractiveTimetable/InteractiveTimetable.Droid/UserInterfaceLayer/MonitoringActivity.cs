@@ -31,6 +31,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private ImageButton _homeButton;
         private ImageButton _nextTablePageButton;
         private ImageButton _previousTablePageButton;
+        private ImageButton _addDiagnosticButton;
         private TableLayout _headerTable;
         #endregion
 
@@ -57,10 +58,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _layoutForTable = FindViewById<LinearLayout>(Resource.Id.table_layout);
             _nextTablePageButton = FindViewById<ImageButton>(Resource.Id.next_table);
             _previousTablePageButton = FindViewById<ImageButton>(Resource.Id.previous_table);
+            _addDiagnosticButton = FindViewById<ImageButton>(Resource.Id.add_diagnostic_button);
 
             /* Set handlers */
             _nextTablePageButton.Click += OnNextTablePageButtonClicked;
             _previousTablePageButton.Click += OnPreviousTablePageButtonClicked;
+            _addDiagnosticButton.Click += OnAddDiagnosticButtonClicked;
 
             /* Get data */
             var userId = Intent.GetIntExtra("user_id", 0);
@@ -126,6 +129,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 // TODO: Show info screen
             }
+        }
+
+        private void OnAddDiagnosticButtonClicked(object sender, EventArgs e)
+        {
         }
 
         private void OnPreviousTablePageButtonClicked(object sender, EventArgs e)
