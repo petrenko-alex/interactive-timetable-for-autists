@@ -130,14 +130,39 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnPreviousTablePageButtonClicked(object sender, EventArgs e)
         {
+            /* Check if has diagnostics */
             int firstVisibleDiagnosticIndex = _visibleDiagnosticIndexes[0];
             if (firstVisibleDiagnosticIndex > 0)
             {
-                
-            }
-            else
-            {
-                Console.WriteLine("No previous diagnostics");
+                /* Decrement indexes in _visibleDiagnosticIndexes */
+                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
+                {
+                    _visibleDiagnosticIndexes[i]--;
+                }
+
+                /* Set tables */
+                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
+                {
+                    int index = _visibleDiagnosticIndexes[i];
+                    var table = _tables[index];
+
+                    /* Remove old table from layout */
+                    _layoutForTable.RemoveViewAt(i + 1);
+                    //_layoutForTable.RemoveView(table);
+
+                    /* Set another table to layout */
+                    _layoutForTable.AddView(table, i + 1);
+                }
+
+                /* Enable next button because one was hidden */
+                _nextTablePageButton.Visibility = ViewStates.Visible;
+
+                /* Disable previous button if no more diagnostics to show */
+                firstVisibleDiagnosticIndex = _visibleDiagnosticIndexes[0];
+                if (firstVisibleDiagnosticIndex == 0)
+                {
+                    _previousTablePageButton.Visibility = ViewStates.Invisible;
+                }
             }
         }
 
