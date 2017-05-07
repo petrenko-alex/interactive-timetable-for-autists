@@ -436,7 +436,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var dateColumn = CreateColumn(
                 paramsForDate,
-                diagnosticNumber + "" //diagnostic.Date.ToString("dd.MM.yyyy")
+                diagnostic.Date.ToString("dd.MM.yyyy")
             );
             secondRow.AddView(dateColumn);
             table.AddView(secondRow);
