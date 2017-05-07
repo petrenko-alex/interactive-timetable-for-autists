@@ -29,6 +29,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Internal Variables
         private int _diagnosticId;
         private Diagnostic _diagnostic;
+        private DateTime _diagnosticDateTime;
         #endregion
 
         public static DiagnosticDialogFragment NewInstance(int diagnosticId)
@@ -68,6 +69,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set handlers */
             _applyButton.Click += OnApplyButtonClicked;
             _cancelButton.Click += OnCancelButtonClicked;
+            _diagnosticDate.Click += OnDateClicked;
+            _diagnosticTime.Click += OnTimeClicked;
 
             /* Set data to widgets */
             if (_diagnostic != null)
@@ -81,6 +84,38 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
 
             return view;
+        }
+
+        private void OnTimeClicked(object sender, EventArgs e)
+        {
+            var fragment = TimePickerFragment.NewInstance(
+                _diagnosticDateTime,
+                delegate (DateTime time)
+                {
+                    var timeSpan = new TimeSpan(time.Hour, time.Minute, time.Second);
+                    _diagnosticDateTime = _diagnosticDateTime.Date + timeSpan;
+                    _diagnosticTime.Text = _diagnosticDateTime.ToString(TimeFormat);
+                });
+
+            fragment.Show(FragmentManager, TimePickerFragment.FragmentTag);
+        }
+
+        private void OnDateClicked(object sender, EventArgs e)
+        {
+            var fragment = DatePickerFragment.NewInstance(
+                _diagnosticDateTime,
+                delegate (DateTime date)
+                {
+                    var time = new TimeSpan(
+                        _diagnosticDateTime.Hour,
+                        _diagnosticDateTime.Minute,
+                        _diagnosticDateTime.Second
+                    );
+                    _diagnosticDateTime = date.Date + time;
+                    _diagnosticDate.Text = date.ToString(DateFormat);
+                });
+
+            fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }
 
         private void OnCancelButtonClicked(object sender, EventArgs e)
@@ -105,6 +140,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set dates */
             _diagnosticDate.Text = _diagnostic.Date.ToString(DateFormat);
             _diagnosticTime.Text = _diagnostic.Date.ToString(TimeFormat);
+            _diagnosticDateTime = _diagnostic.Date;
 
             /* Set point grades */
             int numberOfGrades = 17;
@@ -140,6 +176,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var now = DateTime.Now;
             _diagnosticDate.Text = now.ToString(DateFormat);
             _diagnosticTime.Text = now.ToString(TimeFormat);
+            _diagnosticDateTime = now;
         }
     }
 }
