@@ -206,9 +206,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _diagnosticDateTime,
                     criterionAndGrades
                 );
-
-                
-                _listener.OnNewDiagnostiAdded(0);
+ 
+                _listener.OnNewDiagnostiAdded(diagnosticId);
                 Dismiss();
             }
             catch (ArgumentException exception)

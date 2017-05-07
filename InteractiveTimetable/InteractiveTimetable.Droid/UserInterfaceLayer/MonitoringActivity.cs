@@ -73,9 +73,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[2];
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[1];
             userId = debugUser.Id;
-            tripId = debugUser.HospitalTrips[1].Id;
+            tripId = debugUser.HospitalTrips[0].Id;
 
             /* Set data to views */
             if (tripId > 0)
@@ -167,12 +167,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 {
                     int index = _visibleDiagnosticIndexes[i];
                     var table = _tables[index];
-
+                    
                     /* Remove old table from layout */
                     _layoutForTable.RemoveViewAt(i + 1);
 
-                    /* Set another table to layout */
-                    _layoutForTable.AddView(table, i + 1);
+                    if (table != null)
+                    {
+                        _layoutForTable.AddView(table, i + 1);
+                    }
+                    else
+                    {
+                        AddDiagnosticTable(index, i + 1);
+                    }
                 }
 
                 /* Enable next button because one was hidden */
@@ -314,11 +320,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 if (diagnostic.Date < _diagnostics[i].Date)
                 {
                     newDiagnosticIndex = i;
+                    break;
                 }
             }
 
             /* Insert new diagnostic in _diagnostics data set */
             _diagnostics.Insert(newDiagnosticIndex, diagnostic);
+
+            /* Insert null table to _tables data set */
+            _tables.Insert(newDiagnosticIndex, null);
 
             
             int firstVisibleDiagnosticIndex = _visibleDiagnosticIndexes[0];
@@ -338,6 +348,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                      newDiagnosticIndex <= lastVisibleDiagnosticIndex)
             {
                 /* If need to repaint tables to show table for new diagnostic */
+
                 /* Delete current visible tables from layout */
                 for (int i = MaxVisibleDiagnostics; i > 0; --i)
                 {
@@ -345,33 +356,24 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     _layoutForTable.RemoveView(table);
                 }
 
-                /* Set tables */
+                /* Set new tables */
                 for (int i = 0; i < MaxVisibleDiagnostics; ++i)
                 {
-                    int index = _visibleDiagnosticIndexes[i];
-
                     /* If already has table for diagnostic */
-                    if (index <= _tables.Count - 1)
+                    int index = _visibleDiagnosticIndexes[i];
+                    var table = _tables[index];
+                    if (table != null)
                     {
-                        var table = _tables[index];
-
-                        /* Set another table to layout */
                         _layoutForTable.AddView(table, i + 1);
                     }
                     else
                     {
-                        /* Need to create new table */
                         AddDiagnosticTable(index, i + 1);
                     }
                 }
-            }
-                
-            
 
-            /* Show table if need */
-            for (int i = 0; i < MaxVisibleDiagnostics; ++i)
-            {
-                int index = _visibleDiagnosticIndexes[i];
+                /* Enable next table page button */
+                _nextTablePageButton.Visibility = ViewStates.Visible;
             }
         }
 
@@ -527,7 +529,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var dateColumn = CreateColumn(
                 paramsForDate,
-                diagnostic.Date.ToString("dd.MM.yyyy")
+                diagnostic.Date.ToString("dd.MM.yyyy H:mm")
             );
             secondRow.AddView(dateColumn);
             table.AddView(secondRow);
