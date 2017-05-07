@@ -331,6 +331,5 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #endregion
-
     }
 }

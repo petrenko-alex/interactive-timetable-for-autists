@@ -86,6 +86,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return view;
         }
 
+        public override void OnDestroy()
+        {
+            _applyButton.Click -= OnApplyButtonClicked;
+            _cancelButton.Click -= OnCancelButtonClicked;
+            _diagnosticDate.Click -= OnDateClicked;
+            _diagnosticTime.Click -= OnTimeClicked;
+
+            _diagnostic = null;
+
+            base.OnDestroy();
+        }
+
         private void OnTimeClicked(object sender, EventArgs e)
         {
             var fragment = TimePickerFragment.NewInstance(
