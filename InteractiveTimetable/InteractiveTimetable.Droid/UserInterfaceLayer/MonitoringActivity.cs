@@ -14,7 +14,10 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
     [Activity(Label = "MonitoringActivity", MainLauncher = true)]
-    public class MonitoringActivity : ActionBarActivity, ViewTreeObserver.IOnGlobalLayoutListener
+    public class MonitoringActivity : 
+        ActionBarActivity, 
+        ViewTreeObserver.IOnGlobalLayoutListener,
+        IDiagnosticDialogListener
     {
         #region Constants
         private static readonly int HeaderColumnWidth = 150;
@@ -72,7 +75,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             // TODO: Delete after finish
             var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[2];
             userId = debugUser.Id;
-            tripId = 0;//debugUser.HospitalTrips[0].Id;
+            tripId = debugUser.HospitalTrips[1].Id;
 
             /* Set data to views */
             if (tripId > 0)
@@ -143,7 +146,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             transaction.AddToBackStack(null);
 
-            var dialog = DiagnosticDialogFragment.NewInstance(0);
+            var dialog = DiagnosticDialogFragment.NewInstance(0, _trip.Id);
             dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
 
         }
@@ -168,7 +171,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                     /* Remove old table from layout */
                     _layoutForTable.RemoveViewAt(i + 1);
-                    //_layoutForTable.RemoveView(table);
 
                     /* Set another table to layout */
                     _layoutForTable.AddView(table, i + 1);
@@ -288,6 +290,91 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 Resource.Animation.enter_from_left,
                 Resource.Animation.exit_to_right
             );
+        }
+
+        public void OnGlobalLayout()
+        {
+            _layoutForTable.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
+
+            /* Adjust table controls width to match table width */
+            var width = _layoutForTable.Width;
+            var tableControls = FindViewById<RelativeLayout>(Resource.Id.table_controls);
+            tableControls.LayoutParameters.Width = width;
+        }
+
+        public void OnNewDiagnostiAdded(int diagnosticId)
+        {
+            /* Get just added diagnostic */
+            var diagnostic = InteractiveTimetable.Current.DiagnosticManager.
+                                                  GetDiagnostic(diagnosticId);
+
+            /* Find place for new diagnostic */
+            int amountOfDiagnostics = _diagnostics.Count;
+            int newDiagnosticIndex = amountOfDiagnostics;
+            for (int i = 0; i < amountOfDiagnostics; ++i)
+            {
+                if (diagnostic.Date < _diagnostics[i].Date)
+                {
+                    newDiagnosticIndex = i;
+                }
+            }
+
+            /* Insert new diagnostic in _diagnostics data set */
+            _diagnostics.Insert(newDiagnosticIndex, diagnostic);
+
+            
+            int firstVisibleDiagnosticIndex = _visibleDiagnosticIndexes[0];
+            int lastVisibleDiagnosticIndex = _visibleDiagnosticIndexes[MaxVisibleDiagnostics - 1];
+            if (newDiagnosticIndex < firstVisibleDiagnosticIndex)
+            {
+                /* 
+                 * If diagnostic was inserted to position before current visible diagnostics, 
+                 * increment indexes of current visible 
+                 */
+                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
+                {
+                    _visibleDiagnosticIndexes[i]++;
+                }
+            }
+            else if (newDiagnosticIndex >= firstVisibleDiagnosticIndex &&
+                     newDiagnosticIndex <= lastVisibleDiagnosticIndex)
+            {
+                /* If need to repaint tables to show table for new diagnostic */
+                /* Delete current visible tables from layout */
+                for (int i = MaxVisibleDiagnostics; i > 0; --i)
+                {
+                    var table = _layoutForTable.GetChildAt(i);
+                    _layoutForTable.RemoveView(table);
+                }
+
+                /* Set tables */
+                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
+                {
+                    int index = _visibleDiagnosticIndexes[i];
+
+                    /* If already has table for diagnostic */
+                    if (index <= _tables.Count - 1)
+                    {
+                        var table = _tables[index];
+
+                        /* Set another table to layout */
+                        _layoutForTable.AddView(table, i + 1);
+                    }
+                    else
+                    {
+                        /* Need to create new table */
+                        AddDiagnosticTable(index, i + 1);
+                    }
+                }
+            }
+                
+            
+
+            /* Show table if need */
+            for (int i = 0; i < MaxVisibleDiagnostics; ++i)
+            {
+                int index = _visibleDiagnosticIndexes[i];
+            }
         }
 
         #region Table Methods
@@ -601,16 +688,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
             }
-        }
-
-        public void OnGlobalLayout()
-        {
-            _layoutForTable.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
-
-            /* Adjust table controls width to match table width */
-            var width = _layoutForTable.Width;
-            var tableControls = FindViewById<RelativeLayout>(Resource.Id.table_controls);
-            tableControls.LayoutParameters.Width = width;
         }
         #endregion
     }
