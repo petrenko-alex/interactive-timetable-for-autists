@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.OS;
@@ -6,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Michaelmuenzer.Android.Scrollablennumberpicker;
 using InteractiveTimetable.BusinessLayer.Models;
+using InteractiveTimetable.Droid.ApplicationLayer;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
@@ -17,6 +19,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly string TimeFormat = "H:mm";
         private static readonly int MinGrade = 1;
         private static readonly int MaxGrade = 4;
+        private static readonly int ErrorMessageXOffset = 0;
+        private static readonly int ErrorMessageYOffset = 0;
         #endregion
 
         #region Widgets
@@ -28,16 +32,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Internal Variables
         private int _diagnosticId;
+        private int _tripId;
         private Diagnostic _diagnostic;
         private DateTime _diagnosticDateTime;
         #endregion
 
-        public static DiagnosticDialogFragment NewInstance(int diagnosticId)
+        #region Events
+        private IDiagnosticDialogListener _listener;
+        #endregion
+
+        public static DiagnosticDialogFragment NewInstance(int diagnosticId, int tripId)
         {
             var fragment = new DiagnosticDialogFragment();
 
             var args = new Bundle();
             args.PutInt("diagnostic_id", diagnosticId);
+            args.PutInt("trip_id", tripId);
             fragment.Arguments = args;
 
             return fragment;
@@ -48,15 +58,32 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             base.OnCreate(savedInstanceState);
 
             _diagnosticId = Arguments.GetInt("diagnostic_id");
+            _tripId = Arguments.GetInt("trip_id");
             if (_diagnosticId > 0)
             {
                 _diagnostic = InteractiveTimetable.Current.DiagnosticManager.
                                                    GetDiagnostic(_diagnosticId);
             }
-
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override void OnAttach(Activity activity)
+        {
+            base.OnAttach(activity);
+
+            /* Verify that the host activity implements interface */
+            _listener = Activity as IDiagnosticDialogListener;
+            if (_listener == null)
+            {
+                throw new InvalidCastException(Activity.ToString() +
+                                               " must implement IDiagnosticDialogListener"
+                );
+            }
+        }
+
+        public override View OnCreateView(
+            LayoutInflater inflater, 
+            ViewGroup container, 
+            Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.diagnostic_dialog, container, false);
 
@@ -132,12 +159,70 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnCancelButtonClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Dismiss();
         }
 
         private void OnApplyButtonClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            int numberOfGrades = 17;
+            var keys = InteractiveTimetable.Current.DiagnosticManager.GetCriterions().ToList();
+            var criterionAndGrades = new Dictionary<string, string>();
+            
+            /* Get point grades */
+            for (int i = 0; i < numberOfGrades; ++i)
+            {
+                string gradeId = "grade_" + (i + 1);
+                int id = Activity.Resources.GetIdentifier(gradeId, "id", Activity.PackageName);
+                var gradeView = View.FindViewById<ScrollableNumberPicker>(id);
+
+                criterionAndGrades.Add(keys[i], gradeView.Value + "");
+            }
+
+            /* Get tick grade */
+            string lastGrade = "";
+            int tickGradeLength = 4;
+            for (int i = 0; i < tickGradeLength; ++i)
+            {
+                string gradeId = "grade_18_" + (i + 1);
+                int id = Activity.Resources.GetIdentifier(gradeId, "id", Activity.PackageName);
+                var gradeView = View.FindViewById<CheckBox>(id);
+
+                if (gradeView.Checked)
+                {
+                    lastGrade += '1';
+                }
+                else
+                {
+                    lastGrade += '0';
+                }
+            }
+            criterionAndGrades.Add(keys.Last(), lastGrade);
+
+            /* Try to save to db */
+            try
+            {
+                int diagnosticId = InteractiveTimetable.Current.DiagnosticManager.SaveDiagnostic(
+                    _tripId,
+                    _diagnosticDateTime,
+                    criterionAndGrades
+                );
+
+                
+                _listener.OnNewDiagnostiAdded(0);
+                Dismiss();
+            }
+            catch (ArgumentException exception)
+            {
+                /* Show error message */
+                var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
+                toast.SetGravity(
+                    GravityFlags.ClipVertical,
+                    ErrorMessageXOffset,
+                    ErrorMessageYOffset
+                );
+                toast.Show();
+                return;
+            }
         }
 
         private void LoadDiagnostic(View view)
