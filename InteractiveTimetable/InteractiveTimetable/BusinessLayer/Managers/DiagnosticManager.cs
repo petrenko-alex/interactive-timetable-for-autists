@@ -293,7 +293,13 @@ namespace InteractiveTimetable.BusinessLayer.Managers
                             criterionAndGrades.Add(key, grade);
                         }
 
-                        SaveDiagnostic(trip.Id, trip.StartDate.AddDays(1), criterionAndGrades);
+                        int tripInDays = (trip.FinishDate - trip.StartDate).Days;
+                        var daysToAddToStartDate = randomizer.Next(1, tripInDays);
+                        SaveDiagnostic(
+                            trip.Id,
+                            trip.StartDate.AddDays(daysToAddToStartDate),
+                            criterionAndGrades
+                        );
                     }
                 }
             }
