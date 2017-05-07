@@ -108,7 +108,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Get diagnostics and create table */
             _diagnostics = new List<Diagnostic>();
-            _tables = new List<TableLayout>();
             _visibleDiagnosticIndexes = new List<int>();
             if (_trip != null)
             {
@@ -210,13 +209,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Set tables */
                 for (int i = 0; i < MaxVisibleDiagnostics; ++i)
                 {
-                    int index = _visibleDiagnosticIndexes[i];
-
                     /* If already has table for diagnostic */
-                    if (index <= _tables.Count - 1)
-                    {
-                        var table = _tables[index];
+                    int index = _visibleDiagnosticIndexes[i];
+                    var table = _tables[index];
 
+                    if (table != null)
+                    {
                         /* Set another table to layout */
                         _layoutForTable.AddView(table, i + 1);
                     }
@@ -383,13 +381,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Create header table */
             AddHeaderTable();
 
-            /* Create tables for diagnostics */
+            /* First initialize with null's to fit _diagnostics size */
             int diagnosticsAmount = _diagnostics.Count;
-            if(diagnosticsAmount > MaxVisibleDiagnostics)
+            _tables = new List<TableLayout>();
+            for (int i = 0; i < diagnosticsAmount; ++i)
+            {
+                _tables.Add(null);
+            }
+
+            /* Create tables for diagnostics */
+            if (diagnosticsAmount > MaxVisibleDiagnostics)
             {
                 diagnosticsAmount = MaxVisibleDiagnostics;
             }
-
             for (int i = 0; i < diagnosticsAmount; ++i)
             {
                 AddDiagnosticTable(i);
@@ -603,7 +607,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             table.AddView(totalSumRow);
             
             /* Add table to data set */
-            _tables.Insert(diagnosticNumber, table);
+            _tables[diagnosticNumber] = table;
 
             /* Add table to layout */
             if (insertTableAt >= 0)
