@@ -322,6 +322,31 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AsjustVisibilityOfTablePageButtons();
         }
 
+        public void OnDiagnosticEdited(int diagnosticId)
+        {
+            /* Get just edited diagnostic */
+            var diagnostic = InteractiveTimetable.Current.DiagnosticManager.
+                                                  GetDiagnostic(diagnosticId);
+
+            var previousDiagnosticData = _diagnostics.First(x => x.Id == diagnostic.Id);
+            bool datesEqual = diagnostic.Date.Equals(previousDiagnosticData.Date);
+            if (!datesEqual)
+            {
+                
+            }
+            else
+            {
+                /* If date of the diagnostic was not changed */
+                int index = _diagnostics.IndexOf(previousDiagnosticData);
+
+                /* Update data sets */
+                _diagnostics[index] = diagnostic;
+                _tables[index] = null;
+
+                RebuildVisibleTables();
+            }
+        }
+
         #region Table Methods
         private void CreateTables()
         {

@@ -201,13 +201,31 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Try to save to db */
             try
             {
-                int diagnosticId = InteractiveTimetable.Current.DiagnosticManager.SaveDiagnostic(
-                    _tripId,
-                    _diagnosticDateTime,
-                    criterionAndGrades
-                );
- 
-                _listener.OnNewDiagnosticAdded(diagnosticId);
+                int diagnosticId = 0;
+
+                /* If need to edit diagnostic */
+                if (_diagnostic != null)
+                {
+                    diagnosticId = InteractiveTimetable.Current.DiagnosticManager.UpdateDiagnostic(
+                        _diagnostic.Id,
+                        _diagnosticDateTime,
+                        criterionAndGrades
+                    );
+
+                    _listener.OnDiagnosticEdited(diagnosticId);
+                }
+                /* If need to add new diagnostic */
+                else
+                {
+                    diagnosticId = InteractiveTimetable.Current.DiagnosticManager.SaveDiagnostic(
+                        _tripId,
+                        _diagnosticDateTime,
+                        criterionAndGrades
+                    );
+
+                    _listener.OnNewDiagnosticAdded(diagnosticId);
+                }
+                
                 Dismiss();
             }
             catch (ArgumentException exception)
