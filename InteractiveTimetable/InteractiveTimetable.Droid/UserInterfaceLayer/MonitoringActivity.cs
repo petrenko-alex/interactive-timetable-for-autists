@@ -73,7 +73,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[1];
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[0];
             userId = debugUser.Id;
             tripId = debugUser.HospitalTrips[0].Id;
 
@@ -147,7 +147,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var dialog = DiagnosticDialogFragment.NewInstance(0, _trip.Id);
             dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
+        }
 
+        private void OnEditDiagnosticButtonClicked(int diagnosticId)
+        {
+            var transaction = FragmentManager.BeginTransaction();
+            var previousFragment = FragmentManager.
+                    FindFragmentByTag(DiagnosticDialogFragment.FragmentTag);
+
+            if (previousFragment != null)
+            {
+                transaction.Remove(previousFragment);
+            }
+            transaction.AddToBackStack(null);
+
+            var dialog = DiagnosticDialogFragment.NewInstance(diagnosticId, _trip.Id);
+            dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
         }
 
         private void OnPreviousTablePageButtonClicked(object sender, EventArgs e)
@@ -322,7 +337,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             bool datesEqual = diagnostic.Date.Equals(previousDiagnosticData.Date);
             if (!datesEqual)
             {
-                
+                /* Delete old diagnostic data from data sets */
+                int index = _diagnostics.IndexOf(previousDiagnosticData);
+                _diagnostics.RemoveAt(index);
+                _tables.RemoveAt(index);
+
+                /* Insert in new position */
+                int newDiagnosticIndex = FindPlaceForNewDiagnotic(diagnostic);
+                _diagnostics.Insert(newDiagnosticIndex, diagnostic);
+                _tables.Insert(newDiagnosticIndex,null);
+
+                /* Rebuild _visibleDiagnosticIndexes */
+                RebuildVisibleList(newDiagnosticIndex);
+
+                RebuildVisibleTables();
+
+                AsjustVisibilityOfTablePageButtons();
             }
             else
             {
@@ -509,8 +539,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     Resource.Id.delete_diagnostic_button
                 );
 
-                editButton.Click += (sender, e) => OnEditDiagnosticButtonClicked(diagnosticNumber);
-                deleteButton.Click += (sender, e) => OnDeleteDiagnosticButtonClicked(diagnosticNumber);
+                editButton.Click += (sender, e) => OnEditDiagnosticButtonClicked(diagnostic.Id);
+                deleteButton.Click += (sender, e) => OnDeleteDiagnosticButtonClicked(diagnostic.Id);
 
                 /* Add to table */
                 var manageRow = CreateRow();
@@ -624,12 +654,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _layoutForTable.AddView(table);
             }
         }
-
-        private void OnEditDiagnosticButtonClicked(int diagnosticNumber)
-        {
-            Console.WriteLine($"Edit diagnostic number {diagnosticNumber}");
-        }
-
 
         private void OnDeleteDiagnosticButtonClicked(int diagnosticNumber)
         {
