@@ -371,6 +371,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 HeaderColumnHeight
             );
 
+            if (_trip != null)
+            {
+                var managementColumn = CreateColumn(
+                    paramsForDefinitions,
+                    GetString(Resource.String.management)
+                );
+
+                var managementRow = CreateRow();
+                managementRow.AddView(managementColumn);
+                _headerTable.AddView(managementRow);
+            }
+
             /* Create and insert first header column */
             var topLeftColumn = CreateColumn(
                 paramsForDefinitions,
@@ -443,6 +455,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 GradeColumnHeight
             );
 
+            var paramsForDate = new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.WrapContent,
+                GradeColumnHeight
+            )
+            {
+                Span = 4
+            };
+
             var diagnostic = _diagnostics[diagnosticNumber];
 
             /* Create table */
@@ -451,6 +471,37 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var paddingDp = 4;
             var paddingPx = ImageHelper.ConvertDpToPixels(paddingDp);
             table.SetPadding(paddingDp, paddingPx, paddingPx, paddingPx);
+
+            /* Create row with manage buttons */
+            if (_trip != null)
+            {
+                var paramsForManagement = new TableRow.LayoutParams(
+                    ViewGroup.LayoutParams.WrapContent,
+                    GradeColumnHeight
+                )
+                {
+                    Span = 4,
+                    Gravity = GravityFlags.Center
+                };
+
+                var view = LayoutInflater.From(this).Inflate(Resource.Layout.management_column, null);
+                view.LayoutParameters = paramsForManagement;
+
+                var editButton = view.FindViewById<ImageButton>(
+                    Resource.Id.edit_diagnostic_button
+                );
+                var deleteButton = view.FindViewById<ImageButton>(
+                    Resource.Id.delete_diagnostic_button
+                );
+
+                editButton.Click += (sender, e) => OnEditDiagnosticButtonClicked(diagnosticNumber);
+                deleteButton.Click += (sender, e) => OnDeleteDiagnosticButtonClicked(diagnosticNumber);
+
+                /* Add to table */
+                var manageRow = CreateRow();
+                manageRow.AddView(view);
+                table.AddView(manageRow);
+            }
 
             /* Create grade header column */
             var firstRow = CreateRow();
@@ -464,14 +515,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Create date column */
             var secondRow = CreateRow();
-            var paramsForDate = new TableRow.LayoutParams(
-                ViewGroup.LayoutParams.WrapContent,
-                GradeColumnHeight
-            )
-            {
-                Span = 4
-            };
-
             var dateColumn = CreateColumn(
                 paramsForDate,
                 diagnostic.Date.ToString("dd.MM.yyyy H:mm")
@@ -565,6 +608,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 _layoutForTable.AddView(table);
             }
+        }
+
+        private void OnEditDiagnosticButtonClicked(int diagnosticNumber)
+        {
+            Console.WriteLine($"Edit diagnostic number {diagnosticNumber}");
+        }
+
+
+        private void OnDeleteDiagnosticButtonClicked(int diagnosticNumber)
+        {
+            Console.WriteLine($"Delete diagnostic number {diagnosticNumber}");
         }
 
         private TableLayout CreateTable(LinearLayout.LayoutParams layoutParams = null)
