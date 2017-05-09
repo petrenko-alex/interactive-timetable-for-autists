@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.OS;
+using Android.Text;
 using Android.Views;
 using Android.Widget;
 using Com.Michaelmuenzer.Android.Scrollablennumberpicker;
@@ -11,7 +12,10 @@ using InteractiveTimetable.Droid.ApplicationLayer;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    public class DiagnosticDialogFragment : DialogFragment
+    public class DiagnosticDialogFragment : 
+        DialogFragment, 
+        IScrollableNumberPickerListener, 
+        CompoundButton.IOnCheckedChangeListener
     {
         #region Constants
         public static readonly string FragmentTag = "diagnostic_dialog_fragment";
@@ -41,6 +45,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private IDiagnosticDialogListener _listener;
         #endregion
 
+        #region Flags
+        private bool _dataWasChanged;
+        #endregion
+
         public static DiagnosticDialogFragment NewInstance(int diagnosticId, int tripId)
         {
             var fragment = new DiagnosticDialogFragment();
@@ -64,6 +72,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _diagnostic = InteractiveTimetable.Current.DiagnosticManager.
                                                    GetDiagnostic(_diagnosticId);
             }
+
+            /* Set flags */
+            _dataWasChanged = false;
         }
 
         public override void OnAttach(Activity activity)
@@ -103,12 +114,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             if (_diagnostic != null)
             {
                 LoadDiagnostic(view);
-
             }
             else
             {
                 InitializeForNewDiagnostic();
             }
+
+            /* Set handlers for data change */
+            _diagnosticDate.TextChanged += OnDiagnosticDataChanged;
+            _diagnosticTime.TextChanged += OnDiagnosticDataChanged;
 
             return view;
         }
@@ -119,6 +133,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _cancelButton.Click -= OnCancelButtonClicked;
             _diagnosticDate.Click -= OnDateClicked;
             _diagnosticTime.Click -= OnTimeClicked;
+            _diagnosticDate.TextChanged -= OnDiagnosticDataChanged;
+            _diagnosticTime.TextChanged -= OnDiagnosticDataChanged;
 
             _diagnostic = null;
 
@@ -164,6 +180,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnApplyButtonClicked(object sender, EventArgs e)
         {
+            /* If in edit mode and data wasn't changed just close dialog */
+            if (_diagnostic != null &&
+                !_dataWasChanged)
+            {
+                Dismiss();
+                return;
+            }
+
             int numberOfGrades = 17;
             var keys = InteractiveTimetable.Current.DiagnosticManager.GetCriterions().ToList();
             var criterionAndGrades = new Dictionary<string, string>();
@@ -242,6 +266,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
+        private void OnDiagnosticDataChanged(object sender, TextChangedEventArgs e)
+        {
+            _dataWasChanged = true;
+        }
+
         private void LoadDiagnostic(View view)
         {
             /* Get data */
@@ -264,6 +293,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 int id = Activity.Resources.GetIdentifier(gradeId, "id", Activity.PackageName);
                 var gradeView = view.FindViewById<ScrollableNumberPicker>(id);
                 gradeView.Value = int.Parse(grades[i]);
+                gradeView.SetListener(this);
             }
 
             /* Set tick grade */
@@ -271,13 +301,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             for (int i = 0; i < lastGrade.Length; ++i)
             {
                 string gradeId = "grade_18_" + (i + 1);
+                int id = Activity.Resources.GetIdentifier(gradeId, "id", Activity.PackageName);
+                var gradeView = view.FindViewById<CheckBox>(id);
 
                 if (lastGrade[i] == '1')
-                {
-                    int id = Activity.Resources.GetIdentifier(gradeId, "id", Activity.PackageName);
-                    var gradeView = view.FindViewById<CheckBox>(id);
+                {    
                     gradeView.Checked = true;
                 }
+
+                gradeView.SetOnCheckedChangeListener(this);
             }
         }
 
@@ -291,6 +323,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _diagnosticDate.Text = now.ToString(DateFormat);
             _diagnosticTime.Text = now.ToString(TimeFormat);
             _diagnosticDateTime = now;
+        }
+
+        public void OnNumberPicked(int number)
+        {
+            _dataWasChanged = true;
+        }
+
+        public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
+        {
+            _dataWasChanged = true;
         }
     }
 }
