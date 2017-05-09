@@ -306,7 +306,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             tableControls.LayoutParameters.Width = width;
         }
 
-        public void OnNewDiagnostiAdded(int diagnosticId)
+        public void OnNewDiagnosticAdded(int diagnosticId)
         {
             /* Get just added diagnostic */
             var diagnostic = InteractiveTimetable.Current.DiagnosticManager.
@@ -331,9 +331,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _tables.Insert(newDiagnosticIndex, null);
 
             /* Rebuild _visibleDiagnosticIndexes */
-
+            RebuildVisibleList(newDiagnosticIndex);
             
-
             RebuildVisibleTables();
 
             AsjustVisibilityOfTablePageButtons();
