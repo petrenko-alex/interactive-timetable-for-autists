@@ -330,51 +330,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Insert null table to _tables data set */
             _tables.Insert(newDiagnosticIndex, null);
 
+            /* Rebuild _visibleDiagnosticIndexes */
+
             
-            int firstVisibleDiagnosticIndex = _visibleDiagnosticIndexes[0];
-            int lastVisibleDiagnosticIndex = _visibleDiagnosticIndexes[MaxVisibleDiagnostics - 1];
-            if (newDiagnosticIndex < firstVisibleDiagnosticIndex)
-            {
-                /* 
-                 * If diagnostic was inserted to position before current visible diagnostics, 
-                 * increment indexes of current visible 
-                 */
-                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
-                {
-                    _visibleDiagnosticIndexes[i]++;
-                }
-            }
-            else if (newDiagnosticIndex >= firstVisibleDiagnosticIndex &&
-                     newDiagnosticIndex <= lastVisibleDiagnosticIndex)
-            {
-                /* If need to repaint tables to show table for new diagnostic */
 
-                /* Delete current visible tables from layout */
-                for (int i = MaxVisibleDiagnostics; i > 0; --i)
-                {
-                    var table = _layoutForTable.GetChildAt(i);
-                    _layoutForTable.RemoveView(table);
-                }
+            RebuildVisibleTables();
 
-                /* Set new tables */
-                for (int i = 0; i < MaxVisibleDiagnostics; ++i)
-                {
-                    /* If already has table for diagnostic */
-                    int index = _visibleDiagnosticIndexes[i];
-                    var table = _tables[index];
-                    if (table != null)
-                    {
-                        _layoutForTable.AddView(table, i + 1);
-                    }
-                    else
-                    {
-                        AddDiagnosticTable(index, i + 1);
-                    }
-                }
-
-                /* Enable next table page button */
-                _nextTablePageButton.Visibility = ViewStates.Visible;
-            }
+            AsjustVisibilityOfTablePageButtons();
         }
 
         #region Table Methods
@@ -693,6 +655,115 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             else if (grade == 4)
             {
                 column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
+            }
+        }
+
+        private void RebuildVisibleTables()
+        {
+            int amountOfVisible = _visibleDiagnosticIndexes.Count;
+
+            /* Delete current visible tables from layout */
+            for (int i = amountOfVisible; i > 0; --i)
+            {
+                var table = _layoutForTable.GetChildAt(i);
+                _layoutForTable.RemoveView(table);
+            }
+
+            /* Set new tables */
+            for (int i = 0; i < amountOfVisible; ++i)
+            {
+                /* If already has table for diagnostic */
+                int index = _visibleDiagnosticIndexes[i];
+                var table = _tables[index];
+                if (table != null)
+                {
+                    _layoutForTable.AddView(table, i + 1);
+                }
+                else
+                {
+                    AddDiagnosticTable(index, i + 1);
+                }
+            }
+        }
+
+        private void InsertOrReplaceInVisibleList(int position, int element)
+        {
+            var listSize = _visibleDiagnosticIndexes.Count;
+
+            if (position == listSize)
+            {
+                _visibleDiagnosticIndexes.Insert(position, element);
+            }
+            else
+            {
+                _visibleDiagnosticIndexes[position] = element;
+            }
+        }
+
+        private void RebuildVisibleList(int newDiagnosticIndex)
+        {
+            /* If insert in the middle */
+            if (newDiagnosticIndex > 0 &&
+                newDiagnosticIndex < (_diagnostics.Count - 1))
+            {
+                InsertOrReplaceInVisibleList(0, newDiagnosticIndex - 1);
+                InsertOrReplaceInVisibleList(1, newDiagnosticIndex);
+                InsertOrReplaceInVisibleList(2, newDiagnosticIndex + 1);
+            }
+            /* If insert as first */
+            else if (newDiagnosticIndex == 0)
+            {
+                InsertOrReplaceInVisibleList(0, newDiagnosticIndex);
+
+                int i = 1;
+                while (i < MaxVisibleDiagnostics &&
+                       i < _diagnostics.Count)
+                {
+                    InsertOrReplaceInVisibleList(i, i);
+                    i++;
+                }
+            }
+            /* If insert as last */
+            else if (newDiagnosticIndex == (_diagnostics.Count - 1))
+            {
+                if (_diagnostics.Count >= MaxVisibleDiagnostics)
+                {
+                    InsertOrReplaceInVisibleList(2, newDiagnosticIndex);
+                    InsertOrReplaceInVisibleList(1, newDiagnosticIndex - 1);
+                    InsertOrReplaceInVisibleList(0, newDiagnosticIndex - 2);
+                }
+                else if (_diagnostics.Count == MaxVisibleDiagnostics - 1)
+                {
+                    InsertOrReplaceInVisibleList(0, newDiagnosticIndex - 1);
+                    InsertOrReplaceInVisibleList(1, newDiagnosticIndex);
+                }
+            }
+        }
+
+        private void AsjustVisibilityOfTablePageButtons()
+        {
+            int visibleDiagnosticsAmount = _visibleDiagnosticIndexes.Count;
+            int firstVisible = _visibleDiagnosticIndexes[0];
+            int lastVisible = _visibleDiagnosticIndexes[visibleDiagnosticsAmount - 1];
+
+            /* Adjust visibility of previous page button */
+            if (firstVisible > 0)
+            {
+                _previousTablePageButton.Visibility = ViewStates.Visible;
+            }
+            else if (firstVisible == 0)
+            {
+                _previousTablePageButton.Visibility = ViewStates.Invisible;
+            }
+
+            /* Adjust visibility of next page button */
+            if (lastVisible < (_diagnostics.Count - 1))
+            {
+                _nextTablePageButton.Visibility = ViewStates.Visible;
+            }
+            else if (lastVisible == (_diagnostics.Count - 1))
+            {
+                _nextTablePageButton.Visibility = ViewStates.Invisible;
             }
         }
         #endregion
