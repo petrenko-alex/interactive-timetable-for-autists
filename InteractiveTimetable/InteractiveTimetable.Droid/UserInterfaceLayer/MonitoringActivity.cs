@@ -296,17 +296,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var diagnostic = InteractiveTimetable.Current.DiagnosticManager.
                                                   GetDiagnostic(diagnosticId);
 
-            /* Find place for new diagnostic */
-            int amountOfDiagnostics = _diagnostics.Count;
-            int newDiagnosticIndex = amountOfDiagnostics;
-            for (int i = 0; i < amountOfDiagnostics; ++i)
-            {
-                if (diagnostic.Date < _diagnostics[i].Date)
-                {
-                    newDiagnosticIndex = i;
-                    break;
-                }
-            }
+            int newDiagnosticIndex = FindPlaceForNewDiagnotic(diagnostic);
 
             /* Insert new diagnostic in _diagnostics data set */
             _diagnostics.Insert(newDiagnosticIndex, diagnostic);
@@ -827,6 +817,23 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 _nextTablePageButton.Visibility = ViewStates.Invisible;
             }
+        }
+
+        private int FindPlaceForNewDiagnotic(Diagnostic diagnostic)
+        {
+            int amountOfDiagnostics = _diagnostics.Count;
+            int newDiagnosticIndex = amountOfDiagnostics;
+
+            for (int i = 0; i < amountOfDiagnostics; ++i)
+            {
+                if (diagnostic.Date < _diagnostics[i].Date)
+                {
+                    newDiagnosticIndex = i;
+                    break;
+                }
+            }
+
+            return newDiagnosticIndex;
         }
         #endregion
     }
