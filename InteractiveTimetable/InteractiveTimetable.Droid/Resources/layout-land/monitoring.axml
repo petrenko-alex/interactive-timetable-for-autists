@@ -97,4 +97,38 @@
                 p1:id="@+id/table_layout" />
         </HorizontalScrollView>
     </ScrollView>
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/monitorin_info_layout"
+        p1:layout_below="@+id/monitoring_headers"
+        p1:visibility="gone"
+        p1:gravity="center">
+        <TextView
+            p1:text="@string/no_diagnostics_yet"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/textView1"
+            p1:textSize="30dp"
+            p1:layout_gravity="center" />
+        <TextView
+            p1:text="@string/add_first_diagnostic"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/textView2"
+            p1:textSize="25dp"
+            p1:layout_gravity="center" />
+        <ImageButton
+            p1:src="@drawable/plus_button"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/add_first_diagnostic_button"
+            p1:layout_gravity="center"
+            p1:background="@null" />
+    </LinearLayout>
 </RelativeLayout>

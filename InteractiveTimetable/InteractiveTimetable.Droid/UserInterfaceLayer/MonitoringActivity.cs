@@ -31,6 +31,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Widgets
         private LinearLayout _layoutForTable;
+        private LinearLayout _infoLayout;
         private ImageButton _backButton;
         private ImageButton _homeButton;
         private ImageButton _nextTablePageButton;
@@ -60,6 +61,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripInfo = FindViewById<TextView>(Resource.Id.monitoring_trip_info);
             var heading = FindViewById<TextView>(Resource.Id.monitoring_header);
             _layoutForTable = FindViewById<LinearLayout>(Resource.Id.table_layout);
+            _infoLayout = FindViewById<LinearLayout>(Resource.Id.monitorin_info_layout);
             _nextTablePageButton = FindViewById<ImageButton>(Resource.Id.next_table);
             _previousTablePageButton = FindViewById<ImageButton>(Resource.Id.previous_table);
             _addDiagnosticButton = FindViewById<ImageButton>(Resource.Id.add_diagnostic_button);
@@ -131,6 +133,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             else
             {
                 // TODO: Show info screen
+                _infoLayout.Visibility = ViewStates.Visible;
+                FindViewById<RelativeLayout>(Resource.Id.table_controls).Visibility = ViewStates.Gone;
+                FindViewById<ScrollView>(Resource.Id.table_vertical_scroll).Visibility = ViewStates.Gone;
             }
         }
 
