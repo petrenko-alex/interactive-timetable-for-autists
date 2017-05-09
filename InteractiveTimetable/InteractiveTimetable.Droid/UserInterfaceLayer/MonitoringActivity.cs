@@ -181,15 +181,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     }
                 }
 
-                /* Enable next button because one was hidden */
-                _nextTablePageButton.Visibility = ViewStates.Visible;
-
-                /* Disable previous button if no more diagnostics to show */
-                firstVisibleDiagnosticIndex = _visibleDiagnosticIndexes[0];
-                if (firstVisibleDiagnosticIndex == 0)
-                {
-                    _previousTablePageButton.Visibility = ViewStates.Invisible;
-                }
+                AsjustVisibilityOfTablePageButtons();
             }
         }
 
@@ -231,15 +223,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     }
                 }
 
-                /* Enable previous button because one was hidden */
-                _previousTablePageButton.Visibility = ViewStates.Visible;
-
-                /* Disable next button if no more diagnostics to show */
-                lastVisibleDiagnosticIndex = _visibleDiagnosticIndexes[MaxVisibleDiagnostics - 1];
-                if (lastVisibleDiagnosticIndex == _diagnostics.Count - 1)
-                {
-                    _nextTablePageButton.Visibility = ViewStates.Invisible;
-                }
+                AsjustVisibilityOfTablePageButtons();
             }
         }
 
