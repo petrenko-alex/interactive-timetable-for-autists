@@ -34,10 +34,12 @@
   <string name="delete_trip">Удаление путевки</string>
   <string name="delete_card">Удаление карточки</string>
   <string name="delete_placeholder">Удаление ячейки</string>
+  <string name="delete_diagnostic">Удаление диагностики</string>
   <string name="add_user_profile">Добавить профиль ребенка</string>
   <string name="sure_to_delete_user">Вы действительно хотите удалить профиль ребенка?</string>
   <string name="sure_to_delete_trip">Вы действительно хотите удалить выбранную путевку?</string>
   <string name="sure_to_delete_card">Вы действительно хотите удалить выбранную карточку?</string>
+  <string name="sure_to_delete_diagnostic">Вы действительно хотите удалить выбранную диагностику?</string>
   <string name="user_in_present_timetable">
     Выбранный профиль ребенка используется в текущем расписании. 
     Вы действительно хотите удалить его?

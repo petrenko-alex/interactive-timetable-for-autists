@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.Droid.ApplicationLayer;
+using AlertDialog = Android.App.AlertDialog;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
@@ -73,7 +74,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
             // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[0];
+            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[7];
             userId = debugUser.Id;
             tripId = debugUser.HospitalTrips[0].Id;
 
@@ -163,6 +164,68 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var dialog = DiagnosticDialogFragment.NewInstance(diagnosticId, _trip.Id);
             dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
+        }
+
+        private void OnDeleteDiagnosticButtonClicked(int diagnosticId)
+        {
+            using (var alert = new AlertDialog.Builder(this))
+            {
+                alert.SetTitle(GetString(Resource.String.delete_diagnostic));
+                alert.SetMessage(GetString(Resource.String.sure_to_delete_diagnostic));
+                alert.SetPositiveButton(GetString(Resource.String.delete_button), (sender1, args) =>
+                {
+                    DeleteDiagnostic(diagnosticId);
+                });
+                alert.SetNegativeButton(GetString(Resource.String.cancel_button), (sender1, args) => { });
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+            }
+        }
+
+        private void DeleteDiagnostic(int diagnosticId)
+        {
+            /* Get diagnostic by id */
+            var diagnostic = _diagnostics.First(x => x.Id == diagnosticId);
+            int index = _diagnostics.IndexOf(diagnostic);
+
+            /* Delete from database */
+            InteractiveTimetable.Current.DiagnosticManager.DeleteDiagnostic(diagnosticId);
+
+            /* Delete from data sets */
+            _diagnostics.RemoveAt(index);
+            _tables.RemoveAt(index);
+
+            /* Delete from layout */
+            var table = _layoutForTable.GetChildAt(index + 1);
+            _layoutForTable.RemoveView(table);
+
+            int visibleAmount = _visibleDiagnosticIndexes.Count;
+            int lastVisible = _visibleDiagnosticIndexes[visibleAmount - 1];
+            if (lastVisible == _diagnostics.Count)
+            {
+                /* Create new visible list */
+                _visibleDiagnosticIndexes.Clear();
+                for (int i = _diagnostics.Count - 1, j = 0; i >= 0; --i, ++j)
+                {
+                    if (j < MaxVisibleDiagnostics)
+                    {
+                        InsertOrReplaceInVisibleList(j, i);
+                    }
+                }
+
+                _visibleDiagnosticIndexes = _visibleDiagnosticIndexes.OrderBy(x => x).ToList();
+            }
+
+            if (_diagnostics.Count == 0)
+            {
+                // TODO: Show info layout 
+            }
+            else
+            {
+                RebuildVisibleTables();
+                AsjustVisibilityOfTablePageButtons();
+            }
         }
 
         private void OnPreviousTablePageButtonClicked(object sender, EventArgs e)
@@ -653,11 +716,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 _layoutForTable.AddView(table);
             }
-        }
-
-        private void OnDeleteDiagnosticButtonClicked(int diagnosticNumber)
-        {
-            Console.WriteLine($"Delete diagnostic number {diagnosticNumber}");
         }
 
         private TableLayout CreateTable(LinearLayout.LayoutParams layoutParams = null)
