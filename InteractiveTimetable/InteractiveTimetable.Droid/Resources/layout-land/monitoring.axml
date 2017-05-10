@@ -129,6 +129,7 @@
             p1:layout_height="wrap_content"
             p1:id="@+id/add_first_diagnostic_button"
             p1:layout_gravity="center"
-            p1:background="@null" />
+            p1:background="@null"
+            p1:layout_marginTop="30dp" />
     </LinearLayout>
 </RelativeLayout>
