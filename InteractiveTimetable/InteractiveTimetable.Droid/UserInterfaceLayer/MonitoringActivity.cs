@@ -103,6 +103,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 tripInfo.Visibility = ViewStates.Gone;
                 heading.Text = GetString(Resource.String.general_monitoring);
+                AdjustVisibilityOfConrolButtons();
             }
 
             if (userId > 0)
@@ -451,11 +452,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             if (_diagnostics.Count == 0)
             {
-                if (_trip == null)
-                {
-                    // TODO: Hide button and second string    
-                }
-
                 _infoLayout.Visibility = ViewStates.Visible;
                 _tableControlsLayout.Visibility = ViewStates.Gone;
                 _tableScrollView.Visibility = ViewStates.Gone;
@@ -967,6 +963,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
 
             return newDiagnosticIndex;
+        }
+
+        private void AdjustVisibilityOfConrolButtons()
+        {
+            if (_trip == null)
+            {
+                _addDiagnosticButton.Visibility = ViewStates.Gone;
+                _addFirstDiagnosticButton.Visibility = ViewStates.Gone;
+                FindViewById<TextView>(Resource.Id.textView2).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                _addDiagnosticButton.Visibility = ViewStates.Visible;
+                _addFirstDiagnosticButton.Visibility = ViewStates.Visible;
+                FindViewById<TextView>(Resource.Id.textView2).Visibility = ViewStates.Visible;
+            }
         }
         #endregion
     }
