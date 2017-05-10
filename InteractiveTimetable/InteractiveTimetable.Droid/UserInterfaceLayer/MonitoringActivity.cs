@@ -32,12 +32,15 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Widgets
         private LinearLayout _layoutForTable;
         private LinearLayout _infoLayout;
+        private RelativeLayout _tableControlsLayout;
+        private ScrollView _tableScrollView;
         private ImageButton _backButton;
         private ImageButton _homeButton;
         private ImageButton _nextTablePageButton;
         private ImageButton _previousTablePageButton;
         private ImageButton _addDiagnosticButton;
         private TableLayout _headerTable;
+        private ImageButton _addFirstDiagnosticButton;
         #endregion
 
         #region Internal Variables
@@ -65,11 +68,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _nextTablePageButton = FindViewById<ImageButton>(Resource.Id.next_table);
             _previousTablePageButton = FindViewById<ImageButton>(Resource.Id.previous_table);
             _addDiagnosticButton = FindViewById<ImageButton>(Resource.Id.add_diagnostic_button);
+            _tableControlsLayout = FindViewById<RelativeLayout>(Resource.Id.table_controls);
+            _tableScrollView = FindViewById<ScrollView>(Resource.Id.table_vertical_scroll);
+            _addFirstDiagnosticButton =
+                    FindViewById<ImageButton>(Resource.Id.add_first_diagnostic_button);
 
             /* Set handlers */
             _nextTablePageButton.Click += OnNextTablePageButtonClicked;
             _previousTablePageButton.Click += OnPreviousTablePageButtonClicked;
             _addDiagnosticButton.Click += OnAddDiagnosticButtonClicked;
+            _addFirstDiagnosticButton.Click += OnAddDiagnosticButtonClicked;
 
             /* Get data */
             var userId = Intent.GetIntExtra("user_id", 0);
@@ -132,10 +140,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             else
             {
-                // TODO: Show info screen
-                _infoLayout.Visibility = ViewStates.Visible;
-                FindViewById<RelativeLayout>(Resource.Id.table_controls).Visibility = ViewStates.Gone;
-                FindViewById<ScrollView>(Resource.Id.table_vertical_scroll).Visibility = ViewStates.Gone;
+                AdjustVisibilityOfNoDiagnosticsInfo();
             }
         }
 
@@ -224,7 +229,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             if (_diagnostics.Count == 0)
             {
-                // TODO: Show info layout 
+                AdjustVisibilityOfNoDiagnosticsInfo();
             }
             else
             {
@@ -375,6 +380,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnNewDiagnosticAdded(int diagnosticId)
         {
+            if (_diagnostics.Count == 0)
+            {
+                AddFirstDiagnostic();
+                return;
+            }
+
             /* Get just added diagnostic */
             var diagnostic = InteractiveTimetable.Current.DiagnosticManager.
                                                   GetDiagnostic(diagnosticId);
@@ -392,6 +403,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             
             RebuildVisibleTables();
 
+            AdjustVisibilityOfNoDiagnosticsInfo();
             AsjustVisibilityOfTablePageButtons();
         }
 
@@ -435,11 +447,45 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
+        private void AdjustVisibilityOfNoDiagnosticsInfo()
+        {
+            if (_diagnostics.Count == 0)
+            {
+                if (_trip == null)
+                {
+                    // TODO: Hide button and second string    
+                }
+
+                _infoLayout.Visibility = ViewStates.Visible;
+                _tableControlsLayout.Visibility = ViewStates.Gone;
+                _tableScrollView.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                _infoLayout.Visibility = ViewStates.Gone;
+                _tableControlsLayout.Visibility = ViewStates.Visible;
+                _tableScrollView.Visibility = ViewStates.Visible;
+            }
+        }
+
         #region Table Methods
+
+        private void AddFirstDiagnostic()
+        {
+            _trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(_trip.Id);
+            _diagnostics = _trip.Diagnostics.OrderBy(x => x.Date).ToList();
+            CreateTables();
+            AdjustVisibilityOfNoDiagnosticsInfo();
+        }
+
         private void CreateTables()
         {
-            /* Create header table */
-            AddHeaderTable();
+            /* If not created yet */
+            if (_layoutForTable.ChildCount == 0)
+            {
+                /* Create header table */
+                AddHeaderTable();
+            }
 
             /* First initialize with null's to fit _diagnostics size */
             int diagnosticsAmount = _diagnostics.Count;
