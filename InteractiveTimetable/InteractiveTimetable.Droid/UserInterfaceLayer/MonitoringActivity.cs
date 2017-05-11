@@ -14,7 +14,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
 {
-    [Activity(Label = "MonitoringActivity", MainLauncher = true)]
+    [Activity(Label = "MonitoringActivity", MainLauncher = false)]
     public class MonitoringActivity : 
         ActionBarActivity, 
         ViewTreeObserver.IOnGlobalLayoutListener,
