@@ -86,11 +86,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var userId = Intent.GetIntExtra("user_id", 0);
             var tripId = Intent.GetIntExtra("trip_id", 0);
 
-            // TODO: Delete after finish
-            var debugUser = InteractiveTimetable.Current.UserManager.GetUsers().ToList()[7];
-            userId = debugUser.Id;
-            tripId = debugUser.HospitalTrips[0].Id;
-
             /* Set data to views */
             if (tripId > 0)
             {
