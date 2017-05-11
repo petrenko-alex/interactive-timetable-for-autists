@@ -146,6 +146,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 AdjustVisibilityOfNoDiagnosticsInfo();
             }
+
+            AdjustVisibilityOfShowGraphButton();
         }
 
         private void OnShowGraphButtonClicked(object sender, EventArgs e)
@@ -265,6 +267,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 RebuildVisibleTables();
                 AsjustVisibilityOfTablePageButtons();
+                AdjustVisibilityOfShowGraphButton();
             }
         }
 
@@ -434,6 +437,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             AdjustVisibilityOfNoDiagnosticsInfo();
             AsjustVisibilityOfTablePageButtons();
+            AdjustVisibilityOfShowGraphButton();
         }
 
         public void OnDiagnosticEdited(int diagnosticId)
@@ -501,7 +505,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             CreateTables();
             AdjustVisibilityOfNoDiagnosticsInfo();
         }
-
+    
         private void CreateTables()
         {
             /* If not created yet */
@@ -1006,6 +1010,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _addDiagnosticButton.Visibility = ViewStates.Visible;
                 _addFirstDiagnosticButton.Visibility = ViewStates.Visible;
                 FindViewById<TextView>(Resource.Id.textView2).Visibility = ViewStates.Visible;
+            }
+        }
+
+        private void AdjustVisibilityOfShowGraphButton()
+        {
+            if(_diagnostics.Count > 1)
+            {
+                _showGraphButton.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                _showGraphButton.Visibility = ViewStates.Gone;
             }
         }
         #endregion
