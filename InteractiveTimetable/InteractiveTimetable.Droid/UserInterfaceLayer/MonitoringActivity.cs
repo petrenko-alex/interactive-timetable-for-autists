@@ -336,7 +336,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             _homeButton = toolbar.FindViewById<ImageButton>(Resource.Id.toolbar_home);
             _homeButton.Click += OnHomeButtonClicked;
-
         }
         
         private void OnHomeButtonClicked(object sender, EventArgs e)
