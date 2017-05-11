@@ -152,8 +152,6 @@
     <Compile Include="ApplicationLayer\CardListAdapter.cs" />
     <Compile Include="ApplicationLayer\CardViewHolder.cs" />
     <Compile Include="ApplicationLayer\DiagnosticDialogListener.cs" />
-    <Compile Include="ApplicationLayer\GraphAxisValueFormatter.cs" />
-    <Compile Include="ApplicationLayer\GraphValueFormatter.cs" />
     <Compile Include="ApplicationLayer\GridAutofitLayoutManager.cs" />
     <Compile Include="ApplicationLayer\LockableLinearLayoutManager.cs" />
     <Compile Include="ApplicationLayer\LockableScrollView.cs" />

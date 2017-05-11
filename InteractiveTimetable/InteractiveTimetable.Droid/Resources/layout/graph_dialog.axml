@@ -15,5 +15,6 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/close_graph_button"
         p1:layout_gravity="center"
-        p1:layout_marginTop="50dp" />
+        p1:layout_marginTop="50dp"
+        p1:layout_marginBottom="30dp" />
 </LinearLayout>
