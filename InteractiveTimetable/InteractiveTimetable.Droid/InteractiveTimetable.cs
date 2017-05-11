@@ -66,30 +66,30 @@ namespace InteractiveTimetable.Droid
             DiagnosticManager = new DiagnosticManager(_connection);
 
             // TODO: Delete InitializeForDebugging methods
-            if (UserManager.UserCount == 0)
-            {
-                UserManager.InitializeForDebugging(AppFolder);
-            }
+            //if (UserManager.UserCount == 0)
+            //{
+            //    UserManager.InitializeForDebugging(AppFolder);
+            //}
 
-            if (HospitalTripManager.TripCount == 0)
-            {
-                HospitalTripManager.InitializeForDebugging(UserManager);
-            }
+            //if (HospitalTripManager.TripCount == 0)
+            //{
+            //    HospitalTripManager.InitializeForDebugging(UserManager);
+            //}
 
-            if (ScheduleManager.Cards.CardCount == 0)
-            {
-                ScheduleManager.Cards.InitializeForDebugging(AppFolder);
-            }
+            //if (ScheduleManager.Cards.CardCount == 0)
+            //{
+            //    ScheduleManager.Cards.InitializeForDebugging(AppFolder);
+            //}
 
-            if (ScheduleManager.ScheduleCount == 0)
-            {
-                ScheduleManager.InitializeForDebugging(UserManager);
-            }
+            //if (ScheduleManager.ScheduleCount == 0)
+            //{
+            //    ScheduleManager.InitializeForDebugging(UserManager);
+            //}
 
-            if (DiagnosticManager.DiagnosticCount == 0)
-            {
-                DiagnosticManager.InitializeForDebugging(UserManager, HospitalTripManager);
-            }
+            //if (DiagnosticManager.DiagnosticCount == 0)
+            //{
+            //    DiagnosticManager.InitializeForDebugging(UserManager, HospitalTripManager);
+            //}
         }
 
         private void CreateDirectoryForPictures()
