@@ -65,11 +65,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         protected override void OnDestroy()
         {
-            _userListFragment.AddUserButtonClicked -= OnAddUserButtonClicked;
-            _userListFragment.ListItemClicked -= OnUserListItemClicked;
-            _userListFragment.NoMoreUsersInList -= OnNoMoreUsersInList;
-            _userDetailsFragment.EditButtonClicked -= OnEditUserButtonClicked;
-            _userDetailsFragment.GeneralMonitoringButtonClicked -= OnGeneralMonitoringButtonClicked;
+            if (_userListFragment != null)
+            {
+                _userListFragment.AddUserButtonClicked -= OnAddUserButtonClicked;
+                _userListFragment.ListItemClicked -= OnUserListItemClicked;
+                _userListFragment.NoMoreUsersInList -= OnNoMoreUsersInList;
+            }
+
+            if (_userDetailsFragment != null)
+            {
+                _userDetailsFragment.EditButtonClicked-= OnEditUserButtonClicked;
+                _userDetailsFragment.GeneralMonitoringButtonClicked -= OnGeneralMonitoringButtonClicked;
+            }
 
             base.OnDestroy();
         }
