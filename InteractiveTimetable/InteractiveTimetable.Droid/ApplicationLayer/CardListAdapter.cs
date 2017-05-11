@@ -28,14 +28,16 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
         #region Internal Variables
         private Activity _context;
+        private int _cardTypeId;
         #endregion
 
         #region Methods
 
         #region Construct Methods
-        public CardListAdapter(Activity context, IList<Card> cards)
+        public CardListAdapter(Activity context, IList<Card> cards, int cardTypeId)
         {
             _context = context;
+            _cardTypeId = cardTypeId;
             Cards = cards;
         }
         #endregion
@@ -114,12 +116,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             /* Add button clicked */
             if (cardId <= 0)
             {
-                /* 
-                 * Pick any card from data set because we only need card type 
-                 * and it's the same for all card in data set 
-                 */
-                var card = Cards[0];
-                AddCardButtonClicked?.Invoke(card.CardTypeId);
+                AddCardButtonClicked?.Invoke(_cardTypeId);
             }
             /* Card clicked */
             else
