@@ -100,9 +100,19 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return GetNumberGrades(diagnosticId).Sum();
         }
 
+        public int GetTotalSum(Diagnostic diagnostic)
+        {
+            return GetNumberGrades(diagnostic).Sum();
+        }
+
         public int GetPartialSum(int diagnosticId, int grade)
         {
             return GetNumberGrades(diagnosticId).Where(x => x == grade).Sum();
+        }
+
+        public int GetPartialSum(Diagnostic diagnostic, int grade)
+        {
+            return GetNumberGrades(diagnostic).Where(x => x == grade).Sum();
         }
 
         public IEnumerable<string> GetCriterions()
@@ -128,6 +138,21 @@ namespace InteractiveTimetable.BusinessLayer.Managers
         {
             /* Getting all diagnostic grades as objects */
             var grades = GetDiagnostic(diagnosticId).CriterionGrades;
+
+            /* Getting grades that have point grade type as objects */
+            var pointGrades = grades.Where(
+                x => _repository.Grades.CriterionDefinitions.
+                                          IsPointGradeTypeCriterion(
+                                              x.CriterionDefinitionId));
+
+            /* Getting grades as numbers */
+            return pointGrades.Select(x => Convert.ToInt32(x.Grade));
+        }
+
+        private IEnumerable<int> GetNumberGrades(Diagnostic diagnostic)
+        {
+            /* Getting all diagnostic grades as objects */
+            var grades = diagnostic.CriterionGrades;
 
             /* Getting grades that have point grade type as objects */
             var pointGrades = grades.Where(
