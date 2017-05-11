@@ -12,4 +12,5 @@
   <item name="grade_2" type="color">#FFC000</item>
   <item name="grade_3" type="color">#8EAADB</item>
   <item name="grade_4" type="color">#A8D08D</item>
+  <item name="theme_accent_color" type="color">#FF4081</item>
 </resources>

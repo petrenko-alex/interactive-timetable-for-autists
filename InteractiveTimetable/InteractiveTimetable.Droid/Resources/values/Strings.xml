@@ -126,4 +126,6 @@
   <string name="management">Управление</string>
   <string name="no_diagnostics_yet">Диагностики еще не проводились.</string>
   <string name="add_first_diagnostic">Добавьте первую диагностику.</string>
+  <string name="close_button">Закрыть</string>
+  <string name="graph_title">График динамики развития ребенка</string>
 </resources>

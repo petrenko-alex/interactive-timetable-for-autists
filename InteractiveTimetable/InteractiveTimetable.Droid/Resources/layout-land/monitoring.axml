@@ -68,6 +68,15 @@
             p1:id="@+id/add_diagnostic_button"
             p1:background="@null"
             p1:layout_centerInParent="true" />
+        <ImageButton
+            p1:src="@drawable/graph_button"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/show_graph_button"
+            p1:layout_centerInParent="true"
+            p1:layout_toRightOf="@+id/add_diagnostic_button"
+            p1:background="@null"
+            p1:layout_marginLeft="50dp" />
     </RelativeLayout>
     <ScrollView
         p1:minWidth="25px"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
+    p1:layout_width="wrap_content"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/graph_dialog_layout">
+    <com.github.mikephil.charting.charts.LineChart
+        p1:layout_width="1200dp"
+        p1:layout_height="700dp"
+        p1:id="@+id/graph"
+        p1:layout_gravity="center" />
+    <Button
+        p1:text="@string/close_button"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/close_graph_button"
+        p1:layout_gravity="center"
+        p1:layout_marginTop="50dp" />
+</LinearLayout>

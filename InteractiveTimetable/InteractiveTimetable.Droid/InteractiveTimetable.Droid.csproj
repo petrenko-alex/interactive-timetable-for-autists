@@ -59,6 +59,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="MPAndroidChart, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MPAndroidChart.3.0.2\lib\MonoAndroid\MPAndroidChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -148,6 +152,8 @@
     <Compile Include="ApplicationLayer\CardListAdapter.cs" />
     <Compile Include="ApplicationLayer\CardViewHolder.cs" />
     <Compile Include="ApplicationLayer\DiagnosticDialogListener.cs" />
+    <Compile Include="ApplicationLayer\GraphAxisValueFormatter.cs" />
+    <Compile Include="ApplicationLayer\GraphValueFormatter.cs" />
     <Compile Include="ApplicationLayer\GridAutofitLayoutManager.cs" />
     <Compile Include="ApplicationLayer\LockableLinearLayoutManager.cs" />
     <Compile Include="ApplicationLayer\LockableScrollView.cs" />
@@ -169,6 +175,7 @@
     <Compile Include="UserInterfaceLayer\CreateTimetableActivity.cs" />
     <Compile Include="UserInterfaceLayer\DatePickerFragment.cs" />
     <Compile Include="UserInterfaceLayer\DiagnosticDialogFragment.cs" />
+    <Compile Include="UserInterfaceLayer\GraphDialogFragment.cs" />
     <Compile Include="UserInterfaceLayer\HomeScreenActivity.cs" />
     <Compile Include="UserInterfaceLayer\HospitalTripListFragment.cs" />
     <Compile Include="UserInterfaceLayer\InfoFragment.cs" />
@@ -300,6 +307,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\management_column.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\graph_dialog.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -461,6 +471,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\delete_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\graph_button.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

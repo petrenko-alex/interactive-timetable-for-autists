@@ -41,6 +41,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private ImageButton _addDiagnosticButton;
         private TableLayout _headerTable;
         private ImageButton _addFirstDiagnosticButton;
+        private ImageButton _showGraphButton;
         #endregion
 
         #region Internal Variables
@@ -70,6 +71,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _addDiagnosticButton = FindViewById<ImageButton>(Resource.Id.add_diagnostic_button);
             _tableControlsLayout = FindViewById<RelativeLayout>(Resource.Id.table_controls);
             _tableScrollView = FindViewById<ScrollView>(Resource.Id.table_vertical_scroll);
+            _showGraphButton = FindViewById<ImageButton>(Resource.Id.show_graph_button);
             _addFirstDiagnosticButton =
                     FindViewById<ImageButton>(Resource.Id.add_first_diagnostic_button);
 
@@ -78,6 +80,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _previousTablePageButton.Click += OnPreviousTablePageButtonClicked;
             _addDiagnosticButton.Click += OnAddDiagnosticButtonClicked;
             _addFirstDiagnosticButton.Click += OnAddDiagnosticButtonClicked;
+            _showGraphButton.Click += OnShowGraphButtonClicked;
 
             /* Get data */
             var userId = Intent.GetIntExtra("user_id", 0);
@@ -143,6 +146,32 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 AdjustVisibilityOfNoDiagnosticsInfo();
             }
+        }
+
+        private void OnShowGraphButtonClicked(object sender, EventArgs e)
+        {
+            var transaction = FragmentManager.BeginTransaction();
+            var previousFragment = FragmentManager.
+                    FindFragmentByTag(DiagnosticDialogFragment.FragmentTag);
+
+            if (previousFragment != null)
+            {
+                transaction.Remove(previousFragment);
+            }
+            transaction.AddToBackStack(null);
+
+            /* Prepare data for graph */
+            var results = new List<int>();
+            foreach (var diagnostic in _diagnostics)
+            {
+                var sum = InteractiveTimetable.Current.DiagnosticManager.GetTotalSum(diagnostic);
+                results.Add(sum);
+            }
+            var dates = _diagnostics.Select(x => x.Date).ToList();
+
+            /* Create and show graph dialog */
+            var dialog = GraphDialogFragment.NewInstance(results, dates);
+            dialog.Show(transaction, GraphDialogFragment.FragmentTag);
         }
 
         private void OnAddDiagnosticButtonClicked(object sender, EventArgs e)
