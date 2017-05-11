@@ -225,7 +225,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _activityCards.SetLayoutManager(_activityCardsLayoutManager);
             
             /* Set up the adapter for activity cards recycler view */
-            _activityCardsAdapter = new CardListAdapter(this, cards);
+            int cardTypeId = InteractiveTimetable.Current.ScheduleManager.Cards.CardTypes.
+                                                  GetActivityCardType().
+                                                  Id;
+            _activityCardsAdapter = new CardListAdapter(this, cards, cardTypeId);
             _activityCardsAdapter.CardSelected += OnActivityCardClicked;
             _activityCardsAdapter.RequestToDeleteCard += OnRequestToDeleteCard;
             _activityCardsAdapter.AddCardButtonClicked += OnAddCardButtonClicked;
@@ -249,7 +252,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _goalCards.SetLayoutManager(_goalCardsLayoutManager);
 
             /* Set up the adapter for goal cards recycler view */
-            _goalCardsAdapter = new CardListAdapter(this, cards);
+            int cardTypeId = InteractiveTimetable.Current.ScheduleManager.Cards.CardTypes.
+                                                  GetMotivationGoalCardType().
+                                                  Id;
+            _goalCardsAdapter = new CardListAdapter(this, cards, cardTypeId);
             _goalCardsAdapter.CardSelected += OnGoalCardClicked;
             _goalCardsAdapter.RequestToDeleteCard += OnRequestToDeleteCard;
             _goalCardsAdapter.AddCardButtonClicked += OnAddCardButtonClicked;
