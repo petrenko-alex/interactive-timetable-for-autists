@@ -55,14 +55,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnDateSet(DatePicker view, int year, int month, int day)
         {
-            var selectedDate = new DateTime(year, month + 1, day);
-            _dateSelectedHandler(selectedDate);
-        }
-
-        public override void OnCancel(IDialogInterface dialog)
-        {
-            base.OnCancel(dialog);
-            _dateSelectedHandler(_currentDate);
+            if (view.IsShown)
+            {
+                var selectedDate = new DateTime(year, month + 1, day);
+                _dateSelectedHandler(selectedDate);
+            }   
         }
         #endregion
 
