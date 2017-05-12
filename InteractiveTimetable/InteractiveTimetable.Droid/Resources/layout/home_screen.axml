@@ -44,7 +44,7 @@
         <FrameLayout
             p1:minWidth="25px"
             p1:minHeight="25px"
-            p1:id="@+id/timetable_part_frame"
+            p1:id="@+id/timetable_part_button"
             p1:background="@drawable/grey_frame_round10">
             <LinearLayout
                 p1:orientation="vertical"
@@ -73,7 +73,7 @@
         <FrameLayout
             p1:minWidth="25px"
             p1:minHeight="25px"
-            p1:id="@+id/management_part_frame"
+            p1:id="@+id/management_part_button"
             p1:background="@drawable/grey_frame_round10"
             p1:layout_marginLeft="100dp">
             <LinearLayout

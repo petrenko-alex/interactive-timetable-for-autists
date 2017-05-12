@@ -39,7 +39,7 @@
                 p1:layout_width="140dp"
                 p1:layout_height="140dp"
                 p1:id="@+id/new_tape_goal"
-                p1:background="@drawable/redcustom_toast"
+                p1:background="@drawable/goal_card_frame"
                 p1:layout_marginLeft="10dp"
                 p1:layout_marginBottom="20dp" />
             <ImageButton
