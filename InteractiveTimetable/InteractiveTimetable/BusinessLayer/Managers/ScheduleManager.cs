@@ -86,6 +86,32 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             return savedId;
         }
 
+        public int SaveSchedule(int userId, DateTime createTime, List<int> cardIds)
+        {
+            /* Data validation */
+            Validate(cardIds);
+
+            /* Creating schedule item objects */
+            var scheduleItems = CreateScheduleItems(cardIds).ToList();
+
+            /* Creating a schedule object */
+            var schedule = new Schedule()
+            {
+                UserId = userId,
+                ScheduleItems = scheduleItems,
+                CreateTime = createTime
+            };
+
+            int savedId = _repository.SaveSchedule(schedule);
+
+            if (savedId > 0)
+            {
+                ScheduleCount++;
+            }
+
+            return savedId;
+        }
+
         public int UpdateSchedule(int scheduleId, List<int> cardIds)
         {
             var schedule = GetSchedule(scheduleId);
