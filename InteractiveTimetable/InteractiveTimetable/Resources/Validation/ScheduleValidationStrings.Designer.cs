@@ -62,7 +62,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Card with id: &quot;{0}&quot; doesn&apos;t exist..
+        ///   Ищет локализованную строку, похожую на Карточка с id: &quot;{0}&quot; не существует..
         /// </summary>
         internal static string CardNotExist {
             get {
@@ -71,7 +71,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Card ids are not set..
+        ///   Ищет локализованную строку, похожую на Карточки не заданы..
         /// </summary>
         internal static string CardsAreNotSet {
             get {
@@ -80,7 +80,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Multiple motivation goal cards are not allowed..
+        ///   Ищет локализованную строку, похожую на Невозможно добавить несколько карточек мотивационной цели..
         /// </summary>
         internal static string MultipleGoalCards {
             get {
@@ -89,7 +89,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Activity card is not set in timetable. At least one activity card must be set..
+        ///   Ищет локализованную строку, похожую на Карточки видов деятельности не выбраны. Хотя бы одна карточка вида деятельности должна присутствовать в расписании..
         /// </summary>
         internal static string NoActivityCard {
             get {
@@ -98,7 +98,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Motivation goal card is not set in timetable. You need to set one motivation goal card..
+        ///   Ищет локализованную строку, похожую на Карточка мотивационной цели не выбрана. Необходимо добавить карточку мотивационной цели..
         /// </summary>
         internal static string NoGoalCard {
             get {

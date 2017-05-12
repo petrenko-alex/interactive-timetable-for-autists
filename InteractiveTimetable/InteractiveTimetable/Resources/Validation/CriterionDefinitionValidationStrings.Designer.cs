@@ -62,7 +62,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Not valid definition..
+        ///   Ищет локализованную строку, похожую на Некорректное значение критерия..
         /// </summary>
         internal static string NotValidDefinition {
             get {
@@ -71,7 +71,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Not valid number..
+        ///   Ищет локализованную строку, похожую на Некорректный номер критерия..
         /// </summary>
         internal static string NotValidNumber {
             get {

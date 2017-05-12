@@ -62,7 +62,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Card is not set..
+        ///   Ищет локализованную строку, похожую на Аргумент Card не задан..
         /// </summary>
         internal static string ArgumentIsNull {
             get {
@@ -71,7 +71,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The length of the path to the card&apos;s photo must be less than 1024 symbols..
+        ///   Ищет локализованную строку, похожую на Длина пути к фотографии карточки не должна превышать 1024 символов..
         /// </summary>
         internal static string PhotoPathLength {
             get {

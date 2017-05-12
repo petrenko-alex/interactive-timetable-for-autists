@@ -62,7 +62,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Schedule item is not set..
+        ///   Ищет локализованную строку, похожую на Аргумент ScheduleItem не задан..
         /// </summary>
         internal static string ArgumentIsNull {
             get {
@@ -71,7 +71,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Order number can&apos;t be less or equal to 0..
+        ///   Ищет локализованную строку, похожую на Порядковый номер не может быть меньше, либо равен 0..
         /// </summary>
         internal static string NotCorrectOrderNumber {
             get {

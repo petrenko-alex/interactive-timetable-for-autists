@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentIsNull" xml:space="preserve">
-    <value>Card is not set.</value>
+    <value>Аргумент Card не задан.</value>
   </data>
   <data name="PhotoPathLength" xml:space="preserve">
-    <value>The length of the path to the card's photo must be less than 1024 symbols.</value>
+    <value>Длина пути к фотографии карточки не должна превышать 1024 символов.</value>
   </data>
 </root>

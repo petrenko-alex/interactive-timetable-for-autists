@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentIsNull" xml:space="preserve">
-    <value>Grade is not set.</value>
+    <value>Аргумент Grade не задан.</value>
   </data>
   <data name="NotValidCriterion" xml:space="preserve">
-    <value>Not valid CriterionDefinitionId.</value>
+    <value>Некорректное значение CriterionDefinitionId.</value>
   </data>
   <data name="NotValidGrade" xml:space="preserve">
-    <value>Not valid grade.</value>
+    <value>Некорректное значение оценки.</value>
   </data>
 </root>

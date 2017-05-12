@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CardNotExist" xml:space="preserve">
-    <value>Card with id: "{0}" doesn't exist.</value>
+    <value>Карточка с id: "{0}" не существует.</value>
   </data>
   <data name="CardsAreNotSet" xml:space="preserve">
-    <value>Card ids are not set.</value>
+    <value>Карточки не заданы.</value>
   </data>
   <data name="MultipleGoalCards" xml:space="preserve">
-    <value>Multiple motivation goal cards are not allowed.</value>
+    <value>Невозможно добавить несколько карточек мотивационной цели.</value>
   </data>
   <data name="NoActivityCard" xml:space="preserve">
-    <value>Activity card is not set in timetable. At least one activity card must be set.</value>
+    <value>Карточки видов деятельности не выбраны. Хотя бы одна карточка вида деятельности должна присутствовать в расписании.</value>
   </data>
   <data name="NoGoalCard" xml:space="preserve">
-    <value>Motivation goal card is not set in timetable. You need to set one motivation goal card.</value>
+    <value>Карточка мотивационной цели не выбрана. Необходимо добавить карточку мотивационной цели.</value>
   </data>
 </root>

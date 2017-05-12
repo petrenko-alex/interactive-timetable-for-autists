@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CriterionsAreNotPresent" xml:space="preserve">
-    <value>Criterions and grades are not present.</value>
+    <value>Критерии и оценки не заданы.</value>
   </data>
   <data name="DiagnosticDateOutOfTrip" xml:space="preserve">
-    <value>Diagnostic date can not be outside of the current hospital trip time bounds.</value>
+    <value>Дата проведения диагностики не может быть за пределами текущей путевки.</value>
   </data>
   <data name="NotAllCriterionsPresent" xml:space="preserve">
-    <value>Not all criterions and grades are present.</value>
+    <value>Не все критерии и оценки заданы.</value>
   </data>
 </root>

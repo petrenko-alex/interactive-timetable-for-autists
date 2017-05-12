@@ -62,7 +62,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Grade is not set..
+        ///   Ищет локализованную строку, похожую на Аргумент Grade не задан..
         /// </summary>
         internal static string ArgumentIsNull {
             get {
@@ -71,7 +71,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Not valid CriterionDefinitionId..
+        ///   Ищет локализованную строку, похожую на Некорректное значение CriterionDefinitionId..
         /// </summary>
         internal static string NotValidCriterion {
             get {
@@ -80,7 +80,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Not valid grade..
+        ///   Ищет локализованную строку, похожую на Некорректное значение оценки..
         /// </summary>
         internal static string NotValidGrade {
             get {

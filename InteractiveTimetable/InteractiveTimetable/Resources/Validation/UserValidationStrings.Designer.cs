@@ -62,7 +62,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на User is not set..
+        ///   Ищет локализованную строку, похожую на Аргумент User не задан..
         /// </summary>
         internal static string ArgumentIsNull {
             get {
@@ -71,7 +71,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The user birth date can not be later than his hospital trips..
+        ///   Ищет локализованную строку, похожую на Дата рождения ребенка не может быть позже даты его путевки..
         /// </summary>
         internal static string BirthDateLaterThanTrip {
             get {
@@ -80,7 +80,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на First name is not set..
+        ///   Ищет локализованную строку, похожую на Имя не задано..
         /// </summary>
         internal static string FirstNameIsNotSet {
             get {
@@ -89,7 +89,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The length of a user first name must be less than 255 symbols..
+        ///   Ищет локализованную строку, похожую на Длина имени не должна превышать 255 символов..
         /// </summary>
         internal static string FirstNameLength {
             get {
@@ -98,7 +98,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Last name is not set..
+        ///   Ищет локализованную строку, похожую на Фамилия не задана..
         /// </summary>
         internal static string LastNameIsNotSet {
             get {
@@ -107,7 +107,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The length of a user last name must be less than 255 symbols..
+        ///   Ищет локализованную строку, похожую на Длина фамилии не должна превышать 255 символов..
         /// </summary>
         internal static string LastNameLength {
             get {
@@ -116,7 +116,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The birth date is set not correctly..
+        ///   Ищет локализованную строку, похожую на Дата рождения задана некорректно..
         /// </summary>
         internal static string NotCorrectBirthDate {
             get {
@@ -125,7 +125,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Patronymic name is not set..
+        ///   Ищет локализованную строку, похожую на Отчество не задано..
         /// </summary>
         internal static string PatronymicNameIsNotSet {
             get {
@@ -134,7 +134,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The length of a user patronymic name must be less than 255 symbols..
+        ///   Ищет локализованную строку, похожую на Длина отчества не должна превышать 255 символов..
         /// </summary>
         internal static string PatronymicNameLength {
             get {
@@ -143,7 +143,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Photo is not set..
+        ///   Ищет локализованную строку, похожую на Фотография не выбрана..
         /// </summary>
         internal static string PhotoPathIsNotSet {
             get {
@@ -152,7 +152,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на The length of the path to the user photo must be less than 1024 symbols..
+        ///   Ищет локализованную строку, похожую на Длина пути к фотографии пользователя не должна превышать 1024 символов..
         /// </summary>
         internal static string PhotoPathLength {
             get {

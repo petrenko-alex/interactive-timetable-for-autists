@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentIsNull" xml:space="preserve">
-    <value>Hospital Trip is not set.</value>
+    <value>Аргумент HospitalTrip не задан.</value>
   </data>
   <data name="DiagnosticOutOfTrip" xml:space="preserve">
-    <value>Not correct hospital trip dates. There is a diagnostic that was done on {0}. So changing hospital trip dates this way will make the diagnostic to be out of hospital trip.</value>
+    <value>Выбранный диапазон дат недопустим, т.к. существует диагностика, проведенная {0}.</value>
   </data>
   <data name="StartDateLaterThanFinishDate" xml:space="preserve">
-    <value>The start date of a hospital trip can't be later or equal than the finish date.</value>
+    <value>Дата окончания путевки должна быть позже даты начала путевки.</value>
   </data>
   <data name="TripInsideAnotherTrip" xml:space="preserve">
-    <value>Date period is already occupied by another trip.</value>
+    <value>В пределах заданных дат уже есть путевка.</value>
   </data>
   <data name="TripInThePast" xml:space="preserve">
-    <value>Trip in the past is not allowed.</value>
+    <value>Невозможно создать путевку в прошлом.</value>
   </data>
   <data name="UserIsNotSet" xml:space="preserve">
-    <value>User id is not set.</value>
+    <value>Аргумент UserId не задан.</value>
   </data>
 </root>

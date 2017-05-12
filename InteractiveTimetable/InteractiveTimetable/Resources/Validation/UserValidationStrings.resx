@@ -118,36 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentIsNull" xml:space="preserve">
-    <value>User is not set.</value>
+    <value>Аргумент User не задан.</value>
   </data>
   <data name="BirthDateLaterThanTrip" xml:space="preserve">
-    <value>The user birth date can not be later than his hospital trips.</value>
+    <value>Дата рождения ребенка не может быть позже даты его путевки.</value>
   </data>
   <data name="FirstNameIsNotSet" xml:space="preserve">
-    <value>First name is not set.</value>
+    <value>Имя не задано.</value>
   </data>
   <data name="FirstNameLength" xml:space="preserve">
-    <value>The length of a user first name must be less than 255 symbols.</value>
+    <value>Длина имени не должна превышать 255 символов.</value>
   </data>
   <data name="LastNameIsNotSet" xml:space="preserve">
-    <value>Last name is not set.</value>
+    <value>Фамилия не задана.</value>
   </data>
   <data name="LastNameLength" xml:space="preserve">
-    <value>The length of a user last name must be less than 255 symbols.</value>
+    <value>Длина фамилии не должна превышать 255 символов.</value>
   </data>
   <data name="NotCorrectBirthDate" xml:space="preserve">
-    <value>The birth date is set not correctly.</value>
+    <value>Дата рождения задана некорректно.</value>
   </data>
   <data name="PatronymicNameIsNotSet" xml:space="preserve">
-    <value>Patronymic name is not set.</value>
+    <value>Отчество не задано.</value>
   </data>
   <data name="PatronymicNameLength" xml:space="preserve">
-    <value>The length of a user patronymic name must be less than 255 symbols.</value>
+    <value>Длина отчества не должна превышать 255 символов.</value>
   </data>
   <data name="PhotoPathIsNotSet" xml:space="preserve">
-    <value>Photo is not set.</value>
+    <value>Фотография не выбрана.</value>
   </data>
   <data name="PhotoPathLength" xml:space="preserve">
-    <value>The length of the path to the user photo must be less than 1024 symbols.</value>
+    <value>Длина пути к фотографии пользователя не должна превышать 1024 символов.</value>
   </data>
 </root>

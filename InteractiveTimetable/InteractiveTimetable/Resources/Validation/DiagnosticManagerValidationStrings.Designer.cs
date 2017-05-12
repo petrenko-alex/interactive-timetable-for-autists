@@ -62,7 +62,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Criterions and grades are not present..
+        ///   Ищет локализованную строку, похожую на Критерии и оценки не заданы..
         /// </summary>
         internal static string CriterionsAreNotPresent {
             get {
@@ -71,7 +71,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Diagnostic date can not be outside of the current hospital trip time bounds..
+        ///   Ищет локализованную строку, похожую на Дата проведения диагностики не может быть за пределами текущей путевки..
         /// </summary>
         internal static string DiagnosticDateOutOfTrip {
             get {
@@ -80,7 +80,7 @@ namespace InteractiveTimetable.Resources.Validation {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Not all criterions and grades are present..
+        ///   Ищет локализованную строку, похожую на Не все критерии и оценки заданы..
         /// </summary>
         internal static string NotAllCriterionsPresent {
             get {

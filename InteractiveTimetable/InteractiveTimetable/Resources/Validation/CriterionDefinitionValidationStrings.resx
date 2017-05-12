@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NotValidDefinition" xml:space="preserve">
-    <value>Not valid definition.</value>
+    <value>Некорректное значение критерия.</value>
   </data>
   <data name="NotValidNumber" xml:space="preserve">
-    <value>Not valid number.</value>
+    <value>Некорректный номер критерия.</value>
   </data>
 </root>
