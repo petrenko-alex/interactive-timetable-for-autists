@@ -23,8 +23,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly string TimeFormat = "H:mm";
         private static readonly int MinGrade = 1;
         private static readonly int MaxGrade = 4;
-        private static readonly int ErrorMessageXOffset = 0;
-        private static readonly int ErrorMessageYOffset = 0;
         #endregion
 
         #region Widgets
@@ -258,8 +256,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
                 toast.SetGravity(
                     GravityFlags.ClipVertical,
-                    ErrorMessageXOffset,
-                    ErrorMessageYOffset
+                    0,
+                    0
                 );
                 toast.Show();
                 return;

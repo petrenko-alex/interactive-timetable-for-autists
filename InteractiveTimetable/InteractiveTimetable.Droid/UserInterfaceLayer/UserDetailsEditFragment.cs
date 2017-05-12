@@ -19,8 +19,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly string UserIdKey = "current_user_id";
         private static readonly int RequestCamera = 0;
         private static readonly int SelectFile = 1;
-        private static readonly int ErrorMessageXOffset = 450;
-        private static readonly int ErrorMessageYOffset = -300;
         private static readonly int UserImageSizeDp = 300;
         #endregion
 
@@ -209,8 +207,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     );
                     toast.SetGravity(
                         GravityFlags.ClipVertical,
-                        ErrorMessageXOffset,
-                        ErrorMessageYOffset
+                        0,
+                        0
                     );
                     toast.Show();
                     return;
@@ -225,8 +223,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     );
                     toast.SetGravity(
                         GravityFlags.ClipVertical,
-                        ErrorMessageXOffset,
-                        ErrorMessageYOffset
+                        0,
+                        0
                     );
                     toast.Show();
                     return;
@@ -281,8 +279,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
                 toast.SetGravity(
                     GravityFlags.ClipVertical,
-                    ErrorMessageXOffset,
-                    ErrorMessageYOffset
+                    0,
+                    0
                 );
                 toast.Show();
                 return;

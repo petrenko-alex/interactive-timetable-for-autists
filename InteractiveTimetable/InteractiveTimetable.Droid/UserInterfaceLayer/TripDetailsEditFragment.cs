@@ -16,8 +16,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly string HospitalTripIdKey = "current_trip_id";
         private static readonly string DateFormat = "dd.MM.yyyy";
         private static readonly string TimeFormat = "H:mm";
-        private static readonly int ErrorMessageXOffset = 280;
-        private static readonly int ErrorMessageYOffset = 60;
         #endregion
 
         #region Widgets
@@ -306,8 +304,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var toast = ToastHelper.GetErrorToast(Activity, exception.Message);
                 toast.SetGravity(
                     GravityFlags.ClipVertical,
-                    ErrorMessageXOffset,
-                    ErrorMessageYOffset
+                    0,
+                    0
                 );
                 toast.Show();
 

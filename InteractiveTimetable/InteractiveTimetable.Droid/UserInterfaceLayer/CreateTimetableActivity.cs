@@ -26,8 +26,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private static readonly int ActivityCardViaFile = 1;
         private static readonly int GoalCardViaCamera = 2;
         private static readonly int GoalCardViaFile = 3;
-        private static readonly int ErrorMessageXOffset = 0;
-        private static readonly int ErrorMessageYOffset = -220;
         private static readonly int CardImageSizeDp = 140;
         #endregion
 
@@ -517,8 +515,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var toast = ToastHelper.GetErrorToast(this, exception.Message);
                 toast.SetGravity(
                     GravityFlags.ClipVertical,
-                    ErrorMessageXOffset,
-                    ErrorMessageYOffset
+                    0,
+                    0
                 );
                 toast.Show();
                 return;
