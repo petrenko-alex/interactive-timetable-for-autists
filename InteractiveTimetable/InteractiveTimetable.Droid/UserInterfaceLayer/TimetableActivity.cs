@@ -78,9 +78,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Add timetable tapes */
             AddTimetableTapeFragments();
-
-            /* Mark yesterday schedules as finished */
-            FinishYesterdaySchedules();
         }
 
         private void AdjustToolbarForActivity()
