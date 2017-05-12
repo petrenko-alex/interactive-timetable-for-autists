@@ -13,6 +13,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     [Activity(Label = "HomeScreenActivity", LaunchMode = LaunchMode.SingleTask)]
     public class HomeScreenActivity : ActionBarActivity
     {
+        #region Constants
+        private static readonly string DateFormat = "dd.MM.yyyy";
+        #endregion
+
         #region Widgets
         private TextView _greetingsString;
         private FrameLayout _timetablePartButton;
@@ -39,8 +43,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             
             /* Get views */
             _greetingsString = FindViewById<TextView>(Resource.Id.hs_welcome);
-            _timetablePartButton = FindViewById<FrameLayout>(Resource.Id.timetable_part_frame);
-            _managementPartButton = FindViewById<FrameLayout>(Resource.Id.management_part_frame);
+            _timetablePartButton = FindViewById<FrameLayout>(Resource.Id.timetable_part_button);
+            _managementPartButton = FindViewById<FrameLayout>(Resource.Id.management_part_button);
 
             /* Set widgets data */
             _greetingsString.Text += $", {_currentUser}!";
@@ -59,9 +63,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnTimetablePartButtonClicked(object sender, EventArgs e)
         {
-            /* Call timetable activity */
-            var intent = new Intent(this, typeof(TimetableActivity));
-            StartActivity(intent);
+            /* Ask for a date and call timetable activity */
+            var chosenDate = DateTime.Today;
+
+            var fragment = DatePickerFragment.NewInstance(
+                chosenDate,
+                StartTimetableActivity
+            );
+            fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }
 
         private void AdjustToolbarForActivity()
@@ -86,6 +95,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             Finish();
+        }
+
+        private void StartTimetableActivity(DateTime date)
+        {
+            var intent = new Intent(this, typeof(TimetableActivity));
+            intent.PutExtra("date", date.ToString(DateFormat));
+            intent.PutExtra("date_format", DateFormat);
+            StartActivity(intent);
         }
     }
 }

@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using System.Collections.Generic;
+using System.Globalization;
 using Android.Support.V7.App;
 using InteractiveTimetable.BusinessLayer.Models;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
@@ -54,8 +55,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 Resource.Animation.exit_to_left
             );
 
-            /* Set class variables */
-            _chosenDate = DateTime.Today;
+            /* Get date */
+            string dateFormat = Intent.GetStringExtra("date_format");
+            string date = Intent.GetStringExtra("date");
+            _chosenDate = DateTime.ParseExact(date, dateFormat, CultureInfo.CurrentCulture);
 
             /* Set tool bar */
             var toolbar = FindViewById<Toolbar>(Resource.Id.t_toolbar);
@@ -282,6 +285,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     /* Create schedule in database */
                     id = InteractiveTimetable.Current.ScheduleManager.SaveSchedule(
                         tapeFragment.UserId,
+                        _chosenDate,
                         cards
                     );
                 }
@@ -306,7 +310,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Create and start activity */
             var intent = new Intent(this, typeof(CreateTimetableActivity));
             intent.PutExtra("user_id", userId);
-            intent.PutExtra("date", DateTime.Today.ToString("dd.MM.yyyy"));
+            intent.PutExtra("date", _chosenDate.ToString("dd.MM.yyyy"));
             intent.PutExtra("tape_number", tapeNumber);
             intent.PutExtra("cards", cards.Select(card => ParcelableCard.FromCard(card)).ToArray());
             StartActivityForResult(intent, CreateTimetableRequest);
@@ -344,7 +348,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             _tapeFragments = new List<TimetableTapeFragment>();
             var currentUsers = InteractiveTimetable.Current.UserManager.
-                                                    GetUsersForCurrentTimetable().
+                                                    GetUsersForTimetable(_chosenDate).
                                                     ToList();
 
             foreach (var user in currentUsers)
@@ -358,7 +362,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     : null;
 
                 /* If user has today timetable */
-                if (currentSchedule != null && currentSchedule.CreateTime.Date.Equals(DateTime.Today))
+                if (currentSchedule != null && currentSchedule.CreateTime.Date.Equals(_chosenDate))
                 {
                     scheduleItems = currentSchedule.ScheduleItems.ToList();
                 }
