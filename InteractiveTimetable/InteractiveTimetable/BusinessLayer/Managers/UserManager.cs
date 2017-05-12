@@ -32,7 +32,12 @@ namespace InteractiveTimetable.BusinessLayer.Managers
 
         public IEnumerable<User> GetUsersForCurrentTimetable()
         {
-            return GetUsers().Where(x => IsUserInPresentTimetable(x.Id));
+            return GetUsers().Where(IsUserInPresentTimetable);
+        }
+
+        public IEnumerable<User> GetUsersForTimetable(DateTime date)
+        {
+            return GetUsers().Where(x => IsUserInTimtetable(x, date));
         }
 
         public int SaveUser(User user)
@@ -66,12 +71,34 @@ namespace InteractiveTimetable.BusinessLayer.Managers
             var user = _repository.GetUser(userId);
             var nowDateTime = DateTime.Now;
 
-            var userHasCurrentTrip = user.
-                    HospitalTrips.
-                    Any(trip => trip.StartDate <= nowDateTime &&
-                                  trip.FinishDate >= nowDateTime);
+            var userHasCurrentTrip = user.HospitalTrips.Any(
+                trip => trip.StartDate <= nowDateTime &&
+                        trip.FinishDate >= nowDateTime
+            );
 
             return userHasCurrentTrip;
+        }
+
+        public bool IsUserInPresentTimetable(User user)
+        {
+            var nowDateTime = DateTime.Now;
+
+            var userHasCurrentTrip = user.HospitalTrips.Any(
+                trip => trip.StartDate <= nowDateTime &&
+                        trip.FinishDate >= nowDateTime
+            );
+
+            return userHasCurrentTrip;
+        }
+
+        public bool IsUserInTimtetable(User user, DateTime date)
+        {
+            var userHasTripForDate = user.HospitalTrips.Any(
+                trip => trip.StartDate <= date &&
+                        trip.FinishDate >= date
+            );
+            
+            return userHasTripForDate;
         }
 
         private void Validate(User user)
