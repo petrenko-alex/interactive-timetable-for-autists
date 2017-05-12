@@ -74,7 +74,7 @@
     Экран заблокирован. Для продолжения работы необходимо разблокировать экран.
   </string>
   <string name="return_completed_schedule">Вернуть выполненное расписание</string>
-  <string name="schedule_is_completed">Все занятия на сегодня выполнены.</string>
+  <string name="schedule_is_completed">Все занятия на день выполнены.</string>
   <string name="no_users_for_current_date">Не найдены путевки на текущую дату.</string>
   <string name="to_start_working_with_timetable">
     Для работы с расписанием необходимо добавить пользователей и путевки.
