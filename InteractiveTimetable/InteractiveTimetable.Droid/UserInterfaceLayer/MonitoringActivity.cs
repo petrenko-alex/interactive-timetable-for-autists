@@ -149,28 +149,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnShowGraphButtonClicked(object sender, EventArgs e)
         {
-            var transaction = FragmentManager.BeginTransaction();
-            var previousFragment = FragmentManager.
-                    FindFragmentByTag(DiagnosticDialogFragment.FragmentTag);
-
-            if (previousFragment != null)
-            {
-                transaction.Remove(previousFragment);
-            }
-            transaction.AddToBackStack(null);
-
-            /* Prepare data for graph */
-            var results = new List<int>();
-            foreach (var diagnostic in Diagnostics)
-            {
-                var sum = InteractiveTimetable.Current.DiagnosticManager.GetTotalSum(diagnostic);
-                results.Add(sum);
-            }
-            var dates = Diagnostics.Select(x => x.Date).ToList();
-
-            /* Create and show graph dialog */
-            var dialog = GraphDialogFragment.NewInstance(results, dates);
-            dialog.Show(transaction, GraphDialogFragment.FragmentTag);
+            new CreateGraphTask(this).Execute();
         }
 
         private void OnAddDiagnosticButtonClicked(object sender, EventArgs e)
@@ -1066,6 +1045,65 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             table.AddView(totalSumRow);
 
             return table;
+        }
+    }
+
+    internal class CreateGraphTask : AsyncTask
+    {
+        private ProgressDialog _progress;
+        private readonly MonitoringActivity _parent;
+        private readonly List<int> _results;
+        private List<DateTime> _dates;
+
+        public CreateGraphTask(MonitoringActivity parent)
+        {
+            _parent = parent;
+            _dates = new List<DateTime>();
+            _results = new List<int>();
+        }
+
+        protected override void OnPostExecute(Object result)
+        {
+            /* Stop loading dialog */
+            _progress.Dismiss();
+
+            var transaction = _parent.FragmentManager.BeginTransaction();
+            var previousFragment = _parent.FragmentManager.FindFragmentByTag(
+                DiagnosticDialogFragment.FragmentTag
+            );
+
+            if (previousFragment != null)
+            {
+                transaction.Remove(previousFragment);
+            }
+            transaction.AddToBackStack(null);
+
+            /* Create and show graph dialog */
+            var dialog = GraphDialogFragment.NewInstance(_results, _dates);
+            dialog.Show(transaction, GraphDialogFragment.FragmentTag);
+        }
+
+        protected override void OnPreExecute()
+        {
+            /* Show loading dialog */
+            _progress = new ProgressDialog(_parent);
+            _progress.SetMessage(_parent.GetString(Resource.String.loading));
+            _progress.SetCancelable(false);
+            _progress.Show();
+        }
+
+        protected override Object DoInBackground(params Object[] @params)
+        {
+            /* Prepare data for graph */
+            foreach (var diagnostic in _parent.Diagnostics)
+            {
+                var sum = InteractiveTimetable.Current.DiagnosticManager.GetTotalSum(diagnostic);
+                _results.Add(sum);
+            }
+
+            _dates = _parent.Diagnostics.Select(x => x.Date).ToList();
+
+            return null;
         }
     }
 }
