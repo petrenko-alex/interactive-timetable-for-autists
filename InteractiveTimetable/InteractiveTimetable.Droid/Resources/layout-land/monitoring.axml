@@ -60,7 +60,8 @@
             p1:layout_alignParentEnd="true"
             p1:background="@null"
             p1:layout_centerVertical="true"
-            p1:layout_marginRight="30dp" />
+            p1:layout_marginRight="30dp"
+            p1:visibility="invisible" />
         <ImageButton
             p1:src="@drawable/plus_button"
             p1:layout_width="wrap_content"

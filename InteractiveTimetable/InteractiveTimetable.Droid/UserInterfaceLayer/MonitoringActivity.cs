@@ -534,8 +534,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _visibleDiagnosticIndexes.Add(i);
             }
 
-            LayoutForTable.ViewTreeObserver.AddOnGlobalLayoutListener(this);
-
             /* Adjust table page control buttons */
             _previousTablePageButton.Visibility = ViewStates.Invisible;
 
@@ -781,7 +779,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void AsjustVisibilityOfTablePageButtons()
+        public void AsjustVisibilityOfTablePageButtons()
         {
             int visibleDiagnosticsAmount = _visibleDiagnosticIndexes.Count;
             int firstVisible = _visibleDiagnosticIndexes[0];
@@ -891,6 +889,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             
             /* Animate table */
             YoYo.With(Techniques.FadeIn).Duration(700).PlayOn(table);
+
+            /* Adjust control buttons */
+            _parent.LayoutForTable.ViewTreeObserver.AddOnGlobalLayoutListener(_parent);
+            _parent.AsjustVisibilityOfTablePageButtons();
 
             /* Close loading dialog */
             _progress.Dismiss();
