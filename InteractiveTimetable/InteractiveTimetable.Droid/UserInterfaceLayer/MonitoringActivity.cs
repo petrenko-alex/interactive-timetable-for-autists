@@ -274,7 +274,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     }
                     else
                     {
-                        var task = new CreateDiagnosticTable(this, index, i + 1);
+                        var task = new CreateDiagnosticTableTask(this, index, i + 1);
                         task.Execute(null, null);
                     }
                 }
@@ -317,7 +317,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     else
                     {
                         /* Need to create new table */
-                        var task = new CreateDiagnosticTable(this, index, i + 1);
+                        var task = new CreateDiagnosticTableTask(this, index, i + 1);
                         task.Execute(null, null);
                     }
                 }
@@ -508,7 +508,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             for (int i = 0; i < diagnosticsAmount; ++i)
             {
-                var task = new CreateDiagnosticTable(this, i);
+                var task = new CreateDiagnosticTableTask(this, i);
                 task.Execute(null, null);
                 _visibleDiagnosticIndexes.Add(i);
             }
@@ -698,7 +698,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 }
                 else
                 {
-                    var task = new CreateDiagnosticTable(this, index, i + 1);
+                    var task = new CreateDiagnosticTableTask(this, index, i + 1);
                     task.Execute(null, null);
                 }
             }
@@ -832,14 +832,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
     }
 
-    internal class CreateDiagnosticTable : AsyncTask
+    internal class CreateDiagnosticTableTask : AsyncTask
     {
         private ProgressDialog _progress;
         private readonly MonitoringActivity _parent;
         private readonly int _diagnosticNumber;
         private readonly int _insertTableAt;
 
-        public CreateDiagnosticTable(
+        public CreateDiagnosticTableTask(
             MonitoringActivity parent, 
             int diagnosticNumber, 
             int insertTableAt = -1)
