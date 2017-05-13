@@ -3674,6 +3674,9 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f070051
 			public const int kids_list = 2131165265;
 			
+			// aapt resource value: 0x7f070097
+			public const int loading = 2131165335;
+			
 			// aapt resource value: 0x7f070071
 			public const int log_in = 2131165297;
 			

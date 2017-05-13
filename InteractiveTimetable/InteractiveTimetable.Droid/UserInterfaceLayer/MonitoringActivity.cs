@@ -7,9 +7,11 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using AndroidViewAnimations;
 using InteractiveTimetable.BusinessLayer.Models;
 using InteractiveTimetable.Droid.ApplicationLayer;
 using AlertDialog = Android.App.AlertDialog;
+using Object = Java.Lang.Object;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace InteractiveTimetable.Droid.UserInterfaceLayer
@@ -21,16 +23,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         IDiagnosticDialogListener
     {
         #region Constants
-        private static readonly int HeaderColumnWidth = 150;
-        private static readonly int HeaderColumnHeight = 50;
-        private static readonly int GradeColumnWidth = 50;
-        private static readonly int GradeColumnHeight = 50;
-        private static readonly string TickUnicodeSymbol = "\u2713";
+        internal static readonly int HeaderColumnWidth = 150;
+        internal static readonly int HeaderColumnHeight = 50;
+        internal static readonly int GradeColumnWidth = 50;
+        internal static readonly int GradeColumnHeight = 50;
+        internal static readonly string TickUnicodeSymbol = "\u2713";
         private static readonly int MaxVisibleDiagnostics = 3;
         #endregion
 
         #region Widgets
-        private LinearLayout _layoutForTable;
+        internal LinearLayout _layoutForTable;
         private LinearLayout _infoLayout;
         private RelativeLayout _tableControlsLayout;
         private ScrollView _tableScrollView;
@@ -46,9 +48,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Internal Variables
         private User _user;
-        private HospitalTrip _trip;
-        private List<Diagnostic> _diagnostics;
-        private List<TableLayout> _tables;
+        internal HospitalTrip _trip;
+        internal List<Diagnostic> _diagnostics;
+        internal List<TableLayout> _tables;
         private List<int> _visibleDiagnosticIndexes;
         #endregion
 
@@ -187,7 +189,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
         }
 
-        private void OnEditDiagnosticButtonClicked(int diagnosticId)
+        public void OnEditDiagnosticButtonClicked(int diagnosticId)
         {
             var transaction = FragmentManager.BeginTransaction();
             var previousFragment = FragmentManager.
@@ -203,7 +205,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
         }
 
-        private void OnDeleteDiagnosticButtonClicked(int diagnosticId)
+        public void OnDeleteDiagnosticButtonClicked(int diagnosticId)
         {
             using (var alert = new AlertDialog.Builder(this))
             {
@@ -293,7 +295,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     }
                     else
                     {
-                        AddDiagnosticTable(index, i + 1);
+                        var task = new CreateDiagnosticTable(this, index, i + 1);
+                        task.Execute(null, null);
                     }
                 }
 
@@ -335,7 +338,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     else
                     {
                         /* Need to create new table */
-                        AddDiagnosticTable(index, i + 1);
+                        var task = new CreateDiagnosticTable(this, index, i + 1);
+                        task.Execute(null, null);
                     }
                 }
 
@@ -525,7 +529,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             for (int i = 0; i < diagnosticsAmount; ++i)
             {
-                AddDiagnosticTable(i);
+                var task = new CreateDiagnosticTable(this, i);
+                task.Execute(null, null);
                 _visibleDiagnosticIndexes.Add(i);
             }
 
@@ -619,180 +624,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _layoutForTable.AddView(_headerTable);
         }
 
-        private void AddDiagnosticTable(int diagnosticNumber, int insertTableAt = -1)
-        {
-            /* Prepare data */
-            var gradesAmount = 4;
-
-            var paramsForTable = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MatchParent,
-                ViewGroup.LayoutParams.MatchParent
-            );
-            int marginDp = 10;
-            int marginPx = ImageHelper.ConvertDpToPixels(marginDp);
-            paramsForTable.SetMargins(marginPx, 0, marginDp, 0);
-
-            var paramsForDiagnostic = new TableRow.LayoutParams(
-                GradeColumnWidth,
-                GradeColumnHeight
-            );
-
-            var paramsForDate = new TableRow.LayoutParams(
-                ViewGroup.LayoutParams.WrapContent,
-                GradeColumnHeight
-            )
-            {
-                Span = 4
-            };
-
-            var diagnostic = _diagnostics[diagnosticNumber];
-
-            /* Create table */
-            var table = CreateTable(paramsForTable);
-            table.SetBackgroundResource(Resource.Drawable.table_frame);
-            var paddingDp = 4;
-            var paddingPx = ImageHelper.ConvertDpToPixels(paddingDp);
-            table.SetPadding(paddingDp, paddingPx, paddingPx, paddingPx);
-
-            /* Create row with manage buttons */
-            if (_trip != null)
-            {
-                var paramsForManagement = new TableRow.LayoutParams(
-                    ViewGroup.LayoutParams.WrapContent,
-                    GradeColumnHeight
-                )
-                {
-                    Span = 4,
-                    Gravity = GravityFlags.Center
-                };
-
-                var view = LayoutInflater.From(this).Inflate(Resource.Layout.management_column, null);
-                view.LayoutParameters = paramsForManagement;
-
-                var editButton = view.FindViewById<ImageButton>(
-                    Resource.Id.edit_diagnostic_button
-                );
-                var deleteButton = view.FindViewById<ImageButton>(
-                    Resource.Id.delete_diagnostic_button
-                );
-
-                editButton.Click += (sender, e) => OnEditDiagnosticButtonClicked(diagnostic.Id);
-                deleteButton.Click += (sender, e) => OnDeleteDiagnosticButtonClicked(diagnostic.Id);
-
-                /* Add to table */
-                var manageRow = CreateRow();
-                manageRow.AddView(view);
-                table.AddView(manageRow);
-            }
-
-            /* Create grade header column */
-            var firstRow = CreateRow();
-            for (int i = 0; i < gradesAmount; ++i)
-            {
-                var gradeHeaderColumn = CreateColumn(paramsForDiagnostic, $"{i + 1}");
-                SetColumnColor(i + 1, gradeHeaderColumn);
-                firstRow.AddView(gradeHeaderColumn);
-            }
-            table.AddView(firstRow);
-
-            /* Create date column */
-            var secondRow = CreateRow();
-            var dateColumn = CreateColumn(
-                paramsForDate,
-                diagnostic.Date.ToString("dd.MM.yyyy H:mm")
-            );
-            secondRow.AddView(dateColumn);
-            table.AddView(secondRow);
-
-            /* Create grade columns */
-            var paramsForGrade = new TableRow.LayoutParams(
-                GradeColumnWidth,
-                GradeColumnHeight
-            );
-
-            foreach (var grade in diagnostic.CriterionGrades)
-            {
-                /* Create 4 columns for grades */
-                var currentRow = CreateRow();
-                for (int i = 0; i < gradesAmount; ++i)
-                {
-                    var gradeColumn = CreateColumn(paramsForGrade, "");
-                    currentRow.AddView(gradeColumn);
-                }
-
-                if (grade.Grade == "1")
-                {
-                    var column = (TextView) currentRow.GetChildAt(0);
-                    column.Text = grade.Grade;
-                    column.SetBackgroundResource(Resource.Drawable.table_grade_1_frame);
-                }
-                else if (grade.Grade == "2")
-                {
-                    var column = (TextView)currentRow.GetChildAt(1);
-                    column.Text = grade.Grade;
-                    column.SetBackgroundResource(Resource.Drawable.table_grade_2_frame);
-                }
-                else if (grade.Grade == "3")
-                {
-                    var column = (TextView)currentRow.GetChildAt(2);
-                    column.Text = grade.Grade;
-                    column.SetBackgroundResource(Resource.Drawable.table_grade_3_frame);
-                }
-                else if (grade.Grade == "4")
-                {
-                    var column = (TextView)currentRow.GetChildAt(3);
-                    column.Text = grade.Grade;
-                    column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
-                }
-                else if (grade.Grade.Length == 4)
-                {
-                    /* Parse complex grade */
-                    for (int i = 0; i < gradesAmount; ++i)
-                    {
-                        if (grade.Grade[i] == '1')
-                        {
-                            var column = (TextView)currentRow.GetChildAt(i);
-                            column.Text = TickUnicodeSymbol;
-                        }
-                    }
-                }
-                
-                table.AddView(currentRow);
-            }
-
-            /* Set partial sums */
-            var partialSumRow = CreateRow();
-            for (int i = 0; i < gradesAmount; ++i)
-            {
-                int sum = InteractiveTimetable.Current.DiagnosticManager.
-                                               GetPartialSum(diagnostic.Id, i + 1);
-                var sumColumn = CreateColumn(paramsForGrade, sum + "");
-                partialSumRow.AddView(sumColumn);
-            }
-            table.AddView(partialSumRow);
-
-            /* Set total sum */
-            var totalSumRow = CreateRow();
-            int totalSum = InteractiveTimetable.Current.DiagnosticManager.GetTotalSum(diagnostic.Id);
-            var totalSumColumn = CreateColumn(paramsForDate, totalSum + "");
-            totalSumRow.AddView(totalSumColumn);
-            table.AddView(totalSumRow);
-            
-            /* Add table to data set */
-            _tables[diagnosticNumber] = table;
-
-            /* Add table to layout */
-            if (insertTableAt >= 0)
-            {
-                _layoutForTable.AddView(table, insertTableAt);
-            }
-            else
-            {
-                _layoutForTable.AddView(table);
-            }
-        }
-
-        private TableLayout CreateTable(LinearLayout.LayoutParams layoutParams = null)
+        public TableLayout CreateTable(LinearLayout.LayoutParams layoutParams = null)
         {
             if (layoutParams == null)
             {
@@ -811,7 +643,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return table;
         }
 
-        private TableRow CreateRow()
+        public TableRow CreateRow()
         {
             var tableParams = new TableLayout.LayoutParams(
                 ViewGroup.LayoutParams.MatchParent,
@@ -826,7 +658,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return row;
         }
 
-        private TextView CreateColumn(TableRow.LayoutParams layoutParams, string columnText)
+        public TextView CreateColumn(TableRow.LayoutParams layoutParams, string columnText)
         {
             /* Create column with parameters */
             var column = new TextView(this)
@@ -845,7 +677,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return column;
         }
 
-        private void SetColumnColor(int grade, TextView column)
+        public void SetColumnColor(int grade, TextView column)
         {
             if (grade == 1)
             {
@@ -889,7 +721,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 }
                 else
                 {
-                    AddDiagnosticTable(index, i + 1);
+                    var task = new CreateDiagnosticTable(this, index, i + 1);
+                    task.Execute(null, null);
                 }
             }
         }
@@ -1020,5 +853,217 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
         #endregion
+    }
+
+    internal class CreateDiagnosticTable : AsyncTask
+    {
+        private ProgressDialog _progress;
+        private readonly MonitoringActivity _parent;
+        private readonly int _diagnosticNumber;
+        private readonly int _insertTableAt;
+
+        public CreateDiagnosticTable(
+            MonitoringActivity parent, 
+            int diagnosticNumber, 
+            int insertTableAt = -1)
+        {
+            _parent = parent;
+            _diagnosticNumber = diagnosticNumber;
+            _insertTableAt = insertTableAt;
+        }
+
+        protected override void OnPostExecute(Object result)
+        {
+            var table = (TableLayout) result;
+
+            /* Add table to data set */
+            _parent._tables[_diagnosticNumber] = table;
+
+            /* Add table to layout */
+            if (_insertTableAt >= 0)
+            {
+                _parent._layoutForTable.AddView(table, _insertTableAt);
+            }
+            else
+            {
+                _parent._layoutForTable.AddView(table);
+            }
+            
+            /* Animate table */
+            YoYo.With(Techniques.FadeIn).Duration(700).PlayOn(table);
+
+            /* Close loading dialog */
+            _progress.Dismiss();
+        }
+
+        protected override void OnPreExecute()
+        {
+            /* Show loading dialog */
+            _progress = new ProgressDialog(_parent);
+            _progress.SetMessage(_parent.GetString(Resource.String.loading));
+            _progress.SetCancelable(false); 
+            _progress.Show();
+        }
+
+        protected override Object DoInBackground(params Object[] @params)
+        {
+            /* Prepare data */
+            var gradesAmount = 4;
+            var diagnostic = _parent._diagnostics[_diagnosticNumber];
+
+            var paramsForTable = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.MatchParent
+            );
+            int marginDp = 10;
+            int marginPx = ImageHelper.ConvertDpToPixels(marginDp);
+            paramsForTable.SetMargins(marginPx, 0, marginDp, 0);
+
+            var paramsForDiagnostic = new TableRow.LayoutParams(
+                MonitoringActivity.GradeColumnWidth,
+                MonitoringActivity.GradeColumnHeight
+            );
+
+            var paramsForDate = new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.WrapContent,
+                MonitoringActivity.GradeColumnHeight
+            )
+            {
+                Span = 4
+            };
+
+            /* Create table */
+            var table = _parent.CreateTable(paramsForTable);
+            table.SetBackgroundResource(Resource.Drawable.table_frame);
+            var paddingDp = 4;
+            var paddingPx = ImageHelper.ConvertDpToPixels(paddingDp);
+            table.SetPadding(paddingDp, paddingPx, paddingPx, paddingPx);
+
+            /* Create row with manage buttons */
+            if (_parent._trip != null)
+            {
+                var paramsForManagement = new TableRow.LayoutParams(
+                    ViewGroup.LayoutParams.WrapContent,
+                    MonitoringActivity.GradeColumnHeight
+                )
+                {
+                    Span = 4,
+                    Gravity = GravityFlags.Center
+                };
+
+                var view = LayoutInflater.From(_parent).Inflate(Resource.Layout.management_column, null);
+                view.LayoutParameters = paramsForManagement;
+
+                var editButton = view.FindViewById<ImageButton>(
+                    Resource.Id.edit_diagnostic_button
+                );
+                var deleteButton = view.FindViewById<ImageButton>(
+                    Resource.Id.delete_diagnostic_button
+                );
+
+                editButton.Click += (sender, e) => _parent.OnEditDiagnosticButtonClicked(diagnostic.Id);
+                deleteButton.Click += (sender, e) => _parent.OnDeleteDiagnosticButtonClicked(diagnostic.Id);
+
+                /* Add to table */
+                var manageRow = _parent.CreateRow();
+                manageRow.AddView(view);
+                table.AddView(manageRow);
+            }
+
+            /* Create grade header column */
+            var firstRow = _parent.CreateRow();
+            for (int i = 0; i < gradesAmount; ++i)
+            {
+                var gradeHeaderColumn = _parent.CreateColumn(paramsForDiagnostic, $"{i + 1}");
+                _parent.SetColumnColor(i + 1, gradeHeaderColumn);
+                firstRow.AddView(gradeHeaderColumn);
+            }
+            table.AddView(firstRow);
+
+            /* Create date column */
+            var secondRow = _parent.CreateRow();
+            var dateColumn = _parent.CreateColumn(
+                paramsForDate,
+                diagnostic.Date.ToString("dd.MM.yyyy H:mm")
+            );
+            secondRow.AddView(dateColumn);
+            table.AddView(secondRow);
+
+            /* Create grade columns */
+            var paramsForGrade = new TableRow.LayoutParams(
+                MonitoringActivity.GradeColumnWidth,
+                MonitoringActivity.GradeColumnHeight
+            );
+
+            foreach (var grade in diagnostic.CriterionGrades)
+            {
+                /* Create 4 columns for grades */
+                var currentRow = _parent.CreateRow();
+                for (int i = 0; i < gradesAmount; ++i)
+                {
+                    var gradeColumn = _parent.CreateColumn(paramsForGrade, "");
+                    currentRow.AddView(gradeColumn);
+                }
+
+                if (grade.Grade == "1")
+                {
+                    var column = (TextView)currentRow.GetChildAt(0);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_1_frame);
+                }
+                else if (grade.Grade == "2")
+                {
+                    var column = (TextView)currentRow.GetChildAt(1);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_2_frame);
+                }
+                else if (grade.Grade == "3")
+                {
+                    var column = (TextView)currentRow.GetChildAt(2);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_3_frame);
+                }
+                else if (grade.Grade == "4")
+                {
+                    var column = (TextView)currentRow.GetChildAt(3);
+                    column.Text = grade.Grade;
+                    column.SetBackgroundResource(Resource.Drawable.table_grade_4_frame);
+                }
+                else if (grade.Grade.Length == 4)
+                {
+                    /* Parse complex grade */
+                    for (int i = 0; i < gradesAmount; ++i)
+                    {
+                        if (grade.Grade[i] == '1')
+                        {
+                            var column = (TextView)currentRow.GetChildAt(i);
+                            column.Text = MonitoringActivity.TickUnicodeSymbol;
+                        }
+                    }
+                }
+
+                table.AddView(currentRow);
+            }
+
+            /* Set partial sums */
+            var partialSumRow = _parent.CreateRow();
+            for (int i = 0; i < gradesAmount; ++i)
+            {
+                int sum = InteractiveTimetable.Current.DiagnosticManager.
+                                               GetPartialSum(diagnostic, i + 1);
+                var sumColumn = _parent.CreateColumn(paramsForGrade, sum + "");
+                partialSumRow.AddView(sumColumn);
+            }
+            table.AddView(partialSumRow);
+
+            /* Set total sum */
+            var totalSumRow = _parent.CreateRow();
+            int totalSum = InteractiveTimetable.Current.DiagnosticManager.GetTotalSum(diagnostic);
+            var totalSumColumn = _parent.CreateColumn(paramsForDate, totalSum + "");
+            totalSumRow.AddView(totalSumColumn);
+            table.AddView(totalSumRow);
+
+            return table;
+        }
     }
 }

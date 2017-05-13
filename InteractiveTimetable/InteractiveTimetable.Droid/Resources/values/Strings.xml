@@ -129,4 +129,5 @@
   <string name="close_button">Закрыть</string>
   <string name="graph_title">График динамики развития ребенка</string>
   <string name="points">баллов</string>
+  <string name="loading">Подождите, идет загрузка...</string>
 </resources>
