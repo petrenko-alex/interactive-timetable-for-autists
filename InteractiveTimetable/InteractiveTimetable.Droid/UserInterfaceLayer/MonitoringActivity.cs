@@ -32,7 +32,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Widgets
-        internal LinearLayout _layoutForTable;
+        internal LinearLayout LayoutForTable;
         private LinearLayout _infoLayout;
         private RelativeLayout _tableControlsLayout;
         private ScrollView _tableScrollView;
@@ -48,9 +48,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Internal Variables
         private User _user;
-        internal HospitalTrip _trip;
-        internal List<Diagnostic> _diagnostics;
-        internal List<TableLayout> _tables;
+        internal HospitalTrip Trip;
+        internal List<Diagnostic> Diagnostics;
+        internal List<TableLayout> Tables;
         private List<int> _visibleDiagnosticIndexes;
         #endregion
 
@@ -66,7 +66,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Get views */
             var tripInfo = FindViewById<TextView>(Resource.Id.monitoring_trip_info);
             var heading = FindViewById<TextView>(Resource.Id.monitoring_header);
-            _layoutForTable = FindViewById<LinearLayout>(Resource.Id.table_layout);
+            LayoutForTable = FindViewById<LinearLayout>(Resource.Id.table_layout);
             _infoLayout = FindViewById<LinearLayout>(Resource.Id.monitorin_info_layout);
             _nextTablePageButton = FindViewById<ImageButton>(Resource.Id.next_table);
             _previousTablePageButton = FindViewById<ImageButton>(Resource.Id.previous_table);
@@ -91,10 +91,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set data to views */
             if (tripId > 0)
             {
-                _trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(tripId);
+                Trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(tripId);
                 string text = $"{GetString(Resource.String.trip_in_list)}" +
-                              $"{_trip.Number} " +
-                              $"{_trip.StartDate:dd.MM.yyyy} - {_trip.FinishDate:dd.MM.yyyy}";
+                              $"{Trip.Number} " +
+                              $"{Trip.StartDate:dd.MM.yyyy} - {Trip.FinishDate:dd.MM.yyyy}";
                 tripInfo.Text = text;
 
                 heading.Text = GetString(Resource.String.trip_monitoring);
@@ -119,23 +119,23 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             AdjustToolbarForActivity();
 
             /* Get diagnostics and create table */
-            _diagnostics = new List<Diagnostic>();
+            Diagnostics = new List<Diagnostic>();
             _visibleDiagnosticIndexes = new List<int>();
-            if (_trip != null)
+            if (Trip != null)
             {
-                _diagnostics = _trip.Diagnostics.OrderBy(x => x.Date).ToList();
+                Diagnostics = Trip.Diagnostics.OrderBy(x => x.Date).ToList();
             }
             else
             {
                 var trips = _user.HospitalTrips;
                 foreach (var trip in trips)
                 {
-                    _diagnostics.AddRange(trip.Diagnostics);
+                    Diagnostics.AddRange(trip.Diagnostics);
                 }
-                _diagnostics = _diagnostics.OrderBy(x => x.Date).ToList();
+                Diagnostics = Diagnostics.OrderBy(x => x.Date).ToList();
             }
 
-            if (_diagnostics.Count > 0)
+            if (Diagnostics.Count > 0)
             {
                 CreateTables();
             }
@@ -161,12 +161,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Prepare data for graph */
             var results = new List<int>();
-            foreach (var diagnostic in _diagnostics)
+            foreach (var diagnostic in Diagnostics)
             {
                 var sum = InteractiveTimetable.Current.DiagnosticManager.GetTotalSum(diagnostic);
                 results.Add(sum);
             }
-            var dates = _diagnostics.Select(x => x.Date).ToList();
+            var dates = Diagnostics.Select(x => x.Date).ToList();
 
             /* Create and show graph dialog */
             var dialog = GraphDialogFragment.NewInstance(results, dates);
@@ -185,7 +185,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             transaction.AddToBackStack(null);
 
-            var dialog = DiagnosticDialogFragment.NewInstance(0, _trip.Id);
+            var dialog = DiagnosticDialogFragment.NewInstance(0, Trip.Id);
             dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
         }
 
@@ -201,7 +201,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             transaction.AddToBackStack(null);
 
-            var dialog = DiagnosticDialogFragment.NewInstance(diagnosticId, _trip.Id);
+            var dialog = DiagnosticDialogFragment.NewInstance(diagnosticId, Trip.Id);
             dialog.Show(transaction, DiagnosticDialogFragment.FragmentTag);
         }
 
@@ -225,27 +225,27 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void DeleteDiagnostic(int diagnosticId)
         {
             /* Get diagnostic by id */
-            var diagnostic = _diagnostics.First(x => x.Id == diagnosticId);
-            int index = _diagnostics.IndexOf(diagnostic);
+            var diagnostic = Diagnostics.First(x => x.Id == diagnosticId);
+            int index = Diagnostics.IndexOf(diagnostic);
 
             /* Delete from database */
             InteractiveTimetable.Current.DiagnosticManager.DeleteDiagnostic(diagnosticId);
 
             /* Delete from data sets */
-            _diagnostics.RemoveAt(index);
-            _tables.RemoveAt(index);
+            Diagnostics.RemoveAt(index);
+            Tables.RemoveAt(index);
 
             /* Delete from layout */
-            var table = _layoutForTable.GetChildAt(index + 1);
-            _layoutForTable.RemoveView(table);
+            var table = LayoutForTable.GetChildAt(index + 1);
+            LayoutForTable.RemoveView(table);
 
             int visibleAmount = _visibleDiagnosticIndexes.Count;
             int lastVisible = _visibleDiagnosticIndexes[visibleAmount - 1];
-            if (lastVisible == _diagnostics.Count)
+            if (lastVisible == Diagnostics.Count)
             {
                 /* Create new visible list */
                 _visibleDiagnosticIndexes.Clear();
-                for (int i = _diagnostics.Count - 1, j = 0; i >= 0; --i, ++j)
+                for (int i = Diagnostics.Count - 1, j = 0; i >= 0; --i, ++j)
                 {
                     if (j < MaxVisibleDiagnostics)
                     {
@@ -256,7 +256,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _visibleDiagnosticIndexes = _visibleDiagnosticIndexes.OrderBy(x => x).ToList();
             }
 
-            if (_diagnostics.Count == 0)
+            if (Diagnostics.Count == 0)
             {
                 AdjustVisibilityOfNoDiagnosticsInfo();
             }
@@ -284,14 +284,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 for (int i = 0; i < MaxVisibleDiagnostics; ++i)
                 {
                     int index = _visibleDiagnosticIndexes[i];
-                    var table = _tables[index];
+                    var table = Tables[index];
                     
                     /* Remove old table from layout */
-                    _layoutForTable.RemoveViewAt(i + 1);
+                    LayoutForTable.RemoveViewAt(i + 1);
 
                     if (table != null)
                     {
-                        _layoutForTable.AddView(table, i + 1);
+                        LayoutForTable.AddView(table, i + 1);
                     }
                     else
                     {
@@ -308,7 +308,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* Check if has diagnostics */
             int lastVisibleDiagnosticIndex = _visibleDiagnosticIndexes[MaxVisibleDiagnostics - 1];
-            if (lastVisibleDiagnosticIndex != _diagnostics.Count - 1)
+            if (lastVisibleDiagnosticIndex != Diagnostics.Count - 1)
             {
                 /* Increment indexes in _visibleDiagnosticIndexes */
                 for (int i = 0; i < MaxVisibleDiagnostics; ++i)
@@ -319,8 +319,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Delete current visible tables from layout */
                 for (int i = MaxVisibleDiagnostics; i > 0; --i)
                 {
-                    var table = _layoutForTable.GetChildAt(i);
-                    _layoutForTable.RemoveView(table);
+                    var table = LayoutForTable.GetChildAt(i);
+                    LayoutForTable.RemoveView(table);
                 }
 
                 /* Set tables */
@@ -328,12 +328,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 {
                     /* If already has table for diagnostic */
                     int index = _visibleDiagnosticIndexes[i];
-                    var table = _tables[index];
+                    var table = Tables[index];
 
                     if (table != null)
                     {
                         /* Set another table to layout */
-                        _layoutForTable.AddView(table, i + 1);
+                        LayoutForTable.AddView(table, i + 1);
                     }
                     else
                     {
@@ -401,17 +401,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnGlobalLayout()
         {
-            _layoutForTable.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
+            LayoutForTable.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
 
             /* Adjust table controls width to match table width */
-            var width = _layoutForTable.Width;
+            var width = LayoutForTable.Width;
             var tableControls = FindViewById<RelativeLayout>(Resource.Id.table_controls);
             tableControls.LayoutParameters.Width = width;
         }
 
         public void OnNewDiagnosticAdded(int diagnosticId)
         {
-            if (_diagnostics.Count == 0)
+            if (Diagnostics.Count == 0)
             {
                 AddFirstDiagnostic();
                 return;
@@ -424,10 +424,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             int newDiagnosticIndex = FindPlaceForNewDiagnotic(diagnostic);
 
             /* Insert new diagnostic in _diagnostics data set */
-            _diagnostics.Insert(newDiagnosticIndex, diagnostic);
+            Diagnostics.Insert(newDiagnosticIndex, diagnostic);
 
             /* Insert null table to _tables data set */
-            _tables.Insert(newDiagnosticIndex, null);
+            Tables.Insert(newDiagnosticIndex, null);
 
             /* Rebuild _visibleDiagnosticIndexes */
             RebuildVisibleList(newDiagnosticIndex);
@@ -445,19 +445,19 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var diagnostic = InteractiveTimetable.Current.DiagnosticManager.
                                                   GetDiagnostic(diagnosticId);
 
-            var previousDiagnosticData = _diagnostics.First(x => x.Id == diagnostic.Id);
+            var previousDiagnosticData = Diagnostics.First(x => x.Id == diagnostic.Id);
             bool datesEqual = diagnostic.Date.Equals(previousDiagnosticData.Date);
             if (!datesEqual)
             {
                 /* Delete old diagnostic data from data sets */
-                int index = _diagnostics.IndexOf(previousDiagnosticData);
-                _diagnostics.RemoveAt(index);
-                _tables.RemoveAt(index);
+                int index = Diagnostics.IndexOf(previousDiagnosticData);
+                Diagnostics.RemoveAt(index);
+                Tables.RemoveAt(index);
 
                 /* Insert in new position */
                 int newDiagnosticIndex = FindPlaceForNewDiagnotic(diagnostic);
-                _diagnostics.Insert(newDiagnosticIndex, diagnostic);
-                _tables.Insert(newDiagnosticIndex,null);
+                Diagnostics.Insert(newDiagnosticIndex, diagnostic);
+                Tables.Insert(newDiagnosticIndex,null);
 
                 /* Rebuild _visibleDiagnosticIndexes */
                 RebuildVisibleList(newDiagnosticIndex);
@@ -469,11 +469,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             else
             {
                 /* If date of the diagnostic was not changed */
-                int index = _diagnostics.IndexOf(previousDiagnosticData);
+                int index = Diagnostics.IndexOf(previousDiagnosticData);
 
                 /* Update data sets */
-                _diagnostics[index] = diagnostic;
-                _tables[index] = null;
+                Diagnostics[index] = diagnostic;
+                Tables[index] = null;
 
                 RebuildVisibleTables();
             }
@@ -481,7 +481,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void AdjustVisibilityOfNoDiagnosticsInfo()
         {
-            if (_diagnostics.Count == 0)
+            if (Diagnostics.Count == 0)
             {
                 _infoLayout.Visibility = ViewStates.Visible;
                 _tableControlsLayout.Visibility = ViewStates.Gone;
@@ -499,8 +499,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void AddFirstDiagnostic()
         {
-            _trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(_trip.Id);
-            _diagnostics = _trip.Diagnostics.OrderBy(x => x.Date).ToList();
+            Trip = InteractiveTimetable.Current.HospitalTripManager.GetHospitalTrip(Trip.Id);
+            Diagnostics = Trip.Diagnostics.OrderBy(x => x.Date).ToList();
             CreateTables();
             AdjustVisibilityOfNoDiagnosticsInfo();
         }
@@ -508,18 +508,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void CreateTables()
         {
             /* If not created yet */
-            if (_layoutForTable.ChildCount == 0)
+            if (LayoutForTable.ChildCount == 0)
             {
                 /* Create header table */
                 AddHeaderTable();
             }
 
             /* First initialize with null's to fit _diagnostics size */
-            int diagnosticsAmount = _diagnostics.Count;
-            _tables = new List<TableLayout>();
+            int diagnosticsAmount = Diagnostics.Count;
+            Tables = new List<TableLayout>();
             for (int i = 0; i < diagnosticsAmount; ++i)
             {
-                _tables.Add(null);
+                Tables.Add(null);
             }
 
             /* Create tables for diagnostics */
@@ -534,12 +534,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _visibleDiagnosticIndexes.Add(i);
             }
 
-            _layoutForTable.ViewTreeObserver.AddOnGlobalLayoutListener(this);
+            LayoutForTable.ViewTreeObserver.AddOnGlobalLayoutListener(this);
 
             /* Adjust table page control buttons */
             _previousTablePageButton.Visibility = ViewStates.Invisible;
 
-            if (_diagnostics.Count <= MaxVisibleDiagnostics)
+            if (Diagnostics.Count <= MaxVisibleDiagnostics)
             {
                 _nextTablePageButton.Visibility = ViewStates.Invisible;
             }
@@ -558,7 +558,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 HeaderColumnHeight
             );
 
-            if (_trip != null)
+            if (Trip != null)
             {
                 var managementColumn = CreateColumn(
                     paramsForDefinitions,
@@ -621,7 +621,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _headerTable.AddView(lastRow2);
 
             /* Add table to layout */
-            _layoutForTable.AddView(_headerTable);
+            LayoutForTable.AddView(_headerTable);
         }
 
         public TableLayout CreateTable(LinearLayout.LayoutParams layoutParams = null)
@@ -705,8 +705,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Delete current visible tables from layout */
             for (int i = amountOfVisible; i > 0; --i)
             {
-                var table = _layoutForTable.GetChildAt(i);
-                _layoutForTable.RemoveView(table);
+                var table = LayoutForTable.GetChildAt(i);
+                LayoutForTable.RemoveView(table);
             }
 
             /* Set new tables */
@@ -714,10 +714,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             {
                 /* If already has table for diagnostic */
                 int index = _visibleDiagnosticIndexes[i];
-                var table = _tables[index];
+                var table = Tables[index];
                 if (table != null)
                 {
-                    _layoutForTable.AddView(table, i + 1);
+                    LayoutForTable.AddView(table, i + 1);
                 }
                 else
                 {
@@ -745,7 +745,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* If insert in the middle */
             if (newDiagnosticIndex > 0 &&
-                newDiagnosticIndex < (_diagnostics.Count - 1))
+                newDiagnosticIndex < (Diagnostics.Count - 1))
             {
                 InsertOrReplaceInVisibleList(0, newDiagnosticIndex - 1);
                 InsertOrReplaceInVisibleList(1, newDiagnosticIndex);
@@ -758,22 +758,22 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 int i = 1;
                 while (i < MaxVisibleDiagnostics &&
-                       i < _diagnostics.Count)
+                       i < Diagnostics.Count)
                 {
                     InsertOrReplaceInVisibleList(i, i);
                     i++;
                 }
             }
             /* If insert as last */
-            else if (newDiagnosticIndex == (_diagnostics.Count - 1))
+            else if (newDiagnosticIndex == (Diagnostics.Count - 1))
             {
-                if (_diagnostics.Count >= MaxVisibleDiagnostics)
+                if (Diagnostics.Count >= MaxVisibleDiagnostics)
                 {
                     InsertOrReplaceInVisibleList(2, newDiagnosticIndex);
                     InsertOrReplaceInVisibleList(1, newDiagnosticIndex - 1);
                     InsertOrReplaceInVisibleList(0, newDiagnosticIndex - 2);
                 }
-                else if (_diagnostics.Count == MaxVisibleDiagnostics - 1)
+                else if (Diagnostics.Count == MaxVisibleDiagnostics - 1)
                 {
                     InsertOrReplaceInVisibleList(0, newDiagnosticIndex - 1);
                     InsertOrReplaceInVisibleList(1, newDiagnosticIndex);
@@ -798,11 +798,11 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
 
             /* Adjust visibility of next page button */
-            if (lastVisible < (_diagnostics.Count - 1))
+            if (lastVisible < (Diagnostics.Count - 1))
             {
                 _nextTablePageButton.Visibility = ViewStates.Visible;
             }
-            else if (lastVisible == (_diagnostics.Count - 1))
+            else if (lastVisible == (Diagnostics.Count - 1))
             {
                 _nextTablePageButton.Visibility = ViewStates.Invisible;
             }
@@ -810,12 +810,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private int FindPlaceForNewDiagnotic(Diagnostic diagnostic)
         {
-            int amountOfDiagnostics = _diagnostics.Count;
+            int amountOfDiagnostics = Diagnostics.Count;
             int newDiagnosticIndex = amountOfDiagnostics;
 
             for (int i = 0; i < amountOfDiagnostics; ++i)
             {
-                if (diagnostic.Date < _diagnostics[i].Date)
+                if (diagnostic.Date < Diagnostics[i].Date)
                 {
                     newDiagnosticIndex = i;
                     break;
@@ -827,7 +827,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void AdjustVisibilityOfConrolButtons()
         {
-            if (_trip == null)
+            if (Trip == null)
             {
                 _addDiagnosticButton.Visibility = ViewStates.Gone;
                 _addFirstDiagnosticButton.Visibility = ViewStates.Gone;
@@ -843,7 +843,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void AdjustVisibilityOfShowGraphButton()
         {
-            if(_diagnostics.Count > 1)
+            if(Diagnostics.Count > 1)
             {
                 _showGraphButton.Visibility = ViewStates.Visible;
             }
@@ -877,16 +877,16 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var table = (TableLayout) result;
 
             /* Add table to data set */
-            _parent._tables[_diagnosticNumber] = table;
+            _parent.Tables[_diagnosticNumber] = table;
 
             /* Add table to layout */
             if (_insertTableAt >= 0)
             {
-                _parent._layoutForTable.AddView(table, _insertTableAt);
+                _parent.LayoutForTable.AddView(table, _insertTableAt);
             }
             else
             {
-                _parent._layoutForTable.AddView(table);
+                _parent.LayoutForTable.AddView(table);
             }
             
             /* Animate table */
@@ -909,7 +909,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             /* Prepare data */
             var gradesAmount = 4;
-            var diagnostic = _parent._diagnostics[_diagnosticNumber];
+            var diagnostic = _parent.Diagnostics[_diagnosticNumber];
 
             var paramsForTable = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MatchParent,
@@ -940,7 +940,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             table.SetPadding(paddingDp, paddingPx, paddingPx, paddingPx);
 
             /* Create row with manage buttons */
-            if (_parent._trip != null)
+            if (_parent.Trip != null)
             {
                 var paramsForManagement = new TableRow.LayoutParams(
                     ViewGroup.LayoutParams.WrapContent,
