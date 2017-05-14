@@ -78,7 +78,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #endregion
 
         #region Event Handlers
-        public override void OnActivityCreated(Bundle savedInstanceState)
+        public override async void OnActivityCreated(Bundle savedInstanceState)
         {
             base.OnActivityCreated(savedInstanceState);
 
@@ -111,7 +111,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Set widgets data */
             _userName.Text = user.FirstName;
             var imageSizePx = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
-            var bitmap = user.PhotoPath.LoadAndResizeBitmap(imageSizePx, imageSizePx);
+            var bitmap = await user.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+                imageSizePx,
+                imageSizePx
+            );
             if (bitmap != null)
             {
                 _userImage.SetImageBitmap(bitmap);
@@ -136,7 +139,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
                 var card = InteractiveTimetable.Current.ScheduleManager.Cards.
                                                 GetCard(_tapeItems.Last().CardId);
-                bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                bitmap = await card.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+                    imageSize,
+                    imageSize
+                );
                 if (bitmap != null)
                 {
                     _staticGoalCard.SetImageBitmap(bitmap);
@@ -365,7 +371,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Other Methods
 
-        public void SetSchedule(IList<ScheduleItem> tapeItems)
+        public async void SetSchedule(IList<ScheduleItem> tapeItems)
         {
             /* Show timetable tape if hidden */
             if (_infoLayout.Visibility == ViewStates.Visible)
@@ -402,7 +408,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
             var card = InteractiveTimetable.Current.ScheduleManager.Cards.
                                             GetCard(_tapeItems.Last().CardId);
-            var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+            var bitmap = await card.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+                imageSize,
+                imageSize
+            );
             if (bitmap != null)
             {
                 _staticGoalCard.SetImageBitmap(bitmap);
@@ -543,7 +552,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             return lastCompletedActivityNumber;
         }
 
-        public void RefreshUserInfo()
+        public async void RefreshUserInfo()
         {
             /* Get latest data */
             var user = InteractiveTimetable.Current.UserManager.GetUser(UserId);
@@ -553,7 +562,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             /* Set photo */
             var imageSizePx = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
-            var bitmap = user.PhotoPath.LoadAndResizeBitmap(imageSizePx, imageSizePx);
+            var bitmap = await user.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+                imageSizePx,
+                imageSizePx
+            );
             if (bitmap != null)
             {
                 _userImage.SetImageBitmap(bitmap);

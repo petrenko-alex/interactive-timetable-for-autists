@@ -42,7 +42,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #endregion
 
         #region Event Handlers
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        public override async void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             var tapeItemAtPosition = TapeItems[position];
             var card = InteractiveTimetable.Current.ScheduleManager.Cards.
@@ -52,7 +52,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             if (viewHolder != null)
             {
                 var imageSize = ImageHelper.ConvertDpToPixels(CardImageSizeDp);
-                var bitmap = card.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                var bitmap = await card.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+                    imageSize,
+                    imageSize
+                );
                 if (bitmap != null)
                 {
                     viewHolder.ItemImage.SetImageBitmap(bitmap);
