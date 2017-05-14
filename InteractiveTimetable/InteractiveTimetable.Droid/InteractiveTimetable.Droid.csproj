@@ -182,6 +182,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterfaceLayer\MonitoringActivity.cs" />
+    <Compile Include="UserInterfaceLayer\SplashActivity.cs" />
     <Compile Include="UserInterfaceLayer\TimePickerFragment.cs" />
     <Compile Include="UserInterfaceLayer\TimetableActivity.cs" />
     <Compile Include="UserInterfaceLayer\TimetableTapeFragment.cs" />
@@ -475,6 +476,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\goal_card_frame.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
