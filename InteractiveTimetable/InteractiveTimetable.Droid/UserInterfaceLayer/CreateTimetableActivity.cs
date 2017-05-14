@@ -64,7 +64,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private int _tapeNumber;
         #endregion
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.create_timetable);
@@ -113,7 +113,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var goalCard = InteractiveTimetable.Current.ScheduleManager.Cards.
                                                     GetCard(_newTapeGoalCardId);
                 var imageSize = ImageHelper.ConvertDpToPixels(CardImageSizeDp);
-                var bitmap = goalCard.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                var bitmap = await goalCard.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+                    imageSize,
+                    imageSize
+                );
                 if (bitmap != null)
                 {
                     _newTapeGoal.SetImageBitmap(bitmap);

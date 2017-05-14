@@ -54,7 +54,7 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
         #endregion
 
         #region Event Handlers
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        public override async void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             var viewHolder = holder as NewTapeItemViewHolder;
 
@@ -72,7 +72,10 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
                 {
                     /* Set card image */
                     var imageSize = ImageHelper.ConvertDpToPixels(CardImageSizeDp);
-                    var bitmap = itemAtPosition.PhotoPath.LoadAndResizeBitmap(imageSize, imageSize);
+                    var bitmap = await itemAtPosition.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+                        imageSize,
+                        imageSize
+                    );
                     if (bitmap != null)
                     {
                         viewHolder.ItemImage.SetImageBitmap(bitmap);
