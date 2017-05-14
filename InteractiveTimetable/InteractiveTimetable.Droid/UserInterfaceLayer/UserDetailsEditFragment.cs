@@ -318,7 +318,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        public override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
@@ -337,7 +337,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                     /* Displaying image with resizing */
                     var imageSize = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
-                    _bitmap = _photo.Path.LoadAndResizeBitmap(imageSize, imageSize);
+                    _bitmap = await _photo.Path.LoadScaledDownBitmapForDisplayAsync(
+                        imageSize,
+                        imageSize
+                    );
                     if (_bitmap != null)
                     {
                         _userPhoto.SetImageBitmap(_bitmap);
@@ -358,7 +361,10 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     /* Display image with resizing */
                     var imageSize = ImageHelper.ConvertDpToPixels(UserImageSizeDp);
                     var path = InteractiveTimetable.Current.GetPathToImage(Activity, uri);
-                    var bitmap = path.LoadAndResizeBitmap(imageSize, imageSize);
+                    var bitmap = await path.LoadScaledDownBitmapForDisplayAsync(
+                        imageSize,
+                        imageSize
+                    );
                     if (bitmap != null)
                     {
                         _userPhoto.SetImageBitmap(bitmap);
