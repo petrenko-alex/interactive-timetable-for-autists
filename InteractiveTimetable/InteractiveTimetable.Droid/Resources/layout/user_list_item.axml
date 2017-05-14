@@ -15,7 +15,6 @@
         p1:background="@drawable/grey_frame_round5"
         p1:layout_marginBottom="10dp">
         <ImageView
-            p1:src="@android:drawable/ic_menu_gallery"
             p1:id="@+id/user_photo"
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"

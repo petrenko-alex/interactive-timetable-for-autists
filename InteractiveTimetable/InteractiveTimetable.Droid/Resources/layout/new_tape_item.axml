@@ -19,7 +19,6 @@
             p1:layout_height="140dp"
             p1:id="@+id/nti_image"
             p1:layout_gravity="center"
-            p1:src="@android:drawable/ic_menu_gallery"
             p1:scaleType="centerCrop" />
     </FrameLayout>
     <ImageButton
