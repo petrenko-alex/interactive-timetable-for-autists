@@ -13,7 +13,7 @@ namespace InteractiveTimetable.DataAccessLayer
         internal CardTypeRepository(SQLiteConnection connection) : base(connection)
         {
             /* If there are no default card types in DB, create it */
-            if(GetCardTypes().Count() == 0)
+            if(!GetCardTypes().Any())
             {
                 CardType activivtyCardType = new CardType()
                 {
