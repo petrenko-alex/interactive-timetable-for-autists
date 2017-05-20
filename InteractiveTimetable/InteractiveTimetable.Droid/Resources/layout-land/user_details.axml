@@ -6,7 +6,6 @@
     p1:layout_width="match_parent"
     p1:layout_height="wrap_content"
     p1:id="@+id/user_details_fragment"
-    p1:paddingTop="50dp"
     p1:gravity="center">
     <FrameLayout
         p1:minWidth="25px"
@@ -27,14 +26,15 @@
     <FrameLayout
         p1:minWidth="25px"
         p1:minHeight="25px"
-        p1:layout_width="997dp"
         p1:layout_height="match_parent"
         p1:id="@+id/frameLayout2"
         p1:padding="1dp"
         p1:background="@drawable/grey_frame_round10"
         p1:layout_marginLeft="50dp"
+        p1:layout_gravity="center"
+        p1:layout_marginBottom="20dp"
         p1:layout_marginTop="20dp"
-        p1:layout_marginBottom="20dp">
+        p1:layout_width="997dp">
         <LinearLayout
             p1:orientation="horizontal"
             p1:minWidth="25px"
@@ -97,29 +97,30 @@
                     p1:maxWidth="300dp"
                     p1:ellipsize="end" />
             </LinearLayout>
-            <LinearLayout
+            <RelativeLayout
                 p1:orientation="vertical"
                 p1:minWidth="25px"
                 p1:minHeight="25px"
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:id="@+id/linearLayout6"
-                p1:layout_marginLeft="263dp"
-                p1:layout_marginTop="100dp">
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout6">
                 <Button
                     p1:text="@string/general_monitoring_button"
                     p1:id="@+id/general_monitoring"
                     p1:layout_width="wrap_content"
-                    p1:layout_height="wrap_content" />
+                    p1:layout_height="wrap_content"
+                    p1:layout_centerInParent="true" />
                 <ImageButton
                     p1:src="@android:drawable/ic_menu_edit"
                     p1:layout_width="wrap_content"
                     p1:layout_height="wrap_content"
                     p1:id="@+id/edit_user"
-                    p1:layout_marginTop="65dp"
-                    p1:layout_marginLeft="425dp"
-                    p1:background="@null" />
-            </LinearLayout>
+                    p1:background="@null"
+                    p1:layout_alignParentEnd="true"
+                    p1:layout_alignParentBottom="true"
+                    p1:layout_marginBottom="5dp"
+                    p1:layout_marginRight="5dp" />
+            </RelativeLayout>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>
