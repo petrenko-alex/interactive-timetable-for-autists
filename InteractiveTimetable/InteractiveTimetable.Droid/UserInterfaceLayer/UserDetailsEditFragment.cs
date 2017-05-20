@@ -297,11 +297,13 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             var fragment = DatePickerFragment.NewInstance(
                 _currentDate,
-                delegate (DateTime date)
+                delegate(DateTime date)
                 {
                     _currentDate = date;
                     _birthDate.Text = date.ToString("dd.MM.yyyy");
-                });
+                },
+                InteractiveTimetable.Current.MinDate
+            );
 
             fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }

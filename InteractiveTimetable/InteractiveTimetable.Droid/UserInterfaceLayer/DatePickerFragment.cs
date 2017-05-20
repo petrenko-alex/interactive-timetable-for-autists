@@ -19,6 +19,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         #region Internal Variables
         private DateTime _currentDate;
+        private DateTime _minDate;
         #endregion
 
         #region Methods
@@ -26,12 +27,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         #region Construct Methods
         public static DatePickerFragment NewInstance(
             DateTime currentDate,
-            Action<DateTime> onDateSelected)
+            Action<DateTime> onDateSelected,
+            DateTime minDate)
         {
             var fragment = new DatePickerFragment
             {
                 _dateSelectedHandler = onDateSelected,
-                _currentDate = currentDate
+                _currentDate = currentDate,
+                _minDate = minDate
             };
 
             return fragment;
@@ -49,6 +52,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _currentDate.Day
             );
             dialog.SetCanceledOnTouchOutside(true);
+            dialog.DatePicker.MinDate =
+                    (long) (_minDate.Date - new DateTime(1970, 1, 1)).TotalMilliseconds;
 
             return dialog;
         }

@@ -68,7 +68,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
             var fragment = DatePickerFragment.NewInstance(
                 chosenDate,
-                StartTimetableActivity
+                StartTimetableActivity,
+                InteractiveTimetable.Current.MinDate
             );
             fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }

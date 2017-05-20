@@ -30,6 +30,7 @@ namespace InteractiveTimetable.Droid
         public ScheduleManager ScheduleManager { get; set; }
         public DiagnosticManager DiagnosticManager { get; set; }
 
+        public DateTime MinDate => new DateTime(1900, 1, 1);
         public string AppFolder => Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         public float ScreenDensity => Resources.DisplayMetrics.Density;
         public bool HasCamera { get; private set; }

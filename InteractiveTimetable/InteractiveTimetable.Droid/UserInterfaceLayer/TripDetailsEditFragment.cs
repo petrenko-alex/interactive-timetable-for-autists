@@ -38,6 +38,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private DateTime _currentStartDate;
         private DateTime _currentFinishDate;
         private int _userId;
+        private DateTime _minimumDate;
         #endregion
 
         #region Flags
@@ -97,6 +98,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _startTime.Click += OnStartTimeClicked;
             _finishDate.Click += OnFinishDateClicked;
             _finishTime.Click += OnFinishTimeClicked;
+
+            _minimumDate = InteractiveTimetable.Current.UserManager.GetUser(_userId).BirthDate;
 
             /* If trip is set, retrieve it data */
             if (TripId > 0)
@@ -183,7 +186,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             var fragment = DatePickerFragment.NewInstance(
                 _currentFinishDate,
-                delegate (DateTime date)
+                delegate(DateTime date)
                 {
                     var time = new TimeSpan(
                         _currentFinishDate.Hour,
@@ -192,7 +195,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     );
                     _currentFinishDate = date.Date + time;
                     _finishDate.Text = date.ToString(DateFormat);
-                });
+                },
+                _minimumDate
+            );
 
             fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }
@@ -224,7 +229,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     );
                     _currentStartDate = date.Date + time;
                     _startDate.Text = date.ToString(DateFormat);
-                });
+                },
+                _minimumDate
+            );
 
             fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }

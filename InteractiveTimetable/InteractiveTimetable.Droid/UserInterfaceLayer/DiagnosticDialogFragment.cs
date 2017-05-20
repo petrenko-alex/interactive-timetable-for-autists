@@ -157,7 +157,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         {
             var fragment = DatePickerFragment.NewInstance(
                 _diagnosticDateTime,
-                delegate (DateTime date)
+                delegate(DateTime date)
                 {
                     var time = new TimeSpan(
                         _diagnosticDateTime.Hour,
@@ -166,7 +166,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     );
                     _diagnosticDateTime = date.Date + time;
                     _diagnosticDate.Text = date.ToString(DateFormat);
-                });
+                },
+                InteractiveTimetable.Current.MinDate
+            );
 
             fragment.Show(FragmentManager, DatePickerFragment.FragmentTag);
         }
