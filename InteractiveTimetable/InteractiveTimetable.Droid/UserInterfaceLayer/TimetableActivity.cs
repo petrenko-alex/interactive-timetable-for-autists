@@ -108,6 +108,9 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         private void OnHomeScreenButtonClicked(object sender, EventArgs e)
         {
             Finish();
+            var intent = new Intent(this, typeof(HomeScreenActivity));
+            intent.SetFlags(ActivityFlags.ClearTop);
+            StartActivity(intent);
             OverridePendingTransition(
                 Resource.Animation.enter_from_left,
                 Resource.Animation.exit_to_right
