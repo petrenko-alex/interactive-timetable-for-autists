@@ -1,9 +1,10 @@
+using System.Threading.Tasks;
 
 namespace InteractiveTimetable.Droid.ApplicationLayer
 {
     public interface IDiagnosticDialogListener
     {
-        void OnNewDiagnosticAdded(int diagnosticId);
-        void OnDiagnosticEdited(int diagnosticId);
+        Task OnNewDiagnosticAdded(int diagnosticId);
+        Task OnDiagnosticEdited(int diagnosticId);
     }
 }

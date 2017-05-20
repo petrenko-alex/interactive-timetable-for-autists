@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -201,7 +202,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void DeleteDiagnostic(int diagnosticId)
+        private async Task DeleteDiagnostic(int diagnosticId)
         {
             /* Get diagnostic by id */
             var diagnostic = Diagnostics.First(x => x.Id == diagnosticId);
@@ -241,7 +242,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
             else
             {
-                RebuildVisibleTables();
+                await RebuildVisibleTables();
                 AsjustVisibilityOfTablePageButtons();
                 AdjustVisibilityOfShowGraphButton();
             }
@@ -388,7 +389,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             tableControls.LayoutParameters.Width = width;
         }
 
-        public void OnNewDiagnosticAdded(int diagnosticId)
+        public async Task OnNewDiagnosticAdded(int diagnosticId)
         {
             if (Diagnostics.Count == 0)
             {
@@ -411,14 +412,14 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             /* Rebuild _visibleDiagnosticIndexes */
             RebuildVisibleList(newDiagnosticIndex);
             
-            RebuildVisibleTables();
+            await RebuildVisibleTables();
 
             AdjustVisibilityOfNoDiagnosticsInfo();
             AsjustVisibilityOfTablePageButtons();
             AdjustVisibilityOfShowGraphButton();
         }
 
-        public void OnDiagnosticEdited(int diagnosticId)
+        public async Task OnDiagnosticEdited(int diagnosticId)
         {
             /* Get just edited diagnostic */
             var diagnostic = InteractiveTimetable.Current.DiagnosticManager.
@@ -441,7 +442,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 /* Rebuild _visibleDiagnosticIndexes */
                 RebuildVisibleList(newDiagnosticIndex);
 
-                RebuildVisibleTables();
+                await RebuildVisibleTables();
 
                 AsjustVisibilityOfTablePageButtons();
             }
@@ -454,7 +455,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 Diagnostics[index] = diagnostic;
                 Tables[index] = null;
 
-                RebuildVisibleTables();
+                await RebuildVisibleTables();
             }
         }
 
@@ -675,7 +676,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             }
         }
 
-        private void RebuildVisibleTables()
+        private async Task RebuildVisibleTables()
         {
             int amountOfVisible = _visibleDiagnosticIndexes.Count;
 
@@ -699,7 +700,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 else
                 {
                     var task = new CreateDiagnosticTableTask(this, index, i + 1);
-                    task.Execute(null, null);
+                    await task.Execute(null, null).GetAsync();
                 }
             }
         }
