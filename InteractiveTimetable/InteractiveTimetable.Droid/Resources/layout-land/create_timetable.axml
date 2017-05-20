@@ -60,66 +60,82 @@
             p1:layout_gravity="right"
             p1:layout_marginTop="10dp" />
     </LinearLayout>
-    <LinearLayout
-        p1:orientation="vertical"
+    <ScrollView
         p1:minWidth="25px"
         p1:minHeight="25px"
         p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/ct_activity_cards_layout"
-        p1:layout_marginTop="10dp"
+        p1:layout_height="match_parent"
+        p1:id="@+id/scrollView1"
         p1:layout_below="@+id/new_tape_layout">
-        <TextView
-            p1:text="@string/activities"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/ct_activity_cards_label"
-            p1:textSize="25dp"
-            p1:layout_marginLeft="10dp" />
-        <View
-            p1:background="@color/vivid_blue"
-            p1:id="@+id/ct_activity_cards_divider"
+        <LinearLayout
+            p1:orientation="vertical"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
             p1:layout_width="match_parent"
-            p1:layout_height="2dip"
-            p1:layout_marginTop="5dp" />
-        <android.support.v7.widget.RecyclerView
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/ct_activity_cards"
-            p1:layout_marginTop="5dp"
-            p1:layout_marginLeft="10dp"
-            p1:layout_marginRight="10dp" />
-    </LinearLayout>
-    <LinearLayout
-        p1:orientation="vertical"
-        p1:minWidth="25px"
-        p1:minHeight="25px"
-        p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/ct_goal_cards_layout"
-        p1:layout_marginTop="10dp"
-        p1:layout_below="@+id/ct_activity_cards_layout">
-        <TextView
-            p1:text="@string/goals"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/ct_goal_cards_label"
-            p1:layout_marginLeft="10dp"
-            p1:textSize="25dp" />
-        <View
-            p1:background="@color/vivid_blue"
-            p1:id="@+id/ct_activity_cards_divider"
-            p1:layout_width="match_parent"
-            p1:layout_height="2dip"
-            p1:layout_marginTop="5dp" />
-        <android.support.v7.widget.RecyclerView
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/ct_goal_cards"
-            p1:layout_marginLeft="10dp"
-            p1:layout_marginRight="10dp"
-            p1:layout_marginTop="5dp" />
-    </LinearLayout>
+            p1:layout_height="match_parent"
+            p1:id="@+id/linearLayout2">
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/ct_activity_cards_layout"
+                p1:layout_marginTop="10dp"
+                p1:layout_below="@+id/new_tape_layout">
+                <TextView
+                    p1:text="@string/activities"
+                    p1:textAppearance="?android:attr/textAppearanceLarge"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/ct_activity_cards_label"
+                    p1:textSize="25dp"
+                    p1:layout_marginLeft="10dp" />
+                <View
+                    p1:background="@color/vivid_blue"
+                    p1:id="@+id/ct_activity_cards_divider"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="2dip"
+                    p1:layout_marginTop="5dp" />
+                <android.support.v7.widget.RecyclerView
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/ct_activity_cards"
+                    p1:layout_marginTop="5dp"
+                    p1:layout_marginLeft="10dp"
+                    p1:layout_marginRight="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/ct_goal_cards_layout"
+                p1:layout_marginTop="10dp"
+                p1:layout_below="@+id/ct_activity_cards_layout">
+                <TextView
+                    p1:text="@string/goals"
+                    p1:textAppearance="?android:attr/textAppearanceLarge"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/ct_goal_cards_label"
+                    p1:layout_marginLeft="10dp"
+                    p1:textSize="25dp" />
+                <View
+                    p1:background="@color/vivid_blue"
+                    p1:id="@+id/ct_activity_cards_divider"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="2dip"
+                    p1:layout_marginTop="5dp" />
+                <android.support.v7.widget.RecyclerView
+                    p1:layout_width="match_parent"
+                    p1:layout_height="wrap_content"
+                    p1:id="@+id/ct_goal_cards"
+                    p1:layout_marginLeft="10dp"
+                    p1:layout_marginRight="10dp"
+                    p1:layout_marginTop="5dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

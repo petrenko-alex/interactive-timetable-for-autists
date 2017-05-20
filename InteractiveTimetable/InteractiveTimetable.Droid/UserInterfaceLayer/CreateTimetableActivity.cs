@@ -21,7 +21,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
     public class CreateTimetableActivity : ActionBarActivity
     {
         #region Constants
-        private static readonly int CardColumnWidth = 120;
+        private static readonly int CardColumnWidth = 160;
         private static readonly int ActivityCardViaCamera = 0;
         private static readonly int ActivityCardViaFile = 1;
         private static readonly int GoalCardViaCamera = 2;
