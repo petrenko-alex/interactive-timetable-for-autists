@@ -3,10 +3,10 @@
     p1:orientation="horizontal"
     p1:minWidth="25px"
     p1:minHeight="25px"
-    p1:layout_width="wrap_content"
+    p1:layout_width="match_parent"
     p1:layout_height="wrap_content"
     p1:id="@+id/linearLayout1"
-    p1:paddingTop="50dp">
+    p1:gravity="center">
     <FrameLayout
         p1:minWidth="25px"
         p1:minHeight="25px"
@@ -134,23 +134,31 @@
                     </LinearLayout>
                 </GridLayout>
             </LinearLayout>
-            <Button
-                p1:text="@string/add_button"
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:id="@+id/apply_changes_btn"
-                p1:layout_gravity="bottom"
-                p1:layout_marginLeft="200dp"
-                p1:layout_marginBottom="10dp" />
-            <Button
-                p1:text="@string/cancel_button"
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:id="@+id/cancel_btn"
-                p1:layout_gravity="bottom"
-                p1:layout_marginLeft="50dp"
-                p1:layout_marginBottom="10dp"
-                p1:layout_marginRight="10dp" />
+            <RelativeLayout
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/relativeLayout1">
+                <Button
+                    p1:text="@string/add_button"
+                    p1:id="@+id/apply_changes_btn"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="wrap_content"
+                    p1:layout_toLeftOf="@+id/cancel_btn"
+                    p1:layout_alignParentBottom="true"
+                    p1:layout_marginBottom="10dp" />
+                <Button
+                    p1:text="@string/cancel_button"
+                    p1:id="@+id/cancel_btn"
+                    p1:layout_width="wrap_content"
+                    p1:layout_height="wrap_content"
+                    p1:layout_alignParentEnd="true"
+                    p1:layout_alignParentBottom="true"
+                    p1:layout_marginBottom="10dp"
+                    p1:layout_marginRight="50dp"
+                    p1:layout_marginLeft="50dp" />
+            </RelativeLayout>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

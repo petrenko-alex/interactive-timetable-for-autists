@@ -88,22 +88,22 @@
                     p1:minHeight="25px"
                     p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
-                    p1:id="@+id/user_trips">
+                    p1:id="@+id/user_trips"
+                    p1:layout_marginTop="30dp">
                     <LinearLayout
                         p1:orientation="horizontal"
                         p1:minWidth="25px"
                         p1:minHeight="25px"
                         p1:layout_width="match_parent"
                         p1:layout_height="match_parent"
-                        p1:id="@+id/linearLayout1">
+                        p1:id="@+id/linearLayout1"
+                        p1:gravity="center">
                         <FrameLayout
                             p1:minWidth="25px"
                             p1:minHeight="25px"
                             p1:layout_width="300dp"
-                            p1:layout_height="500dp"
-                            p1:id="@+id/trip_list_frame"
-                            p1:layout_marginLeft="400dp"
-                            p1:layout_marginTop="30dp">
+                            p1:layout_height="400dp"
+                            p1:id="@+id/trip_list_frame">
                             <LinearLayout
                                 p1:orientation="vertical"
                                 p1:minWidth="25px"
