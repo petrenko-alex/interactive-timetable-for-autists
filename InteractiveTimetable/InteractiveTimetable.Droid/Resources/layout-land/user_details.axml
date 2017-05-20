@@ -3,10 +3,11 @@
     p1:orientation="horizontal"
     p1:minWidth="25px"
     p1:minHeight="25px"
-    p1:layout_width="wrap_content"
+    p1:layout_width="match_parent"
     p1:layout_height="wrap_content"
     p1:id="@+id/user_details_fragment"
-    p1:paddingTop="50dp">
+    p1:paddingTop="50dp"
+    p1:gravity="center">
     <FrameLayout
         p1:minWidth="25px"
         p1:minHeight="25px"

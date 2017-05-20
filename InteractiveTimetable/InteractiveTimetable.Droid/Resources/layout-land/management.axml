@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     p1:layout_width="fill_parent"
-    p1:layout_height="fill_parent">
+    p1:layout_height="fill_parent"
+    tools:gridSpec="1|8|#0093eeff|K:#ee8700ff:16,r|S:#83ee00ff:">
     <include
         p1:id="@+id/m_toolbar"
         layout="@layout/toolbar"
@@ -21,31 +23,34 @@
             p1:minHeight="25px"
             p1:layout_width="400dp"
             p1:layout_height="match_parent"
-            p1:id="@+id/user_list" />
+            p1:id="@+id/user_list"
+            p1:layout_weight="1" />
         <LinearLayout
             p1:orientation="vertical"
             p1:minWidth="25px"
             p1:minHeight="25px"
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
-            p1:id="@+id/user_details_general">
+            p1:id="@+id/user_details_general"
+            p1:layout_weight="6"
+            p1:gravity="center_horizontal">
             <TextView
                 p1:text="Карточка ребенка"
                 p1:textAppearance="?android:attr/textAppearanceLarge"
                 p1:layout_width="match_parent"
                 p1:layout_height="wrap_content"
                 p1:id="@+id/user_card_label"
-                p1:layout_marginTop="30dp"
                 p1:textSize="25dp"
-                p1:gravity="center" />
+                p1:gravity="center"
+                p1:layout_marginTop="20dp" />
             <View
                 p1:layout_width="fill_parent"
                 p1:layout_height="2dip"
                 p1:background="@color/vivid_blue"
-                p1:layout_marginLeft="300dp"
-                p1:layout_marginRight="350dp"
                 p1:layout_marginTop="10dp"
-                p1:id="@+id/user_card_divider" />
+                p1:id="@+id/user_card_divider"
+                p1:layout_marginLeft="50dp"
+                p1:layout_marginRight="50dp" />
             <LinearLayout
                 p1:orientation="vertical"
                 p1:minWidth="25px"
@@ -60,8 +65,7 @@
                     p1:layout_width="match_parent"
                     p1:layout_height="wrap_content"
                     p1:id="@+id/user_details"
-                    p1:layout_marginLeft="400dp"
-                    p1:layout_marginRight="400dp" />
+                    p1:layout_gravity="center" />
                 <TextView
                     p1:text="@string/trips"
                     p1:textAppearance="?android:attr/textAppearanceLarge"
@@ -69,16 +73,16 @@
                     p1:layout_height="wrap_content"
                     p1:id="@+id/trips_label"
                     p1:gravity="center"
-                    p1:layout_marginTop="200dp"
+                    p1:layout_marginTop="10dp"
                     p1:textSize="25dp" />
                 <View
                     p1:layout_width="fill_parent"
                     p1:layout_height="2dip"
                     p1:background="@color/vivid_blue"
-                    p1:layout_marginLeft="300dp"
-                    p1:layout_marginRight="350dp"
                     p1:layout_marginTop="10dp"
-                    p1:id="@+id/trips_divider" />
+                    p1:id="@+id/trips_divider"
+                    p1:layout_marginLeft="50dp"
+                    p1:layout_marginRight="50dp" />
                 <FrameLayout
                     p1:minWidth="25px"
                     p1:minHeight="25px"
