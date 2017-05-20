@@ -2068,8 +2068,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f06001e
 			public const int always = 2131099678;
 			
-			// aapt resource value: 0x7f06014e
-			public const int apply_changes_btn = 2131099982;
+			// aapt resource value: 0x7f06014f
+			public const int apply_changes_btn = 2131099983;
 			
 			// aapt resource value: 0x7f060137
 			public const int apply_trip_edit_button = 2131099959;
@@ -2098,8 +2098,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f0600f4
 			public const int cancel_action = 2131099892;
 			
-			// aapt resource value: 0x7f06014f
-			public const int cancel_btn = 2131099983;
+			// aapt resource value: 0x7f060150
+			public const int cancel_btn = 2131099984;
 			
 			// aapt resource value: 0x7f060138
 			public const int cancel_trip_edit_button = 2131099960;
@@ -2236,8 +2236,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060040
 			public const int expanded_menu = 2131099712;
 			
-			// aapt resource value: 0x7f060150
-			public const int find_user = 2131099984;
+			// aapt resource value: 0x7f060151
+			public const int find_user = 2131099985;
 			
 			// aapt resource value: 0x7f060134
 			public const int finish_date = 2131099956;
@@ -2590,8 +2590,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060043
 			public const int radio = 2131099715;
 			
-			// aapt resource value: 0x7f060152
-			public const int relativeLayout1 = 2131099986;
+			// aapt resource value: 0x7f06014e
+			public const int relativeLayout1 = 2131099982;
 			
 			// aapt resource value: 0x7f06011b
 			public const int return_schedule_button = 2131099931;
@@ -3019,8 +3019,8 @@ namespace InteractiveTimetable.Droid
 			// aapt resource value: 0x7f060158
 			public const int user_photo = 2131099992;
 			
-			// aapt resource value: 0x7f060151
-			public const int user_recycler_view = 2131099985;
+			// aapt resource value: 0x7f060152
+			public const int user_recycler_view = 2131099986;
 			
 			// aapt resource value: 0x7f0600d5
 			public const int user_trips = 2131099861;
