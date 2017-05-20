@@ -51,7 +51,8 @@
                 p1:layout_height="40dp"
                 p1:id="@+id/tape_edit_button"
                 p1:background="@null"
-                p1:scaleType="centerCrop" />
+                p1:scaleType="centerCrop"
+                p1:layout_marginTop="5dp" />
         </LinearLayout>
         <View
             p1:layout_width="1dp"
