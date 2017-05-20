@@ -63,5 +63,7 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/edit_trip_button"
         p1:layout_gravity="right"
-        p1:background="@null" />
+        p1:background="@null"
+        p1:layout_marginBottom="5dp"
+        p1:layout_marginRight="5dp" />
 </LinearLayout>
