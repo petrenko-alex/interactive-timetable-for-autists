@@ -55,7 +55,28 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
             return await BitmapFactory.DecodeFileAsync(fileName, options);
         }
 
-        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(string fileName)
+        public static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(
+            this int resourceId,
+            Android.Content.Res.Resources resources,
+            int reqWidth,
+            int reqHeight)
+        {
+            /* Get options of image */
+            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(resourceId, resources);
+            
+
+            /* Calculate inSampleSize */
+            options.InSampleSize = CalculateInSampleSize(options, reqWidth, reqHeight);
+
+            /* Decode bitmap with inSampleSize set */
+            options.InJustDecodeBounds = false;
+
+
+            return await BitmapFactory.DecodeResourceAsync(resources, resourceId, options);
+        }
+
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(
+            string fileName)
         {
             var options = new BitmapFactory.Options
             {
@@ -64,6 +85,21 @@ namespace InteractiveTimetable.Droid.ApplicationLayer
 
             /* The result will be null because InJustDecodeBounds == true */
             var result = await BitmapFactory.DecodeFileAsync(fileName, options);
+
+            return options;
+        }
+
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(
+            int resourceId,
+            Android.Content.Res.Resources resources)
+        {
+            var options = new BitmapFactory.Options
+            {
+                InJustDecodeBounds = true
+            };
+
+            /* The result will be null because InJustDecodeBounds == true */
+            var result = await BitmapFactory.DecodeResourceAsync(resources, resourceId, options);
 
             return options;
         }

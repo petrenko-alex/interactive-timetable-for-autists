@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Database;
+using Android.Graphics;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
 using Android.Views.InputMethods;
 using InteractiveTimetable.BusinessLayer.Managers;
 using SQLite;
-using Java.IO;
 using Environment = System.Environment;
+using File = Java.IO.File;
 using Path = System.IO.Path;
 using UserManager = InteractiveTimetable.BusinessLayer.Managers.UserManager;
 
@@ -131,6 +133,18 @@ namespace InteractiveTimetable.Droid
             }
             mycursor.Close();
             return path;
+        }
+
+        public static string ExportBitmapAsPng(Bitmap bitmap, string fileName)
+        {
+            var filePath = InteractiveTimetable.Current.AppFolder;
+            fileName += ".png";
+            filePath = System.IO.Path.Combine(filePath, fileName);
+            var stream = new FileStream(filePath, FileMode.Create);
+            bitmap.Compress(Bitmap.CompressFormat.Png, 100, stream);
+            stream.Close();
+
+            return filePath;
         }
     }
 }
