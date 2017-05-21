@@ -136,20 +136,18 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _recyclerView.AddOnScrollListener(_scrollListener);
 
                 /* Set static goal card */
-                var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
-                var card = InteractiveTimetable.Current.ScheduleManager.Cards.
-                                                GetCard(_tapeItems.Last().CardId);
-                bitmap = await card.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
-                    imageSize,
-                    imageSize
-                );
-                if (bitmap != null)
-                {
-                    _staticGoalCard.SetImageBitmap(bitmap);
-                }
-
-                /* Set up timers */
-                _scrollTimer = new Timer(ScrollTimer);
+//                var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
+//                var card = InteractiveTimetable.Current.ScheduleManager.Cards.
+//                                                GetCard(_tapeItems.Last().CardId);
+//                bitmap = await card.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+//                     imageSize,
+//                     imageSize
+//                 );
+//                if (bitmap != null)
+//                {
+//                    _staticGoalCard.SetImageBitmap(bitmap);
+//                }
+                _staticGoalCardFrame.Visibility = ViewStates.Gone;
 
                 /* If timetable is completed */
                 if (CurrentSchedule.IsCompleted)
@@ -176,12 +174,12 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         private void OnLastItemIsHidden()
         {
-            _staticGoalCardFrame.Visibility = ViewStates.Visible;
+            //_staticGoalCardFrame.Visibility = ViewStates.Visible;
         }
 
         private void OnLastItemIsVisible()
         {
-            _staticGoalCardFrame.Visibility = ViewStates.Gone;
+            //_staticGoalCardFrame.Visibility = ViewStates.Gone;
         }
 
         private void OnItemLongClick(
@@ -314,7 +312,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _infoLayout.Visibility = ViewStates.Gone;
             _recyclerView.Visibility = ViewStates.Visible;
             _recyclerView.SmoothScrollToPosition(0);
-            _staticGoalCardFrame.Visibility = ViewStates.Visible;
+            //_staticGoalCardFrame.Visibility = ViewStates.Visible;
         }
 
         private void NeedToScroll(object sender, ElapsedEventArgs args, int positionInList)
@@ -381,7 +379,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 _infoLayout.Visibility = ViewStates.Gone;
                 _returnScheduleButton.Visibility = ViewStates.Gone;
 
-                _staticGoalCardFrame.Visibility = ViewStates.Visible;
+                //_staticGoalCardFrame.Visibility = ViewStates.Visible;
                 _recyclerView.Visibility = ViewStates.Visible;
             }
 
@@ -407,17 +405,17 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
             _recyclerView.AddOnScrollListener(_scrollListener);
 
             /* Set static goal card */
-            var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
-            var card = InteractiveTimetable.Current.ScheduleManager.Cards.
-                                            GetCard(_tapeItems.Last().CardId);
-            var bitmap = await card.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
-                imageSize,
-                imageSize
-            );
-            if (bitmap != null)
-            {
-                _staticGoalCard.SetImageBitmap(bitmap);
-            }
+//            var imageSize = ImageHelper.ConvertDpToPixels(GoalCardImageSizeDp);
+//            var card = InteractiveTimetable.Current.ScheduleManager.Cards.
+//                                            GetCard(_tapeItems.Last().CardId);
+//            var bitmap = await card.PhotoPath.LoadScaledDownBitmapForDisplayAsync(
+//                imageSize,
+//                imageSize
+//            );
+//            if (bitmap != null)
+//            {
+//                _staticGoalCard.SetImageBitmap(bitmap);
+//            }
 
             /* Set up timers */
             _scrollTimer = new Timer(ScrollTimer);
