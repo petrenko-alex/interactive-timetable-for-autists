@@ -103,7 +103,8 @@
             p1:layout_gravity="center"
             p1:background="@drawable/red_round_corner_frame"
             p1:padding="5dp"
-            p1:layout_margin="5dp">
+            p1:layout_margin="5dp"
+            p1:visibility="gone">
             <ImageView
                 p1:src="@android:drawable/ic_menu_gallery"
                 p1:layout_width="128dp"
