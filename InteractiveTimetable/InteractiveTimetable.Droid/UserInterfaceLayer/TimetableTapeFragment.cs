@@ -250,6 +250,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* Timer to scroll */
                 _itemWidth = viewHolder.ItemImage.Width;
+                _scrollTimer = new Timer(ScrollTimer);
                 _scrollTimer.Stop();
                 _scrollTimer.Elapsed += (sender, e) => NeedToScroll(sender, e, positionInList);
                 _scrollTimer.Start();
@@ -276,6 +277,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
                 /* Timer to hide tape and show info message */
                 var hideTimer = new Timer(ScrollTimer * 2);
+                hideTimer.Stop();
                 hideTimer.Elapsed += NeedToHideTimetableTape;
                 hideTimer.Start();
 
