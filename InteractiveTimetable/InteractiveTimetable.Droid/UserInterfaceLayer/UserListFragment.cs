@@ -150,9 +150,6 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
 
         public void OnItemClick(object sender, UserListEventArgs args)
         {
-            // TODO: Delete the line below when dubugging is done
-            Toast.MakeText(Activity, $"This is user with id: {args.UserId}", ToastLength.Short).Show();
-
             ListItemClicked?.Invoke(args.UserId);
             _currentUserId = args.UserId;
         }
