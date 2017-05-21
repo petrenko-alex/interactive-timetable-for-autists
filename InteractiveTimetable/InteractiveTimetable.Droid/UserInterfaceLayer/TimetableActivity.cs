@@ -265,6 +265,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                 var id = 0;
                 var cards = data.GetIntArrayExtra("cards").ToList();
                 int tapeNumber = data.GetIntExtra("tape_number", 0);
+                var dateTime = _chosenDate.Add(DateTime.Now.TimeOfDay);
 
                 var tapeFragment = _tapeFragments[tapeNumber];
 
@@ -285,7 +286,7 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
                     /* Create schedule in database */
                     id = InteractiveTimetable.Current.ScheduleManager.SaveSchedule(
                         tapeFragment.UserId,
-                        _chosenDate,
+                        dateTime,
                         cards
                     );
                 }
