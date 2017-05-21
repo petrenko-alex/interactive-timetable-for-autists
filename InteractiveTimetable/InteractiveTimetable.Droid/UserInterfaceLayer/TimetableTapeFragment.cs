@@ -20,8 +20,8 @@ namespace InteractiveTimetable.Droid.UserInterfaceLayer
         public static readonly string FragmentTag = "timetable_tape_fragment";
         private static readonly int AnimationDuration = 700;
         private static readonly int ScrollTimer = 1000;
-        private static readonly int UserImageSizeDp = 150;
-        private static readonly int GoalCardImageSizeDp = 140;
+        private static readonly int UserImageSizeDp = 120;
+        private static readonly int GoalCardImageSizeDp = 128;
         #endregion
 
         #region Widgets

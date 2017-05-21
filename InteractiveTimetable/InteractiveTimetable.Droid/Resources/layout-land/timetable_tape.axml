@@ -11,7 +11,7 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/tape_main_layout"
         p1:background="@drawable/grey_frame_round10"
-        p1:layout_marginBottom="10dp">
+        p1:layout_marginBottom="5dp">
         <FrameLayout
             p1:minWidth="25px"
             p1:minHeight="25px"
@@ -19,21 +19,22 @@
             p1:layout_height="wrap_content"
             p1:id="@+id/frameLayout1"
             p1:clipToPadding="false"
-            p1:clipChildren="false">
+            p1:clipChildren="false"
+            p1:layout_gravity="center">
             <TextView
                 p1:text="Александр"
                 p1:layout_width="100dp"
                 p1:id="@+id/tape_user_name"
                 p1:rotation="-90"
-                p1:layout_height="160dp"
+                p1:layout_height="128dp"
                 p1:textAppearance="?android:attr/textAppearanceMedium"
                 p1:gravity="center"
                 p1:ellipsize="end" />
         </FrameLayout>
         <ImageView
             p1:src="@android:drawable/ic_menu_gallery"
-            p1:layout_width="150dp"
-            p1:layout_height="150dp"
+            p1:layout_width="120dp"
+            p1:layout_height="120dp"
             p1:id="@+id/tape_user_image"
             p1:scaleType="centerCrop"
             p1:layout_gravity="center" />
@@ -105,8 +106,8 @@
             p1:layout_margin="5dp">
             <ImageView
                 p1:src="@android:drawable/ic_menu_gallery"
-                p1:layout_width="140dp"
-                p1:layout_height="140dp"
+                p1:layout_width="128dp"
+                p1:layout_height="128dp"
                 p1:id="@+id/static_goal_card"
                 p1:layout_gravity="center" />
         </FrameLayout>
