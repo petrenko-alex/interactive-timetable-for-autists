@@ -19,7 +19,7 @@ using UserManager = InteractiveTimetable.BusinessLayer.Managers.UserManager;
 
 namespace InteractiveTimetable.Droid
 {
-    [Application]
+    [Application(Debuggable = false)]
     class InteractiveTimetable : Application
     {
         public static readonly string DateTimeFormat = "d MMMM yyyy, EEEE   k:mm";
