@@ -1,41 +1,38 @@
-## Interactive Timetable For Children With Autistic Spectrum Disorders ##
+# Interactive Timetable - Интерактивное расписание для детей с расстройствами аутического спектра #
 
-#### What is the "Interactive Timetable For Children With Autistic Spectrum Disorders"? ####
+Проект был выполнен в качетве выпускной квалификационной работы бакалавра в Волгоградском Государственном Техническом Университете.  
+  
+Interactive Timetable - интерактивное расписание для детей с [расстройствами аутического спектра](https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D1%81%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE_%D0%B0%D1%83%D1%82%D0%B8%D1%81%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D1%81%D0%BF%D0%B5%D0%BA%D1%82%D1%80%D0%B0) предназначено для составления и показа ежедневного расписания ребенка, а также ведения учета детей, их путевок в реабилитационный центр и диагностик.  
+  
+Приложение разрабатывалось для целевого устройства - моноблока HP Slate 21 на базе операционной системы Android 4.2.2.  
 
-* This is the application that Volgograd State Technical University develop alongside with the rehabilitation center called «Nadezhda» 
-for their children who have all sorts of autistic spectrum disorders. 
+### Что это и для кого? ###
 
-* The app will help children to visualize their every day activities, to see it whenever they need and to intuitively interact with it.
+* Приложение разрабатывалось для детей и педагогов [Волгоградского областного реабилитационного центра для детей-инвалидов «Надежда»](http://nadezhdavlz.ucoz.ru/).
+* Приложение визуализирует ежедневное расписание детей, чтобы они могли постоянно видеть его и взаимодействовать с ним.
+* Также приложение призвано помочь педагогам и психологам центра обрабатывать данные о детях: общие сведения, сведения о посещениях, данные результатов диагностик.
 
-* Meanwhile the app will help the staff of the center to store all the children related data they need: their names, 
-their hospital trips, diagnostics, etc.
 
-#### Technologies we use ####
-* We use C# in combination with Xamarin to create a cross-platform business model that we can use 
-for any platform such as Android, iOS, Windows and Mac.
+### Возможности ###
+- Управление профилями детей.
+- Управление посещениями.
+- Управление диагностиками.
+- Управление карточками расписания.
+- Показ расписания для группы детей на заданный день.
+- Составление индивидуального расписания для ребенка на заданный день.
+- Взаимодействие с расписанием.
+- Блокировка экрана расписания от случайных нажатий.
+- Отображение текущей даты и времени.
 
-* For now we’re only implementing the UI for wide-screen Android device using Xamarin.Android.
 
-* For storing all the application data we use fast and light-weight SQLite database engine.
-
-#### Work progress ####
-- [x] Collecting requirements
-- [x] Requirements analysis
-- [x] Requirements specification
-- [x] UI Mockups
-- [x] Design
-- [ ] Coding - **In Progress...**
-- [ ] Testing - **In Progress...**
-- [ ] Deployment - *Awaiting...*
-
-#### How the app will look like ####
+### Скриншоты ###
 ![Create Timetable](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/CreateTimetable.png)
 ![Show Timetable](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/ShowTimetable.png)
 ![User List](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/UserList.png)
 ![User Monitoring](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/TripMonitoring.png)
 
+### Видео-демо
+[![Video demo](https://img.youtube.com/vi/b83JclaJEaI/0.jpg)](https://www.youtube.com/watch?v=b83JclaJEaI)
 
-### Want to know more? ###
-* **Volgograd State Technical University:** http://vstu.ru/en
-* **Rehabilitation Center "Nadezhda":** http://nadezhdavlz.ucoz.ru/
-* **App Developer:** Alexander Petrenko gafk555@gmail.com
+### Хотите узнать больше?
+Свяжитесь со мной: gafk555@gmail.com
