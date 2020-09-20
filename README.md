@@ -26,10 +26,11 @@ Interactive Timetable - интерактивное расписание для �
 
 
 ### Скриншоты ###
-![Create Timetable](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/CreateTimetable.png)
-![Show Timetable](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/ShowTimetable.png)
-![User List](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/UserList.png)
-![User Monitoring](https://github.com/gafk/Interactive-Timetable-for-Autists/blob/master/ImagesForWiki/TripMonitoring.png)
+![Home Screen](ImagesForWiki/home.PNG)
+![Show Timetable](ImagesForWiki/timetable_show.PNG)
+![Create Timetable](ImagesForWiki/timetable_create.PNG)
+![Management](ImagesForWiki/management.PNG)
+![Monitoring](ImagesForWiki/monitoring.PNG)
 
 ### Видео-демо
 [![Video demo](https://img.youtube.com/vi/b83JclaJEaI/0.jpg)](https://www.youtube.com/watch?v=b83JclaJEaI)
