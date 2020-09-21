@@ -35,5 +35,8 @@ Interactive Timetable - интерактивное расписание для �
 ### Видео-демо
 [![Video demo](https://img.youtube.com/vi/b83JclaJEaI/0.jpg)](https://www.youtube.com/watch?v=b83JclaJEaI)
 
+### Лицензия
+Copyright © 2017, [Petrenko Alexander](https://github.com/petrenko-alex)
+
 ### Хотите узнать больше?
 Свяжитесь со мной: gafk555@gmail.com
